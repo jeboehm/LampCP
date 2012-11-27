@@ -88,7 +88,7 @@ class Admin {
 	 * @return Admin
 	 */
 	public function setPassword($password) {
-		$this->password = $password;
+		$this->password = sha1($password);
 
 		return $this;
 	}
@@ -144,5 +144,16 @@ class Admin {
 	 */
 	public function getLastseen() {
 		return $this->lastseen;
+	}
+
+	/**
+	 * Compare the password
+	 *
+	 * @param string $password
+	 *
+	 * @return bool
+	 */
+	public function comparePassword($password) {
+		return $this->getPassword() === sha1($password);
 	}
 }
