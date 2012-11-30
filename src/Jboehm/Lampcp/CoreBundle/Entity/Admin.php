@@ -48,6 +48,13 @@ class Admin {
 	 */
 	private $lastseen;
 
+	/**
+	 * Konstruktor
+	 */
+	public function __construct() {
+		$this->setLastseen(new \DateTime());
+		$this->setRegistered(new \DateTime());
+	}
 
 	/**
 	 * Get id

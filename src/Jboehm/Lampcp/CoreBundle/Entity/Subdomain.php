@@ -45,21 +45,6 @@ class Subdomain {
 	private $path;
 
 	/**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="isRedirect", type="boolean")
-	 */
-	private $isRedirect;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="redirectUrl", type="string", length=500)
-	 */
-	private $redirectUrl;
-
-
-	/**
 	 * Get id
 	 *
 	 * @return integer
