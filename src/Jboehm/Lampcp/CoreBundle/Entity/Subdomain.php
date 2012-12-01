@@ -5,6 +5,7 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Subdomain
@@ -24,7 +25,7 @@ class Subdomain {
 
 	/**
 	 * @var Domain
-	 *
+	 * @Assert\NotNull()
 	 * @ManyToOne(targetEntity="Domain")
 	 * @JoinColumn(name="domain_id", referencedColumnName="id")
 	 */
@@ -32,14 +33,14 @@ class Subdomain {
 
 	/**
 	 * @var string
-	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(name="subdomain", type="string", length=255)
 	 */
 	private $subdomain;
 
 	/**
 	 * @var string
-	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(name="path", type="string", length=255)
 	 */
 	private $path;
@@ -54,16 +55,12 @@ class Subdomain {
 	}
 
 	/**
-	 * Set domain
+	 * Konstruktor
 	 *
 	 * @param Domain $domain
-	 *
-	 * @return Subdomain
 	 */
-	public function setDomain(Domain $domain) {
+	public function __construct(Domain $domain) {
 		$this->domain = $domain;
-
-		return $this;
 	}
 
 	/**

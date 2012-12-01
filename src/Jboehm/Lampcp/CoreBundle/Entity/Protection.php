@@ -60,25 +60,21 @@ class Protection {
 	private $password;
 
 	/**
+	 * Konstruktor
+	 *
+	 * @param Domain $domain
+	 */
+	public function __construct(Domain $domain) {
+		$this->domain = $domain;
+	}
+
+	/**
 	 * Get id
 	 *
 	 * @return integer
 	 */
 	public function getId() {
 		return $this->id;
-	}
-
-	/**
-	 * Set domain
-	 *
-	 * @param Domain $domain
-	 *
-	 * @return Protection
-	 */
-	public function setDomain(Domain $domain) {
-		$this->domain = $domain;
-
-		return $this;
 	}
 
 	/**

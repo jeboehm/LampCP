@@ -32,14 +32,14 @@ class Systemuser {
 
 	/**
 	 * @var integer
-	 * @Assert\NotBlank()
+	 * @Assert\Min(limit = "10000")
 	 * @ORM\Column(name="uid", type="integer")
 	 */
 	private $uid;
 
 	/**
 	 * @var Domain
-	 *
+	 * @Assert\NotNull()
 	 * @ManyToOne(targetEntity="Domain")
 	 * @JoinColumn(name="domain_id", referencedColumnName="id")
 	 */
@@ -52,6 +52,14 @@ class Systemuser {
 	 */
 	private $password;
 
+	/**
+	 * Konstruktor
+	 *
+	 * @param Domain $domain
+	 */
+	public function __construct(Domain $domain) {
+		$this->domain = $domain;
+	}
 
 	/**
 	 * Get id
@@ -104,19 +112,6 @@ class Systemuser {
 	 */
 	public function getUid() {
 		return $this->uid;
-	}
-
-	/**
-	 * Set domain
-	 *
-	 * @param Domain $domain
-	 *
-	 * @return Systemuser
-	 */
-	public function setDomain(Domain $domain) {
-		$this->domain = $domain;
-
-		return $this;
 	}
 
 	/**

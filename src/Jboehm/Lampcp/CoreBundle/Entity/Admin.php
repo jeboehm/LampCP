@@ -24,6 +24,7 @@ class Admin {
 	/**
 	 * @var string
 	 * @Assert\NotBlank()
+	 * @Assert\Email()
 	 * @ORM\Column(name="email", type="string", length=255)
 	 */
 	private $email;

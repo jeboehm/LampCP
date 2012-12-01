@@ -51,7 +51,7 @@ class Domain {
 
 	/**
 	 * @var integer
-	 * @Assert\NotBlank()
+	 * @Assert\Min(limit = "10000")
 	 * @ORM\Column(name="gid", type="integer")
 	 */
 	private $gid;
@@ -63,6 +63,14 @@ class Domain {
 	 */
 	private $path;
 
+	/**
+	 * Konstruktor
+	 */
+	public function __construct() {
+		$this->hasSSH  = false;
+		$this->hasMail = false;
+		$this->hasWeb  = false;
+	}
 
 	/**
 	 * Get id
