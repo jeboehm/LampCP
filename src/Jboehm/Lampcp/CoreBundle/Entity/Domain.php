@@ -3,6 +3,7 @@
 namespace Jboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Domain
@@ -22,7 +23,7 @@ class Domain {
 
 	/**
 	 * @var string
-	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(name="domain", type="string", length=100)
 	 */
 	private $domain;
@@ -50,14 +51,14 @@ class Domain {
 
 	/**
 	 * @var integer
-	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(name="gid", type="integer")
 	 */
 	private $gid;
 
 	/**
 	 * @var string
-	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(name="path", type="string", length=255)
 	 */
 	private $path;

@@ -5,6 +5,7 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Systemuser
@@ -24,14 +25,14 @@ class Systemuser {
 
 	/**
 	 * @var string
-	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(name="name", type="string", length=32)
 	 */
 	private $name;
 
 	/**
 	 * @var integer
-	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(name="uid", type="integer")
 	 */
 	private $uid;
@@ -46,7 +47,7 @@ class Systemuser {
 
 	/**
 	 * @var string
-	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(name="password", type="string", length=255)
 	 */
 	private $password;

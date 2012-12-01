@@ -3,6 +3,7 @@
 namespace Jboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Admin
@@ -22,14 +23,14 @@ class Admin {
 
 	/**
 	 * @var string
-	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(name="email", type="string", length=255)
 	 */
 	private $email;
 
 	/**
 	 * @var string
-	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(name="password", type="string", length=255)
 	 */
 	private $password;

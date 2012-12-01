@@ -107,10 +107,6 @@ class Subdomain {
 	public function setPath($path) {
 		$this->path = $path;
 
-		if(strlen($path) > 0) {
-			$this->setIsRedirect(false);
-		}
-
 		return $this;
 	}
 
@@ -121,59 +117,5 @@ class Subdomain {
 	 */
 	public function getPath() {
 		return $this->path;
-	}
-
-	/**
-	 * Set isRedirect
-	 *
-	 * @param boolean $isRedirect
-	 *
-	 * @return Subdomain
-	 */
-	public function setIsRedirect($isRedirect) {
-		$this->isRedirect = $isRedirect;
-
-		if($isRedirect) {
-			$this->setPath(null);
-		} else {
-			$this->setRedirectUrl(null);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Get isRedirect
-	 *
-	 * @return boolean
-	 */
-	public function getIsRedirect() {
-		return $this->isRedirect;
-	}
-
-	/**
-	 * Set redirectUrl
-	 *
-	 * @param string $redirectUrl
-	 *
-	 * @return Subdomain
-	 */
-	public function setRedirectUrl($redirectUrl) {
-		$this->redirectUrl = $redirectUrl;
-
-		if(strlen($redirectUrl) > 0) {
-			$this->setIsRedirect(true);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Get redirectUrl
-	 *
-	 * @return string
-	 */
-	public function getRedirectUrl() {
-		return $this->redirectUrl;
 	}
 }
