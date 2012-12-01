@@ -9,6 +9,8 @@ use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
 use Jboehm\Lampcp\CoreBundle\Entity\Systemuser;
 use Jboehm\Lampcp\CoreBundle\Entity\Protection;
 use Jboehm\Lampcp\CoreBundle\Entity\Mailaccount;
+use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
+use Jboehm\Lampcp\CoreBundle\Entity\Pathoption;
 
 class LoadDomainData implements FixtureInterface {
 	/**
@@ -62,6 +64,21 @@ class LoadDomainData implements FixtureInterface {
 			->setHasSmtp(true);
 
 		$manager->persist($mailaccount);
+
+		$mysqldatabase = new MysqlDatabase($domain);
+		$mysqldatabase
+			->setName('rnsql1')
+			->setPassword('test123')
+			->setComment('Testdatenbank');
+
+		$manager->persist($mysqldatabase);
+
+		$pathoption = new Pathoption($domain);
+		$pathoption
+			->setPath('test/indexed')
+			->setHasDirectoryListing(true);
+
+		$manager->persist($pathoption);
 
 		$manager->flush();
 	}
