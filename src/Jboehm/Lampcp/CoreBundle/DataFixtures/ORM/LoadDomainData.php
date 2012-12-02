@@ -11,6 +11,7 @@ use Jboehm\Lampcp\CoreBundle\Entity\Protection;
 use Jboehm\Lampcp\CoreBundle\Entity\MailAccount;
 use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
 use Jboehm\Lampcp\CoreBundle\Entity\PathOption;
+use Jboehm\Lampcp\CoreBundle\Entity\MailAddress;
 
 class LoadDomainData implements FixtureInterface {
 	/**
@@ -64,6 +65,14 @@ class LoadDomainData implements FixtureInterface {
 			->setHasSmtp(true);
 
 		$manager->persist($mailaccount);
+
+		$mailaddress = new MailAddress($domain);
+		$mailaddress
+			->setAddress('jeff')
+			->setHasCatchAll(false)
+			->setMailaccount($mailaccount);
+
+		$manager->persist($mailaddress);
 
 		$mysqldatabase = new MysqlDatabase($domain);
 		$mysqldatabase
