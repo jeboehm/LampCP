@@ -6,11 +6,11 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
-use Jboehm\Lampcp\CoreBundle\Entity\Systemuser;
+use Jboehm\Lampcp\CoreBundle\Entity\SystemUser;
 use Jboehm\Lampcp\CoreBundle\Entity\Protection;
-use Jboehm\Lampcp\CoreBundle\Entity\Mailaccount;
+use Jboehm\Lampcp\CoreBundle\Entity\MailAccount;
 use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
-use Jboehm\Lampcp\CoreBundle\Entity\Pathoption;
+use Jboehm\Lampcp\CoreBundle\Entity\PathOption;
 
 class LoadDomainData implements FixtureInterface {
 	/**
@@ -35,7 +35,7 @@ class LoadDomainData implements FixtureInterface {
 
 		$manager->persist($subdomain);
 
-		$systemuser = new Systemuser($domain);
+		$systemuser = new SystemUser($domain);
 		$systemuser
 			->setName('user100')
 			->setPassword('test123')
@@ -52,7 +52,7 @@ class LoadDomainData implements FixtureInterface {
 
 		$manager->persist($protection);
 
-		$mailaccount = new Mailaccount($domain);
+		$mailaccount = new MailAccount($domain);
 		$mailaccount
 			->setUsername('rnmail1')
 			->setPassword('test123')
@@ -73,7 +73,7 @@ class LoadDomainData implements FixtureInterface {
 
 		$manager->persist($mysqldatabase);
 
-		$pathoption = new Pathoption($domain);
+		$pathoption = new PathOption($domain);
 		$pathoption
 			->setPath('test/indexed')
 			->setHasDirectoryListing(true);

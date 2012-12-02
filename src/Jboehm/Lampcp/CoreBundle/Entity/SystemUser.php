@@ -8,12 +8,12 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Systemuser
+ * SystemUser
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Systemuser {
+class SystemUser {
 	/**
 	 * @var integer
 	 *
@@ -75,7 +75,7 @@ class Systemuser {
 	 *
 	 * @param string $name
 	 *
-	 * @return Systemuser
+	 * @return SystemUser
 	 */
 	public function setName($name) {
 		$this->name = $name;
@@ -97,7 +97,7 @@ class Systemuser {
 	 *
 	 * @param integer $uid
 	 *
-	 * @return Systemuser
+	 * @return SystemUser
 	 */
 	public function setUid($uid) {
 		$this->uid = $uid;
@@ -128,7 +128,7 @@ class Systemuser {
 	 *
 	 * @param string $password
 	 *
-	 * @return Systemuser
+	 * @return SystemUser
 	 */
 	public function setPassword($password) {
 		$this->password = $password;

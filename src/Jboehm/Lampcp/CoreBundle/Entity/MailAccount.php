@@ -8,12 +8,12 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Mailaccount
+ * MailAccount
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Mailaccount {
+class MailAccount {
 	/**
 	 * @var integer
 	 *
@@ -121,7 +121,7 @@ class Mailaccount {
 	 *
 	 * @param string $username
 	 *
-	 * @return Mailaccount
+	 * @return MailAccount
 	 */
 	public function setUsername($username) {
 		$this->username = $username;
@@ -143,7 +143,7 @@ class Mailaccount {
 	 *
 	 * @param string $password
 	 *
-	 * @return Mailaccount
+	 * @return MailAccount
 	 */
 	public function setPassword($password) {
 		$this->password = $password;
@@ -165,7 +165,7 @@ class Mailaccount {
 	 *
 	 * @param integer $uid
 	 *
-	 * @return Mailaccount
+	 * @return MailAccount
 	 */
 	public function setUid($uid) {
 		$this->uid = $uid;
@@ -187,7 +187,7 @@ class Mailaccount {
 	 *
 	 * @param integer $quota
 	 *
-	 * @return Mailaccount
+	 * @return MailAccount
 	 */
 	public function setQuota($quota) {
 		$this->quota = $quota;
@@ -209,7 +209,7 @@ class Mailaccount {
 	 *
 	 * @param boolean $hasPop3
 	 *
-	 * @return Mailaccount
+	 * @return MailAccount
 	 */
 	public function setHasPop3($hasPop3) {
 		$this->hasPop3 = $hasPop3;
@@ -231,7 +231,7 @@ class Mailaccount {
 	 *
 	 * @param boolean $hasImap4
 	 *
-	 * @return Mailaccount
+	 * @return MailAccount
 	 */
 	public function setHasImap4($hasImap4) {
 		$this->hasImap4 = $hasImap4;
@@ -253,7 +253,7 @@ class Mailaccount {
 	 *
 	 * @param boolean $hasSmtp
 	 *
-	 * @return Mailaccount
+	 * @return MailAccount
 	 */
 	public function setHasSmtp($hasSmtp) {
 		$this->hasSmtp = $hasSmtp;
@@ -275,7 +275,7 @@ class Mailaccount {
 	 *
 	 * @param boolean $enabled
 	 *
-	 * @return Mailaccount
+	 * @return MailAccount
 	 */
 	public function setEnabled($enabled) {
 		$this->enabled = $enabled;

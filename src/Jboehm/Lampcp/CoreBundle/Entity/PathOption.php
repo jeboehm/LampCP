@@ -8,12 +8,12 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Pathoption
+ * PathOption
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Pathoption {
+class PathOption {
 	/**
 	 * @var integer
 	 *
@@ -102,7 +102,7 @@ class Pathoption {
 	 *
 	 * @param string $path
 	 *
-	 * @return Pathoption
+	 * @return PathOption
 	 */
 	public function setPath($path) {
 		$this->path = $path;
@@ -124,7 +124,7 @@ class Pathoption {
 	 *
 	 * @param boolean $hasDirectoryListing
 	 *
-	 * @return Pathoption
+	 * @return PathOption
 	 */
 	public function setHasDirectoryListing($hasDirectoryListing) {
 		$this->hasDirectoryListing = $hasDirectoryListing;
@@ -146,7 +146,7 @@ class Pathoption {
 	 *
 	 * @param string $page404
 	 *
-	 * @return Pathoption
+	 * @return PathOption
 	 */
 	public function setPage404($page404) {
 		$this->page404 = $page404;
@@ -168,7 +168,7 @@ class Pathoption {
 	 *
 	 * @param string $error404
 	 *
-	 * @return Pathoption
+	 * @return PathOption
 	 */
 	public function setError404($error404) {
 		$this->error404 = $error404;
@@ -190,7 +190,7 @@ class Pathoption {
 	 *
 	 * @param string $error403
 	 *
-	 * @return Pathoption
+	 * @return PathOption
 	 */
 	public function setError403($error403) {
 		$this->error403 = $error403;
@@ -212,7 +212,7 @@ class Pathoption {
 	 *
 	 * @param string $error500
 	 *
-	 * @return Pathoption
+	 * @return PathOption
 	 */
 	public function setError500($error500) {
 		$this->error500 = $error500;
