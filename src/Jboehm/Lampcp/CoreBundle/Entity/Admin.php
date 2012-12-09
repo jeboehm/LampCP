@@ -3,6 +3,7 @@
 namespace Jboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -11,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Admin {
+class Admin implements UserInterface, \Serializable {
 	/**
 	 * @var integer
 	 *
@@ -31,8 +32,13 @@ class Admin {
 
 	/**
 	 * @var string
-	 * @Assert\NotBlank()
-	 * @ORM\Column(name="password", type="string", length=255)
+	 * @ORM\Column(name="salt", type="string", length=32)
+	 */
+	private $salt;
+
+	/**
+	 * @var string
+	 * @ORM\Column(name="password", type="string", length=40)
 	 */
 	private $password;
 
@@ -56,6 +62,7 @@ class Admin {
 	public function __construct() {
 		$this->setLastseen(new \DateTime());
 		$this->setRegistered(new \DateTime());
+		$this->setSalt(md5(uniqid(null, true)));
 	}
 
 	/**
@@ -90,6 +97,15 @@ class Admin {
 	}
 
 	/**
+	 * Get username
+	 *
+	 * @return string
+	 */
+	public function getUsername() {
+		return $this->getEmail();
+	}
+
+	/**
 	 * Set password
 	 *
 	 * @param string $password
@@ -97,7 +113,7 @@ class Admin {
 	 * @return Admin
 	 */
 	public function setPassword($password) {
-		$this->password = sha1($password);
+		$this->password = $password;
 
 		return $this;
 	}
@@ -109,6 +125,28 @@ class Admin {
 	 */
 	public function getPassword() {
 		return $this->password;
+	}
+
+	/**
+	 * Set salt
+	 *
+	 * @param string $salt
+	 *
+	 * @return Admin
+	 */
+	public function setSalt($salt) {
+		$this->salt = $salt;
+
+		return $this;
+	}
+
+	/**
+	 * Get salt
+	 *
+	 * @return string
+	 */
+	public function getSalt() {
+		return $this->salt;
 	}
 
 	/**
@@ -156,13 +194,33 @@ class Admin {
 	}
 
 	/**
-	 * Compare the password
-	 *
-	 * @param string $password
-	 *
-	 * @return bool
+	 * @inheritDoc
 	 */
-	public function comparePassword($password) {
-		return $this->getPassword() === sha1($password);
+	public function getRoles() {
+		return array('ROLE_USER');
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function eraseCredentials() {
+	}
+
+	/**
+	 * @see \Serializable::serialize()
+	 */
+	public function serialize() {
+		return serialize(array(
+							  $this->id,
+						 ));
+	}
+
+	/**
+	 * @see \Serializable::unserialize()
+	 */
+	public function unserialize($serialized) {
+		list (
+			$this->id,
+			) = unserialize($serialized);
 	}
 }
