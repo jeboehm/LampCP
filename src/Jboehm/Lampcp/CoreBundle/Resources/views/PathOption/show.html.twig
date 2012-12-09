@@ -1,0 +1,49 @@
+<h1>PathOption</h1>
+
+<table class="record_properties">
+    <tbody>
+    <tr>
+        <th>Id</th>
+        <td>{{ entity.id }}</td>
+    </tr>
+    <tr>
+        <th>Path</th>
+        <td>{{ entity.path }}</td>
+    </tr>
+    <tr>
+        <th>Hasdirectorylisting</th>
+        <td>{{ entity.hasDirectoryListing }}</td>
+    </tr>
+    <tr>
+        <th>Error404</th>
+        <td>{{ entity.error404 }}</td>
+    </tr>
+    <tr>
+        <th>Error403</th>
+        <td>{{ entity.error403 }}</td>
+    </tr>
+    <tr>
+        <th>Error500</th>
+        <td>{{ entity.error500 }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('config') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('config_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('config_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

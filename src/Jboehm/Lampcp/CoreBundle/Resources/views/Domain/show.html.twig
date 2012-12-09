@@ -1,0 +1,53 @@
+<h1>Domain</h1>
+
+<table class="record_properties">
+    <tbody>
+    <tr>
+        <th>Id</th>
+        <td>{{ entity.id }}</td>
+    </tr>
+    <tr>
+        <th>Domain</th>
+        <td>{{ entity.domain }}</td>
+    </tr>
+    <tr>
+        <th>Hasweb</th>
+        <td>{{ entity.hasWeb }}</td>
+    </tr>
+    <tr>
+        <th>Hasmail</th>
+        <td>{{ entity.hasMail }}</td>
+    </tr>
+    <tr>
+        <th>Hasssh</th>
+        <td>{{ entity.hasSSH }}</td>
+    </tr>
+    <tr>
+        <th>Gid</th>
+        <td>{{ entity.gid }}</td>
+    </tr>
+    <tr>
+        <th>Path</th>
+        <td>{{ entity.path }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('config') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('config_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('config_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
