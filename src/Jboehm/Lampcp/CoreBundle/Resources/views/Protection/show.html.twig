@@ -1,7 +1,10 @@
-<h1>Protection</h1>
+{% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
-<table class="record_properties">
-    <tbody>
+{% block content %}
+    <h1>Protection</h1>
+
+    <table class="record_properties">
+        <tbody>
         <tr>
             <th>Id</th>
             <td>{{ entity.id }}</td>
@@ -22,24 +25,25 @@
             <th>Password</th>
             <td>{{ entity.password }}</td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('config_protection') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('config_protection_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('config_protection_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('config_protection') }}">
+                Back to the list
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('config_protection_edit', { 'id': entity.id }) }}">
+                Edit
+            </a>
+        </li>
+        <li>
+            <form action="{{ path('config_protection_delete', { 'id': entity.id }) }}" method="post">
+                {{ form_widget(delete_form) }}
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    </ul>
+{% endblock %}

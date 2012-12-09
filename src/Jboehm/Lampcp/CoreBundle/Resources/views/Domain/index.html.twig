@@ -1,7 +1,10 @@
-<h1>Domain list</h1>
+{% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
-<table class="records_list">
-    <thead>
+{% block content %}
+    <h1>Domain list</h1>
+
+    <table class="records_list">
+        <thead>
         <tr>
             <th>Id</th>
             <th>Domain</th>
@@ -12,36 +15,37 @@
             <th>Path</th>
             <th>Actions</th>
         </tr>
-    </thead>
-    <tbody>
-    {% for entity in entities %}
-        <tr>
-            <td><a href="{{ path('config_domain_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.domain }}</td>
-            <td>{{ entity.hasWeb }}</td>
-            <td>{{ entity.hasMail }}</td>
-            <td>{{ entity.hasSSH }}</td>
-            <td>{{ entity.gid }}</td>
-            <td>{{ entity.path }}</td>
-            <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('config_domain_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('config_domain_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('config_domain_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.domain }}</td>
+                <td>{{ entity.hasWeb }}</td>
+                <td>{{ entity.hasMail }}</td>
+                <td>{{ entity.hasSSH }}</td>
+                <td>{{ entity.gid }}</td>
+                <td>{{ entity.path }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('config_domain_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('config_domain_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-<ul>
-    <li>
-        <a href="{{ path('config_domain_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
+    <ul>
+        <li>
+            <a href="{{ path('config_domain_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,16 +1,20 @@
-<h1>Domain creation</h1>
+{% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
-<form action="{{ path('config_domain_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit">Create</button>
-    </p>
-</form>
+{% block content %}
+    <h1>Domain creation</h1>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('config_domain') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <form action="{{ path('config_domain_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit">Create</button>
+        </p>
+    </form>
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('config_domain') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
+{% endblock %}
