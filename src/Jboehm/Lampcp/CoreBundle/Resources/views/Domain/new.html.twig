@@ -1,6 +1,6 @@
 <h1>Domain creation</h1>
 
-<form action="{{ path('config_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('config_domain_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
         <button type="submit">Create</button>
@@ -9,7 +9,7 @@
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('config') }}">
+        <a href="{{ path('config_domain') }}">
             Back to the list
         </a>
     </li>

@@ -4,7 +4,7 @@ namespace Jboehm\Lampcp\CoreBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DomainControllerTest extends WebTestCase
+class MailAddressControllerTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()
@@ -13,13 +13,13 @@ class DomainControllerTest extends WebTestCase
         $client = static::createClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/config/domain/');
+        $crawler = $client->request('GET', '/config/mailaddress/');
         $this->assertTrue(200 === $client->getResponse()->getStatusCode());
         $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'jboehm_lampcp_corebundle_domaintype[field_name]'  => 'Test',
+            'jboehm_lampcp_corebundle_mailaddresstype[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -33,7 +33,7 @@ class DomainControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Edit')->form(array(
-            'jboehm_lampcp_corebundle_domaintype[field_name]'  => 'Foo',
+            'jboehm_lampcp_corebundle_mailaddresstype[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 

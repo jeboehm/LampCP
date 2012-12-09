@@ -2,20 +2,20 @@
 
 <table class="records_list">
     <thead>
-    <tr>
-        <th>Id</th>
-        <th>Path</th>
-        <th>Hasdirectorylisting</th>
-        <th>Error404</th>
-        <th>Error403</th>
-        <th>Error500</th>
-        <th>Actions</th>
-    </tr>
+        <tr>
+            <th>Id</th>
+            <th>Path</th>
+            <th>Hasdirectorylisting</th>
+            <th>Error404</th>
+            <th>Error403</th>
+            <th>Error500</th>
+            <th>Actions</th>
+        </tr>
     </thead>
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('config_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td><a href="{{ path('config_pathoption_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.path }}</td>
             <td>{{ entity.hasDirectoryListing }}</td>
             <td>{{ entity.error404 }}</td>
@@ -24,10 +24,10 @@
             <td>
                 <ul>
                     <li>
-                        <a href="{{ path('config_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('config_pathoption_show', { 'id': entity.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('config_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('config_pathoption_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
             </td>
@@ -38,7 +38,7 @@
 
 <ul>
     <li>
-        <a href="{{ path('config_new') }}">
+        <a href="{{ path('config_pathoption_new') }}">
             Create a new entry
         </a>
     </li>

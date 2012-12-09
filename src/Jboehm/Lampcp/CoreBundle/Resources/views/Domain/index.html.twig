@@ -2,21 +2,21 @@
 
 <table class="records_list">
     <thead>
-    <tr>
-        <th>Id</th>
-        <th>Domain</th>
-        <th>Hasweb</th>
-        <th>Hasmail</th>
-        <th>Hasssh</th>
-        <th>Gid</th>
-        <th>Path</th>
-        <th>Actions</th>
-    </tr>
+        <tr>
+            <th>Id</th>
+            <th>Domain</th>
+            <th>Hasweb</th>
+            <th>Hasmail</th>
+            <th>Hasssh</th>
+            <th>Gid</th>
+            <th>Path</th>
+            <th>Actions</th>
+        </tr>
     </thead>
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('config_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td><a href="{{ path('config_domain_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.domain }}</td>
             <td>{{ entity.hasWeb }}</td>
             <td>{{ entity.hasMail }}</td>
@@ -26,10 +26,10 @@
             <td>
                 <ul>
                     <li>
-                        <a href="{{ path('config_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('config_domain_show', { 'id': entity.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('config_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('config_domain_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
             </td>
@@ -40,7 +40,7 @@
 
 <ul>
     <li>
-        <a href="{{ path('config_new') }}">
+        <a href="{{ path('config_domain_new') }}">
             Create a new entry
         </a>
     </li>

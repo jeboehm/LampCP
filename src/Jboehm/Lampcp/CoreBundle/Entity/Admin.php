@@ -57,6 +57,13 @@ class Admin implements UserInterface, \Serializable {
 	private $lastseen;
 
 	/**
+	 * @var array
+	 *
+	 * @ORM\Column(name="roles", type="array")
+	 */
+	private $roles;
+
+	/**
 	 * Konstruktor
 	 */
 	public function __construct() {
@@ -194,10 +201,25 @@ class Admin implements UserInterface, \Serializable {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Get roles
+	 *
+	 * @return array
 	 */
 	public function getRoles() {
-		return array('ROLE_USER');
+		return $this->roles;
+	}
+
+	/**
+	 * Set roles
+	 *
+	 * @param $roles
+	 *
+	 * @return Admin
+	 */
+	public function setRoles($roles) {
+		$this->roles = $roles;
+
+		return $this;
 	}
 
 	/**

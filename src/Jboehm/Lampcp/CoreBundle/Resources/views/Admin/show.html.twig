@@ -2,42 +2,50 @@
 
 <table class="record_properties">
     <tbody>
-    <tr>
-        <th>Id</th>
-        <td>{{ entity.id }}</td>
-    </tr>
-    <tr>
-        <th>Email</th>
-        <td>{{ entity.email }}</td>
-    </tr>
-    <tr>
-        <th>Password</th>
-        <td>{{ entity.password }}</td>
-    </tr>
-    <tr>
-        <th>Registered</th>
-        <td>{{ entity.registered|date('Y-m-d H:i:s') }}</td>
-    </tr>
-    <tr>
-        <th>Lastseen</th>
-        <td>{{ entity.lastseen|date('Y-m-d H:i:s') }}</td>
-    </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ entity.email }}</td>
+        </tr>
+        <tr>
+            <th>Salt</th>
+            <td>{{ entity.salt }}</td>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <td>{{ entity.password }}</td>
+        </tr>
+        <tr>
+            <th>Registered</th>
+            <td>{{ entity.registered|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Lastseen</th>
+            <td>{{ entity.lastseen|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Roles</th>
+            <td>{{ entity.roles }}</td>
+        </tr>
     </tbody>
 </table>
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('config') }}">
+        <a href="{{ path('config_admin') }}">
             Back to the list
         </a>
     </li>
     <li>
-        <a href="{{ path('config_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('config_admin_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>
     <li>
-        <form action="{{ path('config_delete', { 'id': entity.id }) }}" method="post">
+        <form action="{{ path('config_admin_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button type="submit">Delete</button>
         </form>

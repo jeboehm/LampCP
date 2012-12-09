@@ -27,6 +27,7 @@ class LoadAdminData implements FixtureInterface, ContainerAwareInterface {
 	public function load(ObjectManager $manager) {
 		$admin = new Admin();
 		$admin->setEmail('jeff@ressourcenkonflikt.de');
+		$admin->setRoles(array('ROLE_USER', 'ROLE_ADMIN'));
 		$this->_setPassword($admin, 'test123');
 
 		$manager->persist($admin);

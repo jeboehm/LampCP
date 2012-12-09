@@ -1,0 +1,61 @@
+<h1>MailAccount</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Username</th>
+            <td>{{ entity.username }}</td>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <td>{{ entity.password }}</td>
+        </tr>
+        <tr>
+            <th>Uid</th>
+            <td>{{ entity.uid }}</td>
+        </tr>
+        <tr>
+            <th>Quota</th>
+            <td>{{ entity.quota }}</td>
+        </tr>
+        <tr>
+            <th>Haspop3</th>
+            <td>{{ entity.hasPop3 }}</td>
+        </tr>
+        <tr>
+            <th>Hasimap4</th>
+            <td>{{ entity.hasImap4 }}</td>
+        </tr>
+        <tr>
+            <th>Hassmtp</th>
+            <td>{{ entity.hasSmtp }}</td>
+        </tr>
+        <tr>
+            <th>Enabled</th>
+            <td>{{ entity.enabled }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('config_mailaccount') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('config_mailaccount_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('config_mailaccount_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

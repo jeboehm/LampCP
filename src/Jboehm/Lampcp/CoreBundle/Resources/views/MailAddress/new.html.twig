@@ -1,6 +1,6 @@
-<h1>PathOption creation</h1>
+<h1>MailAddress creation</h1>
 
-<form action="{{ path('config_pathoption_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('config_mailaddress_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
         <button type="submit">Create</button>
@@ -9,7 +9,7 @@
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('config_pathoption') }}">
+        <a href="{{ path('config_mailaddress') }}">
             Back to the list
         </a>
     </li>

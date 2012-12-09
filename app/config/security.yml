@@ -28,4 +28,4 @@ security:
                 realm: "Control Panel Login"
 
     access_control:
-        - { path: ^/, roles: ROLE_ADMIN }
+        - { path: ^/, roles: ROLE_USER }

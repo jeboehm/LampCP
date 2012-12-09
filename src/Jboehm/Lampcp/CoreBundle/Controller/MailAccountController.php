@@ -7,27 +7,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Jboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jboehm\Lampcp\CoreBundle\Form\DomainType;
+use Jboehm\Lampcp\CoreBundle\Entity\MailAccount;
+use Jboehm\Lampcp\CoreBundle\Form\MailAccountType;
 
 /**
- * Domain controller.
+ * MailAccount controller.
  *
- * @Route("/config/domain")
+ * @Route("/config/mailaccount")
  */
-class DomainController extends Controller
+class MailAccountController extends Controller
 {
     /**
-     * Lists all Domain entities.
+     * Lists all MailAccount entities.
      *
-     * @Route("/", name="config_domain")
+     * @Route("/", name="config_mailaccount")
      * @Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
+        $entities = $em->getRepository('JboehmLampcpCoreBundle:MailAccount')->findAll();
 
         return array(
             'entities' => $entities,
@@ -35,19 +35,19 @@ class DomainController extends Controller
     }
 
     /**
-     * Finds and displays a Domain entity.
+     * Finds and displays a MailAccount entity.
      *
-     * @Route("/{id}/show", name="config_domain_show")
+     * @Route("/{id}/show", name="config_mailaccount_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
+        $entity = $em->getRepository('JboehmLampcpCoreBundle:MailAccount')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Domain entity.');
+            throw $this->createNotFoundException('Unable to find MailAccount entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -59,15 +59,15 @@ class DomainController extends Controller
     }
 
     /**
-     * Displays a form to create a new Domain entity.
+     * Displays a form to create a new MailAccount entity.
      *
-     * @Route("/new", name="config_domain_new")
+     * @Route("/new", name="config_mailaccount_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Domain();
-        $form   = $this->createForm(new DomainType(), $entity);
+        $entity = new MailAccount();
+        $form   = $this->createForm(new MailAccountType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -76,16 +76,16 @@ class DomainController extends Controller
     }
 
     /**
-     * Creates a new Domain entity.
+     * Creates a new MailAccount entity.
      *
-     * @Route("/create", name="config_domain_create")
+     * @Route("/create", name="config_mailaccount_create")
      * @Method("POST")
-     * @Template("JboehmLampcpCoreBundle:Domain:new.html.twig")
+     * @Template("JboehmLampcpCoreBundle:MailAccount:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity  = new Domain();
-        $form = $this->createForm(new DomainType(), $entity);
+        $entity  = new MailAccount();
+        $form = $this->createForm(new MailAccountType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -93,7 +93,7 @@ class DomainController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('config_domain_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('config_mailaccount_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -103,22 +103,22 @@ class DomainController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Domain entity.
+     * Displays a form to edit an existing MailAccount entity.
      *
-     * @Route("/{id}/edit", name="config_domain_edit")
+     * @Route("/{id}/edit", name="config_mailaccount_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
+        $entity = $em->getRepository('JboehmLampcpCoreBundle:MailAccount')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Domain entity.');
+            throw $this->createNotFoundException('Unable to find MailAccount entity.');
         }
 
-        $editForm = $this->createForm(new DomainType(), $entity);
+        $editForm = $this->createForm(new MailAccountType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -129,31 +129,31 @@ class DomainController extends Controller
     }
 
     /**
-     * Edits an existing Domain entity.
+     * Edits an existing MailAccount entity.
      *
-     * @Route("/{id}/update", name="config_domain_update")
+     * @Route("/{id}/update", name="config_mailaccount_update")
      * @Method("POST")
-     * @Template("JboehmLampcpCoreBundle:Domain:edit.html.twig")
+     * @Template("JboehmLampcpCoreBundle:MailAccount:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
+        $entity = $em->getRepository('JboehmLampcpCoreBundle:MailAccount')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Domain entity.');
+            throw $this->createNotFoundException('Unable to find MailAccount entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new DomainType(), $entity);
+        $editForm = $this->createForm(new MailAccountType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('config_domain_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('config_mailaccount_edit', array('id' => $id)));
         }
 
         return array(
@@ -164,9 +164,9 @@ class DomainController extends Controller
     }
 
     /**
-     * Deletes a Domain entity.
+     * Deletes a MailAccount entity.
      *
-     * @Route("/{id}/delete", name="config_domain_delete")
+     * @Route("/{id}/delete", name="config_mailaccount_delete")
      * @Method("POST")
      */
     public function deleteAction(Request $request, $id)
@@ -176,17 +176,17 @@ class DomainController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
+            $entity = $em->getRepository('JboehmLampcpCoreBundle:MailAccount')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Domain entity.');
+                throw $this->createNotFoundException('Unable to find MailAccount entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('config_domain'));
+        return $this->redirect($this->generateUrl('config_mailaccount'));
     }
 
     private function createDeleteForm($id)

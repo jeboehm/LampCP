@@ -1,0 +1,51 @@
+<h1>MailAccount list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Uid</th>
+            <th>Quota</th>
+            <th>Haspop3</th>
+            <th>Hasimap4</th>
+            <th>Hassmtp</th>
+            <th>Enabled</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('config_mailaccount_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.username }}</td>
+            <td>{{ entity.password }}</td>
+            <td>{{ entity.uid }}</td>
+            <td>{{ entity.quota }}</td>
+            <td>{{ entity.hasPop3 }}</td>
+            <td>{{ entity.hasImap4 }}</td>
+            <td>{{ entity.hasSmtp }}</td>
+            <td>{{ entity.enabled }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('config_mailaccount_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('config_mailaccount_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('config_mailaccount_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
