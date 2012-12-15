@@ -3,7 +3,6 @@
 namespace Jboehm\Lampcp\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -15,7 +14,7 @@ use Jboehm\Lampcp\CoreBundle\Form\MailAddressType;
  *
  * @Route("/config/mailaddress")
  */
-class MailAddressController extends Controller
+class MailAddressController extends BaseController
 {
     /**
      * Lists all MailAddress entities.

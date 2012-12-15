@@ -3,7 +3,6 @@
 namespace Jboehm\Lampcp\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -15,7 +14,7 @@ use Jboehm\Lampcp\CoreBundle\Form\PathOptionType;
  *
  * @Route("/config/pathoption")
  */
-class PathOptionController extends Controller
+class PathOptionController extends BaseController
 {
     /**
      * Lists all PathOption entities.
