@@ -19,14 +19,32 @@ class DefaultController extends Controller {
 	 *
 	 * @Route("/", name="status")
 	 * @Template()
+	 * @return array
 	 */
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JboehmLampcpCoreBundle:Admin')->findAll();
+		$domains = $em->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
 
 		return array(
-			'entities' => $entities,
+			'domainlist' => $domains,
 		);
+	}
+
+	/**
+	 * Saves domain in the current session
+	 *
+	 * @Method("POST")
+	 * @Route("/setdomain", name="set_domain")
+	 * @return array
+	 */
+	public function setDomainAction() {
+		$value = $this->getRequest()->get('domainselector');
+
+		if(!empty($value)) {
+			// TODO Domain holen und in Session speichern
+		}
+
+		return $this->forward('JboehmLampcpCoreBundle:Default:index');
 	}
 }

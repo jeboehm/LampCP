@@ -3,3 +3,17 @@
 {% block content %}
     <h1>Status</h1>
 {% endblock %}
+
+{% block domainselector %}
+    <form method="POST" action="{{ path('set_domain') }}">
+        <select name="domainselector">
+            <option value="0">Domain verwalten...</option>
+
+            {% for domain in domainlist %}
+                <option value="{{ domain.id }}">{{ domain.domain }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" />
+    </form>
+{% endblock %}
