@@ -25,7 +25,8 @@ class DefaultController extends BaseController {
 		$domains = $em->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
 
 		return array(
-			'domainlist' => $domains,
+			'domainlist'     => $domains,
+			'selecteddomain' => $this->_getSelectedDomain(),
 		);
 	}
 

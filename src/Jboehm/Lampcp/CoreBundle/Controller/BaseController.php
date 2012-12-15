@@ -24,9 +24,15 @@ abstract class BaseController extends Controller {
 	/**
 	 * Get the selected domain
 	 *
-	 * @return \Jboehm\Lampcp\CoreBundle\Entity\Domain
+	 * @return \Jboehm\Lampcp\CoreBundle\Entity\Domain|bool
 	 */
 	protected function _getSelectedDomain() {
-		return $this->_getSession()->get('domain');
+		$domain = $this->_getSession()->get('domain');
+
+		if($domain) {
+			return $domain;
+		}
+
+		return false;
 	}
 }

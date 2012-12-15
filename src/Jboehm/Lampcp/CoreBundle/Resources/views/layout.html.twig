@@ -24,6 +24,10 @@
     {% block domainselector %}
     {% endblock %}
 
+    {% block selecteddomain %}
+        {% if selecteddomain is defined %}Domain: {{ selecteddomain.domain }}{% endif %}
+    {% endblock %}
+
     {% block content %}
     {% endblock %}
 {% endblock %}
