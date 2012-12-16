@@ -11,9 +11,9 @@ class PathOptionType extends AbstractType {
 		$builder
 			->add('path')
 			->add('hasDirectoryListing', null, array('required' => false))
-			->add('error404')
-			->add('error403')
-			->add('error500');
+			->add('error404', null, array('required' => false))
+			->add('error403', null, array('required' => false))
+			->add('error500', null, array('required' => false));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
