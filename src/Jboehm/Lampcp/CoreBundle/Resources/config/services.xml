@@ -4,6 +4,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="jboehm_lampcp_core.gidservice.class">Jboehm\Lampcp\CoreBundle\Service\GidService</parameter>
+    </parameters>
+
+    <services>
+        <service id="jboehm_lampcp_core.gidservice" class="%jboehm_lampcp_core.gidservice.class%">
+            <argument>10000</argument>
+            <argument>19999</argument>
+            <argument>/etc/group</argument>
+        </service>
+    </services>
+
+
     <!--
     <parameters>
         <parameter key="jboehm_lampcp_core.example.class">Jboehm\Lampcp\CoreBundle\Example</parameter>
