@@ -25,7 +25,9 @@
     {% endblock %}
 
     {% block selecteddomain %}
-        {% if selecteddomain is defined %}Domain: {{ selecteddomain.domain }}{% endif %}
+        {% if selecteddomain is defined and selecteddomain.domain is defined %}
+            Domain: {{ selecteddomain.domain }}
+        {% endif %}
     {% endblock %}
 
     {% block content %}
