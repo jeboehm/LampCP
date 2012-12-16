@@ -95,6 +95,23 @@ class GidService {
 	}
 
 	/**
+	 * Get group by name
+	 *
+	 * @param string $name
+	 *
+	 * @return null
+	 */
+	public function getGroupByName($name) {
+		foreach($this->_groups as $group) {
+			if($group['name'] === $name) {
+				return $group;
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get an unused gid
 	 * Takes care of the configured min / max gid service-arguments
 	 *

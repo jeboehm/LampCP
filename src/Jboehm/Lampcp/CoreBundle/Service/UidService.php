@@ -93,6 +93,23 @@ class UidService {
 	}
 
 	/**
+	 * Get user by name
+	 *
+	 * @param string $name
+	 *
+	 * @return null
+	 */
+	public function getUserByName($name) {
+		foreach($this->_users as $user) {
+			if($user['name'] === $name) {
+				return $user;
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get an unused uid
 	 * Takes care of the configured min / max uid service-arguments
 	 *
