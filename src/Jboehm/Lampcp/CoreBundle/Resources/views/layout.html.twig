@@ -12,12 +12,15 @@
             <li><a href="{{ path('status') }}">Startseite</a></li>
             <li><a href="{{ path('config_admin') }}">Administratoren</a></li>
             <li><a href="{{ path('config_domain') }}">Domains</a></li>
-            <li><a href="{{ path('config_subdomain') }}">Subdomains</a></li>
-            <li><a href="{{ path('config_mailaccount') }}">E-Mail Accounts</a></li>
-            <li><a href="{{ path('config_mailaddress') }}">E-Mail Adressen</a></li>
-            <li><a href="{{ path('config_mysqldatabase') }}">Datenbanken</a></li>
-            <li><a href="{{ path('config_pathoption') }}">Pfadoptionen</a></li>
-            <li><a href="{{ path('config_protection') }}">Geschützte Verzeichnisse</a></li>
+
+            {% if selecteddomain is defined and selecteddomain is not null %}
+                <li><a href="{{ path('config_subdomain') }}">Subdomains</a></li>
+                <li><a href="{{ path('config_mailaccount') }}">E-Mail Accounts</a></li>
+                <li><a href="{{ path('config_mailaddress') }}">E-Mail Adressen</a></li>
+                <li><a href="{{ path('config_mysqldatabase') }}">Datenbanken</a></li>
+                <li><a href="{{ path('config_pathoption') }}">Pfadoptionen</a></li>
+                <li><a href="{{ path('config_protection') }}">Geschützte Verzeichnisse</a></li>
+            {% endif %}
         </ul>
     {% endblock %}
 
