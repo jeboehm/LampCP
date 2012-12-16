@@ -14,185 +14,181 @@ use Jboehm\Lampcp\CoreBundle\Form\DomainType;
  *
  * @Route("/config/domain")
  */
-class DomainController extends BaseController
-{
-    /**
-     * Lists all Domain entities.
-     *
-     * @Route("/", name="config_domain")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+class DomainController extends BaseController {
+	/**
+	 * Lists all Domain entities.
+	 *
+	 * @Route("/", name="config_domain")
+	 * @Template()
+	 */
+	public function indexAction() {
+		$em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
+		$entities = $em->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
 
-        return array(
-            'entities' => $entities,
-        );
-    }
+		return array(
+			'entities'       => $entities,
+			'selecteddomain' => $this->_getSelectedDomain(),
+		);
+	}
 
-    /**
-     * Finds and displays a Domain entity.
-     *
-     * @Route("/{id}/show", name="config_domain_show")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+	/**
+	 * Finds and displays a Domain entity.
+	 *
+	 * @Route("/{id}/show", name="config_domain_show")
+	 * @Template()
+	 */
+	public function showAction($id) {
+		$em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
+		$entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Domain entity.');
-        }
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find Domain entity.');
+		}
 
-        $deleteForm = $this->createDeleteForm($id);
+		$deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
+		return array(
+			'entity'         => $entity,
+			'delete_form'    => $deleteForm->createView(),
+			'selecteddomain' => $this->_getSelectedDomain(),
+		);
+	}
 
-    /**
-     * Displays a form to create a new Domain entity.
-     *
-     * @Route("/new", name="config_domain_new")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Domain();
-        $form   = $this->createForm(new DomainType(), $entity);
+	/**
+	 * Displays a form to create a new Domain entity.
+	 *
+	 * @Route("/new", name="config_domain_new")
+	 * @Template()
+	 */
+	public function newAction() {
+		$entity = new Domain();
+		$form   = $this->createForm(new DomainType(), $entity);
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
+		return array(
+			'entity'         => $entity,
+			'form'           => $form->createView(),
+			'selecteddomain' => $this->_getSelectedDomain(),
+		);
+	}
 
-    /**
-     * Creates a new Domain entity.
-     *
-     * @Route("/create", name="config_domain_create")
-     * @Method("POST")
-     * @Template("JboehmLampcpCoreBundle:Domain:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity  = new Domain();
-        $form = $this->createForm(new DomainType(), $entity);
-        $form->bind($request);
+	/**
+	 * Creates a new Domain entity.
+	 *
+	 * @Route("/create", name="config_domain_create")
+	 * @Method("POST")
+	 * @Template("JboehmLampcpCoreBundle:Domain:new.html.twig")
+	 */
+	public function createAction(Request $request) {
+		$entity = new Domain();
+		$form   = $this->createForm(new DomainType(), $entity);
+		$form->bind($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+		if($form->isValid()) {
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($entity);
+			$em->flush();
 
-            return $this->redirect($this->generateUrl('config_domain_show', array('id' => $entity->getId())));
-        }
+			return $this->redirect($this->generateUrl('config_domain_show', array('id' => $entity->getId())));
+		}
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
+		return array(
+			'entity'         => $entity,
+			'form'           => $form->createView(),
+			'selecteddomain' => $this->_getSelectedDomain(),
+		);
+	}
 
-    /**
-     * Displays a form to edit an existing Domain entity.
-     *
-     * @Route("/{id}/edit", name="config_domain_edit")
-     * @Template()
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+	/**
+	 * Displays a form to edit an existing Domain entity.
+	 *
+	 * @Route("/{id}/edit", name="config_domain_edit")
+	 * @Template()
+	 */
+	public function editAction($id) {
+		$em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
+		$entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Domain entity.');
-        }
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find Domain entity.');
+		}
 
-        $editForm = $this->createForm(new DomainType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
+		$editForm   = $this->createForm(new DomainType(), $entity);
+		$deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
+		return array(
+			'entity'         => $entity,
+			'edit_form'      => $editForm->createView(),
+			'delete_form'    => $deleteForm->createView(),
+			'selecteddomain' => $this->_getSelectedDomain(),
+		);
+	}
 
-    /**
-     * Edits an existing Domain entity.
-     *
-     * @Route("/{id}/update", name="config_domain_update")
-     * @Method("POST")
-     * @Template("JboehmLampcpCoreBundle:Domain:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
+	/**
+	 * Edits an existing Domain entity.
+	 *
+	 * @Route("/{id}/update", name="config_domain_update")
+	 * @Method("POST")
+	 * @Template("JboehmLampcpCoreBundle:Domain:edit.html.twig")
+	 */
+	public function updateAction(Request $request, $id) {
+		$em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
+		$entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Domain entity.');
-        }
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find Domain entity.');
+		}
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new DomainType(), $entity);
-        $editForm->bind($request);
+		$deleteForm = $this->createDeleteForm($id);
+		$editForm   = $this->createForm(new DomainType(), $entity);
+		$editForm->bind($request);
 
-        if ($editForm->isValid()) {
-            $em->persist($entity);
-            $em->flush();
+		if($editForm->isValid()) {
+			$em->persist($entity);
+			$em->flush();
 
-            return $this->redirect($this->generateUrl('config_domain_edit', array('id' => $id)));
-        }
+			return $this->redirect($this->generateUrl('config_domain_edit', array('id' => $id)));
+		}
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
+		return array(
+			'entity'         => $entity,
+			'edit_form'      => $editForm->createView(),
+			'delete_form'    => $deleteForm->createView(),
+			'selecteddomain' => $this->_getSelectedDomain(),
+		);
+	}
 
-    /**
-     * Deletes a Domain entity.
-     *
-     * @Route("/{id}/delete", name="config_domain_delete")
-     * @Method("POST")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
+	/**
+	 * Deletes a Domain entity.
+	 *
+	 * @Route("/{id}/delete", name="config_domain_delete")
+	 * @Method("POST")
+	 */
+	public function deleteAction(Request $request, $id) {
+		$form = $this->createDeleteForm($id);
+		$form->bind($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
+		if($form->isValid()) {
+			$em     = $this->getDoctrine()->getManager();
+			$entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Domain entity.');
-            }
+			if(!$entity) {
+				throw $this->createNotFoundException('Unable to find Domain entity.');
+			}
 
-            $em->remove($entity);
-            $em->flush();
-        }
+			$em->remove($entity);
+			$em->flush();
+		}
 
-        return $this->redirect($this->generateUrl('config_domain'));
-    }
+		return $this->redirect($this->generateUrl('config_domain'));
+	}
 
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
-        ;
-    }
+	private function createDeleteForm($id) {
+		return $this->createFormBuilder(array('id' => $id))
+			->add('id', 'hidden')
+			->getForm();
+	}
 }
