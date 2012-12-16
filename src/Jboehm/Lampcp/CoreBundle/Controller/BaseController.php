@@ -33,6 +33,6 @@ abstract class BaseController extends Controller {
 			return $domain;
 		}
 
-		return false;
+		return null;
 	}
 }
