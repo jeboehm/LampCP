@@ -5,14 +5,23 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="jboehm_lampcp_core.gidservice.class">Jboehm\Lampcp\CoreBundle\Service\GidService</parameter>
+        <parameter key="gidservice.class">Jboehm\Lampcp\CoreBundle\Service\GidService</parameter>
+        <parameter key="uidservice.class">Jboehm\Lampcp\CoreBundle\Service\UidService</parameter>
+        <parameter key="system.password.file">/etc/passwd</parameter>
+        <parameter key="system.group.file">/etc/group</parameter>
     </parameters>
 
     <services>
-        <service id="jboehm_lampcp_core.gidservice" class="%jboehm_lampcp_core.gidservice.class%">
+        <service id="jboehm_lampcp_core.gidservice" class="%gidservice.class%">
             <argument>10000</argument>
             <argument>19999</argument>
-            <argument>/etc/group</argument>
+            <argument>%system.group.file%</argument>
+        </service>
+
+        <service id="jboehm_lampcp_core.uidservice" class="%uidservice.class%">
+            <argument>10000</argument>
+            <argument>19999</argument>
+            <argument>%system.password.file%</argument>
         </service>
     </services>
 
