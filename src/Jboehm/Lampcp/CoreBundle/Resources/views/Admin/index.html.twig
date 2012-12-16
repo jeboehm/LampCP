@@ -8,11 +8,7 @@
         <tr>
             <th>Id</th>
             <th>Email</th>
-            <th>Salt</th>
-            <th>Password</th>
-            <th>Registered</th>
             <th>Lastseen</th>
-            <th>Roles</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -21,11 +17,7 @@
             <tr>
                 <td><a href="{{ path('config_admin_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.email }}</td>
-                <td>{{ entity.salt }}</td>
-                <td>{{ entity.password }}</td>
-                <td>{% if entity.registered %}{{ entity.registered|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.lastseen %}{{ entity.lastseen|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.roles }}</td>
+                <td>{% if entity.lastseen %}{{ entity.lastseen|date('d.m.Y H:i:s') }}{% endif %}</td>
                 <td>
                     <ul>
                         <li>

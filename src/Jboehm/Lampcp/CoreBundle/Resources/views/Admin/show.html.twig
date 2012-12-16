@@ -14,24 +14,12 @@
             <td>{{ entity.email }}</td>
         </tr>
         <tr>
-            <th>Salt</th>
-            <td>{{ entity.salt }}</td>
-        </tr>
-        <tr>
-            <th>Password</th>
-            <td>{{ entity.password }}</td>
-        </tr>
-        <tr>
             <th>Registered</th>
-            <td>{{ entity.registered|date('Y-m-d H:i:s') }}</td>
+            <td>{{ entity.registered|date('d.m.Y H:i:s') }}</td>
         </tr>
         <tr>
             <th>Lastseen</th>
-            <td>{{ entity.lastseen|date('Y-m-d H:i:s') }}</td>
-        </tr>
-        <tr>
-            <th>Roles</th>
-            <td>{{ entity.roles }}</td>
+            <td>{{ entity.lastseen|date('d.m.Y H:i:s') }}</td>
         </tr>
         </tbody>
     </table>

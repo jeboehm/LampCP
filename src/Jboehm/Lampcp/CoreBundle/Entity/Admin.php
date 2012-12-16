@@ -70,6 +70,7 @@ class Admin implements UserInterface, \Serializable {
 		$this->setLastseen(new \DateTime());
 		$this->setRegistered(new \DateTime());
 		$this->setSalt(md5(uniqid(null, true)));
+		$this->setRoles(array('ROLE_USER', 'ROLE_ADMIN'));
 	}
 
 	/**

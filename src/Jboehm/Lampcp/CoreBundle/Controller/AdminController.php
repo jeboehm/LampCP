@@ -16,6 +16,22 @@ use Jboehm\Lampcp\CoreBundle\Form\AdminType;
  */
 class AdminController extends BaseController {
 	/**
+	 * Generates a password
+	 *
+	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Admin $user
+	 * @param                                        $password
+	 *
+	 * @return string
+	 */
+	protected function _getPassword(Admin $user, $password) {
+		$factory  = $this->container->get('security.encoder_factory');
+		$encoder  = $factory->getEncoder($user);
+		$password = $encoder->encodePassword($password, $user->getSalt());
+
+		return $password;
+	}
+
+	/**
 	 * Lists all Admin entities.
 	 *
 	 * @Route("/", name="config_admin")
@@ -41,6 +57,7 @@ class AdminController extends BaseController {
 	public function showAction($id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity Admin */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:Admin')->find($id);
 
 		if(!$entity) {
@@ -86,6 +103,9 @@ class AdminController extends BaseController {
 
 		if($form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
+
+			$entity->setPassword($this->_getPassword($entity, $entity->getPassword()));
+
 			$em->persist($entity);
 			$em->flush();
 
@@ -108,13 +128,16 @@ class AdminController extends BaseController {
 	public function editAction($id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity Admin */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:Admin')->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Admin entity.');
 		}
 
-		$editForm   = $this->createForm(new AdminType(), $entity);
+		$entity->setPassword('');
+
+		$editForm   = $this->createForm(new AdminType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
 		return array(
@@ -135,17 +158,26 @@ class AdminController extends BaseController {
 	public function updateAction(Request $request, $id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity Admin */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:Admin')->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Admin entity.');
 		}
 
+		$oldPassword = $entity->getPassword();
+
 		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new AdminType(), $entity);
+		$editForm   = $this->createForm(new AdminType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			if(!$entity->getPassword()) {
+				$entity->setPassword($oldPassword);
+			} else {
+				$entity->setPassword($this->_getPassword($entity, $entity->getPassword()));
+			}
+
 			$em->persist($entity);
 			$em->flush();
 
