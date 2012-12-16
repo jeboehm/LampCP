@@ -41,6 +41,7 @@ class MysqlDatabaseController extends BaseController {
 	public function showAction($id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity MysqlDatabase */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->find($id);
 
 		if(!$entity) {
@@ -63,7 +64,7 @@ class MysqlDatabaseController extends BaseController {
 	 * @Template()
 	 */
 	public function newAction() {
-		$entity = new MysqlDatabase();
+		$entity = new MysqlDatabase($this->_getSelectedDomain());
 		$form   = $this->createForm(new MysqlDatabaseType(), $entity);
 
 		return array(
@@ -81,7 +82,7 @@ class MysqlDatabaseController extends BaseController {
 	 * @Template("JboehmLampcpCoreBundle:MysqlDatabase:new.html.twig")
 	 */
 	public function createAction(Request $request) {
-		$entity = new MysqlDatabase();
+		$entity = new MysqlDatabase($this->_getSelectedDomain());
 		$form   = $this->createForm(new MysqlDatabaseType(), $entity);
 		$form->bind($request);
 
@@ -109,6 +110,7 @@ class MysqlDatabaseController extends BaseController {
 	public function editAction($id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity MysqlDatabase */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->find($id);
 
 		if(!$entity) {
@@ -136,6 +138,7 @@ class MysqlDatabaseController extends BaseController {
 	public function updateAction(Request $request, $id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity MysqlDatabase */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->find($id);
 
 		if(!$entity) {
@@ -172,7 +175,9 @@ class MysqlDatabaseController extends BaseController {
 		$form->bind($request);
 
 		if($form->isValid()) {
-			$em     = $this->getDoctrine()->getManager();
+			$em = $this->getDoctrine()->getManager();
+
+			/** @var $entity MysqlDatabase */
 			$entity = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->find($id);
 
 			if(!$entity) {

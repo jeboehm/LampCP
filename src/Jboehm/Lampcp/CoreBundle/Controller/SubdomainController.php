@@ -41,6 +41,7 @@ class SubdomainController extends BaseController {
 	public function showAction($id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity Subdomain */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:Subdomain')->find($id);
 
 		if(!$entity) {
@@ -63,7 +64,7 @@ class SubdomainController extends BaseController {
 	 * @Template()
 	 */
 	public function newAction() {
-		$entity = new Subdomain();
+		$entity = new Subdomain($this->_getSelectedDomain());
 		$form   = $this->createForm(new SubdomainType(), $entity);
 
 		return array(
@@ -81,7 +82,7 @@ class SubdomainController extends BaseController {
 	 * @Template("JboehmLampcpCoreBundle:Subdomain:new.html.twig")
 	 */
 	public function createAction(Request $request) {
-		$entity = new Subdomain();
+		$entity = new Subdomain($this->_getSelectedDomain());
 		$form   = $this->createForm(new SubdomainType(), $entity);
 		$form->bind($request);
 
@@ -109,6 +110,7 @@ class SubdomainController extends BaseController {
 	public function editAction($id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity Subdomain */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:Subdomain')->find($id);
 
 		if(!$entity) {
@@ -136,6 +138,7 @@ class SubdomainController extends BaseController {
 	public function updateAction(Request $request, $id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity Subdomain */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:Subdomain')->find($id);
 
 		if(!$entity) {
@@ -172,7 +175,9 @@ class SubdomainController extends BaseController {
 		$form->bind($request);
 
 		if($form->isValid()) {
-			$em     = $this->getDoctrine()->getManager();
+			$em = $this->getDoctrine()->getManager();
+
+			/** @var $entity Subdomain */
 			$entity = $em->getRepository('JboehmLampcpCoreBundle:Subdomain')->find($id);
 
 			if(!$entity) {
