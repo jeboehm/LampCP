@@ -4,7 +4,6 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -26,8 +25,7 @@ class PathOption {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain")
-	 * @JoinColumn(name="domain_id", referencedColumnName="id")
+	 * @ManyToOne(targetEntity="Domain",cascade={"persist"})
 	 */
 	private $domain;
 
