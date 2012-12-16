@@ -25,7 +25,7 @@
     {% endblock %}
 
     {% block selecteddomain %}
-        {% if selecteddomain is not null %}
+        {% if selecteddomain is defined and selecteddomain is not null %}
             Domain: {{ selecteddomain.domain }}
         {% endif %}
     {% endblock %}
