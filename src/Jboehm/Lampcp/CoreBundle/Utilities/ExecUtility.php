@@ -13,23 +13,23 @@ class ExecUtility {
 	 * @return array
 	 */
 	static public function exec($cmd, $options = array()) {
-		$optionsClean = array();
-		$returnString = '';
-		$returnCode   = 0;
-		$returnLines  = array();
+		$command     = $cmd;
+		$returnCode  = 0;
+		$returnLines = array();
 
 		foreach($options as $name => $value) {
-			$optionsClean[$name] = escapeshellarg($value);
+			if(!empty($name)) {
+				$command .= ' ' . $name;
+			}
+
+			$command .= ' ' . escapeshellarg($value);
 		}
 
-		$command      = $cmd . ' ' . join(' ', $optionsClean);
 		$returnString = exec($command, $returnLines, $returnCode);
 
-		// Close streams
-		//self::_closeOutputStreams();
-
 		return array('code'   => $returnCode,
-					 'output' => $returnString);
+					 'output' => $returnString,
+					 'lines'  => $returnLines);
 	}
 
 	/**

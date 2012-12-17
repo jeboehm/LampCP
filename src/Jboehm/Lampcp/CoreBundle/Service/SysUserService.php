@@ -2,7 +2,12 @@
 
 namespace Jboehm\Lampcp\CoreBundle\Service;
 
+use Jboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
+
 class SysUserService {
+	const groupAddCmd = 'groupadd';
+	const userAddCmd  = 'useradd';
+
 	/** @var UidService */
 	protected $_uidservice;
 
@@ -60,7 +65,29 @@ class SysUserService {
 		return false;
 	}
 
-	public function addGroup($name, $gid) {
+	/**
+	 * Add group to system
+	 *
+	 * @param string $name
+	 * @param int    $gid
+	 *
+	 * @return bool
+	 * @throws \Exception
+	 */
+	protected function _addGroupCmd($name, $gid) {
+		$output = ExecUtility::exec(self::groupAddCmd, array('-g' => $gid,
+															 $name));
 
+		if($output['code'] != 0) {
+			throw new \Exception('Error: Could not execute ' . self::groupAddCmd);
+		} else {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function addGroup($name, $gid) {
+		var_dump($this->_addGroupCmd($name, $gid));
 	}
 }
