@@ -5,9 +5,6 @@ namespace Jboehm\Lampcp\CoreBundle\Service;
 use Jboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 
 class SysUserService {
-	const groupAddCmd = 'groupadd';
-	const userAddCmd  = 'useradd';
-
 	/** @var UidService */
 	protected $_uidservice;
 
@@ -75,11 +72,11 @@ class SysUserService {
 	 * @throws \Exception
 	 */
 	protected function _addGroupCmd($name, $gid) {
-		$output = ExecUtility::exec(self::groupAddCmd, array('-g' => $gid,
-															 $name));
+		$output = ExecUtility::exec($this->_groupaddcmd, array('-g' => $gid,
+															   $name));
 
 		if($output['code'] != 0) {
-			throw new \Exception('Error: Could not execute ' . self::groupAddCmd);
+			throw new \Exception('Error: Could not execute ' . $this->_groupaddcmd);
 		} else {
 			return true;
 		}
@@ -87,7 +84,68 @@ class SysUserService {
 		return false;
 	}
 
+	/**
+	 * Add user to system, use $gid as primary group
+	 *
+	 * @param string $name
+	 * @param int    $uid
+	 * @param int    $gid
+	 *
+	 * @return bool
+	 * @throws \Exception
+	 */
+	protected function _addUserCmd($name, $uid, $gid) {
+		$output = ExecUtility::exec($this->_useraddcmd, array('-u' => $uid,
+															  '-g' => $gid,
+															  '-M',
+															  '-N',
+															  $name));
+
+		if($output['code'] != 0) {
+			throw new \Exception('Error: Could not execute ' . $this->_useraddcmd);
+		} else {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Add group
+	 *
+	 * @param string $name
+	 * @param int    $gid
+	 *
+	 * @return bool
+	 */
 	public function addGroup($name, $gid) {
-		var_dump($this->_addGroupCmd($name, $gid));
+		try {
+			$result = null;
+			$result = $this->_addGroupCmd($name, $gid);
+		} catch(Exception $e) {
+			$result = false;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Add user
+	 *
+	 * @param string $name
+	 * @param int    $uid
+	 * @param int    $gid
+	 *
+	 * @return bool
+	 */
+	public function addUser($name, $uid, $gid) {
+		try {
+			$result = null;
+			$result = $this->_addUserCmd($name, $uid, $gid);
+		} catch(Exception $e) {
+			$result = false;
+		}
+
+		return $result;
 	}
 }
