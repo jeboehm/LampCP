@@ -12,7 +12,7 @@ class ProtectionType extends AbstractType {
 			->add('path')
 			->add('realm')
 			->add('username')
-			->add('password');
+			->add('password', null, array('required' => false));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

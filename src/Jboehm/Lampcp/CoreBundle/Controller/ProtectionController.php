@@ -87,6 +87,8 @@ class ProtectionController extends BaseController {
 		$form->bind($request);
 
 		if($form->isValid()) {
+			$entity->setPassword($entity->cryptPassword($entity->getPassword()));
+
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
@@ -117,6 +119,8 @@ class ProtectionController extends BaseController {
 			throw $this->createNotFoundException('Unable to find Protection entity.');
 		}
 
+		$entity->setPassword('');
+
 		$editForm   = $this->createForm(new ProtectionType(), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
@@ -145,11 +149,19 @@ class ProtectionController extends BaseController {
 			throw $this->createNotFoundException('Unable to find Protection entity.');
 		}
 
+		$oldPassword = $entity->getPassword();
+
 		$deleteForm = $this->createDeleteForm($id);
 		$editForm   = $this->createForm(new ProtectionType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			if(!$entity->getPassword()) {
+				$entity->setPassword($oldPassword);
+			} else {
+				$entity->setPassword($entity->cryptPassword($entity->getPassword()));
+			}
+
 			$em->persist($entity);
 			$em->flush();
 
