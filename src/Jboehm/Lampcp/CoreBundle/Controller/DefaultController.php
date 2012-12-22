@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 
 /**
  * Default controller.
@@ -43,6 +44,7 @@ class DefaultController extends BaseController {
 		$domain = null;
 
 		if(!empty($value) && is_numeric($value)) {
+			/** @var $domain Domain */
 			$domain = $this
 				->getDoctrine()
 				->getManager()
@@ -55,7 +57,7 @@ class DefaultController extends BaseController {
 		}
 
 		$session = $this->_getSession();
-		$session->set('domain', $domain);
+		$session->set('domain', $domain->getId());
 
 		return $this->forward('JboehmLampcpCoreBundle:Default:index');
 	}

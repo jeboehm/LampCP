@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 
 /**
  * Base controller.
@@ -27,10 +28,20 @@ abstract class BaseController extends Controller {
 	 * @return \Jboehm\Lampcp\CoreBundle\Entity\Domain|bool
 	 */
 	protected function _getSelectedDomain() {
-		$domain = $this->_getSession()->get('domain');
+		/** @var $domain Domain */
+		$domain   = null;
+		$domainId = $this->_getSession()->get('domain');
 
-		if($domain) {
-			return $domain;
+		if(is_numeric($domainId) && $domainId > 0) {
+			$repo   = $this->getDoctrine()->getRepository('JboehmLampcpCoreBundle:Domain');
+			$domain = $repo->findOneById($domainId);
+
+			if($domain) {
+				return $domain;
+			} else {
+				$session = $this->_getSession();
+				$session->set('domain', 0);
+			}
 		}
 
 		return null;
