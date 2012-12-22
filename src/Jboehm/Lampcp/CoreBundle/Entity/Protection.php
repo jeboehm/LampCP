@@ -114,7 +114,7 @@ class Protection {
 	 * @return Protection
 	 */
 	public function setPassword($password) {
-		$this->password = crypt($password, base64_encode($password));
+		$this->password = $password;
 
 		return $this;
 	}
@@ -170,5 +170,16 @@ class Protection {
 	 */
 	public function getUsername() {
 		return $this->username;
+	}
+
+	/**
+	 * Crypt password
+	 *
+	 * @param string $password
+	 *
+	 * @return string
+	 */
+	public function cryptPassword($password) {
+		return crypt($password, base64_encode($password));
 	}
 }
