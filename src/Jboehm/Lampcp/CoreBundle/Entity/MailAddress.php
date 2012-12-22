@@ -25,7 +25,7 @@ class MailAddress {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain",cascade={"persist"})
+	 * @ManyToOne(targetEntity="Domain")
 	 */
 	private $domain;
 
@@ -46,7 +46,7 @@ class MailAddress {
 	/**
 	 * @var MailAccount
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="MailAccount",cascade={"persist"})
+	 * @ManyToOne(targetEntity="MailAccount")
 	 */
 	private $mailaccount;
 

@@ -25,7 +25,7 @@ class Subdomain {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain",cascade={"persist"})
+	 * @ManyToOne(targetEntity="Domain")
 	 */
 	private $domain;
 
