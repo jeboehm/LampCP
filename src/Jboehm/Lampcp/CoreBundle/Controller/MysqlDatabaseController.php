@@ -24,7 +24,7 @@ class MysqlDatabaseController extends BaseController {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->findAll();
+		$entities = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->findByDomain($this->_getSelectedDomain());
 
 		return array(
 			'entities'       => $entities,

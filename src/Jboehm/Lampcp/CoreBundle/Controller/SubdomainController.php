@@ -24,7 +24,7 @@ class SubdomainController extends BaseController {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JboehmLampcpCoreBundle:Subdomain')->findAll();
+		$entities = $em->getRepository('JboehmLampcpCoreBundle:Subdomain')->findByDomain($this->_getSelectedDomain());
 
 		return array(
 			'entities'       => $entities,

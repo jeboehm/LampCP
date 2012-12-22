@@ -24,7 +24,7 @@ class ProtectionController extends BaseController {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JboehmLampcpCoreBundle:Protection')->findAll();
+		$entities = $em->getRepository('JboehmLampcpCoreBundle:Protection')->findByDomain($this->_getSelectedDomain());
 
 		return array(
 			'entities'       => $entities,

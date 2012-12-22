@@ -24,7 +24,7 @@ class MailAccountController extends BaseController {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JboehmLampcpCoreBundle:MailAccount')->findAll();
+		$entities = $em->getRepository('JboehmLampcpCoreBundle:MailAccount')->findByDomain($this->_getSelectedDomain());
 
 		return array(
 			'entities'       => $entities,

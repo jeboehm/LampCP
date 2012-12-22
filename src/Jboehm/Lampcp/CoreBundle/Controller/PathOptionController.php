@@ -24,7 +24,7 @@ class PathOptionController extends BaseController {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JboehmLampcpCoreBundle:PathOption')->findAll();
+		$entities = $em->getRepository('JboehmLampcpCoreBundle:PathOption')->findByDomain($this->_getSelectedDomain());
 
 		return array(
 			'entities'       => $entities,
