@@ -16,13 +16,6 @@ html, body {
     display: inline;
 }
 
-.navbar .brand {
-    float: left;
-    display: block;
-    padding: 8px 10px 12px;
-    margin-left: -12px;
-}
-
 .navbar-inner {
     background: #353535 url('../img/navbar_bg.png') repeat-x bottom left;
     height: 60px;
@@ -59,10 +52,6 @@ ul.pull-right, ol {
     margin: 0px 1px 0 0;
 }
 
-.dropdown-menu a:hover {
-    text-shadow: 0 -1px 0 #003C5A;
-}
-
 table {
     background-color: #fff;
 }
@@ -80,13 +69,6 @@ footer {
 
 .nav-pills .active > a, .nav-pills .active > a:hover {
     text-shadow: 0 -1px 0 #003C5A;
-}
-
-.search {
-    display: inline-block;
-    float: right;
-    position: relative;
-    top: -45px;
 }
 
 form.nomargin {
