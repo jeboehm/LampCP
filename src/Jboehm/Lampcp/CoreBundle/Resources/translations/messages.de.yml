@@ -65,3 +65,6 @@ mailaccount.column.hasimap4: IMAP
 mailaccount.column.hassmtp: SMTP
 mailaccount.column.enabled: Aktiviert
 mailaccount.button.addresses: E-Mailadressen
+
+mailaddress.column.address: E-Mailadresse
+mailaddress.column.hascatchall: Catch All

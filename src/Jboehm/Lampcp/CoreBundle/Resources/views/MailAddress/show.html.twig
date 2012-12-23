@@ -1,20 +1,20 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>MailAddress</h1>
+    <h1>{{ "show.page.mailaddress"|trans() }}</h1>
 
     <table class="record_properties">
         <tbody>
         <tr>
-            <th>Id</th>
+            <th>{{ "all.column.id"|trans() }}</th>
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Address</th>
+            <th>{{ "mailaddress.column.address"|trans() }}</th>
             <td>{{ entity.address }}</td>
         </tr>
         <tr>
-            <th>Hascatchall</th>
+            <th>{{ "mailaddress.column.hascatchall"|trans() }}</th>
             <td>{{ entity.hasCatchAll }}</td>
         </tr>
         </tbody>
@@ -23,18 +23,18 @@
     <ul class="record_actions">
         <li>
             <a href="{{ path('config_mailaddress', { 'mailaccountid': entity.mailaccount.id }) }}">
-                Back to the list
+                {{ "button.back"|trans() }}
             </a>
         </li>
         <li>
             <a href="{{ path('config_mailaddress_edit', { 'id': entity.id }) }}">
-                Edit
+                {{ "button.edit"|trans() }}
             </a>
         </li>
         <li>
             <form action="{{ path('config_mailaddress_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button type="submit">Delete</button>
+                <button type="submit">{{ "button.delete"|trans() }}</button>
             </form>
         </li>
     </ul>

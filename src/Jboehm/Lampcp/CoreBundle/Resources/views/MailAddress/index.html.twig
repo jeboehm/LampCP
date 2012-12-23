@@ -1,15 +1,15 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>MailAddress list</h1>
+    <h1>{{ "title.page.mailaddress"|trans() }}</h1>
 
     <table class="records_list">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Address</th>
-            <th>Hascatchall</th>
-            <th>Actions</th>
+            <th>{{ "all.column.id"|trans() }}</th>
+            <th>{{ "mailaddress.column.address"|trans() }}</th>
+            <th>{{ "mailaddress.column.hascatchall"|trans() }}</th>
+            <th>{{ "all.column.actions"|trans() }}</th>
         </tr>
         </thead>
         <tbody>
@@ -21,10 +21,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('config_mailaddress_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('config_mailaddress_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('config_mailaddress_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('config_mailaddress_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
                         </li>
                     </ul>
                 </td>
@@ -36,7 +36,7 @@
     <ul>
         <li>
             <a href="{{ path('config_mailaddress_new', { 'mailaccountid': mailaccount.id }) }}">
-                Create a new entry
+                {{ "button.create"|trans() }}
             </a>
         </li>
     </ul>
