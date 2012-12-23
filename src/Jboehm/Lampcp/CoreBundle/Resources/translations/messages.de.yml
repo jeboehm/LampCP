@@ -48,3 +48,10 @@ all.column.id: ID
 admin.column.email: E-Mailadresse
 admin.column.lastseen: Zuletzt gesehen
 admin.column.registered: Registriert
+
+domain.column.domain: Domain
+domain.column.hasweb: Website
+domain.column.hasssh: SSH
+domain.column.hasmail: E-Mail
+domain.column.gid: Gruppen-ID
+domain.column.path: Pfad

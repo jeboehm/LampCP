@@ -1,36 +1,36 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>Domain</h1>
+    <h1>{{ "show.page.domain"|trans() }}</h1>
 
     <table class="record_properties">
         <tbody>
         <tr>
-            <th>Id</th>
+            <th>{{ "all.column.id"|trans() }}</th>
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Domain</th>
+            <th>{{ "domain.column.domain"|trans() }}</th>
             <td>{{ entity.domain }}</td>
         </tr>
         <tr>
-            <th>Hasweb</th>
+            <th>{{ "domain.column.hasweb"|trans() }}</th>
             <td>{{ entity.hasWeb }}</td>
         </tr>
         <tr>
-            <th>Hasmail</th>
+            <th>{{ "domain.column.hasmail"|trans() }}</th>
             <td>{{ entity.hasMail }}</td>
         </tr>
         <tr>
-            <th>Hasssh</th>
+            <th>{{ "domain.column.hasssh"|trans() }}</th>
             <td>{{ entity.hasSSH }}</td>
         </tr>
         <tr>
-            <th>Gid</th>
+            <th>{{ "domain.column.gid"|trans() }}</th>
             <td>{{ entity.gid }}</td>
         </tr>
         <tr>
-            <th>Path</th>
+            <th>{{ "domain.column.path"|trans() }}</th>
             <td>{{ entity.path }}</td>
         </tr>
         </tbody>
@@ -39,18 +39,18 @@
     <ul class="record_actions">
         <li>
             <a href="{{ path('config_domain') }}">
-                Back to the list
+                {{ "button.back"|trans() }}
             </a>
         </li>
         <li>
             <a href="{{ path('config_domain_edit', { 'id': entity.id }) }}">
-                Edit
+                {{ "button.edit"|trans() }}
             </a>
         </li>
         <li>
             <form action="{{ path('config_domain_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button type="submit">Delete</button>
+                <button type="submit">{{ "button.delete"|trans() }}</button>
             </form>
         </li>
     </ul>

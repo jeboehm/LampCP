@@ -1,19 +1,19 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>Domain list</h1>
+    <h1>{{ "title.page.domain"|trans() }}</h1>
 
     <table class="records_list">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Domain</th>
-            <th>Hasweb</th>
-            <th>Hasmail</th>
-            <th>Hasssh</th>
-            <th>Gid</th>
-            <th>Path</th>
-            <th>Actions</th>
+            <th>{{ "all.column.id"|trans() }}</th>
+            <th>{{ "domain.column.domain"|trans() }}</th>
+            <th>{{ "domain.column.hasweb"|trans() }}</th>
+            <th>{{ "domain.column.hasmail"|trans() }}</th>
+            <th>{{ "domain.column.hasssh"|trans() }}</th>
+            <th>{{ "domain.column.gid"|trans() }}</th>
+            <th>{{ "domain.column.path"|trans() }}</th>
+            <th>{{ "all.column.actions"|trans() }}</th>
         </tr>
         </thead>
         <tbody>
@@ -29,10 +29,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('config_domain_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('config_domain_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('config_domain_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('config_domain_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
                         </li>
                     </ul>
                 </td>
@@ -44,7 +44,7 @@
     <ul>
         <li>
             <a href="{{ path('config_domain_new') }}">
-                Create a new entry
+                {{ "button.create"|trans() }}
             </a>
         </li>
     </ul>
