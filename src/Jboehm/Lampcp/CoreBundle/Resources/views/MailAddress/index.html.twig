@@ -1,0 +1,43 @@
+{% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>MailAddress list</h1>
+
+    <table class="records_list">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Address</th>
+            <th>Hascatchall</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('config_mailaddress_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.address }}</td>
+                <td>{{ entity.hasCatchAll }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('config_mailaddress_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('config_mailaddress_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('config_mailaddress_new', { 'mailaccountid': mailaccount.id }) }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+{% endblock %}

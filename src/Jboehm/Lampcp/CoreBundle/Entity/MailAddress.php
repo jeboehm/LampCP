@@ -53,10 +53,12 @@ class MailAddress {
 	/**
 	 * Konstruktor
 	 *
-	 * @param Domain $domain
+	 * @param Domain      $domain
+	 * @param MailAccount $account
 	 */
-	public function __construct(Domain $domain) {
+	public function __construct(Domain $domain, MailAccount $account) {
 		$this->domain      = $domain;
+		$this->mailaccount = $account;
 		$this->hasCatchAll = false;
 	}
 

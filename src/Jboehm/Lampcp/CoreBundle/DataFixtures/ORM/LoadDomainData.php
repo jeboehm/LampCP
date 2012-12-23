@@ -66,7 +66,7 @@ class LoadDomainData implements FixtureInterface {
 
 		$manager->persist($mailaccount);
 
-		$mailaddress = new MailAddress($domain);
+		$mailaddress = new MailAddress($domain, $mailaccount);
 		$mailaddress
 			->setAddress('jeff')
 			->setHasCatchAll(false)
