@@ -1,15 +1,15 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>Admin list</h1>
+    <h1>{{ "title.page.admin"|trans() }}</h1>
 
     <table class="records_list">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Email</th>
-            <th>Lastseen</th>
-            <th>Actions</th>
+            <th>{{ "all.column.id"|trans() }}</th>
+            <th>{{ "admin.column.email"|trans() }}</th>
+            <th>{{ "admin.column.lastseen"|trans() }}</th>
+            <th>{{ "all.column.actions"|trans() }}</th>
         </tr>
         </thead>
         <tbody>
@@ -21,10 +21,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('config_admin_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('config_admin_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('config_admin_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('config_admin_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
                         </li>
                     </ul>
                 </td>
@@ -36,7 +36,7 @@
     <ul>
         <li>
             <a href="{{ path('config_admin_new') }}">
-                Create a new entry
+                {{ "button.create"|trans() }}
             </a>
         </li>
     </ul>

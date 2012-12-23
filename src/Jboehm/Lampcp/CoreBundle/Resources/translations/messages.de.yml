@@ -8,3 +8,43 @@ title.page.mysqldatabase: Datenbanken
 title.page.pathoption: Pfadoptionen
 title.page.protection: Beschränkungen
 title.page.subdomain: Subdomains
+
+edit.page.admin: Administrator bearbeiten
+edit.page.domain: Domain bearbeiten
+edit.page.mailaccount: E-Mailaccount bearbeiten
+edit.page.mailaddress: E-Mailadresse bearbeiten
+edit.page.mysqldatabase: Datenbank bearbeiten
+edit.page.pathoption: Pfadoption bearbeiten
+edit.page.protection: Beschränkung bearbeiten
+edit.page.subdomain: Subdomain bearbeiten
+
+show.page.admin: Administrator anzeigen
+show.page.domain: Domain anzeigen
+show.page.mailaccount: E-Mailaccount anzeigen
+show.page.mailaddress: E-Mailadresse anzeigen
+show.page.mysqldatabase: Datenbank anzeigen
+show.page.pathoption: Pfadoption anzeigen
+show.page.protection: Beschränkung anzeigen
+show.page.subdomain: Subdomain anzeigen
+
+create.page.admin: Administrator anlegen
+create.page.domain: Domain anlegen
+create.page.mailaccount: E-Mailaccount anlegen
+create.page.mailaddress: E-Mailadresse anlegen
+create.page.mysqldatabase: Datenbank anlegen
+create.page.pathoption: Pfadoption anlegen
+create.page.protection: Beschränkung anlegen
+create.page.subdomain: Subdomain anlegen
+
+button.edit: Bearbeiten
+button.delete: Löschen
+button.back: Zurück zur Liste
+button.create: Neuen Eintrag anlegen
+button.show: Anzeigen
+
+all.column.actions: Aktionen
+all.column.id: ID
+
+admin.column.email: E-Mailadresse
+admin.column.lastseen: Zuletzt gesehen
+admin.column.registered: Registriert
