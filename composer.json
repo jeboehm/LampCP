@@ -19,7 +19,8 @@
         "sensio/generator-bundle": "2.1.*",
         "jms/security-extra-bundle": "1.2.*",
         "jms/di-extra-bundle": "1.1.*",
-        "phpunit/phpunit":"3.7.*"
+        "phpunit/phpunit":"3.7.*",
+        "sonata-project/jquery-bundle": "1.8.*@dev"
     },
     "scripts": {
         "post-install-cmd": [
