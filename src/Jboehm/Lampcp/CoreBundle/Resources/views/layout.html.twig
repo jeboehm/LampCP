@@ -6,6 +6,29 @@
     {% endspaceless %}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {% stylesheets
+    '@JboehmLampcpCoreBundle/Resources/public/bootstrap/css/bootstrap.min.css'
+    '@JboehmLampcpCoreBundle/Resources/public/css/main.css'
+    filter='?yui_css' %}
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts
+    '@SonatajQueryBundle/Resources/public/jquery-1.8.0.js'
+    filter='?yui_js' %}
+
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}
+
 {% block body %}
     {% block navigation %}
         <ul>
