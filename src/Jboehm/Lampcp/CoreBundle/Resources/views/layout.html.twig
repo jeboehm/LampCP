@@ -9,11 +9,11 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    {% stylesheets
-    '@JboehmLampcpCoreBundle/Resources/public/bootstrap/css/bootstrap.min.css'
-    '@JboehmLampcpCoreBundle/Resources/public/css/main.css'
-    filter='?yui_css' %}
+    {% stylesheets 'bundles/jboehmlampcpcore/bootstrap/css/bootstrap.min.css' %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+    {% endstylesheets %}
 
+    {% stylesheets 'bundles/jboehmlampcpcore/css/main.css' filter='cssrewrite,?yui_css' %}
     <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
     {% endstylesheets %}
 {% endblock %}
@@ -23,6 +23,8 @@
 
     {% javascripts
     '@SonatajQueryBundle/Resources/public/jquery-1.8.0.js'
+    '@JboehmLampcpCoreBundle/Resources/public/bootstrap/js/bootstrap.min.js'
+    '@JboehmLampcpCoreBundle/Resources/public/js/*'
     filter='?yui_js' %}
 
     <script src="{{ asset_url }}" type="text/javascript"></script>
@@ -31,30 +33,19 @@
 
 {% block body %}
     {% block navigation %}
-        <ul>
-            <li><a href="{{ path('status') }}">Startseite</a></li>
-            <li><a href="{{ path('config_admin') }}">Administratoren</a></li>
-            <li><a href="{{ path('config_domain') }}">Domains</a></li>
-
-            {% if selecteddomain is defined and selecteddomain is not null %}
-                <li><a href="{{ path('config_subdomain') }}">Subdomains</a></li>
-                <li><a href="{{ path('config_mailaccount') }}">E-Mail Accounts</a></li>
-                <li><a href="{{ path('config_mysqldatabase') }}">Datenbanken</a></li>
-                <li><a href="{{ path('config_pathoption') }}">Pfadoptionen</a></li>
-                <li><a href="{{ path('config_protection') }}">Geschützte Verzeichnisse</a></li>
-            {% endif %}
-        </ul>
+        {% include("JboehmLampcpCoreBundle::navigation.html.twig") %}
     {% endblock %}
 
-    {% block domainselector %}
-    {% endblock %}
+    <div class="container">
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
 
-    {% block selecteddomain %}
-        {% if selecteddomain is defined and selecteddomain is not null %}
-            Domain: {{ selecteddomain.domain }}
-        {% endif %}
-    {% endblock %}
-
-    {% block content %}
-    {% endblock %}
+        <footer>
+            {% block footer %}
+                <a href="http://lampcp.de">LampCP</a>
+            {% endblock %}
+        </footer>
+    </div>
 {% endblock %}
