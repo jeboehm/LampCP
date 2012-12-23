@@ -55,3 +55,13 @@ domain.column.hasssh: SSH
 domain.column.hasmail: E-Mail
 domain.column.gid: Gruppen-ID
 domain.column.path: Pfad
+
+mailaccount.column.username: Benutzername
+mailaccount.column.password: Passwort
+mailaccount.column.uid: Benutzer-ID
+mailaccount.column.quota: Speicherplatz
+mailaccount.column.haspop3: POP3
+mailaccount.column.hasimap4: IMAP
+mailaccount.column.hassmtp: SMTP
+mailaccount.column.enabled: Aktiviert
+mailaccount.button.addresses: E-Mailadressen

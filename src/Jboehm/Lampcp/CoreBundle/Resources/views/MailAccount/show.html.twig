@@ -1,44 +1,44 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>MailAccount</h1>
+    <h1>{{ "show.page.mailaccount"|trans() }}</h1>
 
     <table class="record_properties">
         <tbody>
         <tr>
-            <th>Id</th>
+            <th>{{ "all.column.id"|trans() }}</th>
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Username</th>
+            <th>{{ "mailaccount.column.username"|trans() }}</th>
             <td>{{ entity.username }}</td>
         </tr>
         <tr>
-            <th>Password</th>
+            <th>{{ "mailaccount.column.password"|trans() }}</th>
             <td>{{ entity.password }}</td>
         </tr>
         <tr>
-            <th>Uid</th>
+            <th>{{ "mailaccount.column.uid"|trans() }}</th>
             <td>{{ entity.uid }}</td>
         </tr>
         <tr>
-            <th>Quota</th>
+            <th>{{ "mailaccount.column.quota"|trans() }}</th>
             <td>{{ entity.quota }}</td>
         </tr>
         <tr>
-            <th>Haspop3</th>
+            <th>{{ "mailaccount.column.haspop3"|trans() }}</th>
             <td>{{ entity.hasPop3 }}</td>
         </tr>
         <tr>
-            <th>Hasimap4</th>
+            <th>{{ "mailaccount.column.hasimap4"|trans() }}</th>
             <td>{{ entity.hasImap4 }}</td>
         </tr>
         <tr>
-            <th>Hassmtp</th>
+            <th>{{ "mailaccount.column.hassmtp"|trans() }}</th>
             <td>{{ entity.hasSmtp }}</td>
         </tr>
         <tr>
-            <th>Enabled</th>
+            <th>{{ "mailaccount.column.enabled"|trans() }}</th>
             <td>{{ entity.enabled }}</td>
         </tr>
         </tbody>
@@ -47,18 +47,18 @@
     <ul class="record_actions">
         <li>
             <a href="{{ path('config_mailaccount') }}">
-                Back to the list
+                {{ "button.back"|trans() }}
             </a>
         </li>
         <li>
             <a href="{{ path('config_mailaccount_edit', { 'id': entity.id }) }}">
-                Edit
+                {{ "button.edit"|trans() }}
             </a>
         </li>
         <li>
             <form action="{{ path('config_mailaccount_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button type="submit">Delete</button>
+                <button type="submit">{{ "button.delete"|trans() }}</button>
             </form>
         </li>
     </ul>

@@ -1,21 +1,21 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>MailAccount list</h1>
+    <h1>{{ "title.page.mailaccount"|trans() }}</h1>
 
     <table class="records_list">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Uid</th>
-            <th>Quota</th>
-            <th>Haspop3</th>
-            <th>Hasimap4</th>
-            <th>Hassmtp</th>
-            <th>Enabled</th>
-            <th>Actions</th>
+            <th>{{ "all.column.id"|trans() }}</th>
+            <th>{{ "mailaccount.column.username"|trans() }}</th>
+            <th>{{ "mailaccount.column.password"|trans() }}</th>
+            <th>{{ "mailaccount.column.uid"|trans() }}</th>
+            <th>{{ "mailaccount.column.quota"|trans() }}</th>
+            <th>{{ "mailaccount.column.haspop3"|trans() }}</th>
+            <th>{{ "mailaccount.column.hasimap4"|trans() }}</th>
+            <th>{{ "mailaccount.column.hassmtp"|trans() }}</th>
+            <th>{{ "mailaccount.column.enabled"|trans() }}</th>
+            <th>{{ "all.column.actions"|trans() }}</th>
         </tr>
         </thead>
         <tbody>
@@ -33,13 +33,13 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('config_mailaccount_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('config_mailaccount_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('config_mailaccount_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('config_mailaccount_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('config_mailaddress', { 'mailaccountid': entity.id }) }}">addresses</a>
+                            <a href="{{ path('config_mailaddress', { 'mailaccountid': entity.id }) }}">{{ "mailaccount.button.addresses"|trans() }}</a>
                         </li>
                     </ul>
                 </td>
@@ -51,7 +51,7 @@
     <ul>
         <li>
             <a href="{{ path('config_mailaccount_new') }}">
-                Create a new entry
+                {{ "button.create"|trans() }}
             </a>
         </li>
     </ul>
