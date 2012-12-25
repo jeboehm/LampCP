@@ -7,6 +7,7 @@
 #
 ##
 
+# Seitentitel
 title.head: LampCP
 title.page.default: Status
 title.page.admin: Administratoren
@@ -46,17 +47,22 @@ create.page.pathoption: Pfadoption anlegen
 create.page.protection: Beschränkung anlegen
 create.page.subdomain: Subdomain anlegen
 
+# Buttons
 button.edit: Bearbeiten
 button.delete: Löschen
 button.back: Zurück zur Liste
 button.create: Neuen Eintrag anlegen
 button.show: Anzeigen
 
-all.column.actions: Aktionen
-all.column.id: ID
-
+# Seiteninhalte
 default.domainselector.select: Domain wählen..
 default.headline.select.domain: Domain verwalten
+
+mailaccount.button.addresses: E-Mailadressen
+
+# Tabellenspalten / Attribute
+all.column.actions: Aktionen
+all.column.id: ID
 
 admin.column.email: E-Mailadresse
 admin.column.lastseen: Zuletzt gesehen
@@ -77,12 +83,11 @@ mailaccount.column.haspop3: POP3
 mailaccount.column.hasimap4: IMAP
 mailaccount.column.hassmtp: SMTP
 mailaccount.column.enabled: Aktiviert
-mailaccount.button.addresses: E-Mailadressen
 
 mailaddress.column.address: E-Mailadresse
 mailaddress.column.hascatchall: Catch All
 
-mysqldatabase.column.name: Name
+mysqldatabase.column.name: Datenbankname
 mysqldatabase.column.comment: Kommentar
 mysqldatabase.column.password: Passwort
 
@@ -99,3 +104,39 @@ protection.column.password: Passwort
 
 subdomain.column.subdomain: Subdomain
 subdomain.column.path: Pfad
+
+# Formularlabels
+jboehm.lampcp.corebundle.admintype.email: E-Mailadresse
+jboehm.lampcp.corebundle.admintype.password: Passwort
+
+jboehm.lampcp.corebundle.domaintype.domain: Domain
+jboehm.lampcp.corebundle.domaintype.hasWeb: Website aktivieren
+jboehm.lampcp.corebundle.domaintype.hasMail: E-Mail aktivieren
+jboehm.lampcp.corebundle.domaintype.hasSSH: SSH aktivieren
+jboehm.lampcp.corebundle.domaintype.path: Pfad
+
+jboehm.lampcp.corebundle.subdomaintype.subdomain: Subdomain
+jboehm.lampcp.corebundle.subdomaintype.path: Pfad
+
+jboehm.lampcp.corebundle.mailaccounttype.username: Benutzername
+jboehm.lampcp.corebundle.mailaccounttype.password: Passwort
+jboehm.lampcp.corebundle.mailaccounttype.quota: Speicherplatz
+jboehm.lampcp.corebundle.mailaccounttype.hasPop3: POP3 aktivieren
+jboehm.lampcp.corebundle.mailaccounttype.hasImap4: IMAP4 aktivieren
+jboehm.lampcp.corebundle.mailaccounttype.hasSmtp: SMTP aktivieren
+jboehm.lampcp.corebundle.mailaccounttype.enabled: Konto aktivieren
+
+jboehm.lampcp.corebundle.mysqldatabasetype.name: Datenbankname
+jboehm.lampcp.corebundle.mysqldatabasetype.comment: Kommentar
+jboehm.lampcp.corebundle.mysqldatabasetype.password: Passwort
+
+jboehm.lampcp.corebundle.pathoptiontype.path: Pfad
+jboehm.lampcp.corebundle.pathoptiontype.hasDirectoryListing: Verzeichnisindex aktivieren
+jboehm.lampcp.corebundle.pathoptiontype.error404: 404-Fehlerseite
+jboehm.lampcp.corebundle.pathoptiontype.error403: 403-Fehlerseite
+jboehm.lampcp.corebundle.pathoptiontype.error500: 500-Fehlerseite
+
+jboehm.lampcp.corebundle.protectiontype.path: Pfad
+jboehm.lampcp.corebundle.protectiontype.realm: Name
+jboehm.lampcp.corebundle.protectiontype.username: Benutzername
+jboehm.lampcp.corebundle.protectiontype.password: Passwort
