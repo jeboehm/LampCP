@@ -25,8 +25,8 @@
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('config_subdomain_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.subdomain }}</td>
-                <td>{{ entity.path }}</td>
+                <td>{{ entity.subdomain }}<em>.{{ entity.domain.domain }}</em></td>
+                <td>{{ entity.fullpath }}</td>
                 <td>
                     <ul>
                         <li>

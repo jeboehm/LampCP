@@ -121,4 +121,22 @@ class Subdomain {
 	public function getPath() {
 		return $this->path;
 	}
+
+	/**
+	 * Get full domain (subdomain.domain.tld)
+	 *
+	 * @return string
+	 */
+	public function getFullDomain() {
+		return $this->getSubdomain() . '.' . $this->getDomain()->getDomain();
+	}
+
+	/**
+	 * Get full path
+	 *
+	 * @return string
+	 */
+	public function getFullPath() {
+		return $this->getDomain()->getPath() . '/' . $this->getPath();
+	}
 }
