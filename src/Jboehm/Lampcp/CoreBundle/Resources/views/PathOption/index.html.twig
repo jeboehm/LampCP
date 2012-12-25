@@ -1,18 +1,18 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>PathOption list</h1>
+    <h1>{{ "title.page.pathoption"|trans() }}</h1>
 
     <table class="records_list">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Path</th>
-            <th>Hasdirectorylisting</th>
-            <th>Error404</th>
-            <th>Error403</th>
-            <th>Error500</th>
-            <th>Actions</th>
+            <th>{{ "all.column.id"|trans() }}</th>
+            <th>{{ "pathoption.column.path"|trans() }}</th>
+            <th>{{ "pathoption.column.hasdirectorylisting"|trans() }}</th>
+            <th>{{ "pathoption.column.error404"|trans() }}</th>
+            <th>{{ "pathoption.column.error403"|trans() }}</th>
+            <th>{{ "pathoption.column.error500"|trans() }}</th>
+            <th>{{ "all.column.actions"|trans() }}</th>
         </tr>
         </thead>
         <tbody>
@@ -27,10 +27,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('config_pathoption_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('config_pathoption_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('config_pathoption_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('config_pathoption_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
                         </li>
                     </ul>
                 </td>
@@ -42,7 +42,7 @@
     <ul>
         <li>
             <a href="{{ path('config_pathoption_new') }}">
-                Create a new entry
+                {{ "button.create"|trans() }}
             </a>
         </li>
     </ul>

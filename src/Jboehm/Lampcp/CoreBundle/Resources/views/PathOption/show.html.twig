@@ -1,32 +1,32 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>PathOption</h1>
+    <h1>{{ "show.page.pathoption"|trans() }}</h1>
 
     <table class="record_properties">
         <tbody>
         <tr>
-            <th>Id</th>
+            <th>{{ "all.column.id"|trans() }}</th>
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Path</th>
+            <th>{{ "pathoption.column.path"|trans() }}</th>
             <td>{{ entity.path }}</td>
         </tr>
         <tr>
-            <th>Hasdirectorylisting</th>
+            <th>{{ "pathoption.column.hasdirectorylisting"|trans() }}</th>
             <td>{{ entity.hasDirectoryListing }}</td>
         </tr>
         <tr>
-            <th>Error404</th>
+            <th>{{ "pathoption.column.error404"|trans() }}</th>
             <td>{{ entity.error404 }}</td>
         </tr>
         <tr>
-            <th>Error403</th>
+            <th>{{ "pathoption.column.error403"|trans() }}</th>
             <td>{{ entity.error403 }}</td>
         </tr>
         <tr>
-            <th>Error500</th>
+            <th>{{ "pathoption.column.error500"|trans() }}</th>
             <td>{{ entity.error500 }}</td>
         </tr>
         </tbody>
@@ -35,18 +35,18 @@
     <ul class="record_actions">
         <li>
             <a href="{{ path('config_pathoption') }}">
-                Back to the list
+                {{ "button.back"|trans() }}
             </a>
         </li>
         <li>
             <a href="{{ path('config_pathoption_edit', { 'id': entity.id }) }}">
-                Edit
+                {{ "button.edit"|trans() }}
             </a>
         </li>
         <li>
             <form action="{{ path('config_pathoption_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button type="submit">Delete</button>
+                <button type="submit">{{ "button.delete"|trans() }}</button>
             </form>
         </li>
     </ul>
