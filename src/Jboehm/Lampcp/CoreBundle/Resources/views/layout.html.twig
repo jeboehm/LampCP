@@ -17,7 +17,7 @@
     {{ parent() }}
 
     {% stylesheets 'bundles/jboehmlampcpcore/bootstrap/css/bootstrap.min.css' %}
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" xmlns="http://www.w3.org/1999/html"/>
     {% endstylesheets %}
 
     {% stylesheets 'bundles/jboehmlampcpcore/css/main.css' filter='cssrewrite,?yui_css' %}
@@ -42,16 +42,14 @@
     {% block navigation %}
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
-                <ul class="pull-right">
-                    <!-- TODO Invalide -->
-                    <div class="btn-group">
-                        {% block domainselector %}
-                        {% endblock %}
-                    </div>
+                <ul class="nav pull-right">
+                    {% if selecteddomain is defined and selecteddomain is not null %}
+                        <li><a href="{{ path('default') }}">{{ selecteddomain.domain }}</a></li>
+                    {% endif %}
                 </ul>
 
                 <ul id="topnav" class="nav">
-                    <li><a href="{{ path('status') }}">{{ "title.page.default"|trans() }}</a></li>
+                    <li><a href="{{ path('default') }}">{{ "title.page.default"|trans() }}</a></li>
                     <li><a href="{{ path('config_admin') }}">{{ "title.page.admin"|trans() }}</a></li>
                     <li><a href="{{ path('config_domain') }}">{{ "title.page.domain"|trans() }}</a></li>
 

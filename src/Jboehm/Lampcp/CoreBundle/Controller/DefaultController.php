@@ -24,7 +24,7 @@ class DefaultController extends BaseController {
 	/**
 	 * Shows status page.
 	 *
-	 * @Route("/", name="status")
+	 * @Route("/", name="default")
 	 * @Template()
 	 * @return array
 	 */

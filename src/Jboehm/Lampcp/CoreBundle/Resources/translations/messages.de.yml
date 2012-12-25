@@ -56,6 +56,7 @@ all.column.actions: Aktionen
 all.column.id: ID
 
 default.domainselector.select: Domain wählen..
+default.headline.select.domain: Domain verwalten
 
 admin.column.email: E-Mailadresse
 admin.column.lastseen: Zuletzt gesehen
