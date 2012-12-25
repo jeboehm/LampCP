@@ -1,26 +1,26 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>Subdomain edit</h1>
+    <h1>{{ "edit.page.subdomain"|trans() }}</h1>
 
     <form action="{{ path('config_subdomain_update', { 'id': entity.id }) }}"
           method="post" {{ form_enctype(edit_form) }}>
         {{ form_widget(edit_form) }}
         <p>
-            <button type="submit">Edit</button>
+            <button type="submit">{{ "button.edit"|trans() }}</button>
         </p>
     </form>
 
     <ul class="record_actions">
         <li>
             <a href="{{ path('config_subdomain') }}">
-                Back to the list
+                {{ "button.back"|trans() }}
             </a>
         </li>
         <li>
             <form action="{{ path('config_subdomain_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button type="submit">Delete</button>
+                <button type="submit">{{ "button.delete"|trans() }}</button>
             </form>
         </li>
     </ul>

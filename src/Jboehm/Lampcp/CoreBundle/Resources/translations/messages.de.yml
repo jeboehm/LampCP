@@ -83,3 +83,6 @@ protection.column.path: Pfad
 protection.column.realm: Name
 protection.column.username: Benutzername
 protection.column.password: Passwort
+
+subdomain.column.subdomain: Subdomain
+subdomain.column.path: Pfad
