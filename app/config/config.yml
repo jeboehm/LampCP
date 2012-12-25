@@ -21,9 +21,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-#    form:
-#        resources:
-#            - '::label.html.twig'
+    form:
+        resources:
+            - 'JboehmLampcpCoreBundle::label.html.twig'
     globals:
         env:          "%kernel.environment%"
 
