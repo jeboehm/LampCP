@@ -1,4 +1,3 @@
-<?php
 /**
  * LampCP
  * https://github.com/jeboehm/LampCP
@@ -8,10 +7,6 @@
  *
  */
 
-namespace Jboehm\Lampcp\CoreBundle;
+$(document).ready(function () {
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class JboehmLampcpCoreBundle extends Bundle
-{
-}
+});

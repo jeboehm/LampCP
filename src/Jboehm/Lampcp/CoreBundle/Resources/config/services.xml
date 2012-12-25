@@ -1,5 +1,16 @@
 <?xml version="1.0" ?>
 
+<!--
+
+LampCP
+https://github.com/jeboehm/LampCP
+
+Licensed under the GPL Version 2 license
+http://www.gnu.org/licenses/gpl-2.0.txt
+
+-->
+
+
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
