@@ -1,24 +1,24 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>MysqlDatabase</h1>
+    <h1>{{ "show.page.mysqldatabase"|trans() }}</h1>
 
     <table class="record_properties">
         <tbody>
         <tr>
-            <th>Id</th>
+            <th>{{ "all.column.id"|trans() }}</th>
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Name</th>
+            <th>{{ "mysqldatabase.column.name"|trans() }}</th>
             <td>{{ entity.name }}</td>
         </tr>
         <tr>
-            <th>Comment</th>
+            <th>{{ "mysqldatabase.column.comment"|trans() }}</th>
             <td>{{ entity.comment }}</td>
         </tr>
         <tr>
-            <th>Password</th>
+            <th>{{ "mysqldatabase.column.password"|trans() }}</th>
             <td>{{ entity.password }}</td>
         </tr>
         </tbody>
@@ -27,18 +27,18 @@
     <ul class="record_actions">
         <li>
             <a href="{{ path('config_mysqldatabase') }}">
-                Back to the list
+                {{ "button.back"|trans() }}
             </a>
         </li>
         <li>
             <a href="{{ path('config_mysqldatabase_edit', { 'id': entity.id }) }}">
-                Edit
+                {{ "button.edit"|trans() }}
             </a>
         </li>
         <li>
             <form action="{{ path('config_mysqldatabase_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button type="submit">Delete</button>
+                <button type="submit">{{ "button.delete"|trans() }}</button>
             </form>
         </li>
     </ul>

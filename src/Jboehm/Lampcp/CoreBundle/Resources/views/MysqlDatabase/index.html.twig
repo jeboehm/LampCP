@@ -1,16 +1,16 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>MysqlDatabase list</h1>
+    <h1>{{ "title.page.mysqldatabase"|trans() }}</h1>
 
     <table class="records_list">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Comment</th>
-            <th>Password</th>
-            <th>Actions</th>
+            <th>{{ "all.column.id"|trans() }}</th>
+            <th>{{ "mysqldatabase.column.name"|trans() }}</th>
+            <th>{{ "mysqldatabase.column.comment"|trans() }}</th>
+            <th>{{ "mysqldatabase.column.password"|trans() }}</th>
+            <th>{{ "all.column.actions"|trans() }}</th>
         </tr>
         </thead>
         <tbody>
@@ -23,10 +23,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('config_mysqldatabase_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('config_mysqldatabase_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('config_mysqldatabase_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('config_mysqldatabase_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
                         </li>
                     </ul>
                 </td>
@@ -38,7 +38,7 @@
     <ul>
         <li>
             <a href="{{ path('config_mysqldatabase_new') }}">
-                Create a new entry
+                {{ "button.create"|trans() }}
             </a>
         </li>
     </ul>

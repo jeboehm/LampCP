@@ -68,3 +68,7 @@ mailaccount.button.addresses: E-Mailadressen
 
 mailaddress.column.address: E-Mailadresse
 mailaddress.column.hascatchall: Catch All
+
+mysqldatabase.column.name: Name
+mysqldatabase.column.comment: Kommentar
+mysqldatabase.column.password: Passwort
