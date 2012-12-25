@@ -21,7 +21,7 @@ monolog:
 
 assetic:
     use_controller: true
-    java:           "C:/Program Files/Java/jre6/bin/java.exe"
+    java:           "/usr/bin/java"
 
 #swiftmailer:
 #    delivery_address: me@example.com
