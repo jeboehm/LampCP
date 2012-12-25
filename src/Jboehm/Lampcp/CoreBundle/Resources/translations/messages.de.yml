@@ -1,4 +1,5 @@
 title.head: LampCP
+title.page.default: Status
 title.page.admin: Administratoren
 title.page.default: Startseite
 title.page.domain: Domains
@@ -44,6 +45,8 @@ button.show: Anzeigen
 
 all.column.actions: Aktionen
 all.column.id: ID
+
+default.domainselector.select: Domain wählen..
 
 admin.column.email: E-Mailadresse
 admin.column.lastseen: Zuletzt gesehen

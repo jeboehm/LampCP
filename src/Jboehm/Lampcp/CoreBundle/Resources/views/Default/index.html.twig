@@ -1,13 +1,13 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>Status</h1>
+    <h1>{{ "title.page.default"|trans() }}</h1>
 {% endblock %}
 
 {% block domainselector %}
     <form method="POST" action="{{ path('set_domain') }}">
         <select name="domainselector">
-            <option value="0">Domain verwalten...</option>
+            <option value="0">{{ "default.domainselector.select"|trans() }}</option>
 
             {% for domain in domainlist %}
                 <option value="{{ domain.id }}">{{ domain.domain }}</option>
