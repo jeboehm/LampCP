@@ -1,9 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block title %}
-    {% spaceless %}
-        {{ "title.head"|trans() }}
-    {% endspaceless %}
+    {% spaceless %}{{ "title.head"|trans() }}{% endspaceless %}
 {% endblock %}
 
 {% block stylesheets %}
