@@ -1,24 +1,24 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>Protection</h1>
+    <h1>{{ "show.page.protection"|trans() }}</h1>
 
     <table class="record_properties">
         <tbody>
         <tr>
-            <th>Id</th>
+            <th>{{ "all.column.id"|trans() }}</th>
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Path</th>
+            <th>{{ "protection.column.path"|trans() }}</th>
             <td>{{ entity.path }}</td>
         </tr>
         <tr>
-            <th>Realm</th>
+            <th>{{ "protection.column.realm"|trans() }}</th>
             <td>{{ entity.realm }}</td>
         </tr>
         <tr>
-            <th>Username</th>
+            <th>{{ "protection.column.username"|trans() }}</th>
             <td>{{ entity.username }}</td>
         </tr>
         </tbody>
@@ -27,18 +27,18 @@
     <ul class="record_actions">
         <li>
             <a href="{{ path('config_protection') }}">
-                Back to the list
+                {{ "button.back"|trans() }}
             </a>
         </li>
         <li>
             <a href="{{ path('config_protection_edit', { 'id': entity.id }) }}">
-                Edit
+                {{ "button.edit"|trans() }}
             </a>
         </li>
         <li>
             <form action="{{ path('config_protection_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button type="submit">Delete</button>
+                <button type="submit">{{ "button.delete"|trans() }}</button>
             </form>
         </li>
     </ul>

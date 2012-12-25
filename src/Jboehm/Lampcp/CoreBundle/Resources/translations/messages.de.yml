@@ -78,3 +78,8 @@ pathoption.column.hasdirectorylisting: Kommentar
 pathoption.column.error404: Fehler-404
 pathoption.column.error403: Fehler-403
 pathoption.column.error500: Fehler-500
+
+protection.column.path: Pfad
+protection.column.realm: Name
+protection.column.username: Benutzername
+protection.column.password: Passwort
