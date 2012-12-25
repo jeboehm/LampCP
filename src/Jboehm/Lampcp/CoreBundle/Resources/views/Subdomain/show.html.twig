@@ -20,11 +20,11 @@
         </tr>
         <tr>
             <th>{{ "subdomain.column.subdomain"|trans() }}</th>
-            <td>{{ entity.subdomain }}</td>
+            <td>{{ entity.subdomain }}<em>.{{ entity.domain.domain }}</em></td>
         </tr>
         <tr>
             <th>{{ "subdomain.column.path"|trans() }}</th>
-            <td>{{ entity.path }}</td>
+            <td>{{ entity.fullpath }}</td>
         </tr>
         </tbody>
     </table>
