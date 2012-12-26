@@ -18,8 +18,13 @@ class ProtectionType extends AbstractType {
 		$builder
 			->add('path')
 			->add('realm')
-			->add('username')
-			->add('password', null, array('required' => false));
+			->add('username');
+
+		if($this->_getIsEditMode()) {
+			$builder->add('password', null, array('required' => false));
+		} else {
+			$builder->add('password', null, array('required' => true));
+		}
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

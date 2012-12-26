@@ -129,7 +129,7 @@ class ProtectionController extends BaseController {
 
 		$entity->setPassword('');
 
-		$editForm   = $this->createForm(new ProtectionType(), $entity);
+		$editForm   = $this->createForm(new ProtectionType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
 		return array(
@@ -160,7 +160,7 @@ class ProtectionController extends BaseController {
 		$oldPassword = $entity->getPassword();
 
 		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new ProtectionType(), $entity);
+		$editForm   = $this->createForm(new ProtectionType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
