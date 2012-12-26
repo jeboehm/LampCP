@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class PathOptionType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('path')
+			->add('path', null, array('required' => false))
 			->add('hasDirectoryListing', null, array('required' => false))
 			->add('error404', null, array('required' => false))
 			->add('error403', null, array('required' => false))

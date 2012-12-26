@@ -13,12 +13,14 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * PathOption
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity(fields = {"path", "domain"})
  */
 class PathOption {
 	/**
@@ -39,7 +41,6 @@ class PathOption {
 
 	/**
 	 * @var string
-	 * @Assert\NotBlank()
 	 * @ORM\Column(name="path", type="string", length=255)
 	 */
 	private $path;
@@ -82,6 +83,7 @@ class PathOption {
 		$this->error403            = '';
 		$this->error404            = '';
 		$this->error500            = '';
+		$this->path                = '';
 		$this->domain              = $domain;
 	}
 
@@ -111,7 +113,7 @@ class PathOption {
 	 * @return PathOption
 	 */
 	public function setPath($path) {
-		$this->path = $path;
+		$this->path = strval($path);
 
 		return $this;
 	}
@@ -148,28 +150,6 @@ class PathOption {
 	}
 
 	/**
-	 * Set page404
-	 *
-	 * @param string $page404
-	 *
-	 * @return PathOption
-	 */
-	public function setPage404($page404) {
-		$this->page404 = $page404;
-
-		return $this;
-	}
-
-	/**
-	 * Get page404
-	 *
-	 * @return string
-	 */
-	public function getPage404() {
-		return $this->page404;
-	}
-
-	/**
 	 * Set error404
 	 *
 	 * @param string $error404
@@ -177,7 +157,7 @@ class PathOption {
 	 * @return PathOption
 	 */
 	public function setError404($error404) {
-		$this->error404 = $error404;
+		$this->error404 = strval($error404);
 
 		return $this;
 	}
@@ -199,7 +179,7 @@ class PathOption {
 	 * @return PathOption
 	 */
 	public function setError403($error403) {
-		$this->error403 = $error403;
+		$this->error403 = strval($error403);
 
 		return $this;
 	}
@@ -221,7 +201,7 @@ class PathOption {
 	 * @return PathOption
 	 */
 	public function setError500($error500) {
-		$this->error500 = $error500;
+		$this->error500 = strval($error500);
 
 		return $this;
 	}

@@ -13,12 +13,14 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Protection
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity(fields = {"username", "domain"})
  */
 class Protection {
 	/**
@@ -39,7 +41,6 @@ class Protection {
 
 	/**
 	 * @var string
-	 * @Assert\NotBlank()
 	 * @ORM\Column(name="path", type="string", length=255)
 	 */
 	private $path;
@@ -71,6 +72,7 @@ class Protection {
 	 */
 	public function __construct(Domain $domain) {
 		$this->domain = $domain;
+		$this->path   = '';
 	}
 
 	/**
@@ -99,7 +101,7 @@ class Protection {
 	 * @return Protection
 	 */
 	public function setPath($path) {
-		$this->path = $path;
+		$this->path = strval($path);
 
 		return $this;
 	}

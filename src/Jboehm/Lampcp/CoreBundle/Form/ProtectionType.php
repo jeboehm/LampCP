@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ProtectionType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('path')
+			->add('path', null, array('required' => false))
 			->add('realm')
 			->add('username');
 

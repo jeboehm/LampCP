@@ -48,7 +48,6 @@ class Subdomain {
 
 	/**
 	 * @var string
-	 * @Assert\NotBlank()
 	 * @ORM\Column(name="path", type="string", length=255)
 	 */
 	private $path;
@@ -69,6 +68,7 @@ class Subdomain {
 	 */
 	public function __construct(Domain $domain) {
 		$this->domain = $domain;
+		$this->path   = '';
 	}
 
 	/**
@@ -110,7 +110,7 @@ class Subdomain {
 	 * @return Subdomain
 	 */
 	public function setPath($path) {
-		$this->path = $path;
+		$this->path = strval($path);
 
 		return $this;
 	}
