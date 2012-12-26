@@ -139,6 +139,12 @@ class Subdomain {
 	 * @return string
 	 */
 	public function getFullPath() {
-		return $this->getDomain()->getPath() . '/' . $this->getPath();
+		$path = $this->getDomain()->getPath();
+
+		if(!empty($this->path)) {
+			$path .= '/' . $this->getPath();
+		}
+
+		return $path;
 	}
 }

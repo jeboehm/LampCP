@@ -191,4 +191,19 @@ class Protection {
 	public function cryptPassword($password) {
 		return crypt($password, base64_encode($password));
 	}
+
+	/**
+	 * Get full path
+	 *
+	 * @return string
+	 */
+	public function getFullPath() {
+		$path = $this->getDomain()->getPath();
+
+		if(!empty($this->path)) {
+			$path .= '/' . $this->getPath();
+		}
+
+		return $path;
+	}
 }

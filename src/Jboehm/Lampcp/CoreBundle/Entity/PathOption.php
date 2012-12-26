@@ -214,4 +214,19 @@ class PathOption {
 	public function getError500() {
 		return $this->error500;
 	}
+
+	/**
+	 * Get full path
+	 *
+	 * @return string
+	 */
+	public function getFullPath() {
+		$path = $this->getDomain()->getPath();
+
+		if(!empty($this->path)) {
+			$path .= '/' . $this->getPath();
+		}
+
+		return $path;
+	}
 }
