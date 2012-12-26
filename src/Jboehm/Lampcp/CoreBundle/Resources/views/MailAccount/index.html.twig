@@ -17,7 +17,6 @@
         <tr>
             <th>{{ "all.column.id"|trans() }}</th>
             <th>{{ "mailaccount.column.username"|trans() }}</th>
-            <th>{{ "mailaccount.column.password"|trans() }}</th>
             <th>{{ "mailaccount.column.uid"|trans() }}</th>
             <th>{{ "mailaccount.column.quota"|trans() }}</th>
             <th>{{ "mailaccount.column.haspop3"|trans() }}</th>
@@ -32,7 +31,6 @@
             <tr>
                 <td><a href="{{ path('config_mailaccount_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.username }}</td>
-                <td>{{ entity.password }}</td>
                 <td>{{ entity.uid }}</td>
                 <td>{{ entity.quota }}</td>
                 <td>{{ entity.hasPop3 }}</td>
