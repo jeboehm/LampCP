@@ -22,3 +22,11 @@ th, td {
     vertical-align: top;
     padding-right: 10px;
 }
+
+tbody > tr > td {
+    padding-bottom: 10px;
+}
+
+tbody > tr:hover {
+    background-color: #ccc;
+}
