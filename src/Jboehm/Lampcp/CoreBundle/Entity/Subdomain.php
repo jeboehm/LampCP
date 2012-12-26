@@ -13,12 +13,14 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Subdomain
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity(fields = {"subdomain", "domain"})
  */
 class Subdomain {
 	/**
