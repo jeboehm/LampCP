@@ -15,7 +15,7 @@
     <form action="{{ path('config_admin_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <p>
-            <button type="submit">{{ "button.create"|trans() }}</button>
+            <button class="btn btn-primary" type="submit">{{ "button.create"|trans() }}</button>
         </p>
     </form>
 

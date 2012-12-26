@@ -35,19 +35,19 @@
 
     <ul class="record_actions">
         <li>
-            <a href="{{ path('config_protection') }}">
+            <a class="btn" href="{{ path('config_protection') }}">
                 {{ "button.back"|trans() }}
             </a>
         </li>
         <li>
-            <a href="{{ path('config_protection_edit', { 'id': entity.id }) }}">
+            <a class="btn" href="{{ path('config_protection_edit', { 'id': entity.id }) }}">
                 {{ "button.edit"|trans() }}
             </a>
         </li>
         <li>
             <form action="{{ path('config_protection_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button type="submit">{{ "button.delete"|trans() }}</button>
+                <button class="btn btn-danger" type="submit">{{ "button.delete"|trans() }}</button>
             </form>
         </li>
     </ul>
