@@ -125,7 +125,9 @@ class MysqlDatabaseController extends BaseController {
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
 		}
 
-		$editForm   = $this->createForm(new MysqlDatabaseType(), $entity);
+		$entity->setPassword('');
+
+		$editForm   = $this->createForm(new MysqlDatabaseType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
 		return array(
@@ -153,11 +155,19 @@ class MysqlDatabaseController extends BaseController {
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
 		}
 
+		$oldPassword = $entity->getPassword();
+
 		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new MysqlDatabaseType(), $entity);
+		$editForm   = $this->createForm(new MysqlDatabaseType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			if(!$entity->getPassword()) {
+				$entity->setPassword($oldPassword);
+			} else {
+				$entity->setPassword($entity->getPassword());
+			}
+
 			$em->persist($entity);
 			$em->flush();
 

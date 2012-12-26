@@ -17,8 +17,13 @@ class MysqlDatabaseType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('name')
-			->add('comment')
-			->add('password');
+			->add('comment');
+
+		if($this->_getIsEditMode()) {
+			$builder->add('password', null, array('required' => false));
+		} else {
+			$builder->add('password', null, array('required' => true));
+		}
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
