@@ -63,7 +63,7 @@ mailaccount.button.addresses: E-Mailadressen
 
 # Tabellenspalten / Attribute
 all.column.actions: Aktionen
-all.column.id: ID
+all.column.id: Nr.
 
 admin.column.email: E-Mailadresse
 admin.column.lastseen: Zuletzt gesehen
