@@ -17,9 +17,6 @@ class DomainType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('domain')
-			->add('hasWeb', null, array('required' => false))
-			->add('hasMail', null, array('required' => false))
-			->add('hasSSH', null, array('required' => false))
 			->add('path');
 	}
 

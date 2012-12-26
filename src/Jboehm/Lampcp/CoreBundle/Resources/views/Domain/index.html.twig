@@ -17,9 +17,6 @@
         <tr>
             <th>{{ "all.column.id"|trans() }}</th>
             <th>{{ "domain.column.domain"|trans() }}</th>
-            <th>{{ "domain.column.hasweb"|trans() }}</th>
-            <th>{{ "domain.column.hasmail"|trans() }}</th>
-            <th>{{ "domain.column.hasssh"|trans() }}</th>
             <th>{{ "domain.column.path"|trans() }}</th>
             <th>{{ "all.column.actions"|trans() }}</th>
         </tr>
@@ -29,9 +26,6 @@
             <tr>
                 <td><a href="{{ path('config_domain_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.domain }}</td>
-                <td>{{ entity.hasWeb }}</td>
-                <td>{{ entity.hasMail }}</td>
-                <td>{{ entity.hasSSH }}</td>
                 <td>{{ entity.path }}</td>
                 <td>
                     <ul>

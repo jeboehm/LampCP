@@ -28,10 +28,7 @@ class LoadDomain2Data implements FixtureInterface {
 		$domain = new Domain();
 		$domain
 			->setDomain('uh.cx')
-			->setPath('/var/www/uh.cx')
-			->setHasMail(false)
-			->setHasSSH(true)
-			->setHasWeb(true);
+			->setPath('/var/www/uh.cx');
 
 		$manager->persist($domain);
 

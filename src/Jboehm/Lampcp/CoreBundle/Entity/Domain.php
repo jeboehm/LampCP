@@ -12,12 +12,14 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Domain
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity("domain")
  */
 class Domain {
 	/**
@@ -37,27 +39,6 @@ class Domain {
 	private $domain;
 
 	/**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="hasWeb", type="boolean")
-	 */
-	private $hasWeb;
-
-	/**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="hasMail", type="boolean")
-	 */
-	private $hasMail;
-
-	/**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="hasSSH", type="boolean")
-	 */
-	private $hasSSH;
-
-	/**
 	 * @var string
 	 * @Assert\NotBlank()
 	 * @ORM\Column(name="path", type="string", length=255)
@@ -68,9 +49,7 @@ class Domain {
 	 * Konstruktor
 	 */
 	public function __construct() {
-		$this->hasSSH  = false;
-		$this->hasMail = false;
-		$this->hasWeb  = false;
+
 	}
 
 	/**
@@ -102,72 +81,6 @@ class Domain {
 	 */
 	public function getDomain() {
 		return $this->domain;
-	}
-
-	/**
-	 * Set hasWeb
-	 *
-	 * @param boolean $hasWeb
-	 *
-	 * @return Domain
-	 */
-	public function setHasWeb($hasWeb) {
-		$this->hasWeb = $hasWeb;
-
-		return $this;
-	}
-
-	/**
-	 * Get hasWeb
-	 *
-	 * @return boolean
-	 */
-	public function getHasWeb() {
-		return $this->hasWeb;
-	}
-
-	/**
-	 * Set hasMail
-	 *
-	 * @param boolean $hasMail
-	 *
-	 * @return Domain
-	 */
-	public function setHasMail($hasMail) {
-		$this->hasMail = $hasMail;
-
-		return $this;
-	}
-
-	/**
-	 * Get hasMail
-	 *
-	 * @return boolean
-	 */
-	public function getHasMail() {
-		return $this->hasMail;
-	}
-
-	/**
-	 * Set hasSSH
-	 *
-	 * @param boolean $hasSSH
-	 *
-	 * @return Domain
-	 */
-	public function setHasSSH($hasSSH) {
-		$this->hasSSH = $hasSSH;
-
-		return $this;
-	}
-
-	/**
-	 * Get hasSSH
-	 *
-	 * @return boolean
-	 */
-	public function getHasSSH() {
-		return $this->hasSSH;
 	}
 
 	/**
