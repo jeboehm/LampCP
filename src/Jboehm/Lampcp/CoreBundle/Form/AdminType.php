@@ -10,25 +10,15 @@
 
 namespace Jboehm\Lampcp\CoreBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class AdminType extends AbstractType {
-	protected $_isEditMode = false;
-
-	/**
-	 * @param bool $edit
-	 */
-	public function __construct($edit = false) {
-		$this->_isEditMode = $edit;
-	}
-
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('email');
 
-		if($this->_isEditMode) {
+		if($this->_getIsEditMode()) {
 			$builder->add('password', null, array('required' => false));
 		} else {
 			$builder->add('password', null, array('required' => true));
