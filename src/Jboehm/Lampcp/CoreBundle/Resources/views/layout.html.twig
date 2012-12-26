@@ -40,39 +40,45 @@
 
 {% block body %}
     {% block navigation %}
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <ul class="nav pull-right">
-                    {% if selecteddomain is defined and selecteddomain is not null %}
-                        <li><a href="{{ path('default') }}">{{ selecteddomain.domain }}</a></li>
-                    {% endif %}
-                </ul>
+        <nav>
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <ul class="nav pull-right">
+                        {% if selecteddomain is defined and selecteddomain is not null %}
+                            <li><a href="{{ path('default') }}">{{ selecteddomain.domain }}</a></li>
+                        {% endif %}
+                    </ul>
 
-                <ul id="topnav" class="nav">
-                    <li><a href="{{ path('default') }}">{{ "title.page.default"|trans() }}</a></li>
-                    <li><a href="{{ path('config_admin') }}">{{ "title.page.admin"|trans() }}</a></li>
-                    <li><a href="{{ path('config_domain') }}">{{ "title.page.domain"|trans() }}</a></li>
+                    <ul id="topnav" class="nav">
+                        <li><a href="{{ path('default') }}">{{ "title.page.default"|trans() }}</a></li>
+                        <li><a href="{{ path('config_admin') }}">{{ "title.page.admin"|trans() }}</a></li>
+                        <li><a href="{{ path('config_domain') }}">{{ "title.page.domain"|trans() }}</a></li>
 
-                    {% if selecteddomain is defined and selecteddomain is not null %}
-                        <li class="divider-vertical"></li>
-                        <li><a href="{{ path('config_subdomain') }}">{{ "title.page.subdomain"|trans() }}</a></li>
-                        <li><a href="{{ path('config_mailaccount') }}">{{ "title.page.mailaccount"|trans() }}</a></li>
-                        <li><a href="{{ path('config_mysqldatabase') }}">{{ "title.page.mysqldatabase"|trans() }}</a>
-                        </li>
-                        <li><a href="{{ path('config_pathoption') }}">{{ "title.page.pathoption"|trans() }}</a></li>
-                        <li><a href="{{ path('config_protection') }}">{{ "title.page.protection"|trans() }}</a></li>
-                    {% endif %}
-                </ul>
+                        {% if selecteddomain is defined and selecteddomain is not null %}
+                            <li class="divider-vertical"></li>
+                            <li><a href="{{ path('config_subdomain') }}">{{ "title.page.subdomain"|trans() }}</a></li>
+                            <li><a href="{{ path('config_mailaccount') }}">{{ "title.page.mailaccount"|trans() }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('config_mysqldatabase') }}">{{ "title.page.mysqldatabase"|trans() }}</a>
+                            </li>
+                            <li><a href="{{ path('config_pathoption') }}">{{ "title.page.pathoption"|trans() }}</a></li>
+                            <li><a href="{{ path('config_protection') }}">{{ "title.page.protection"|trans() }}</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
-        </div>
+        </nav>
     {% endblock %}
 
     <div class="container">
-        <div class="content">
-            {% block content %}
-            {% endblock %}
-        </div>
-
+        <section>
+            <div class="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </section>
+        
         <footer>
             {% block footer %}
                 Powered by <a href="https://github.com/jeboehm/LampCP">LampCP</a>
