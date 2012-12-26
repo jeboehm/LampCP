@@ -106,7 +106,8 @@ subdomain.column.path: Pfad
 
 # Formularlabels
 jboehm.lampcp.corebundle.admintype.email: E-Mailadresse
-jboehm.lampcp.corebundle.admintype.password: Passwort
+jboehm.lampcp.corebundle.admintype.password.first: Passwort
+jboehm.lampcp.corebundle.admintype.password.second: Passwort wiederholen
 
 jboehm.lampcp.corebundle.domaintype.domain: Domain
 jboehm.lampcp.corebundle.domaintype.hasWeb: Website aktivieren
@@ -118,7 +119,8 @@ jboehm.lampcp.corebundle.subdomaintype.subdomain: Subdomain
 jboehm.lampcp.corebundle.subdomaintype.path: Pfad
 
 jboehm.lampcp.corebundle.mailaccounttype.username: Benutzername
-jboehm.lampcp.corebundle.mailaccounttype.password: Passwort
+jboehm.lampcp.corebundle.mailaccounttype.password.first: Passwort
+jboehm.lampcp.corebundle.mailaccounttype.password.second: Passwort wiederholen
 jboehm.lampcp.corebundle.mailaccounttype.quota: Speicherplatz
 jboehm.lampcp.corebundle.mailaccounttype.hasPop3: POP3 aktivieren
 jboehm.lampcp.corebundle.mailaccounttype.hasImap4: IMAP4 aktivieren
@@ -127,7 +129,8 @@ jboehm.lampcp.corebundle.mailaccounttype.enabled: Konto aktivieren
 
 jboehm.lampcp.corebundle.mysqldatabasetype.name: Datenbankname
 jboehm.lampcp.corebundle.mysqldatabasetype.comment: Kommentar
-jboehm.lampcp.corebundle.mysqldatabasetype.password: Passwort
+jboehm.lampcp.corebundle.mysqldatabasetype.password.first: Passwort
+jboehm.lampcp.corebundle.mysqldatabasetype.password.second: Passwort wiederholen
 
 jboehm.lampcp.corebundle.pathoptiontype.path: Pfad
 jboehm.lampcp.corebundle.pathoptiontype.hasDirectoryListing: Verzeichnisindex aktivieren
@@ -138,4 +141,5 @@ jboehm.lampcp.corebundle.pathoptiontype.error500: 500-Fehlerseite
 jboehm.lampcp.corebundle.protectiontype.path: Pfad
 jboehm.lampcp.corebundle.protectiontype.realm: Name
 jboehm.lampcp.corebundle.protectiontype.username: Benutzername
-jboehm.lampcp.corebundle.protectiontype.password: Passwort
+jboehm.lampcp.corebundle.protectiontype.password.first: Passwort
+jboehm.lampcp.corebundle.protectiontype.password.second: Passwort wiederholen

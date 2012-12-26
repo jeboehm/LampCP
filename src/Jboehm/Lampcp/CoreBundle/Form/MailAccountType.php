@@ -19,9 +19,15 @@ class MailAccountType extends AbstractType {
 			->add('username');
 
 		if($this->_isEditMode) {
-			$builder->add('password', 'password', array('required' => false));
+			$builder->add('password', 'repeated', array(
+													   'type'     => 'password',
+													   'required' => false,
+												  ));
 		} else {
-			$builder->add('password', 'password', array('required' => true));
+			$builder->add('password', 'repeated', array(
+													   'type'     => 'password',
+													   'required' => true,
+												  ));
 		}
 
 		$builder
