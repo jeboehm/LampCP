@@ -7,124 +7,18 @@
  *
  */
 
-html, body {
-    height: 100%;
-    background: #E3E9ED url('../img/body_bg.png');
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
 }
 
-.form-delacap input[type="checkbox"] {
-    padding: 0;
-    margin: 0 3px 0 0;
-}
-
-.nobr {
-    white-space: nowrap;
-}
-
-.nobr input {
-    display: inline;
-}
-
-.navbar-inner {
-    background: #353535 url('../img/navbar_bg.png') repeat-x bottom left;
-    height: 60px;
-}
-
-ul.pull-right, ol {
-    margin: 0 0 9px 0px;
-}
-
-.navbar .divider-vertical {
-    height: 60px;
-    margin: 0 0;
-}
-
-.navbar .btn, .navbar .btn-group {
-    margin-top: 15px;
-}
-
-.navbar .nav > li > a {
-    padding: 21px 6px 6px;
-    color: #D3D9DB;
-    text-shadow: 0 1px 0 #000000;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-size: 10px;
-}
-
-.navbar .nav {
-    position: relative;
-    left: 0;
-    display: block;
-    float: left;
-    margin: 0px 1px 0 0;
-}
-
-table {
-    background-color: #fff;
+.sidebar-nav {
+    padding: 9px 0;
 }
 
 th, td {
     min-width: 50px;
     text-align: left;
     vertical-align: top;
-    padding-right: 20px;
-}
-
-.content {
-    margin-top: 77px;
-    text-shadow: 0 1px 0 #FFF;
-}
-
-footer {
-    margin: 27px 0;
-    font-size: 11px;
-    text-shadow: 0 1px 0 #FFF;
-}
-
-.nav-pills .active > a, .nav-pills .active > a:hover {
-    text-shadow: 0 -1px 0 #003C5A;
-}
-
-form.nomargin {
-    padding: 0;
-    margin: 0;
-}
-
-/**
-* Sort Table
-*/
-th.hover {
-    background: #E1E2E5;
-    cursor: pointer;
-}
-
-span.sorter {
-    position: relative;
-    float: right;
-}
-
-th.multi > span > span.sorter {
-    float: none;
-}
-
-th.multi > span > span.sorter img {
-    background-position: 0 -48px;
-}
-
-span.sorter img {
-    background: transparent url('../img/sort.png') no-repeat top left;
-    margin: 0 4px 0 4px;
-    width: 16px;
-    height: 16px;
-}
-
-th.multi > span > span.sorter.asc img,
-span.sorter.asc img {
-    background-position: 0 -32px;
-}
-
-th.multi > span > span.sorter.desc img,
-span.sorter.desc img {
-    background-position: 0 -16px;
+    padding-right: 10px;
 }
