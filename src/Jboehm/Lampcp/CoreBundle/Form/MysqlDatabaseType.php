@@ -20,9 +20,9 @@ class MysqlDatabaseType extends AbstractType {
 			->add('comment');
 
 		if($this->_getIsEditMode()) {
-			$builder->add('password', null, array('required' => false));
+			$builder->add('password', 'password', array('required' => false));
 		} else {
-			$builder->add('password', null, array('required' => true));
+			$builder->add('password', 'password', array('required' => true));
 		}
 	}
 

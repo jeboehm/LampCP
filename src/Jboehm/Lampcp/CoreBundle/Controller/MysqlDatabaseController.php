@@ -125,8 +125,6 @@ class MysqlDatabaseController extends BaseController {
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
 		}
 
-		$entity->setPassword('');
-
 		$editForm   = $this->createForm(new MysqlDatabaseType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 

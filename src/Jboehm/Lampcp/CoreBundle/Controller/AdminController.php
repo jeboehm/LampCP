@@ -144,8 +144,6 @@ class AdminController extends BaseController {
 			throw $this->createNotFoundException('Unable to find Admin entity.');
 		}
 
-		$entity->setPassword('');
-
 		$editForm   = $this->createForm(new AdminType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 

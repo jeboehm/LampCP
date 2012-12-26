@@ -127,8 +127,6 @@ class ProtectionController extends BaseController {
 			throw $this->createNotFoundException('Unable to find Protection entity.');
 		}
 
-		$entity->setPassword('');
-
 		$editForm   = $this->createForm(new ProtectionType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 

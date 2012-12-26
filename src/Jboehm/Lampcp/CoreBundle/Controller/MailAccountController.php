@@ -125,8 +125,6 @@ class MailAccountController extends BaseController {
 			throw $this->createNotFoundException('Unable to find MailAccount entity.');
 		}
 
-		$entity->setPassword('');
-
 		$editForm   = $this->createForm(new MailAccountType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
