@@ -144,3 +144,6 @@ jboehm.lampcp.corebundle.protectiontype.realm: Name
 jboehm.lampcp.corebundle.protectiontype.username: Benutzername
 jboehm.lampcp.corebundle.protectiontype.password.first: Passwort
 jboehm.lampcp.corebundle.protectiontype.password.second: Passwort wiederholen
+
+jboehm.lampcp.corebundle.mailaddresstype.address: Adresse
+jboehm.lampcp.corebundle.mailaddresstype.hasCatchAll: Catch All
