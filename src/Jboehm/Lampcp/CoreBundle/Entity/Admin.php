@@ -13,12 +13,14 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Admin
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity("email")
  */
 class Admin implements UserInterface, \Serializable {
 	/**
