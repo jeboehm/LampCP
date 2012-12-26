@@ -52,13 +52,6 @@ class MailAccount {
 
 	/**
 	 * @var integer
-	 * @Assert\Min(limit = "10000")
-	 * @ORM\Column(name="uid", type="integer")
-	 */
-	private $uid;
-
-	/**
-	 * @var integer
 	 * @Assert\Min(limit = "1024")
 	 * @ORM\Column(name="quota", type="integer")
 	 */
@@ -163,28 +156,6 @@ class MailAccount {
 	 */
 	public function getPassword() {
 		return $this->password;
-	}
-
-	/**
-	 * Set uid
-	 *
-	 * @param integer $uid
-	 *
-	 * @return MailAccount
-	 */
-	public function setUid($uid) {
-		$this->uid = $uid;
-
-		return $this;
-	}
-
-	/**
-	 * Get uid
-	 *
-	 * @return integer
-	 */
-	public function getUid() {
-		return $this->uid;
 	}
 
 	/**

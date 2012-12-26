@@ -58,13 +58,6 @@ class Domain {
 	private $hasSSH;
 
 	/**
-	 * @var integer
-	 * @Assert\Min(limit = "10000")
-	 * @ORM\Column(name="gid", type="integer")
-	 */
-	private $gid;
-
-	/**
 	 * @var string
 	 * @Assert\NotBlank()
 	 * @ORM\Column(name="path", type="string", length=255)
@@ -175,28 +168,6 @@ class Domain {
 	 */
 	public function getHasSSH() {
 		return $this->hasSSH;
-	}
-
-	/**
-	 * Set gid
-	 *
-	 * @param integer $gid
-	 *
-	 * @return Domain
-	 */
-	public function setGid($gid) {
-		$this->gid = $gid;
-
-		return $this;
-	}
-
-	/**
-	 * Get gid
-	 *
-	 * @return integer
-	 */
-	public function getGid() {
-		return $this->gid;
 	}
 
 	/**
