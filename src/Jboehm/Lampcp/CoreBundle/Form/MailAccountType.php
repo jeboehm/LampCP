@@ -16,8 +16,15 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class MailAccountType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('username')
-			->add('password')
+			->add('username');
+
+		if($this->_isEditMode) {
+			$builder->add('password', null, array('required' => false));
+		} else {
+			$builder->add('password', null, array('required' => true));
+		}
+
+		$builder
 			->add('quota')
 			->add('hasPop3', null, array('required' => false))
 			->add('hasImap4', null, array('required' => false))

@@ -125,7 +125,9 @@ class MailAccountController extends BaseController {
 			throw $this->createNotFoundException('Unable to find MailAccount entity.');
 		}
 
-		$editForm   = $this->createForm(new MailAccountType(), $entity);
+		$entity->setPassword('');
+
+		$editForm   = $this->createForm(new MailAccountType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
 		return array(
@@ -153,11 +155,19 @@ class MailAccountController extends BaseController {
 			throw $this->createNotFoundException('Unable to find MailAccount entity.');
 		}
 
+		$oldPassword = $entity->getPassword();
+
 		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new MailAccountType(), $entity);
+		$editForm   = $this->createForm(new MailAccountType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			if(!$entity->getPassword()) {
+				$entity->setPassword($oldPassword);
+			} else {
+				$entity->setPassword($entity->getPassword());
+			}
+
 			$em->persist($entity);
 			$em->flush();
 
