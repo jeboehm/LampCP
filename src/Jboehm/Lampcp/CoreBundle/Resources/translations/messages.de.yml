@@ -78,6 +78,7 @@ jboehm.lampcp.corebundle.domaintype.customconfig: Benutzerdef. Konfiguration
 
 jboehm.lampcp.corebundle.subdomaintype.subdomain: Subdomain
 jboehm.lampcp.corebundle.subdomaintype.path: Pfad
+jboehm.lampcp.corebundle.subdomaintype.customconfig: Benutzerdef. Konfiguration
 
 jboehm.lampcp.corebundle.mailaccounttype.username: Benutzername
 jboehm.lampcp.corebundle.mailaccounttype.password.first: Passwort

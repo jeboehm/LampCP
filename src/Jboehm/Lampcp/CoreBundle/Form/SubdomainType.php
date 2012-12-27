@@ -17,7 +17,8 @@ class SubdomainType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('subdomain')
-			->add('path', null, array('required' => false));
+			->add('path', null, array('required' => false))
+			->add('customconfig', null, array('required' => false));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

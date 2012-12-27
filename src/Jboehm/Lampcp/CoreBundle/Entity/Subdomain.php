@@ -53,6 +53,12 @@ class Subdomain {
 	private $path;
 
 	/**
+	 * @var string
+	 * @ORM\Column(name="customconfig", type="text")
+	 */
+	private $customconfig;
+
+	/**
 	 * Get id
 	 *
 	 * @return integer
@@ -146,5 +152,23 @@ class Subdomain {
 		}
 
 		return $path;
+	}
+
+	/**
+	 * @param string $customconfig
+	 *
+	 * @return Subdomain
+	 */
+	public function setCustomconfig($customconfig) {
+		$this->customconfig = strval($customconfig);
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCustomconfig() {
+		return $this->customconfig;
 	}
 }
