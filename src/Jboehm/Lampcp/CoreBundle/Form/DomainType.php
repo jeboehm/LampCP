@@ -17,7 +17,8 @@ class DomainType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('domain')
-			->add('path');
+			->add('path')
+			->add('customconfig');
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

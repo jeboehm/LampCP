@@ -46,6 +46,12 @@ class Domain {
 	private $path;
 
 	/**
+	 * @var string
+	 * @ORM\Column(name="customconfig", type="text")
+	 */
+	private $customconfig;
+
+	/**
 	 * Konstruktor
 	 */
 	public function __construct() {
@@ -103,5 +109,23 @@ class Domain {
 	 */
 	public function getPath() {
 		return $this->path;
+	}
+
+	/**
+	 * @param string $customconfig
+	 *
+	 * @return Domain
+	 */
+	public function setCustomconfig($customconfig) {
+		$this->customconfig = $customconfig;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCustomconfig() {
+		return $this->customconfig;
 	}
 }
