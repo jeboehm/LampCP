@@ -117,7 +117,7 @@ class Domain {
 	 * @return Domain
 	 */
 	public function setCustomconfig($customconfig) {
-		$this->customconfig = $customconfig;
+		$this->customconfig = strval($customconfig);
 
 		return $this;
 	}

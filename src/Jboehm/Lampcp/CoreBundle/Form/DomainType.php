@@ -18,7 +18,7 @@ class DomainType extends AbstractType {
 		$builder
 			->add('domain')
 			->add('path')
-			->add('customconfig');
+			->add('customconfig', null, array('required' => false));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
