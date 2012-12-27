@@ -22,6 +22,19 @@ use Jboehm\Lampcp\CoreBundle\Entity\Domain;
  */
 class DefaultController extends BaseController {
 	/**
+	 * Get domains
+	 *
+	 * @return \Jboehm\Lampcp\CoreBundle\Entity\Domain[]
+	 */
+	protected function _getDomains() {
+		/** @var $domains Domain[] */
+		$em      = $this->getDoctrine()->getManager();
+		$domains = $em->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
+
+		return $domains;
+	}
+
+	/**
 	 * Shows status page.
 	 *
 	 * @Route("/", name="default")
@@ -29,44 +42,70 @@ class DefaultController extends BaseController {
 	 * @return array
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine()->getManager();
-
-		$domains = $em->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
-
 		return array(
-			'domainlist'     => $domains,
 			'selecteddomain' => $this->_getSelectedDomain(),
+			'domainselector_form' => $this->_createDomainselectorForm()->createView(),
 		);
 	}
 
 	/**
-	 * Saves domain in the current session
+	 * Saves the domain to session
 	 *
 	 * @Method("POST")
 	 * @Route("/setdomain", name="set_domain")
-	 * @throws NotFoundHttpException
-	 * @return array
+	 * @param \Symfony\Component\HttpFoundation\Request $request
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 	 */
-	public function setDomainAction() {
-		$value  = $this->getRequest()->get('domainselector');
-		$domain = null;
+	public function setDomainAction(Request $request) {
+		$form = $this->_createDomainselectorForm();
+		$form->bind($request);
 
-		if(!empty($value) && is_numeric($value)) {
+		if($form->isValid()) {
+			$data   = $form->getData();
+			$domain = null;
+
 			/** @var $domain Domain */
 			$domain = $this
 				->getDoctrine()
 				->getManager()
 				->getRepository('JboehmLampcpCoreBundle:Domain')
-				->findOneById(intval($value));
-		}
+				->findOneById(intval($data['domain']));
 
-		if(!$domain) {
-			throw $this->createNotFoundException('Domain not found');
-		}
+			if(!$domain) {
+				throw $this->createNotFoundException('Domain not found');
+			}
 
-		$session = $this->_getSession();
-		$session->set('domain', $domain->getId());
+			$session = $this->_getSession();
+			$session->set('domain', $domain->getId());
+		}
 
 		return $this->forward('JboehmLampcpCoreBundle:Default:index');
+	}
+
+	/**
+	 * Erzeugt das Domainselector Formular
+	 *
+	 * @return \Symfony\Component\Form\Form
+	 */
+	private function _createDomainselectorForm() {
+		$selectedDomain   = $this->_getSelectedDomain();
+		$domainSelectList = array();
+		$selectedId       = 0;
+
+		if($selectedDomain) {
+			$selectedId = $selectedDomain->getId();
+		}
+
+		foreach($this->_getDomains() as $domain) {
+			$domainSelectList[$domain->getId()] = $domain->getDomain();
+		}
+
+		return $this->createFormBuilder(array('domain' => $selectedId))
+			->add('domain', 'choice', array(
+									  'choices' => $domainSelectList,
+									  ))
+			->getForm();
 	}
 }

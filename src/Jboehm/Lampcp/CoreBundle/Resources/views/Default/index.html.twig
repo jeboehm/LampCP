@@ -11,16 +11,9 @@
 
 {% block content %}
     <h1>{{ "default.headline.select.domain"|trans() }}</h1>
-    <form method="POST" action="{{ path('set_domain') }}">
-        <select name="domainselector">
-            <option value="0">{{ "default.domainselector.select"|trans() }}</option>
-
-            {% for domain in domainlist %}
-                <option value="{{ domain.id }}">{{ domain.domain }}</option>
-            {% endfor %}
-        </select>
-
-        <input type="submit" class="btn"/>
+    <form action="{{ path('set_domain') }}" method="post">
+        {{ form_widget(domainselector_form) }}
+        <button class="btn btn-info" type="submit">{{ "button.show"|trans() }}</button>
     </form>
 
 
