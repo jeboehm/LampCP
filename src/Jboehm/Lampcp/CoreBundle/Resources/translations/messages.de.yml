@@ -55,11 +55,8 @@ button.create: Neuen Eintrag anlegen
 button.show: Anzeigen
 
 # Seiteninhalte
-default.loggedin.text: Eingeloggt als
-default.domainselector.select: Domain wählen..
 default.headline.select.domain: Domain verwalten
-
-mailaccount.button.addresses: E-Mailadressen
+form.domain: Domain auswählen
 
 # Tabellenspalten / Attribute
 all.column.actions: Aktionen
