@@ -55,7 +55,7 @@ class Domain {
 	 * Konstruktor
 	 */
 	public function __construct() {
-
+		$this->customconfig = '';
 	}
 
 	/**

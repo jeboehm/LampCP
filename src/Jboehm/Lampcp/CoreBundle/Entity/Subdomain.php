@@ -73,8 +73,9 @@ class Subdomain {
 	 * @param Domain $domain
 	 */
 	public function __construct(Domain $domain) {
-		$this->domain = $domain;
-		$this->path   = '';
+		$this->domain       = $domain;
+		$this->path         = '';
+		$this->customconfig = '';
 	}
 
 	/**
