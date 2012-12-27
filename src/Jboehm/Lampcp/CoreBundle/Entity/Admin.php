@@ -49,6 +49,7 @@ class Admin implements UserInterface, \Serializable {
 	/**
 	 * @var string
 	 * @ORM\Column(name="password", type="string", length=40)
+	 * @Assert\MinLength(6)
 	 */
 	private $password;
 

@@ -62,6 +62,7 @@ class Protection {
 	/**
 	 * @var string
 	 * @ORM\Column(name="password", type="string", length=255)
+	 * @Assert\MinLength(6)
 	 */
 	private $password;
 
