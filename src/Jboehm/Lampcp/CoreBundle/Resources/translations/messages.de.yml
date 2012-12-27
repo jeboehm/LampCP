@@ -65,43 +65,10 @@ mailaccount.button.addresses: E-Mailadressen
 all.column.actions: Aktionen
 all.column.id: Nr.
 
-admin.column.email: E-Mailadresse
-admin.column.lastseen: Zuletzt gesehen
-admin.column.registered: Registriert
-
-domain.column.domain: Domain
-domain.column.path: Pfad
-
-mailaccount.column.username: Benutzername
-mailaccount.column.password: Passwort
-mailaccount.column.quota: Speicherplatz
-mailaccount.column.haspop3: POP3
-mailaccount.column.hasimap4: IMAP
-mailaccount.column.hassmtp: SMTP
-mailaccount.column.enabled: Aktiviert
-
-mailaddress.column.address: E-Mailadresse
-mailaddress.column.hascatchall: Catch All
-
-mysqldatabase.column.name: Datenbankname
-mysqldatabase.column.comment: Kommentar
-
-pathoption.column.path: Name
-pathoption.column.hasdirectorylisting: Verzeichnisinhalt anzeigen
-pathoption.column.error404: Fehler-404
-pathoption.column.error403: Fehler-403
-pathoption.column.error500: Fehler-500
-
-protection.column.path: Pfad
-protection.column.realm: Name
-protection.column.username: Benutzername
-protection.column.password: Passwort
-
-subdomain.column.subdomain: Subdomain
-subdomain.column.path: Pfad
-
 # Formularlabels
 jboehm.lampcp.corebundle.admintype.email: E-Mailadresse
+jboehm.lampcp.corebundle.admintype.lastseen: Zuletzt gesehen
+jboehm.lampcp.corebundle.admintype.registered: Registriert
 jboehm.lampcp.corebundle.admintype.password.first: Passwort
 jboehm.lampcp.corebundle.admintype.password.second: Passwort wiederholen
 
