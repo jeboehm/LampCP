@@ -74,9 +74,9 @@ class SystemConfigService {
 				$opt[$x]['type'] = 'text';
 
 				if(is_array($options)) {
-					if(in_array('password', $options)) {
-						$opt[$x]['type'] = 'password';
-					}
+//					if(in_array('password', $options)) {
+//						$opt[$x]['type'] = 'password';
+//					}
 
 					if(in_array('bool', $options)) {
 						$opt[$x]['type'] = 'checkbox';
