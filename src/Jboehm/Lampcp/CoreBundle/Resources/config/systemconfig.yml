@@ -9,9 +9,9 @@
 
 config:
     mysql:
-        root_user: string
+        root_user: [string]
         root_password: [string, password]
 
     paths:
-        web_root_dir: string
-        mail_root_dir: string
+        web_root_dir: [string]
+        mail_root_dir: [string]

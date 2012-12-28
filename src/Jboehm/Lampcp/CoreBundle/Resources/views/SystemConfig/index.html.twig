@@ -22,7 +22,11 @@
                 <tr>
                     <th>{{ option.optionname|trans() }}</th>
                     <td>
-                        <pre>{{ option.optionvalue }}</pre>
+                        {% if option.password %}
+                            <pre>{{ "systemconfig.password"|trans() }}</pre>
+                        {% else %}
+                            <pre>{{ option.optionvalue }}</pre>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

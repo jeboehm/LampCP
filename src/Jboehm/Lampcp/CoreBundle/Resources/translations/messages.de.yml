@@ -108,6 +108,7 @@ jboehm.lampcp.corebundle.mailaddresstype.address: Adresse
 jboehm.lampcp.corebundle.mailaddresstype.hasCatchAll: Catch All
 
 # Systemconfig
+systemconfig.password: (Passwort)
 systemconfig.group.mysql: MySQL
 systemconfig.group.paths: Pfade
 
