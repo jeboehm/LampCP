@@ -58,13 +58,29 @@ class SystemConfigController extends BaseController {
 	}
 
 	/**
+	 * Update configuration
+	 *
 	 * @Route("/update", name="systemconfig_update")
 	 */
-	public function updateAction() {
+	public function updateAction(Request $request) {
+		$form = $this->_getConfigForm();
+		$form->bind($request);
 
+		if($form->isValid()) {
+			$data = $form->getData();
+
+			foreach($data as $name => $value) {
+				$name = str_replace('_', '.', $name);
+				$this->_getSystemConfigService()->setParameter($name, $value);
+			}
+		}
+
+		return $this->redirect($this->generateUrl('systemconfig'));
 	}
 
 	/**
+	 * Get form
+	 *
 	 * @return \Symfony\Component\Form\Form
 	 */
 	protected function _getConfigForm() {
@@ -84,7 +100,8 @@ class SystemConfigController extends BaseController {
 
 			foreach($group['options'] as $option) {
 				$builder->add(str_replace('.', '_', $option['optionname']), $option['type'],
-							  array('label' => $option['optionname']
+							  array('label'    => $option['optionname'],
+									'required' => false,
 							  ));
 			}
 		}
