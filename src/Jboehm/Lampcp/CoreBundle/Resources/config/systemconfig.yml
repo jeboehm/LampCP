@@ -7,6 +7,16 @@
 #
 ##
 
+##
+#
+# Fieldtypes:
+#  [string], [password], [bool]
+#
+# Optionnames should be translated in
+#  Resources/translations
+#
+##
+
 config:
     mysql:
         root_user: [string]
