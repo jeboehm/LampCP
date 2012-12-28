@@ -44,11 +44,7 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('config_protection_new') }}">
-                {{ "button.create"|trans() }}
-            </a>
-        </li>
-    </ul>
+    <a class="btn btn-primary" href="{{ path('config_protection_new') }}">
+        {{ "button.create"|trans() }}
+    </a>
 {% endblock %}
