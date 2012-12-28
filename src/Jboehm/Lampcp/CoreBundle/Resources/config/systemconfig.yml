@@ -1,0 +1,17 @@
+##
+# LampCP
+# https://github.com/jeboehm/LampCP
+#
+# Licensed under the GPL Version 2 license
+# http://www.gnu.org/licenses/gpl-2.0.txt
+#
+##
+
+config:
+    mysql:
+        root_user: string
+        root_password: [string, password]
+
+    paths:
+        web_root_dir: string
+        mail_root_dir: string
