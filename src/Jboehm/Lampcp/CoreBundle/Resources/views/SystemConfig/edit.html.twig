@@ -1,0 +1,27 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ "edit.page.systemconfig"|trans() }}</h1>
+
+    <form action="{{ path('systemconfig_update') }}"
+          method="post" {{ form_enctype(edit_form) }}>
+        {{ form_widget(edit_form) }}
+        <p>
+            <button class="btn btn-success" type="submit">{{ "button.edit"|trans() }}</button>
+        </p>
+    </form>
+
+    <a class="btn" href="{{ path('systemconfig') }}">
+        {{ "button.back"|trans() }}
+    </a>
+
+{% endblock %}

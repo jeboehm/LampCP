@@ -50,8 +50,45 @@ class SystemConfigController extends BaseController {
 	 * @Template()
 	 */
 	public function editAction() {
+		$this->_getConfigForm();
+
+		return array('selecteddomain' => $this->_getSelectedDomain(),
+					 'edit_form'      => $this->_getConfigForm()->createView()
+		);
+	}
+
+	/**
+	 * @Route("/update", name="systemconfig_update")
+	 */
+	public function updateAction() {
 
 	}
 
+	/**
+	 * @return \Symfony\Component\Form\Form
+	 */
+	protected function _getConfigForm() {
+		$templ        = $this->_getSystemConfigService()->getConfigTemplate();
+		$optionValues = array();
 
+		for($i = 0; $i < count($templ); $i++) {
+			foreach($templ[$i]['options'] as $option) {
+				$optionValues[str_replace('.', '_', $option['optionname'])] = $option['optionvalue'];
+			}
+		}
+
+		$builder = $this->createFormBuilder($optionValues);
+
+		foreach($templ as $group) {
+			// TODO Gruppe darstellen
+
+			foreach($group['options'] as $option) {
+				$builder->add(str_replace('.', '_', $option['optionname']), $option['type'],
+							  array('label' => $option['optionname']
+							  ));
+			}
+		}
+
+		return $builder->getForm();
+	}
 }
