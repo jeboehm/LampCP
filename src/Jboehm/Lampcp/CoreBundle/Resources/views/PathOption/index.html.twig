@@ -34,14 +34,10 @@
                 <td>{{ entity.error403 }}</td>
                 <td>{{ entity.error500 }}</td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('config_pathoption_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('config_pathoption_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
-                        </li>
-                    </ul>
+                    <a class="btn btn-info btn-mini"
+                       href="{{ path('config_pathoption_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
+                    <a class="btn btn-warning btn-mini"
+                       href="{{ path('config_pathoption_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
                 </td>
             </tr>
         {% endfor %}
