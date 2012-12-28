@@ -12,6 +12,7 @@ namespace Jboehm\Lampcp\CoreBundle\Service;
 
 use Symfony\Component\Yaml\Parser;
 use Doctrine\ORM\EntityManager;
+use Jboehm\Lampcp\CoreBundle\Entity\Config;
 
 class SystemConfigService {
 	/** @var string */
@@ -127,7 +128,7 @@ class SystemConfigService {
 	 * @return string
 	 */
 	public function getParameter($name) {
-		/** @var $config \Jboehm\Lampcp\CoreBundle\Entity\Config */
+		/** @var $config Config */
 		$name   = str_replace('_', '.', $name);
 		$config = $this->_getConfigRepository()->findOneBy(array('path' => $name));
 
@@ -136,5 +137,29 @@ class SystemConfigService {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Set Config Parameter
+	 *
+	 * @param string $name
+	 * @param string $value
+	 */
+	public function setParameter($name, $value) {
+		/** @var $config Config */
+		$name   = str_replace('_', '.', $name);
+		$config = $this->_getConfigRepository()->findOneBy(array('path' => $name));
+
+		if($config) {
+			$config->setValue($value);
+			$config->setChanged(new \DateTime('now'));
+		} else {
+			$config = new Config();
+			$config->setPath($name);
+			$config->setValue($value);
+		}
+
+		$this->_em->persist($config);
+		$this->_em->flush();
 	}
 }
