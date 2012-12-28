@@ -10,7 +10,7 @@
 config:
     mysql:
         root_user: [string]
-        root_password: [string, password]
+        root_password: [password]
 
     paths:
         web_root_dir: [string]

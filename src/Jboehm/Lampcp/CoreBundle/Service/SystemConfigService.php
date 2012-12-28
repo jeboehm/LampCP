@@ -67,24 +67,19 @@ class SystemConfigService {
 			$x             = 0;
 
 			foreach($parameters as $parameter => $options) {
-				$optionName          = 'systemconfig.option.' . $group . '.' . str_replace('_', '.', $parameter);
-				$opt[$x]             = array('optionname'  => $optionName,
-											 'optionvalue' => $this->getParameter($optionName),
+				$optionName      = 'systemconfig.option.' . $group . '.' . str_replace('_', '.', $parameter);
+				$opt[$x]         = array('optionname'  => $optionName,
+										 'optionvalue' => $this->getParameter($optionName),
 				);
-				$opt[$x]['type']     = 'string';
-				$opt[$x]['password'] = false;
+				$opt[$x]['type'] = 'text';
 
 				if(is_array($options)) {
 					if(in_array('password', $options)) {
-						$opt[$x]['password'] = true;
-					}
-
-					if(in_array('string', $options)) {
-						$opt[$x]['type'] = 'string';
+						$opt[$x]['type'] = 'password';
 					}
 
 					if(in_array('bool', $options)) {
-						$opt[$x]['type'] = 'bool';
+						$opt[$x]['type'] = 'checkbox';
 					}
 				}
 

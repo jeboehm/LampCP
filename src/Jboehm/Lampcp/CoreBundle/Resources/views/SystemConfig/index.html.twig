@@ -20,9 +20,9 @@
 
             {% for option in group.options %}
                 <tr>
-                    <th>{{ option.optionname|trans() }}</th>
+                    <th>{{ ('form.' ~ option.optionname)|trans() }}</th>
                     <td>
-                        {% if option.password %}
+                        {% if option.type == 'password' %}
                             <pre>{{ "systemconfig.password"|trans() }}</pre>
                         {% else %}
                             <pre>{{ option.optionvalue }}</pre>
