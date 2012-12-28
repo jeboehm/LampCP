@@ -113,7 +113,7 @@ systemconfig.password: (Passwort)
 systemconfig.group.mysql: MySQL
 systemconfig.group.paths: Pfade
 
-form.systemconfig.option.mysql.root.user: Root Benutzername
-form.systemconfig.option.mysql.root.password: Root Passwort
-form.systemconfig.option.paths.web.root.dir: Hauptverzeichnis der Web-Roots
-form.systemconfig.option.paths.mail.root.dir: Hauptverzeichnis der E-Mailkonten
+systemconfig.option.mysql.root.user: Root Benutzername
+systemconfig.option.mysql.root.password: Root Passwort
+systemconfig.option.paths.web.root.dir: Hauptverzeichnis der Web-Roots
+systemconfig.option.paths.mail.root.dir: Hauptverzeichnis der E-Mailkonten
