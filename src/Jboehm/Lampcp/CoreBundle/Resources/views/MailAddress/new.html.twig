@@ -20,11 +20,7 @@
         </p>
     </form>
 
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('config_mailaddress', { 'mailaccountid': mailaccount.id }) }}">
-                {{ "button.back"|trans() }}
-            </a>
-        </li>
-    </ul>
+    <a class="btn" href="{{ path('config_mailaddress', { 'mailaccountid': mailaccount.id }) }}">
+        {{ "button.back"|trans() }}
+    </a>
 {% endblock %}
