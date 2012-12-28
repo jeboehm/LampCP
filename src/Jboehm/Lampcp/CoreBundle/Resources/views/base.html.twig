@@ -73,31 +73,33 @@
 
     <div class="container-fluid">
         <div class="row-fluid">
-            <div class="span3">
-                <div class="well sidebar-nav">
-                    {% block leftnav %}
-                        <ul class="nav nav-list">
-                            <li class="nav-header">Sidebar</li>
-                            <li class="active"><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li class="nav-header">Sidebar</li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li class="nav-header">Sidebar</li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                        </ul>
-                    {% endblock %}
+            {% if selecteddomain is defined and selecteddomain is not null %}
+                <div class="span3">
+                    <div class="well sidebar-nav">
+                        {% block leftnav %}
+                            <ul class="nav nav-list">
+                                <li class="nav-header">Sidebar</li>
+                                <li class="active"><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li class="nav-header">Sidebar</li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li class="nav-header">Sidebar</li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                            </ul>
+                        {% endblock %}
+                    </div>
+                    <!--/.well -->
                 </div>
-                <!--/.well -->
-            </div>
+            {% endif %}
             <!--/span-->
             <div class="span9">
 

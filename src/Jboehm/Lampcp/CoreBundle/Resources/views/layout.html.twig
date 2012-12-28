@@ -24,14 +24,12 @@
 {% endblock %}
 
 {% block leftnav %}
-    {% if selecteddomain is defined and selecteddomain is not null %}
-        <ul class="nav nav-list">
-            <!-- <li class="nav-header">Sidebar</li> -->
-            <li><a href="{{ path('config_subdomain') }}">{{ "title.page.subdomain"|trans() }}</a></li>
-            <li><a href="{{ path('config_mailaccount') }}">{{ "title.page.mailaccount"|trans() }}</a></li>
-            <li><a href="{{ path('config_mysqldatabase') }}">{{ "title.page.mysqldatabase"|trans() }}</a></li>
-            <li><a href="{{ path('config_pathoption') }}">{{ "title.page.pathoption"|trans() }}</a></li>
-            <li><a href="{{ path('config_protection') }}">{{ "title.page.protection"|trans() }}</a></li>
-        </ul>
-    {% endif %}
+    <ul class="nav nav-list">
+        <!-- <li class="nav-header">Sidebar</li> -->
+        <li><a href="{{ path('config_subdomain') }}">{{ "title.page.subdomain"|trans() }}</a></li>
+        <li><a href="{{ path('config_mailaccount') }}">{{ "title.page.mailaccount"|trans() }}</a></li>
+        <li><a href="{{ path('config_mysqldatabase') }}">{{ "title.page.mysqldatabase"|trans() }}</a></li>
+        <li><a href="{{ path('config_pathoption') }}">{{ "title.page.pathoption"|trans() }}</a></li>
+        <li><a href="{{ path('config_protection') }}">{{ "title.page.protection"|trans() }}</a></li>
+    </ul>
 {% endblock %}
