@@ -28,27 +28,26 @@
         </tr>
         <tr>
             <th>{{ "jboehm.lampcp.corebundle.domaintype.customconfig"|trans() }}</th>
-            <td><pre>{{ entity.customconfig }}</pre></td>
+            <td>
+                <pre>{{ entity.customconfig }}</pre>
+            </td>
         </tr>
         </tbody>
     </table>
 
-    <ul class="record_actions">
-        <li>
+    <div class="btn-group">
+        <form action="{{ path('config_domain_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+
             <a class="btn" href="{{ path('config_domain') }}">
                 {{ "button.back"|trans() }}
             </a>
-        </li>
-        <li>
+
             <a class="btn btn-warning" href="{{ path('config_domain_edit', { 'id': entity.id }) }}">
                 {{ "button.edit"|trans() }}
             </a>
-        </li>
-        <li>
-            <form action="{{ path('config_domain_delete', { 'id': entity.id }) }}" method="post">
-                {{ form_widget(delete_form) }}
-                <button class="btn btn-danger" type="submit">{{ "button.delete"|trans() }}</button>
-            </form>
-        </li>
-    </ul>
+
+            <button class="btn btn-danger btn-delete" type="submit">{{ "button.delete"|trans() }}</button>
+        </form>
+    </div>
 {% endblock %}
