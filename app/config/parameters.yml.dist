@@ -13,4 +13,5 @@ parameters:
 
     locale:            de
 
-    crypt_key:         ~
+jboehm_lampcp_core:
+    crypt: ~
