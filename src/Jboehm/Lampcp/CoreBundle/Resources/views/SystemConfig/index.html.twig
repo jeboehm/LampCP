@@ -1,0 +1,37 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ "title.page.systemconfig"|trans() }}</h1>
+
+    {% for group in config %}
+        <h3>{{ group.groupname|trans() }}</h3>
+
+        <table class="record_properties">
+            <tbody>
+
+            {% for option in group.options %}
+                <tr>
+                    <th>{{ option.optionname|trans() }}</th>
+                    <td><pre>{{ option.optionvalue }}</pre></td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+    {% endfor %}
+
+    <a class="btn btn-warning" href="{{ path('systemconfig_edit') }}">
+        {{ "button.edit"|trans() }}
+    </a>
+
+{% endblock %}

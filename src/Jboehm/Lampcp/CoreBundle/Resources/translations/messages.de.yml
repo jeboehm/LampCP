@@ -19,6 +19,7 @@ title.page.mysqldatabase: Datenbanken
 title.page.pathoption: Pfadoptionen
 title.page.protection: Beschränkungen
 title.page.subdomain: Subdomains
+title.page.systemconfig: Systemkonfiguration
 
 edit.page.admin: Administrator bearbeiten
 edit.page.domain: Domain bearbeiten
@@ -105,3 +106,12 @@ jboehm.lampcp.corebundle.protectiontype.password.second: Passwort wiederholen
 
 jboehm.lampcp.corebundle.mailaddresstype.address: Adresse
 jboehm.lampcp.corebundle.mailaddresstype.hasCatchAll: Catch All
+
+# Systemconfig
+systemconfig.group.mysql: MySQL
+systemconfig.group.paths: Pfade
+
+systemconfig.option.root.user: Root Benutzername
+systemconfig.option.root.password: Root Passwort
+systemconfig.option.web.root.dir: Hauptverzeichnis der Web-Roots
+systemconfig.option.mail.root.dir: Hauptverzeichnis der E-Mailkonten
