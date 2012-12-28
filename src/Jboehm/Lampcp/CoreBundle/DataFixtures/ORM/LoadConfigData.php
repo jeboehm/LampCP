@@ -19,11 +19,10 @@ class LoadConfigData implements FixtureInterface {
 	 * {@inheritDoc}
 	 */
 	public function load(ObjectManager $manager) {
-		$config = array(
-			'system/directorys/htdocsroot' => 'htdocs',
-			'system/directorys/configroot' => 'etc',
-			'system/mysql/rootuser'        => 'root',
-			'system/mysql/rootpassword'    => '',
+		$config = array('systemconfig.option.mysql.root.user'     => 'root',
+						'systemconfig.option.mysql.root.password' => 'abc',
+						'systemconfig.option.paths.web.root.dir'  => '/srv/www',
+						'systemconfig.option.paths.mail.root.dir' => '/srv/mail',
 		);
 
 		foreach($config as $path => $value) {
@@ -42,9 +41,7 @@ class LoadConfigData implements FixtureInterface {
 	 */
 	protected function _createOption($path, $value, ObjectManager $manager) {
 		$config = new Config();
-		$config
-			->setPath($path)
-			->setValue($value);
+		$config->setPath($path)->setValue($value);
 
 		$manager->persist($config);
 	}

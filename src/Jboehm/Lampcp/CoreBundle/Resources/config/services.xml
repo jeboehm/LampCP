@@ -50,6 +50,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         </service>
 
         <service id="jboehm_lampcp_core.systemconfigservice" class="%systemconfigservice.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
             <argument>%systemconfig.yaml%</argument>
         </service>
     </services>

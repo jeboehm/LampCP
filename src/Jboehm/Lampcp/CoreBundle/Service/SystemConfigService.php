@@ -11,7 +11,7 @@
 namespace Jboehm\Lampcp\CoreBundle\Service;
 
 use Symfony\Component\Yaml\Parser;
-use AppKernel;
+use Doctrine\ORM\EntityManager;
 
 class SystemConfigService {
 	/** @var string */
@@ -20,15 +20,23 @@ class SystemConfigService {
 	/** @var Parser */
 	protected $_yaml;
 
+	/** @var EntityManager */
+	protected $_em;
+
+	/** @var array */
+	protected $_parsedTemplate;
+
 	/**
 	 * Konstruktor
 	 *
-	 * @param string $configFile
+	 * @param EntityManager $em
+	 * @param string        $configFile
 	 *
 	 * @throws \Exception
 	 */
-	public function __construct($configFile) {
+	public function __construct($em, $configFile) {
 		$this->_yaml       = new Parser();
+		$this->_em         = $em;
 		$this->_configFile = realpath(__DIR__ . '/../' . $configFile);
 
 		if(!is_readable($this->_configFile)) {
@@ -43,7 +51,8 @@ class SystemConfigService {
 	 * @throws \Exception
 	 */
 	protected function _parseYaml() {
-		$config = array();
+		$newConfig = array();
+		$i         = 0;
 
 		try {
 			$config = $this->_yaml->parse(file_get_contents($this->_configFile));
@@ -51,13 +60,64 @@ class SystemConfigService {
 			throw new \Exception('Unable to parse YAML ' . $this->_configFile);
 		}
 
-		return $config;
+		foreach($config['config'] as $group => $parameters) {
+			$newConfig[$i] = array('groupname' => 'systemconfig.group.' . str_replace('_', '.', $group));
+			$opt           = array();
+
+			foreach($parameters as $parameter => $options) {
+				$optionName = 'systemconfig.option.' . $group . '.' . str_replace('_', '.', $parameter);
+				$opt[]      = array('optionname'  => $optionName,
+									'optionvalue' => $this->getParameter($optionName),
+									'attrib'      => $options
+				);
+			}
+
+			$newConfig[$i]['options'] = $opt;
+
+			$i++;
+		}
+
+		$this->_getConfigRepository();
+
+		return ($this->_parsedTemplate = $newConfig);
 	}
 
 	/**
 	 * @return array
 	 */
-	public function get() {
-		return $this->_parseYaml();
+	public function getConfigTemplate() {
+		if(is_array($this->_parsedTemplate)) {
+			return $this->_parsedTemplate;
+		} else {
+			return $this->_parseYaml();
+		}
+	}
+
+	/**
+	 * Get repository
+	 *
+	 * @return \Doctrine\ORM\EntityRepository
+	 */
+	protected function _getConfigRepository() {
+		return $this->_em->getRepository('JboehmLampcpCoreBundle:Config');
+	}
+
+	/**
+	 * Get Config Parameter
+	 *
+	 * @param string $name
+	 *
+	 * @return string
+	 */
+	public function getParameter($name) {
+		/** @var $config \Jboehm\Lampcp\CoreBundle\Entity\Config */
+		$name   = str_replace('_', '.', $name);
+		$config = $this->_getConfigRepository()->findOneBy(array('path' => $name));
+
+		if($config) {
+			return $config->getValue();
+		}
+
+		return '';
 	}
 }
