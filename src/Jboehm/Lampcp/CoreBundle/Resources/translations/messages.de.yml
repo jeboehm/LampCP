@@ -57,6 +57,7 @@ button.create: Neuen Eintrag anlegen
 button.show: Anzeigen
 
 # Seiteninhalte
+default.topmenu.no.domain: Keine Domain ausgewählt
 default.headline.select.domain: Domain verwalten
 form.domain: Domain auswählen
 

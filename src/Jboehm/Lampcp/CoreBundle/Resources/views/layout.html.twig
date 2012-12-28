@@ -12,6 +12,8 @@
 {% block topnavright %}
     {% if selecteddomain is defined and selecteddomain is not null %}
         <a href="{{ path('default') }}">{{ selecteddomain.domain }}</a>
+    {% else %}
+        <a href="{{ path('default') }}">{{ "default.topmenu.no.domain"|trans() }}</a>
     {% endif %}
 {% endblock %}
 
