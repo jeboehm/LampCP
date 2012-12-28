@@ -28,14 +28,10 @@
                 <td>{{ entity.subdomain }}<em>.{{ entity.domain.domain }}</em></td>
                 <td>{{ entity.fullpath }}</td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('config_subdomain_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('config_subdomain_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
-                        </li>
-                    </ul>
+                    <a class="btn btn-info btn-mini"
+                       href="{{ path('config_subdomain_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
+                    <a class="btn btn-warning btn-mini"
+                       href="{{ path('config_subdomain_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
                 </td>
             </tr>
         {% endfor %}
