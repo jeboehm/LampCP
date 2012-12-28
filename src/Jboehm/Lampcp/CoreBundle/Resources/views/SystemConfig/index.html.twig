@@ -21,9 +21,10 @@
             {% for option in group.options %}
                 <tr>
                     <th>{{ option.optionname|trans() }}</th>
-                    <td><pre>{{ option.optionvalue }}</pre></td>
+                    <td>
+                        <pre>{{ option.optionvalue }}</pre>
+                    </td>
                 </tr>
-
             {% endfor %}
 
             </tbody>
