@@ -15,18 +15,3 @@ body {
 .sidebar-nav {
     padding: 9px 0;
 }
-
-th, td {
-    min-width: 50px;
-    text-align: left;
-    vertical-align: top;
-    padding-right: 10px;
-}
-
-tbody > tr > td {
-    padding-bottom: 10px;
-}
-
-tbody > tr:hover {
-    background-color: #ccc;
-}

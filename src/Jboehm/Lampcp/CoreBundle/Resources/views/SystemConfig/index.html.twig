@@ -15,7 +15,7 @@
     {% for group in config %}
         <h3>{{ group.groupname|trans() }}</h3>
 
-        <table class="record_properties">
+        <table class="table table-striped table-bordered">
             <tbody>
 
             {% for option in group.options %}
