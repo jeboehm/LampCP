@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 
 /**
  * Default controller.
@@ -29,7 +30,10 @@ class DefaultController extends BaseController {
 	 * @return array
 	 */
 	public function indexAction() {
-		return $this->_getGlobalReturn(array());
+		$e = new ExecUtility();
+		$e->exec('uptime');
+
+		return $this->_getGlobalReturn(array('uptime' => $e->getOutput()));
 	}
 
 	/**
@@ -37,6 +41,7 @@ class DefaultController extends BaseController {
 	 *
 	 * @Method("POST")
 	 * @Route("/setdomain", name="set_domain")
+	 *
 	 * @param \Symfony\Component\HttpFoundation\Request $request
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response

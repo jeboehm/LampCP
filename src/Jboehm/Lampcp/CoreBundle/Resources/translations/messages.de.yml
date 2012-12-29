@@ -57,8 +57,9 @@ button.show: Anzeigen
 
 # Seiteninhalte
 default.topmenu.no.domain: Keine Domain ausgewählt
-default.headline.select.domain: Domain verwalten
 form.domain: Domain auswählen
+
+default.headline.uptime: Uptime / Angemeldete User / Load
 
 # Tabellenspalten / Attribute
 all.column.actions: Aktionen
