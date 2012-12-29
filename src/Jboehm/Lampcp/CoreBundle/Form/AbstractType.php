@@ -24,6 +24,9 @@ abstract class AbstractType extends ParentClassType {
 		$this->_isEditMode = (bool)$edit;
 	}
 
+	/**
+	 * @return bool
+	 */
 	protected function _getIsEditMode() {
 		return $this->_isEditMode;
 	}
