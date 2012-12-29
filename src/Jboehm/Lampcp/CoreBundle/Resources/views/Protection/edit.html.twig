@@ -20,17 +20,15 @@
         </p>
     </form>
 
-    <ul class="record_actions">
-        <li>
+    <div class="btn-group">
+        <form action="{{ path('config_protection_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+
             <a class="btn" href="{{ path('config_protection') }}">
                 {{ "button.back"|trans() }}
             </a>
-        </li>
-        <li>
-            <form action="{{ path('config_protection_delete', { 'id': entity.id }) }}" method="post">
-                {{ form_widget(delete_form) }}
-                <button class="btn btn-danger" type="submit">{{ "button.delete"|trans() }}</button>
-            </form>
-        </li>
-    </ul>
+
+            <button class="btn btn-danger" type="submit">{{ "button.delete"|trans() }}</button>
+        </form>
+    </div>
 {% endblock %}
