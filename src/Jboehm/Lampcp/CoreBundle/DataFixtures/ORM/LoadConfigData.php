@@ -19,10 +19,11 @@ class LoadConfigData implements FixtureInterface {
 	 * {@inheritDoc}
 	 */
 	public function load(ObjectManager $manager) {
-		$config = array('systemconfig.option.mysql.root.user'     => 'root',
-						'systemconfig.option.mysql.root.password' => 'abc',
-						'systemconfig.option.paths.web.root.dir'  => '/srv/www',
-						'systemconfig.option.paths.mail.root.dir' => '/srv/mail',
+		$config = array('systemconfig.option.mysql.root.user'        => 'root',
+						'systemconfig.option.mysql.root.password'    => 'abc',
+						'systemconfig.option.paths.web.root.dir'     => '/srv/www',
+						'systemconfig.option.paths.mail.root.dir'    => '/srv/mail',
+						'systemconfig.option.paths.unix.passwd.file' => '/etc/passwd',
 		);
 
 		foreach($config as $path => $value) {
