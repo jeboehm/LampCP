@@ -38,9 +38,9 @@ class SystemConfigController extends BaseController {
 	 * @Template()
 	 */
 	public function indexAction() {
-		return array('selecteddomain' => $this->_getSelectedDomain(),
-					 'config'         => $this->_getSystemConfigService()->getConfigTemplate(),
-		);
+		return $this->_getGlobalReturn(array(
+											'config' => $this->_getSystemConfigService()->getConfigTemplate(),
+									   ));
 	}
 
 	/**
@@ -52,9 +52,9 @@ class SystemConfigController extends BaseController {
 	public function editAction() {
 		$this->_getConfigForm();
 
-		return array('selecteddomain' => $this->_getSelectedDomain(),
-					 'edit_form'      => $this->_getConfigForm()->createView()
-		);
+		return $this->_getGlobalReturn(array(
+											'edit_form' => $this->_getConfigForm()->createView()
+									   ));
 	}
 
 	/**
@@ -100,9 +100,9 @@ class SystemConfigController extends BaseController {
 
 			foreach($group['options'] as $option) {
 				$builder->add(str_replace('.', '_', $option['optionname']), $option['type'],
-							  array('label'    => $option['optionname'],
-									'required' => false,
-							  ));
+					array('label'    => $option['optionname'],
+						  'required' => false,
+					));
 			}
 		}
 

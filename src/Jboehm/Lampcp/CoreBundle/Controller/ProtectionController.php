@@ -34,10 +34,9 @@ class ProtectionController extends BaseController {
 
 		$entities = $em->getRepository('JboehmLampcpCoreBundle:Protection')->findByDomain($this->_getSelectedDomain());
 
-		return array(
-			'entities'       => $entities,
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entities' => $entities,
+									   ));
 	}
 
 	/**
@@ -58,11 +57,10 @@ class ProtectionController extends BaseController {
 
 		$deleteForm = $this->createDeleteForm($id);
 
-		return array(
-			'entity'         => $entity,
-			'delete_form'    => $deleteForm->createView(),
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entity'      => $entity,
+											'delete_form' => $deleteForm->createView(),
+									   ));
 	}
 
 	/**
@@ -75,11 +73,10 @@ class ProtectionController extends BaseController {
 		$entity = new Protection($this->_getSelectedDomain());
 		$form   = $this->createForm(new ProtectionType(), $entity);
 
-		return array(
-			'entity'         => $entity,
-			'form'           => $form->createView(),
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entity' => $entity,
+											'form'   => $form->createView(),
+									   ));
 	}
 
 	/**
@@ -104,11 +101,10 @@ class ProtectionController extends BaseController {
 			return $this->redirect($this->generateUrl('config_protection_show', array('id' => $entity->getId())));
 		}
 
-		return array(
-			'entity'         => $entity,
-			'form'           => $form->createView(),
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entity' => $entity,
+											'form'   => $form->createView(),
+									   ));
 	}
 
 	/**
@@ -130,12 +126,11 @@ class ProtectionController extends BaseController {
 		$editForm   = $this->createForm(new ProtectionType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
-		return array(
-			'entity'         => $entity,
-			'edit_form'      => $editForm->createView(),
-			'delete_form'    => $deleteForm->createView(),
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entity'      => $entity,
+											'edit_form'   => $editForm->createView(),
+											'delete_form' => $deleteForm->createView(),
+									   ));
 	}
 
 	/**
@@ -174,12 +169,11 @@ class ProtectionController extends BaseController {
 			return $this->redirect($this->generateUrl('config_protection_edit', array('id' => $id)));
 		}
 
-		return array(
-			'entity'         => $entity,
-			'edit_form'      => $editForm->createView(),
-			'delete_form'    => $deleteForm->createView(),
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entity'      => $entity,
+											'edit_form'   => $editForm->createView(),
+											'delete_form' => $deleteForm->createView(),
+									   ));
 	}
 
 	/**

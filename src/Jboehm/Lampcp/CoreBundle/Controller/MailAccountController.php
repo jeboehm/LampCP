@@ -168,9 +168,9 @@ class MailAccountController extends BaseController {
 		}
 
 		return $this->_getGlobalReturn(array(
-											'entity'         => $entity,
-											'edit_form'      => $editForm->createView(),
-											'delete_form'    => $deleteForm->createView(),
+											'entity'      => $entity,
+											'edit_form'   => $editForm->createView(),
+											'delete_form' => $deleteForm->createView(),
 									   ));
 	}
 

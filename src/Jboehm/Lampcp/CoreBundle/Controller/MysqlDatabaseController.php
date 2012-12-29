@@ -34,10 +34,9 @@ class MysqlDatabaseController extends BaseController {
 
 		$entities = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->findByDomain($this->_getSelectedDomain());
 
-		return array(
-			'entities'       => $entities,
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entities' => $entities,
+									   ));
 	}
 
 	/**
@@ -58,11 +57,10 @@ class MysqlDatabaseController extends BaseController {
 
 		$deleteForm = $this->createDeleteForm($id);
 
-		return array(
-			'entity'         => $entity,
-			'delete_form'    => $deleteForm->createView(),
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entity'      => $entity,
+											'delete_form' => $deleteForm->createView(),
+									   ));
 	}
 
 	/**
@@ -75,11 +73,10 @@ class MysqlDatabaseController extends BaseController {
 		$entity = new MysqlDatabase($this->_getSelectedDomain());
 		$form   = $this->createForm(new MysqlDatabaseType(), $entity);
 
-		return array(
-			'entity'         => $entity,
-			'form'           => $form->createView(),
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entity' => $entity,
+											'form'   => $form->createView(),
+									   ));
 	}
 
 	/**
@@ -102,11 +99,10 @@ class MysqlDatabaseController extends BaseController {
 			return $this->redirect($this->generateUrl('config_mysqldatabase_show', array('id' => $entity->getId())));
 		}
 
-		return array(
-			'entity'         => $entity,
-			'form'           => $form->createView(),
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entity' => $entity,
+											'form'   => $form->createView(),
+									   ));
 	}
 
 	/**
@@ -128,12 +124,11 @@ class MysqlDatabaseController extends BaseController {
 		$editForm   = $this->createForm(new MysqlDatabaseType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
-		return array(
-			'entity'         => $entity,
-			'edit_form'      => $editForm->createView(),
-			'delete_form'    => $deleteForm->createView(),
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entity'      => $entity,
+											'edit_form'   => $editForm->createView(),
+											'delete_form' => $deleteForm->createView(),
+									   ));
 	}
 
 	/**
@@ -172,12 +167,11 @@ class MysqlDatabaseController extends BaseController {
 			return $this->redirect($this->generateUrl('config_mysqldatabase_edit', array('id' => $id)));
 		}
 
-		return array(
-			'entity'         => $entity,
-			'edit_form'      => $editForm->createView(),
-			'delete_form'    => $deleteForm->createView(),
-			'selecteddomain' => $this->_getSelectedDomain(),
-		);
+		return $this->_getGlobalReturn(array(
+											'entity'      => $entity,
+											'edit_form'   => $editForm->createView(),
+											'delete_form' => $deleteForm->createView(),
+									   ));
 	}
 
 	/**
