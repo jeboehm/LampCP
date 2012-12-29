@@ -28,6 +28,9 @@
                 {{ "button.back"|trans() }}
             </a>
 
+            <a class="btn"
+               href="{{ path('config_mailaddress', { 'mailaccountid': entity.id }) }}">{{ "title.page.mailaddress"|trans() }}</a>
+
             <button class="btn btn-danger" type="submit">{{ "button.delete"|trans() }}</button>
         </form>
     </div>
