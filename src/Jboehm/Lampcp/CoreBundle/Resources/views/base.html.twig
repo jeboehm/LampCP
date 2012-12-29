@@ -12,7 +12,7 @@
 {% block title %}{% spaceless %}{{ "title.head"|trans() }}{% endspaceless %}{% endblock %}
 
 {% block meta %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" xmlns="http://www.w3.org/1999/html"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
 {% endblock %}
@@ -73,8 +73,21 @@
 
     <div class="container-fluid">
         <div class="row-fluid">
-            {% if selecteddomain is defined and selecteddomain is not null %}
-                <div class="span3">
+            <div class="span3">
+                <div class="well sidebar-nav">
+                    <form action="{{ path('set_domain') }}" method="post">
+                        <ul class="nav nav-list">
+                            <li class="nav-header">{{ form_label(domainselector_form.domain) }}</li>
+
+                            <li>{{ form_widget(domainselector_form.domain) }}</li>
+                        </ul>
+
+                        {{ form_rest(domainselector_form) }}
+                    </form>
+                </div>
+                <!--/.well -->
+
+                {% if selecteddomain is defined and selecteddomain is not null %}
                     <div class="well sidebar-nav">
                         {% block leftnav %}
                             <ul class="nav nav-list">
@@ -83,27 +96,14 @@
                                 <li><a href="#">Link</a></li>
                                 <li><a href="#">Link</a></li>
                                 <li><a href="#">Link</a></li>
-                                <li class="nav-header">Sidebar</li>
-                                <li><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
-                                <li class="nav-header">Sidebar</li>
-                                <li><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
                             </ul>
                         {% endblock %}
                     </div>
                     <!--/.well -->
-                </div>
-            {% endif %}
-            <!--/span-->
+                {% endif %}
+            </div>
+
             <div class="span9">
-
-
                 <div class="row-fluid">
                     <div class="span12">
                         {% block content %}
