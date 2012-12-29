@@ -28,6 +28,8 @@ class LoadDomain2Data implements FixtureInterface {
 		$domain = new Domain();
 		$domain
 			->setDomain('uh.cx')
+			->setUid(1000)
+			->setGid(1000)
 			->setPath('/var/www/uh.cx');
 
 		$manager->persist($domain);

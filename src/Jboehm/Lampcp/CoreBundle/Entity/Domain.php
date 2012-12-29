@@ -46,6 +46,20 @@ class Domain {
 	private $path;
 
 	/**
+	 * @Assert\Min(1)
+	 * @var int
+	 * @ORM\Column(name="uid", type="integer")
+	 */
+	private $uid;
+
+	/**
+	 * @Assert\Min(1)
+	 * @var int
+	 * @ORM\Column(name="gid", type="integer")
+	 */
+	private $gid;
+
+	/**
 	 * @var string
 	 * @ORM\Column(name="customconfig", type="text")
 	 */
@@ -127,5 +141,41 @@ class Domain {
 	 */
 	public function getCustomconfig() {
 		return $this->customconfig;
+	}
+
+	/**
+	 * @param int $uid
+	 *
+	 * @return Domain
+	 */
+	public function setUid($uid) {
+		$this->uid = $uid;
+
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getUid() {
+		return $this->uid;
+	}
+
+	/**
+	 * @param int $gid
+	 *
+	 * @return Domain
+	 */
+	public function setGid($gid) {
+		$this->gid = $gid;
+
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getGid() {
+		return $this->gid;
 	}
 }

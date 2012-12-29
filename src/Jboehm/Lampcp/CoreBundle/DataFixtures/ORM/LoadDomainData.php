@@ -28,6 +28,8 @@ class LoadDomainData implements FixtureInterface {
 		$domain = new Domain();
 		$domain
 			->setDomain('ressourcenkonflikt.de')
+			->setUid(1000)
+			->setGid(1000)
 			->setPath('/var/www/ressourcenkonflikt.de');
 
 		$manager->persist($domain);

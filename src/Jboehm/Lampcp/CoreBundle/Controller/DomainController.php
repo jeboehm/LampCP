@@ -48,6 +48,7 @@ class DomainController extends BaseController {
 	public function showAction($id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity Domain */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
 
 		if(!$entity) {
@@ -58,6 +59,7 @@ class DomainController extends BaseController {
 
 		return $this->_getReturn(array(
 									  'entity'      => $entity,
+									  'owner'       => $this->_getUserByUid($entity->getUid())->getName(),
 									  'delete_form' => $deleteForm->createView(),
 								 ));
 	}
@@ -70,7 +72,7 @@ class DomainController extends BaseController {
 	 */
 	public function newAction() {
 		$entity = new Domain();
-		$form   = $this->createForm(new DomainType(), $entity);
+		$form   = $this->createForm(new DomainType(false, $this->_getUidList()), $entity);
 
 		return $this->_getReturn(array(
 									  'entity' => $entity,
@@ -87,8 +89,11 @@ class DomainController extends BaseController {
 	 */
 	public function createAction(Request $request) {
 		$entity = new Domain();
-		$form   = $this->createForm(new DomainType(), $entity);
+		$form   = $this->createForm(new DomainType(false, $this->_getUidList()), $entity);
 		$form->bind($request);
+
+		$user = $this->_getUserByUid($entity->getUid());
+		$entity->setGid($user->getGid());
 
 		if($form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
@@ -119,7 +124,7 @@ class DomainController extends BaseController {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
 		}
 
-		$editForm   = $this->createForm(new DomainType(), $entity);
+		$editForm   = $this->createForm(new DomainType(true, $this->_getUidList()), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
@@ -139,6 +144,7 @@ class DomainController extends BaseController {
 	public function updateAction(Request $request, $id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity Domain */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
 
 		if(!$entity) {
@@ -146,8 +152,11 @@ class DomainController extends BaseController {
 		}
 
 		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new DomainType(), $entity);
+		$editForm   = $this->createForm(new DomainType(true, $this->_getUidList()), $entity);
 		$editForm->bind($request);
+
+		$user = $this->_getUserByUid($entity->getUid());
+		$entity->setGid($user->getGid());
 
 		if($editForm->isValid()) {
 			$em->persist($entity);
@@ -192,5 +201,40 @@ class DomainController extends BaseController {
 		return $this->createFormBuilder(array('id' => $id))
 			->add('id', 'hidden')
 			->getForm();
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function _getUidList() {
+		/** @var $repo \Doctrine\ORM\EntityRepository */
+		$repo = $this->getDoctrine()->getRepository('JboehmLampcpUserBundle:User');
+		$uids = array();
+
+		foreach($repo->findAll() as $user) {
+			/** @var $user \Jboehm\Lampcp\UserBundle\Entity\User */
+			$uids[$user->getUid()] = $user->getName();
+		}
+
+		return $uids;
+	}
+
+	/**
+	 * @param int $uid
+	 *
+	 * @return \Jboehm\Lampcp\UserBundle\Entity\User
+	 * @throws
+	 */
+	protected function _getUserByUid($uid) {
+		/** @var $repo \Doctrine\ORM\EntityRepository */
+		/** @var $user \Jboehm\Lampcp\UserBundle\Entity\User */
+		$repo = $this->getDoctrine()->getRepository('JboehmLampcpUserBundle:User');
+		$user = $repo->findOneBy(array('uid' => $uid));
+
+		if(!$user) {
+			throw $this->createNotFoundException();
+		}
+
+		return $user;
 	}
 }
