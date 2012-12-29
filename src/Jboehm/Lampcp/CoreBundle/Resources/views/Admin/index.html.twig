@@ -28,8 +28,12 @@
                 <td>{{ entity.email }}</td>
                 <td>{% if entity.lastseen %}{{ entity.lastseen|date('d.m.Y H:i:s') }}{% endif %}</td>
                 <td>
-                    <a class="btn btn-info btn-mini" href="{{ path('config_admin_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
-                    <a class="btn btn-warning btn-mini" href="{{ path('config_admin_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
+                    <div class="btn-group">
+                        <a class="btn btn-info btn-mini"
+                           href="{{ path('config_admin_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
+                        <a class="btn btn-warning btn-mini"
+                           href="{{ path('config_admin_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
+                    </div>
                 </td>
             </tr>
         {% endfor %}

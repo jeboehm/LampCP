@@ -36,9 +36,14 @@
                 <td>{{ entity.hasSmtp }}</td>
                 <td>{{ entity.enabled }}</td>
                 <td>
-                    <a class="btn btn-info btn-mini" href="{{ path('config_mailaccount_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
-                    <a class="btn btn-warning btn-mini" href="{{ path('config_mailaccount_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
-                    <a class="btn btn-mini" href="{{ path('config_mailaddress', { 'mailaccountid': entity.id }) }}">{{ "title.page.mailaddress"|trans() }}</a>
+                    <div class="btn-group">
+                        <a class="btn btn-info btn-mini"
+                           href="{{ path('config_mailaccount_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
+                        <a class="btn btn-warning btn-mini"
+                           href="{{ path('config_mailaccount_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
+                        <a class="btn btn-mini"
+                           href="{{ path('config_mailaddress', { 'mailaccountid': entity.id }) }}">{{ "title.page.mailaddress"|trans() }}</a>
+                    </div>
                 </td>
             </tr>
         {% endfor %}
