@@ -66,6 +66,6 @@ class DefaultController extends BaseController {
 			}
 		}
 
-		return $this->forward('JboehmLampcpCoreBundle:Default:index');
+		return $this->redirect($this->generateUrl('default'));
 	}
 }
