@@ -81,6 +81,11 @@ class SystemConfigService {
 					if(in_array('bool', $options)) {
 						$opt[$x]['type'] = 'checkbox';
 					}
+
+					if(in_array('integer', $options)) {
+						$opt[$x]['type']        = 'integer';
+						$opt[$x]['optionvalue'] = intval($opt[$x]['optionvalue']);
+					}
 				}
 
 				$x++;

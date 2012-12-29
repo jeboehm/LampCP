@@ -114,9 +114,11 @@ jboehm.lampcp.corebundle.mailaddresstype.hasCatchAll: Catch All
 systemconfig.password: (Passwort)
 systemconfig.group.mysql: MySQL
 systemconfig.group.paths: Pfade
+systemconfig.group.unix: Unix
 
 systemconfig.option.mysql.root.user: Root Benutzername
 systemconfig.option.mysql.root.password: Root Passwort
 systemconfig.option.paths.web.root.dir: Hauptverzeichnis der Web-Roots
 systemconfig.option.paths.mail.root.dir: Hauptverzeichnis der E-Mailkonten
 systemconfig.option.paths.unix.passwd.file: Pfad zur Unix-Benutzerdatei
+systemconfig.option.unix.min.user.uid: Kleinste auswählbare UID

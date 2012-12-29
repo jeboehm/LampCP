@@ -96,7 +96,7 @@ class Config {
 	 * @return Config
 	 */
 	public function setValue($value) {
-		$this->value = $value;
+		$this->value = strval($value);
 
 		return $this;
 	}
