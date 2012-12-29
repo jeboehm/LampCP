@@ -11,16 +11,22 @@
 namespace Jboehm\Lampcp\CoreBundle\Utilities;
 
 class ExecUtility {
+	protected $_retOutput;
+	protected $_retOutputLined;
+	protected $_retCode;
+	protected $_run = false;
+
 	/**
-	 * Execute command with options and return the output.
+	 * Execute command with options.
 	 * This escapes arguments automatically.
 	 *
 	 * @param string $cmd
 	 * @param array  $options
 	 *
-	 * @return array
+	 * @return void
 	 */
-	static public function exec($cmd, $options = array()) {
+	public function exec($cmd, $options = array()) {
+		$this->_run  = true;
 		$command     = $cmd;
 		$returnCode  = 0;
 		$returnLines = array();
@@ -33,22 +39,48 @@ class ExecUtility {
 			$command .= ' ' . escapeshellarg($value);
 		}
 
-		$returnString = exec($command, $returnLines, $returnCode);
-
-		return array('code'   => $returnCode,
-					 'output' => $returnString,
-					 'lines'  => $returnLines);
+		$this->_retOutput      = exec($command, $returnLines, $returnCode);
+		$this->_retCode        = $returnCode;
+		$this->_retOutputLined = $returnLines;
 	}
 
 	/**
 	 * Closes output streams to avoid hungs.
 	 */
-	static protected function _closeOutputStreams() {
+	protected function _closeOutputStreams() {
 		if(is_resource(STDOUT)) {
 			fclose(STDOUT);
 		}
 		if(is_resource(STDERR)) {
 			fclose(STDERR);
 		}
+	}
+
+	/**
+	 * Get returncode
+	 *
+	 * @return int
+	 * @throws \Exception
+	 */
+	public function getCode() {
+		if(!$this->_run) {
+			throw new \Exception('Use Exec first!');
+		}
+
+		return $this->_retCode;
+	}
+
+	/**
+	 * Get output
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function getOutput() {
+		if(!$this->_run) {
+			throw new \Exception('Use Exec first!');
+		}
+
+		return $this->_retOutput;
 	}
 }
