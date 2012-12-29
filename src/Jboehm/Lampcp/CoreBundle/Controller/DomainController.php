@@ -223,7 +223,7 @@ class DomainController extends BaseController {
 	 * @param int $uid
 	 *
 	 * @return \Jboehm\Lampcp\UserBundle\Entity\User
-	 * @throws
+	 * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 	 */
 	protected function _getUserByUid($uid) {
 		/** @var $repo \Doctrine\ORM\EntityRepository */
