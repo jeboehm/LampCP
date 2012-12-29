@@ -34,9 +34,9 @@ class PathOptionController extends BaseController {
 
 		$entities = $em->getRepository('JboehmLampcpCoreBundle:PathOption')->findByDomain($this->_getSelectedDomain());
 
-		return $this->_getGlobalReturn(array(
-											'entities' => $entities,
-									   ));
+		return $this->_getReturn(array(
+									  'entities' => $entities,
+								 ));
 	}
 
 	/**
@@ -57,10 +57,10 @@ class PathOptionController extends BaseController {
 
 		$deleteForm = $this->createDeleteForm($id);
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**
@@ -73,10 +73,10 @@ class PathOptionController extends BaseController {
 		$entity = new PathOption($this->_getSelectedDomain());
 		$form   = $this->createForm(new PathOptionType(), $entity);
 
-		return $this->_getGlobalReturn(array(
-											'entity' => $entity,
-											'form'   => $form->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity' => $entity,
+									  'form'   => $form->createView(),
+								 ));
 	}
 
 	/**
@@ -99,10 +99,10 @@ class PathOptionController extends BaseController {
 			return $this->redirect($this->generateUrl('config_pathoption_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getGlobalReturn(array(
-											'entity' => $entity,
-											'form'   => $form->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity' => $entity,
+									  'form'   => $form->createView(),
+								 ));
 	}
 
 	/**
@@ -124,11 +124,11 @@ class PathOptionController extends BaseController {
 		$editForm   = $this->createForm(new PathOptionType(), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'edit_form'   => $editForm->createView(),
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'edit_form'   => $editForm->createView(),
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**
@@ -159,11 +159,11 @@ class PathOptionController extends BaseController {
 			return $this->redirect($this->generateUrl('config_pathoption_edit', array('id' => $id)));
 		}
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'edit_form'   => $editForm->createView(),
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'edit_form'   => $editForm->createView(),
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**

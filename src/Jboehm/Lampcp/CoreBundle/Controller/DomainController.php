@@ -34,9 +34,9 @@ class DomainController extends BaseController {
 
 		$entities = $em->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
 
-		return $this->_getGlobalReturn(array(
-											'entities' => $entities,
-									   ));
+		return $this->_getReturn(array(
+									  'entities' => $entities,
+								 ));
 	}
 
 	/**
@@ -56,10 +56,10 @@ class DomainController extends BaseController {
 
 		$deleteForm = $this->createDeleteForm($id);
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**
@@ -72,10 +72,10 @@ class DomainController extends BaseController {
 		$entity = new Domain();
 		$form   = $this->createForm(new DomainType(), $entity);
 
-		return $this->_getGlobalReturn(array(
-											'entity' => $entity,
-											'form'   => $form->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity' => $entity,
+									  'form'   => $form->createView(),
+								 ));
 	}
 
 	/**
@@ -98,10 +98,10 @@ class DomainController extends BaseController {
 			return $this->redirect($this->generateUrl('config_domain_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getGlobalReturn(array(
-											'entity' => $entity,
-											'form'   => $form->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity' => $entity,
+									  'form'   => $form->createView(),
+								 ));
 	}
 
 	/**
@@ -122,11 +122,11 @@ class DomainController extends BaseController {
 		$editForm   = $this->createForm(new DomainType(), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'edit_form'   => $editForm->createView(),
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'edit_form'   => $editForm->createView(),
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**
@@ -156,11 +156,11 @@ class DomainController extends BaseController {
 			return $this->redirect($this->generateUrl('config_domain_edit', array('id' => $id)));
 		}
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'edit_form'   => $editForm->createView(),
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'edit_form'   => $editForm->createView(),
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**

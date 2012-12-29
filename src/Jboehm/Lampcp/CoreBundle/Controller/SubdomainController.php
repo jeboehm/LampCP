@@ -34,9 +34,9 @@ class SubdomainController extends BaseController {
 
 		$entities = $em->getRepository('JboehmLampcpCoreBundle:Subdomain')->findByDomain($this->_getSelectedDomain());
 
-		return $this->_getGlobalReturn(array(
-											'entities' => $entities,
-									   ));
+		return $this->_getReturn(array(
+									  'entities' => $entities,
+								 ));
 	}
 
 	/**
@@ -57,10 +57,10 @@ class SubdomainController extends BaseController {
 
 		$deleteForm = $this->createDeleteForm($id);
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**
@@ -73,10 +73,10 @@ class SubdomainController extends BaseController {
 		$entity = new Subdomain($this->_getSelectedDomain());
 		$form   = $this->createForm(new SubdomainType(), $entity);
 
-		return $this->_getGlobalReturn(array(
-											'entity' => $entity,
-											'form'   => $form->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity' => $entity,
+									  'form'   => $form->createView(),
+								 ));
 	}
 
 	/**
@@ -99,10 +99,10 @@ class SubdomainController extends BaseController {
 			return $this->redirect($this->generateUrl('config_subdomain_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getGlobalReturn(array(
-											'entity' => $entity,
-											'form'   => $form->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity' => $entity,
+									  'form'   => $form->createView(),
+								 ));
 	}
 
 	/**
@@ -124,11 +124,11 @@ class SubdomainController extends BaseController {
 		$editForm   = $this->createForm(new SubdomainType(), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'edit_form'   => $editForm->createView(),
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'edit_form'   => $editForm->createView(),
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**
@@ -159,11 +159,11 @@ class SubdomainController extends BaseController {
 			return $this->redirect($this->generateUrl('config_subdomain_edit', array('id' => $id)));
 		}
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'edit_form'   => $editForm->createView(),
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'edit_form'   => $editForm->createView(),
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**

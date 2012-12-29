@@ -33,7 +33,7 @@ class DefaultController extends BaseController {
 		$e = new ExecUtility();
 		$e->exec('uptime');
 
-		return $this->_getGlobalReturn(array('uptime' => $e->getOutput()));
+		return $this->_getReturn(array('uptime' => $e->getOutput()));
 	}
 
 	/**

@@ -62,10 +62,10 @@ class MailAddressController extends BaseController {
 			->getRepository('JboehmLampcpCoreBundle:MailAddress')
 			->findBy(array('mailaccount' => $mailaccount));
 
-		return $this->_getGlobalReturn(array(
-											'entities'    => $entities,
-											'mailaccount' => $mailaccount,
-									   ));
+		return $this->_getReturn(array(
+									  'entities'    => $entities,
+									  'mailaccount' => $mailaccount,
+								 ));
 	}
 
 	/**
@@ -86,10 +86,10 @@ class MailAddressController extends BaseController {
 
 		$deleteForm = $this->createDeleteForm($id);
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**
@@ -104,11 +104,11 @@ class MailAddressController extends BaseController {
 		$entity      = new MailAddress($this->_getSelectedDomain(), $mailaccount);
 		$form        = $this->createForm(new MailAddressType(), $entity);
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'form'        => $form->createView(),
-											'mailaccount' => $mailaccount,
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'form'        => $form->createView(),
+									  'mailaccount' => $mailaccount,
+								 ));
 	}
 
 	/**
@@ -133,11 +133,11 @@ class MailAddressController extends BaseController {
 			return $this->redirect($this->generateUrl('config_mailaddress_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'form'        => $form->createView(),
-											'mailaccount' => $mailaccount,
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'form'        => $form->createView(),
+									  'mailaccount' => $mailaccount,
+								 ));
 	}
 
 	/**
@@ -159,11 +159,11 @@ class MailAddressController extends BaseController {
 		$editForm   = $this->createForm(new MailAddressType(), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'edit_form'   => $editForm->createView(),
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'edit_form'   => $editForm->createView(),
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**
@@ -194,11 +194,11 @@ class MailAddressController extends BaseController {
 			return $this->redirect($this->generateUrl('config_mailaddress_edit', array('id' => $id)));
 		}
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'edit_form'   => $editForm->createView(),
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'edit_form'   => $editForm->createView(),
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**

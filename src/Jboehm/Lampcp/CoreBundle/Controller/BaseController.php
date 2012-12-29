@@ -99,7 +99,7 @@ abstract class BaseController extends Controller {
 	 *
 	 * @return array
 	 */
-	protected function _getGlobalReturn(array $arrReturn) {
+	protected function _getReturn(array $arrReturn) {
 		$arrGlob = array(
 			'domainselector_form' => $this->_createDomainselectorForm()->createView(),
 			'selecteddomain'      => $this->_getSelectedDomain(),

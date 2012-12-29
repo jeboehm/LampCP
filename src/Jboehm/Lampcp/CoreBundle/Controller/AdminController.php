@@ -50,9 +50,9 @@ class AdminController extends BaseController {
 
 		$entities = $em->getRepository('JboehmLampcpCoreBundle:Admin')->findAll();
 
-		return $this->_getGlobalReturn(array(
-											'entities' => $entities,
-									   ));
+		return $this->_getReturn(array(
+									  'entities' => $entities,
+								 ));
 	}
 
 	/**
@@ -73,10 +73,10 @@ class AdminController extends BaseController {
 
 		$deleteForm = $this->createDeleteForm($id);
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**
@@ -89,10 +89,10 @@ class AdminController extends BaseController {
 		$entity = new Admin();
 		$form   = $this->createForm(new AdminType(), $entity);
 
-		return $this->_getGlobalReturn(array(
-											'entity' => $entity,
-											'form'   => $form->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity' => $entity,
+									  'form'   => $form->createView(),
+								 ));
 	}
 
 	/**
@@ -118,10 +118,10 @@ class AdminController extends BaseController {
 			return $this->redirect($this->generateUrl('config_admin_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getGlobalReturn(array(
-											'entity' => $entity,
-											'form'   => $form->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity' => $entity,
+									  'form'   => $form->createView(),
+								 ));
 	}
 
 	/**
@@ -143,11 +143,11 @@ class AdminController extends BaseController {
 		$editForm   = $this->createForm(new AdminType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'edit_form'   => $editForm->createView(),
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'edit_form'   => $editForm->createView(),
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**
@@ -186,11 +186,11 @@ class AdminController extends BaseController {
 			return $this->redirect($this->generateUrl('config_admin_edit', array('id' => $id)));
 		}
 
-		return $this->_getGlobalReturn(array(
-											'entity'      => $entity,
-											'edit_form'   => $editForm->createView(),
-											'delete_form' => $deleteForm->createView(),
-									   ));
+		return $this->_getReturn(array(
+									  'entity'      => $entity,
+									  'edit_form'   => $editForm->createView(),
+									  'delete_form' => $deleteForm->createView(),
+								 ));
 	}
 
 	/**

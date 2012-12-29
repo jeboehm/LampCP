@@ -38,9 +38,9 @@ class SystemConfigController extends BaseController {
 	 * @Template()
 	 */
 	public function indexAction() {
-		return $this->_getGlobalReturn(array(
-											'config' => $this->_getSystemConfigService()->getConfigTemplate(),
-									   ));
+		return $this->_getReturn(array(
+									  'config' => $this->_getSystemConfigService()->getConfigTemplate(),
+								 ));
 	}
 
 	/**
@@ -52,9 +52,9 @@ class SystemConfigController extends BaseController {
 	public function editAction() {
 		$this->_getConfigForm();
 
-		return $this->_getGlobalReturn(array(
-											'edit_form' => $this->_getConfigForm()->createView()
-									   ));
+		return $this->_getReturn(array(
+									  'edit_form' => $this->_getConfigForm()->createView()
+								 ));
 	}
 
 	/**
