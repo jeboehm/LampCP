@@ -16,39 +16,11 @@ http://www.gnu.org/licenses/gpl-2.0.txt
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="gidservice.class">Jboehm\Lampcp\CoreBundle\Service\GidService</parameter>
-        <parameter key="uidservice.class">Jboehm\Lampcp\CoreBundle\Service\UidService</parameter>
-        <parameter key="sysuserservice.class">Jboehm\Lampcp\CoreBundle\Service\SysUserService</parameter>
         <parameter key="systemconfigservice.class">Jboehm\Lampcp\CoreBundle\Service\SystemConfigService</parameter>
-
-        <parameter key="system.password.file">/etc/passwd</parameter>
-        <parameter key="system.group.file">/etc/group</parameter>
-        <parameter key="system.useradd.cmd">/usr/sbin/useradd</parameter>
-        <parameter key="system.groupadd.cmd">/usr/sbin/groupadd</parameter>
-
         <parameter key="systemconfig.yaml">Resources/config/systemconfig.yml</parameter>
     </parameters>
 
     <services>
-        <service id="jboehm_lampcp_core.gidservice" class="%gidservice.class%">
-            <argument>10000</argument>
-            <argument>19999</argument>
-            <argument>%system.group.file%</argument>
-        </service>
-
-        <service id="jboehm_lampcp_core.uidservice" class="%uidservice.class%">
-            <argument>10000</argument>
-            <argument>19999</argument>
-            <argument>%system.password.file%</argument>
-        </service>
-
-        <service id="jboehm_lampcp_core.sysuserservice" class="%sysuserservice.class%">
-            <argument type="service" id="jboehm_lampcp_core.uidservice" />
-            <argument type="service" id="jboehm_lampcp_core.gidservice" />
-            <argument>%system.useradd.cmd%</argument>
-            <argument>%system.groupadd.cmd%</argument>
-        </service>
-
         <service id="jboehm_lampcp_core.systemconfigservice" class="%systemconfigservice.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument>%systemconfig.yaml%</argument>
