@@ -57,12 +57,13 @@ class DefaultController extends BaseController {
 				->getRepository('JboehmLampcpCoreBundle:Domain')
 				->findOneById(intval($data['domain']));
 
-			if(!$domain) {
-				throw $this->createNotFoundException('Domain not found');
-			}
-
 			$session = $this->_getSession();
-			$session->set('domain', $domain->getId());
+
+			if(!$domain) {
+				$session->set('domain', 0);
+			} else {
+				$session->set('domain', $domain->getId());
+			}
 		}
 
 		return $this->forward('JboehmLampcpCoreBundle:Default:index');
