@@ -73,7 +73,8 @@ abstract class BaseController extends Controller {
 
 		return $this->createFormBuilder(array('domain' => $selectedId))
 			->add('domain', 'choice', array(
-										   'choices' => $domainSelectList,
+										   'choices'     => $domainSelectList,
+										   'empty_value' => '------',
 									  ))
 			->getForm();
 	}

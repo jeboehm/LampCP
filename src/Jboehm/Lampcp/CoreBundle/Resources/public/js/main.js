@@ -8,5 +8,10 @@
  */
 
 $(document).ready(function () {
-
+    // Domainselector
+    $('#form_domain').bind({
+        change: function() {
+            $(this.form).submit();
+        }
+    });
 });
