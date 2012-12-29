@@ -20,6 +20,7 @@
         "jms/security-extra-bundle": "1.2.*",
         "jms/di-extra-bundle": "1.1.*",
         "phpunit/phpunit":"3.7.*",
+        "jboehm/passwd-bundle": "dev-master",
         "sonata-project/jquery-bundle": "1.8.*@dev"
     },
     "scripts": {

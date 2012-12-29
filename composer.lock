@@ -1,5 +1,5 @@
 {
-    "hash": "bd3d6c391f172615e690cdbe53018cad",
+    "hash": "e775218bd05cdb9f5e37ca21a14823a9",
     "packages": [
         {
             "name": "doctrine/common",
@@ -126,19 +126,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal",
-                "reference": "8d0bd31ec311b50b5f62c3da6f266da83da25995"
+                "reference": "cb3ec49cb4401bd1c8be6ba9671f651802586eaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/dbal/archive/8d0bd31ec311b50b5f62c3da6f266da83da25995.zip",
-                "reference": "8d0bd31ec311b50b5f62c3da6f266da83da25995",
+                "url": "https://github.com/doctrine/dbal/archive/cb3ec49cb4401bd1c8be6ba9671f651802586eaf.zip",
+                "reference": "cb3ec49cb4401bd1c8be6ba9671f651802586eaf",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "doctrine/common": "2.3.*"
             },
-            "time": "2012-12-22 11:34:26",
+            "time": "2012-12-23 20:28:39",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -151,6 +151,7 @@
                     "Doctrine\\DBAL": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -311,12 +312,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/doctrine/doctrine2.git",
-                "reference": "f94b6c07c75605d5181fab50eef8764494201d59"
+                "reference": "019094655b6606852a3e3231de93425d9913bac4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/doctrine2/archive/f94b6c07c75605d5181fab50eef8764494201d59.zip",
-                "reference": "f94b6c07c75605d5181fab50eef8764494201d59",
+                "url": "https://github.com/doctrine/doctrine2/archive/019094655b6606852a3e3231de93425d9913bac4.zip",
+                "reference": "019094655b6606852a3e3231de93425d9913bac4",
                 "shasum": ""
             },
             "require": {
@@ -328,7 +329,7 @@
             "suggest": {
                 "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
             },
-            "time": "2012-12-22 20:50:42",
+            "time": "2012-12-24 10:18:12",
             "bin": [
                 "bin/doctrine",
                 "bin/doctrine.php"
@@ -345,6 +346,7 @@
                     "Doctrine\\ORM": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -376,23 +378,65 @@
             ]
         },
         {
+            "name": "jboehm/passwd-bundle",
+            "version": "dev-master",
+            "target-dir": "Jboehm/Bundle/PasswdBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jeboehm/PasswdBundle.git",
+                "reference": "99bfa8b7ed9482fec7aed7bf714d9863e51bd271"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/jeboehm/PasswdBundle/archive/99bfa8b7ed9482fec7aed7bf714d9863e51bd271.zip",
+                "reference": "99bfa8b7ed9482fec7aed7bf714d9863e51bd271",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "time": "2012-12-29 19:56:02",
+            "type": "symfony-bundle",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Jboehm\\Bundle\\PasswdBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Boehm",
+                    "email": "j.boehm@ressourcenkonflikt.de"
+                }
+            ],
+            "description": "Parser for unix-style passwd files",
+            "keywords": [
+                "unix",
+                "passwd"
+            ]
+        },
+        {
             "name": "jdorn/sql-formatter",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "git://github.com/jdorn/sql-formatter.git",
-                "reference": "v1.2.0"
+                "reference": "7cc05be93fc352be9c551bf5a45c7b930f5d9e2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/jdorn/sql-formatter/archive/v1.2.0.zip",
-                "reference": "v1.2.0",
+                "url": "https://github.com/jdorn/sql-formatter/archive/7cc05be93fc352be9c551bf5a45c7b930f5d9e2a.zip",
+                "reference": "7cc05be93fc352be9c551bf5a45c7b930f5d9e2a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2012-12-22 21:46:50",
+            "time": "2012-12-29 19:41:32",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -405,6 +449,7 @@
                     "lib"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL"
             ],
@@ -1036,12 +1081,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a0bccf3f40b7d42d4a1343e3f63bcfa8a8568745"
+                "reference": "911a4f1d5dff3e08be90133e984c8a39e510c348"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/phpunit/archive/a0bccf3f40b7d42d4a1343e3f63bcfa8a8568745.zip",
-                "reference": "a0bccf3f40b7d42d4a1343e3f63bcfa8a8568745",
+                "url": "https://github.com/sebastianbergmann/phpunit/archive/911a4f1d5dff3e08be90133e984c8a39e510c348.zip",
+                "reference": "911a4f1d5dff3e08be90133e984c8a39e510c348",
                 "shasum": ""
             },
             "require": {
@@ -1063,7 +1108,7 @@
                 "ext-tokenizer": "*",
                 "phpunit/php-invoker": ">=1.1.0"
             },
-            "time": "2012-12-15 09:00:20",
+            "time": "2012-12-27 11:30:34",
             "bin": [
                 "composer/bin/phpunit"
             ],
@@ -1079,6 +1124,7 @@
                     "PHPUnit/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 "",
                 "../../symfony/yaml/"
@@ -1250,12 +1296,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensio/SensioGeneratorBundle",
-                "reference": "v2.1.4"
+                "reference": "v2.1.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sensio/SensioGeneratorBundle/archive/v2.1.4.zip",
-                "reference": "v2.1.4",
+                "url": "https://github.com/sensio/SensioGeneratorBundle/archive/v2.1.5.zip",
+                "reference": "v2.1.5",
                 "shasum": ""
             },
             "require": {
@@ -1280,6 +1326,7 @@
                     "Sensio\\Bundle\\GeneratorBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1568,12 +1615,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "031a09dc00502e152816179bb0de2dfe7b17c279"
+                "reference": "9b71f30ade6b1458567dc2bcd4e09cfff0875178"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/archive/031a09dc00502e152816179bb0de2dfe7b17c279.zip",
-                "reference": "031a09dc00502e152816179bb0de2dfe7b17c279",
+                "url": "https://github.com/symfony/symfony/archive/9b71f30ade6b1458567dc2bcd4e09cfff0875178.zip",
+                "reference": "9b71f30ade6b1458567dc2bcd4e09cfff0875178",
                 "shasum": ""
             },
             "require": {
@@ -1622,7 +1669,7 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": "1.*"
             },
-            "time": "2012-12-21 10:42:20",
+            "time": "2012-12-28 22:58:46",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -1631,6 +1678,7 @@
                     "SessionHandlerInterface": "src/Symfony/Component/HttpFoundation/Resources/stubs"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1703,18 +1751,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "f095f3a1777431412954e478f92e8a10cb7b6495"
+                "reference": "1b1a6e7de018d300e6eb67727f3717c24f4540ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/archive/f095f3a1777431412954e478f92e8a10cb7b6495.zip",
-                "reference": "f095f3a1777431412954e478f92e8a10cb7b6495",
+                "url": "https://github.com/fabpot/Twig/archive/1b1a6e7de018d300e6eb67727f3717c24f4540ba.zip",
+                "reference": "1b1a6e7de018d300e6eb67727f3717c24f4540ba",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2012-12-18 10:01:32",
+            "time": "2012-12-27 16:33:50",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1727,6 +1775,7 @@
                     "Twig_": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3"
             ],
@@ -1754,6 +1803,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "doctrine/doctrine-fixtures-bundle": 20,
+        "jboehm/passwd-bundle": 20,
         "sonata-project/jquery-bundle": 20
     }
 }

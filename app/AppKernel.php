@@ -19,6 +19,7 @@ class AppKernel extends Kernel {
 			new JMS\DiExtraBundle\JMSDiExtraBundle($this),
 			new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
 			new Sonata\jQueryBundle\SonatajQueryBundle(),
+			new Jboehm\Bundle\PasswdBundle\JboehmPasswdBundle(),
 			new Jboehm\Lampcp\CoreBundle\JboehmLampcpCoreBundle(),
 		);
 
