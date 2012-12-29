@@ -52,4 +52,58 @@ abstract class BaseController extends Controller {
 
 		return $domain;
 	}
+
+	/**
+	 * Erzeugt das Domainselector Formular
+	 *
+	 * @return \Symfony\Component\Form\Form
+	 */
+	protected function _createDomainselectorForm() {
+		$selectedDomain   = $this->_getSelectedDomain();
+		$domainSelectList = array();
+		$selectedId       = 0;
+
+		if($selectedDomain) {
+			$selectedId = $selectedDomain->getId();
+		}
+
+		foreach($this->_getDomains() as $domain) {
+			$domainSelectList[$domain->getId()] = $domain->getDomain();
+		}
+
+		return $this->createFormBuilder(array('domain' => $selectedId))
+			->add('domain', 'choice', array(
+										   'choices' => $domainSelectList,
+									  ))
+			->getForm();
+	}
+
+	/**
+	 * Get domains
+	 *
+	 * @return \Jboehm\Lampcp\CoreBundle\Entity\Domain[]
+	 */
+	private function _getDomains() {
+		/** @var $domains Domain[] */
+		$em      = $this->getDoctrine()->getManager();
+		$domains = $em->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
+
+		return $domains;
+	}
+
+	/**
+	 * Return Funktion, die für alle Controller verwendet werden sollte
+	 *
+	 * @param array $arrReturn
+	 *
+	 * @return array
+	 */
+	protected function _getGlobalReturn(array $arrReturn) {
+		$arrGlob = array(
+			'domainselector_form' => $this->_createDomainselectorForm()->createView(),
+			'selecteddomain'      => $this->_getSelectedDomain(),
+		);
+
+		return array_merge($arrGlob, $arrReturn);
+	}
 }

@@ -22,19 +22,6 @@ use Jboehm\Lampcp\CoreBundle\Entity\Domain;
  */
 class DefaultController extends BaseController {
 	/**
-	 * Get domains
-	 *
-	 * @return \Jboehm\Lampcp\CoreBundle\Entity\Domain[]
-	 */
-	protected function _getDomains() {
-		/** @var $domains Domain[] */
-		$em      = $this->getDoctrine()->getManager();
-		$domains = $em->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
-
-		return $domains;
-	}
-
-	/**
 	 * Shows status page.
 	 *
 	 * @Route("/", name="default")
@@ -42,10 +29,7 @@ class DefaultController extends BaseController {
 	 * @return array
 	 */
 	public function indexAction() {
-		return array(
-			'selecteddomain' => $this->_getSelectedDomain(),
-			'domainselector_form' => $this->_createDomainselectorForm()->createView(),
-		);
+		return $this->_getGlobalReturn(array());
 	}
 
 	/**
@@ -82,30 +66,5 @@ class DefaultController extends BaseController {
 		}
 
 		return $this->forward('JboehmLampcpCoreBundle:Default:index');
-	}
-
-	/**
-	 * Erzeugt das Domainselector Formular
-	 *
-	 * @return \Symfony\Component\Form\Form
-	 */
-	private function _createDomainselectorForm() {
-		$selectedDomain   = $this->_getSelectedDomain();
-		$domainSelectList = array();
-		$selectedId       = 0;
-
-		if($selectedDomain) {
-			$selectedId = $selectedDomain->getId();
-		}
-
-		foreach($this->_getDomains() as $domain) {
-			$domainSelectList[$domain->getId()] = $domain->getDomain();
-		}
-
-		return $this->createFormBuilder(array('domain' => $selectedId))
-			->add('domain', 'choice', array(
-									  'choices' => $domainSelectList,
-									  ))
-			->getForm();
 	}
 }
