@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Form\DomainType;
+use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
 
 /**
  * Domain controller.
@@ -208,11 +209,16 @@ class DomainController extends BaseController {
 	 */
 	protected function _getUidList() {
 		/** @var $repo \Doctrine\ORM\EntityRepository */
-		$repo = $this->getDoctrine()->getRepository('JboehmLampcpUserBundle:User');
-		$uids = array();
+		$repo   = $this->getDoctrine()->getRepository('JboehmLampcpUserBundle:User');
+		$uids   = array();
+		$minuid = intval($this->_getSystemConfigService()->getParameter('systemconfig.option.unix.min.user.uid'));
 
 		foreach($repo->findAll() as $user) {
 			/** @var $user \Jboehm\Lampcp\UserBundle\Entity\User */
+			if($user->getUid() < $minuid) {
+				continue;
+			}
+
 			$uids[$user->getUid()] = $user->getName();
 		}
 
@@ -236,5 +242,12 @@ class DomainController extends BaseController {
 		}
 
 		return $user;
+	}
+
+	/**
+	 * @return SystemConfigService
+	 */
+	protected function _getSystemConfigService() {
+		return $this->get('jboehm_lampcp_core.systemconfigservice');
 	}
 }
