@@ -44,14 +44,12 @@ abstract class BaseController extends Controller {
 			$repo   = $this->getDoctrine()->getRepository('JboehmLampcpCoreBundle:Domain');
 			$domain = $repo->findOneById($domainId);
 
-			if($domain) {
-				return $domain;
-			} else {
+			if(!$domain) {
 				$session = $this->_getSession();
 				$session->set('domain', 0);
 			}
 		}
 
-		return null;
+		return $domain;
 	}
 }
