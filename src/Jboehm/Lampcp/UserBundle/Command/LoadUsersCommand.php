@@ -16,7 +16,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Jboehm\Lampcp\UserBundle\Entity\User;
+use Jboehm\Lampcp\CoreBundle\Entity\User;
+use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
 
 class LoadUsersCommand extends ContainerAwareCommand {
@@ -31,6 +32,9 @@ class LoadUsersCommand extends ContainerAwareCommand {
 
 	/** @var PasswdService */
 	protected $_systemUserService;
+
+	/** @var \Doctrine\ORM\EntityRepository */
+	protected $_domainRepository;
 
 	/**
 	 * Setting up the Command
@@ -52,7 +56,8 @@ class LoadUsersCommand extends ContainerAwareCommand {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$this->_manager             = $this->getContainer()->get('doctrine.orm.entity_manager');
-		$this->_localUserRepository = $this->_manager->getRepository('JboehmLampcpUserBundle:User');
+		$this->_localUserRepository = $this->_manager->getRepository('JboehmLampcpCoreBundle:User');
+		$this->_domainRepository    = $this->_manager->getRepository('JboehmLampcpCoreBundle:Domain');
 		$this->_systemConfigService = $this->getContainer()->get('jboehm_lampcp_core.systemconfigservice');
 		$this->_systemUserService   = new PasswdService($this->_systemConfigService->getParameter('systemconfig.option.paths.unix.passwd.file'));
 
@@ -121,12 +126,19 @@ class LoadUsersCommand extends ContainerAwareCommand {
 	protected function _checkDeleted(OutputInterface $output, InputInterface $input) {
 		foreach($this->_localUserRepository->findAll() as $localUser) {
 			/** @var $localUser User */
-			if(!$this->_systemUserService->findOneBy(array('name' => $localUser->getName()))) {
-				if($input->getOption('verbose')) {
-					$output->writeln('Deleted user: ' . $localUser->getName() . '...');
-				}
 
-				$this->_manager->remove($localUser);
+			if(!$this->_systemUserService->findOneBy(array('name' => $localUser->getName()))) {
+				$domainsForUser = $this->_domainRepository->findBy(array('user' => $localUser));
+
+				if(count($domainsForUser) > 0) {
+					$output->writeln('Could not delete invalid user ' . $localUser->getName() . ', because ' . count($domainsForUser) . ' domains are linked to it.');
+				} else {
+					if($input->getOption('verbose')) {
+						$output->writeln('Deleted user: ' . $localUser->getName() . '...');
+					}
+
+					$this->_manager->remove($localUser);
+				}
 			}
 		}
 	}

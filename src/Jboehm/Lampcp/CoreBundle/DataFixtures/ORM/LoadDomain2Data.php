@@ -19,17 +19,25 @@ use Jboehm\Lampcp\CoreBundle\Entity\MailAccount;
 use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
 use Jboehm\Lampcp\CoreBundle\Entity\PathOption;
 use Jboehm\Lampcp\CoreBundle\Entity\MailAddress;
+use Jboehm\Lampcp\CoreBundle\Entity\User;
 
 class LoadDomain2Data implements FixtureInterface {
 	/**
 	 * {@inheritDoc}
 	 */
 	public function load(ObjectManager $manager) {
+		$user = new User();
+		$user
+			->setName('test2')
+			->setUid(1002)
+			->setGid(1005);
+
+		$manager->persist($user);
+
 		$domain = new Domain();
 		$domain
 			->setDomain('uh.cx')
-			->setUid(1000)
-			->setGid(1000)
+			->setUser($user)
 			->setPath('/var/www/uh.cx');
 
 		$manager->persist($domain);

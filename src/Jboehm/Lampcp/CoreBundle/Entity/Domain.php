@@ -11,6 +11,7 @@
 namespace Jboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -46,18 +47,11 @@ class Domain {
 	private $path;
 
 	/**
-	 * @Assert\Min(1)
-	 * @var int
-	 * @ORM\Column(name="uid", type="integer")
+	 * @var User
+	 * @Assert\NotNull()
+	 * @ManyToOne(targetEntity="User")
 	 */
-	private $uid;
-
-	/**
-	 * @Assert\Min(1)
-	 * @var int
-	 * @ORM\Column(name="gid", type="integer")
-	 */
-	private $gid;
+	private $user;
 
 	/**
 	 * @var string
@@ -144,38 +138,20 @@ class Domain {
 	}
 
 	/**
-	 * @param int $uid
+	 * @param \Jboehm\Lampcp\UserBundle\Entity\User $user
 	 *
 	 * @return Domain
 	 */
-	public function setUid($uid) {
-		$this->uid = $uid;
+	public function setUser($user) {
+		$this->user = $user;
 
 		return $this;
 	}
 
 	/**
-	 * @return int
+	 * @return \Jboehm\Lampcp\UserBundle\Entity\User
 	 */
-	public function getUid() {
-		return $this->uid;
-	}
-
-	/**
-	 * @param int $gid
-	 *
-	 * @return Domain
-	 */
-	public function setGid($gid) {
-		$this->gid = $gid;
-
-		return $this;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getGid() {
-		return $this->gid;
+	public function getUser() {
+		return $this->user;
 	}
 }

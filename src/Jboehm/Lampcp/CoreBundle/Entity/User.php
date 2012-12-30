@@ -8,7 +8,7 @@
  *
  */
 
-namespace Jboehm\Lampcp\UserBundle\Entity;
+namespace Jboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
