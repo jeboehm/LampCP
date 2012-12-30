@@ -71,6 +71,8 @@ class LoadUsersCommand extends ContainerAwareCommand {
 			$output->writeln('Found ' . count($this->_localUserRepository->findAll()) . ' cached users...');
 		}
 
+		$this->_logService->info('Executing LoadUsersCommand');
+
 		$this->_syncSystemToLocal($output, $input);
 		$this->_checkDeleted($output, $input);
 
