@@ -68,6 +68,7 @@ default.topmenu.no.domain: Keine Domain ausgewählt
 form.domain: Domain auswählen
 
 default.headline.uptime: Uptime / Angemeldete User / Load
+default.headline.uname: Hostname / Kernel-Version
 
 # Tabellenspalten / Attribute
 all.column.actions: Aktionen

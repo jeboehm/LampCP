@@ -30,10 +30,16 @@ class DefaultController extends BaseController {
 	 * @return array
 	 */
 	public function indexAction() {
-		$e = new ExecUtility();
-		$e->exec('uptime');
+		$uptime = new ExecUtility();
+		$uptime->exec('uptime');
 
-		return $this->_getReturn(array('uptime' => $e->getOutput()));
+		$uname = new ExecUtility();
+		$uname->exec('uname -a');
+
+		return $this->_getReturn(array(
+									  'uptime' => $uptime->getOutput(),
+									  'uname'  => $uname->getOutput(),
+								 ));
 	}
 
 	/**
