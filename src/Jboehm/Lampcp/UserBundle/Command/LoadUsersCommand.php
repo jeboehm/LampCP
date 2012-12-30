@@ -10,7 +10,6 @@
 
 namespace Jboehm\Lampcp\UserBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Jboehm\Bundle\PasswdBundle\Model\PasswdService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,24 +17,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Jboehm\Lampcp\CoreBundle\Entity\User;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
-use Jboehm\Lampcp\CoreBundle\Service\LogService;
+use Jboehm\Lampcp\CoreBundle\Command\AbstractCommand;
 
-class LoadUsersCommand extends ContainerAwareCommand {
-	/** @var \Doctrine\Common\Persistence\ObjectManager */
-	protected $_manager;
-
+class LoadUsersCommand extends AbstractCommand {
 	/** @var \Doctrine\ORM\EntityRepository */
 	protected $_localUserRepository;
 
-	/** @var SystemConfigService */
-	protected $_systemConfigService;
-
 	/** @var PasswdService */
 	protected $_systemUserService;
-
-	/** @var LogService */
-	protected $_logService;
 
 	/** @var \Doctrine\ORM\EntityRepository */
 	protected $_domainRepository;
@@ -59,24 +48,21 @@ class LoadUsersCommand extends ContainerAwareCommand {
 	 * @return void
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$this->_manager             = $this->getContainer()->get('doctrine.orm.entity_manager');
-		$this->_localUserRepository = $this->_manager->getRepository('JboehmLampcpCoreBundle:User');
-		$this->_domainRepository    = $this->_manager->getRepository('JboehmLampcpCoreBundle:Domain');
-		$this->_systemConfigService = $this->getContainer()->get('jboehm_lampcp_core.systemconfigservice');
-		$this->_systemUserService   = new PasswdService($this->_systemConfigService->getParameter('systemconfig.option.paths.unix.passwd.file'));
-		$this->_logService          = $this->getContainer()->get('jboehm_lampcp_core.logservice');
+		$this->_localUserRepository = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:User');
+		$this->_domainRepository    = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:Domain');
+		$this->_systemUserService   = new PasswdService($this->_getSystemConfigService()->getParameter('systemconfig.option.paths.unix.passwd.file'));
 
 		if($input->getOption('verbose')) {
 			$output->writeln('Found ' . count($this->_systemUserService->getAll()) . ' system users...');
 			$output->writeln('Found ' . count($this->_localUserRepository->findAll()) . ' cached users...');
 		}
 
-		$this->_logService->info('Executing LoadUsersCommand');
+		$this->_getLogService()->info('Executing LoadUsersCommand');
 
 		$this->_syncSystemToLocal($output, $input);
 		$this->_checkDeleted($output, $input);
 
-		$this->_manager->flush();
+		$this->_getDoctrine()->flush();
 	}
 
 	/**
@@ -97,7 +83,7 @@ class LoadUsersCommand extends ContainerAwareCommand {
 				$localUser->setUid($systemUser->getUid());
 				$localUser->setGid($systemUser->getGid());
 
-				$this->_manager->persist($localUser);
+				$this->_getDoctrine()->persist($localUser);
 
 				if($input->getOption('verbose')) {
 					$output->writeln('Saved new user: ' . $localUser->getName() . '...');
@@ -114,7 +100,7 @@ class LoadUsersCommand extends ContainerAwareCommand {
 				}
 
 				if($changed) {
-					$this->_manager->persist($localUser);
+					$this->_getDoctrine()->persist($localUser);
 
 					if($input->getOption('verbose')) {
 						$output->writeln('Changed user: ' . $localUser->getName() . '...');
@@ -140,14 +126,14 @@ class LoadUsersCommand extends ContainerAwareCommand {
 				if(count($domainsForUser) > 0) {
 					$logMsg = 'Could not delete invalid user ' . $localUser->getName() . ', because ' . count($domainsForUser) . ' domains are linked to it.';
 
-					$this->_logService->error($logMsg);
+					$this->_getLogService()->error($logMsg);
 					$output->writeln($logMsg);
 				} else {
 					if($input->getOption('verbose')) {
 						$output->writeln('Deleted user: ' . $localUser->getName() . '...');
 					}
 
-					$this->_manager->remove($localUser);
+					$this->_getDoctrine()->remove($localUser);
 				}
 			}
 		}
