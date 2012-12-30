@@ -75,7 +75,7 @@ jboehm.lampcp.corebundle.admintype.password.second: Passwort wiederholen
 jboehm.lampcp.corebundle.domaintype.domain: Domain
 jboehm.lampcp.corebundle.domaintype.path: Pfad
 jboehm.lampcp.corebundle.domaintype.customconfig: Benutzerdef. Konfiguration
-jboehm.lampcp.corebundle.domaintype.uid: Besitzer
+jboehm.lampcp.corebundle.domaintype.user: Besitzer
 
 jboehm.lampcp.corebundle.subdomaintype.subdomain: Subdomain
 jboehm.lampcp.corebundle.subdomaintype.path: Pfad

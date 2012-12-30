@@ -16,7 +16,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Form\DomainType;
-use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
 
 /**
  * Domain controller.
@@ -49,7 +48,6 @@ class DomainController extends BaseController {
 	public function showAction($id) {
 		$em = $this->getDoctrine()->getManager();
 
-		/** @var $entity Domain */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
 
 		if(!$entity) {
@@ -60,7 +58,6 @@ class DomainController extends BaseController {
 
 		return $this->_getReturn(array(
 									  'entity'      => $entity,
-									  'owner'       => $this->_getUserByUid($entity->getUid())->getName(),
 									  'delete_form' => $deleteForm->createView(),
 								 ));
 	}
@@ -73,7 +70,7 @@ class DomainController extends BaseController {
 	 */
 	public function newAction() {
 		$entity = new Domain();
-		$form   = $this->createForm(new DomainType(false, $this->_getUidList()), $entity);
+		$form   = $this->createForm(new DomainType(), $entity);
 
 		return $this->_getReturn(array(
 									  'entity' => $entity,
@@ -90,11 +87,8 @@ class DomainController extends BaseController {
 	 */
 	public function createAction(Request $request) {
 		$entity = new Domain();
-		$form   = $this->createForm(new DomainType(false, $this->_getUidList()), $entity);
+		$form   = $this->createForm(new DomainType(), $entity);
 		$form->bind($request);
-
-		$user = $this->_getUserByUid($entity->getUid());
-		$entity->setGid($user->getGid());
 
 		if($form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
@@ -125,7 +119,7 @@ class DomainController extends BaseController {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
 		}
 
-		$editForm   = $this->createForm(new DomainType(true, $this->_getUidList()), $entity);
+		$editForm   = $this->createForm(new DomainType(), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
@@ -145,7 +139,6 @@ class DomainController extends BaseController {
 	public function updateAction(Request $request, $id) {
 		$em = $this->getDoctrine()->getManager();
 
-		/** @var $entity Domain */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
 
 		if(!$entity) {
@@ -153,11 +146,8 @@ class DomainController extends BaseController {
 		}
 
 		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new DomainType(true, $this->_getUidList()), $entity);
+		$editForm   = $this->createForm(new DomainType(), $entity);
 		$editForm->bind($request);
-
-		$user = $this->_getUserByUid($entity->getUid());
-		$entity->setGid($user->getGid());
 
 		if($editForm->isValid()) {
 			$em->persist($entity);
@@ -202,52 +192,5 @@ class DomainController extends BaseController {
 		return $this->createFormBuilder(array('id' => $id))
 			->add('id', 'hidden')
 			->getForm();
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function _getUidList() {
-		/** @var $repo \Doctrine\ORM\EntityRepository */
-		$repo   = $this->getDoctrine()->getRepository('JboehmLampcpUserBundle:User');
-		$uids   = array();
-		$minuid = intval($this->_getSystemConfigService()->getParameter('systemconfig.option.unix.min.user.uid'));
-
-		foreach($repo->findAll() as $user) {
-			/** @var $user \Jboehm\Lampcp\UserBundle\Entity\User */
-			if($user->getUid() < $minuid) {
-				continue;
-			}
-
-			$uids[$user->getUid()] = $user->getName();
-		}
-
-		return $uids;
-	}
-
-	/**
-	 * @param int $uid
-	 *
-	 * @return \Jboehm\Lampcp\UserBundle\Entity\User
-	 * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-	 */
-	protected function _getUserByUid($uid) {
-		/** @var $repo \Doctrine\ORM\EntityRepository */
-		/** @var $user \Jboehm\Lampcp\UserBundle\Entity\User */
-		$repo = $this->getDoctrine()->getRepository('JboehmLampcpUserBundle:User');
-		$user = $repo->findOneBy(array('uid' => $uid));
-
-		if(!$user) {
-			throw $this->createNotFoundException();
-		}
-
-		return $user;
-	}
-
-	/**
-	 * @return SystemConfigService
-	 */
-	protected function _getSystemConfigService() {
-		return $this->get('jboehm_lampcp_core.systemconfigservice');
 	}
 }

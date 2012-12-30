@@ -14,14 +14,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class DomainType extends AbstractType {
-	/** @var array */
-	protected $_uids;
-
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('domain')
-			->add('uid', 'choice', array('choices' => $this->_uids))
 			->add('path')
+			->add('user', 'entity', array(
+										 'class'    => 'JboehmLampcpCoreBundle:User',
+										 'property' => 'name',
+									))
 			->add('customconfig', null, array('required' => false));
 	}
 
@@ -33,15 +33,5 @@ class DomainType extends AbstractType {
 
 	public function getName() {
 		return 'jboehm_lampcp_corebundle_domaintype';
-	}
-
-	/**
-	 * @param bool  $edit
-	 * @param array $uids
-	 */
-	public function __construct($edit = false, array $uids) {
-		parent::__construct($edit);
-
-		$this->_uids = $uids;
 	}
 }
