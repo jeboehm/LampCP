@@ -19,6 +19,7 @@ title.page.pathoption: Pfadoptionen
 title.page.protection: Beschränkungen
 title.page.subdomain: Subdomains
 title.page.systemconfig: Systemkonfiguration
+title.page.log: Logbuch
 
 edit.page.admin: Administrator bearbeiten
 edit.page.domain: Domain bearbeiten
@@ -38,6 +39,7 @@ show.page.mysqldatabase: Datenbank anzeigen
 show.page.pathoption: Pfadoption anzeigen
 show.page.protection: Beschränkung anzeigen
 show.page.subdomain: Subdomain anzeigen
+show.page.log: Logeintrag ansehen
 
 create.page.admin: Administrator anlegen
 create.page.domain: Domain anlegen
@@ -54,6 +56,12 @@ button.delete: Löschen
 button.back: Zurück zur Liste
 button.create: Neuen Eintrag anlegen
 button.show: Anzeigen
+
+# Logtypen
+log.type.debug: Entwickler
+log.type.info: Info
+log.type.warn: Warnung
+log.type.error: Fehler
 
 # Seiteninhalte
 default.topmenu.no.domain: Keine Domain ausgewählt
@@ -109,6 +117,10 @@ jboehm.lampcp.corebundle.protectiontype.password.second: Passwort wiederholen
 
 jboehm.lampcp.corebundle.mailaddresstype.address: Adresse
 jboehm.lampcp.corebundle.mailaddresstype.hasCatchAll: Catch All
+
+jboehm.lampcp.corebundle.logtype.time: Zeit
+jboehm.lampcp.corebundle.logtype.message: Nachricht
+jboehm.lampcp.corebundle.logtype.type: Art
 
 # Systemconfig
 systemconfig.password: (Passwort)

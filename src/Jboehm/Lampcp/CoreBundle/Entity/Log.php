@@ -116,6 +116,37 @@ class Log {
 	}
 
 	/**
+	 * Get type as string
+	 *
+	 * @return string
+	 */
+	public function getTypeString() {
+		switch($this->type) {
+			case self::TYPE_DEBUG:
+				$type = 'log.type.debug';
+				break;
+
+			case self::TYPE_ERROR:
+				$type = 'log.type.error';
+				break;
+
+			case self::TYPE_INFO:
+				$type = 'log.type.info';
+				break;
+
+			case self::TYPE_WARN:
+				$type = 'log.type.warn';
+				break;
+
+			default:
+				$type = '';
+				break;
+		}
+
+		return $type;
+	}
+
+	/**
 	 * Set message
 	 *
 	 * @param string $message
