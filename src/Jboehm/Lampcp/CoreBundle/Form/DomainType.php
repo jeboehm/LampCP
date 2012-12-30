@@ -17,7 +17,8 @@ class DomainType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('domain')
-			->add('path')
+			->add('path', null, array('read_only' => true))
+			->add('webroot')
 			->add('user', 'entity', array(
 										 'class'    => 'JboehmLampcpCoreBundle:User',
 										 'property' => 'name',

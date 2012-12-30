@@ -47,6 +47,13 @@ class Domain {
 	private $path;
 
 	/**
+	 * @var string
+	 * @Assert\NotBlank()
+	 * @ORM\Column(name="webroot", type="string", length=255)
+	 */
+	private $webroot;
+
+	/**
 	 * @var User
 	 * @Assert\NotNull()
 	 * @ManyToOne(targetEntity="User")
@@ -64,6 +71,7 @@ class Domain {
 	 */
 	public function __construct() {
 		$this->customconfig = '';
+		$this->webroot      = 'htdocs';
 	}
 
 	/**
@@ -120,6 +128,24 @@ class Domain {
 	}
 
 	/**
+	 * @param string $webroot
+	 *
+	 * @return Domain
+	 */
+	public function setWebroot($webroot) {
+		$this->webroot = $webroot;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getWebroot() {
+		return $this->webroot;
+	}
+
+	/**
 	 * @param string $customconfig
 	 *
 	 * @return Domain
@@ -153,5 +179,12 @@ class Domain {
 	 */
 	public function getUser() {
 		return $this->user;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFullWebrootPath() {
+		return $this->path . '/' . $this->webroot;
 	}
 }

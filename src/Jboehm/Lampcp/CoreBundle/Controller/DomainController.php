@@ -70,7 +70,9 @@ class DomainController extends BaseController {
 	 */
 	public function newAction() {
 		$entity = new Domain();
-		$form   = $this->createForm(new DomainType(), $entity);
+		$entity->setPath($this->_getSystemWebPath() . '/' . 'yourdomain.de');
+		$form = $this->createForm(new DomainType(), $entity);
+
 
 		return $this->_getReturn(array(
 									  'entity' => $entity,
@@ -89,6 +91,7 @@ class DomainController extends BaseController {
 		$entity = new Domain();
 		$form   = $this->createForm(new DomainType(), $entity);
 		$form->bind($request);
+		$entity->setPath($this->_getSystemWebPath() . '/' . $entity->getDomain());
 
 		if($form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
@@ -148,6 +151,7 @@ class DomainController extends BaseController {
 		$deleteForm = $this->createDeleteForm($id);
 		$editForm   = $this->createForm(new DomainType(), $entity);
 		$editForm->bind($request);
+		$entity->setPath($this->_getSystemWebPath() . '/' . $entity->getDomain());
 
 		if($editForm->isValid()) {
 			$em->persist($entity);
@@ -192,5 +196,14 @@ class DomainController extends BaseController {
 		return $this->createFormBuilder(array('id' => $id))
 			->add('id', 'hidden')
 			->getForm();
+	}
+
+	/**
+	 * Get configured system web path
+	 *
+	 * @return string
+	 */
+	protected function _getSystemWebPath() {
+		return $this->get('jboehm_lampcp_core.systemconfigservice')->getParameter('systemconfig.option.paths.web.root.dir');
 	}
 }
