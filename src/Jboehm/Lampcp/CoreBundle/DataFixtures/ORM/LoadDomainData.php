@@ -20,6 +20,7 @@ use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
 use Jboehm\Lampcp\CoreBundle\Entity\PathOption;
 use Jboehm\Lampcp\CoreBundle\Entity\MailAddress;
 use Jboehm\Lampcp\CoreBundle\Entity\User;
+use Jboehm\Lampcp\CoreBundle\Entity\Log;
 
 class LoadDomainData implements FixtureInterface {
 	/**
@@ -92,6 +93,12 @@ class LoadDomainData implements FixtureInterface {
 			->setHasDirectoryListing(true);
 
 		$manager->persist($pathoption);
+
+		$log = new Log();
+		$log
+			->setType($log::TYPE_INFO)
+			->setMessage('Loaded domain1 fixtures');
+		$manager->persist($log);
 
 		$manager->flush();
 	}

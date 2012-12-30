@@ -13,6 +13,7 @@ namespace Jboehm\Uhcx\CoreBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Jboehm\Lampcp\CoreBundle\Entity\Config;
+use Jboehm\Lampcp\CoreBundle\Entity\Log;
 
 class LoadConfigData implements FixtureInterface {
 	/**
@@ -30,6 +31,12 @@ class LoadConfigData implements FixtureInterface {
 		foreach($config as $path => $value) {
 			$this->_createOption($path, $value, $manager);
 		}
+
+		$log = new Log();
+		$log
+			->setType($log::TYPE_INFO)
+			->setMessage('Loaded config fixtures');
+		$manager->persist($log);
 
 		$manager->flush();
 	}

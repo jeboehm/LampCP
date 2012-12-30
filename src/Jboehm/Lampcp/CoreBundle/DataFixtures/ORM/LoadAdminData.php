@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Jboehm\Lampcp\CoreBundle\Entity\Admin;
+use Jboehm\Lampcp\CoreBundle\Entity\Log;
 
 class LoadAdminData implements FixtureInterface, ContainerAwareInterface {
 	/**
@@ -39,6 +40,13 @@ class LoadAdminData implements FixtureInterface, ContainerAwareInterface {
 		$this->_setPassword($admin, 'test123');
 
 		$manager->persist($admin);
+
+		$log = new Log();
+		$log
+			->setType($log::TYPE_INFO)
+			->setMessage('Loaded admin fixtures');
+		$manager->persist($log);
+
 		$manager->flush();
 	}
 
