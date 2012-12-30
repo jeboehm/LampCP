@@ -16,6 +16,8 @@ http://www.gnu.org/licenses/gpl-2.0.txt
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="logservice.class">Jboehm\Lampcp\CoreBundle\Service\LogService</parameter>
+
         <parameter key="systemconfigservice.class">Jboehm\Lampcp\CoreBundle\Service\SystemConfigService</parameter>
         <parameter key="systemconfig.yaml">Resources/config/systemconfig.yml</parameter>
     </parameters>
@@ -24,6 +26,10 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <service id="jboehm_lampcp_core.systemconfigservice" class="%systemconfigservice.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument>%systemconfig.yaml%</argument>
+        </service>
+
+        <service id="jboehm_lampcp_core.logservice" class="%logservice.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
     </services>
 
