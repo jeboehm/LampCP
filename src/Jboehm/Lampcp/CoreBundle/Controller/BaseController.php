@@ -16,11 +16,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
 
 /**
  * Base controller.
  */
 abstract class BaseController extends Controller {
+	/**
+	 * Get system config service
+	 *
+	 * @return SystemConfigService
+	 */
+	protected function _getSystemConfigService() {
+		return $this->get('jboehm_lampcp_core.systemconfigservice');
+	}
+
 	/**
 	 * Get session
 	 *

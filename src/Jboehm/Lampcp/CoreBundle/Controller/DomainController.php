@@ -204,6 +204,6 @@ class DomainController extends BaseController {
 	 * @return string
 	 */
 	protected function _getSystemWebPath() {
-		return $this->get('jboehm_lampcp_core.systemconfigservice')->getParameter('systemconfig.option.paths.web.root.dir');
+		return $this->_getSystemConfigService()->getParameter('systemconfig.option.paths.web.root.dir');
 	}
 }

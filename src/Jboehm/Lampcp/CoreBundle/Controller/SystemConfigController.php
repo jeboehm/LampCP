@@ -23,15 +23,6 @@ use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
  */
 class SystemConfigController extends BaseController {
 	/**
-	 * Get SystemConfigService
-	 *
-	 * @return SystemConfigService
-	 */
-	protected function _getSystemConfigService() {
-		return $this->get('jboehm_lampcp_core.systemconfigservice');
-	}
-
-	/**
 	 * Lists all Config entities.
 	 *
 	 * @Route("/", name="systemconfig")
