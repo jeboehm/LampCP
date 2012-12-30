@@ -33,7 +33,8 @@ class LogController extends BaseController {
 
 		/** @var $entities Log[] */
 		$entities = $em
-			->getRepository('JboehmLampcpCoreBundle:Log')->findBy(array(), array('time' => 'desc'), 100);
+			->getRepository('JboehmLampcpCoreBundle:Log')->findBy(array(), array('time' => 'desc',
+																				 'id'   => 'desc'), 100);
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,
