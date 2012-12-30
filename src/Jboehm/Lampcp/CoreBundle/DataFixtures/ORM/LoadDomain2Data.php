@@ -13,12 +13,6 @@ namespace Jboehm\Uhcx\CoreBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
-use Jboehm\Lampcp\CoreBundle\Entity\Protection;
-use Jboehm\Lampcp\CoreBundle\Entity\MailAccount;
-use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
-use Jboehm\Lampcp\CoreBundle\Entity\PathOption;
-use Jboehm\Lampcp\CoreBundle\Entity\MailAddress;
 use Jboehm\Lampcp\CoreBundle\Entity\User;
 use Jboehm\Lampcp\CoreBundle\Entity\Log;
 
@@ -37,24 +31,16 @@ class LoadDomain2Data implements FixtureInterface {
 
 		$domain = new Domain();
 		$domain
-			->setDomain('uh.cx')
+			->setDomain('jane-doe.invalid')
 			->setUser($user)
-			->setPath('/var/www/uh.cx');
+			->setPath('/srv/www/jane-doe.invalid');
 
 		$manager->persist($domain);
-
-		$mysqldatabase = new MysqlDatabase($domain);
-		$mysqldatabase
-			->setName('uhcxsql1')
-			->setPassword('test123')
-			->setComment('Testdatenbank');
-
-		$manager->persist($mysqldatabase);
 
 		$log = new Log();
 		$log
 			->setType($log::TYPE_INFO)
-			->setMessage('Loaded domain2 fixtures');
+			->setMessage('Loaded Jane Doe fixtures');
 		$manager->persist($log);
 
 		$manager->flush();

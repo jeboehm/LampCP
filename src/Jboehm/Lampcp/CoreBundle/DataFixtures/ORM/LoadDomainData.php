@@ -17,7 +17,6 @@ use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
 use Jboehm\Lampcp\CoreBundle\Entity\Protection;
 use Jboehm\Lampcp\CoreBundle\Entity\MailAccount;
 use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
-use Jboehm\Lampcp\CoreBundle\Entity\PathOption;
 use Jboehm\Lampcp\CoreBundle\Entity\MailAddress;
 use Jboehm\Lampcp\CoreBundle\Entity\User;
 use Jboehm\Lampcp\CoreBundle\Entity\Log;
@@ -37,31 +36,31 @@ class LoadDomainData implements FixtureInterface {
 
 		$domain = new Domain();
 		$domain
-			->setDomain('ressourcenkonflikt.de')
+			->setDomain('john-doe.invalid')
 			->setUser($user)
-			->setPath('/var/www/ressourcenkonflikt.de');
+			->setPath('/srv/www/john-doe.invalid');
 
 		$manager->persist($domain);
 
 		$subdomain = new Subdomain($domain);
 		$subdomain
-			->setPath('test')
-			->setSubdomain('test');
+			->setPath('cv')
+			->setSubdomain('cv');
 
 		$manager->persist($subdomain);
 
 		$protection = new Protection($domain);
 		$protection
-			->setPath('test/geheim')
+			->setPath('cv')
 			->setRealm('Protected Area')
-			->setUsername('jeff')
-			->setPassword('test123');
+			->setUsername('john')
+			->setPassword('johndoe');
 
 		$manager->persist($protection);
 
 		$mailaccount = new MailAccount($domain);
 		$mailaccount
-			->setUsername('rnmail1')
+			->setUsername('johndoemail')
 			->setPassword('test123')
 			->setEnabled(true)
 			->setQuota(32 * 1024)
@@ -73,7 +72,7 @@ class LoadDomainData implements FixtureInterface {
 
 		$mailaddress = new MailAddress($domain, $mailaccount);
 		$mailaddress
-			->setAddress('jeff')
+			->setAddress('john')
 			->setHasCatchAll(false)
 			->setMailaccount($mailaccount);
 
@@ -81,23 +80,16 @@ class LoadDomainData implements FixtureInterface {
 
 		$mysqldatabase = new MysqlDatabase($domain);
 		$mysqldatabase
-			->setName('rnsql1')
+			->setName('johnsql1')
 			->setPassword('test123')
-			->setComment('Testdatenbank');
+			->setComment('Testdatabase');
 
 		$manager->persist($mysqldatabase);
-
-		$pathoption = new PathOption($domain);
-		$pathoption
-			->setPath('test/indexed')
-			->setHasDirectoryListing(true);
-
-		$manager->persist($pathoption);
 
 		$log = new Log();
 		$log
 			->setType($log::TYPE_INFO)
-			->setMessage('Loaded domain1 fixtures');
+			->setMessage('Loaded John Doe fixtures');
 		$manager->persist($log);
 
 		$manager->flush();
