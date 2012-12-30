@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Jboehm\Lampcp\CoreBundle\Entity\User;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
+use Jboehm\Lampcp\CoreBundle\Service\LogService;
 
 class LoadUsersCommand extends ContainerAwareCommand {
 	/** @var \Doctrine\Common\Persistence\ObjectManager */
@@ -32,6 +33,9 @@ class LoadUsersCommand extends ContainerAwareCommand {
 
 	/** @var PasswdService */
 	protected $_systemUserService;
+
+	/** @var LogService */
+	protected $_logService;
 
 	/** @var \Doctrine\ORM\EntityRepository */
 	protected $_domainRepository;
@@ -60,6 +64,7 @@ class LoadUsersCommand extends ContainerAwareCommand {
 		$this->_domainRepository    = $this->_manager->getRepository('JboehmLampcpCoreBundle:Domain');
 		$this->_systemConfigService = $this->getContainer()->get('jboehm_lampcp_core.systemconfigservice');
 		$this->_systemUserService   = new PasswdService($this->_systemConfigService->getParameter('systemconfig.option.paths.unix.passwd.file'));
+		$this->_logService          = $this->getContainer()->get('jboehm_lampcp_core.logservice');
 
 		if($input->getOption('verbose')) {
 			$output->writeln('Found ' . count($this->_systemUserService->getAll()) . ' system users...');
@@ -131,7 +136,10 @@ class LoadUsersCommand extends ContainerAwareCommand {
 				$domainsForUser = $this->_domainRepository->findBy(array('user' => $localUser));
 
 				if(count($domainsForUser) > 0) {
-					$output->writeln('Could not delete invalid user ' . $localUser->getName() . ', because ' . count($domainsForUser) . ' domains are linked to it.');
+					$logMsg = 'Could not delete invalid user ' . $localUser->getName() . ', because ' . count($domainsForUser) . ' domains are linked to it.';
+
+					$this->_logService->error($logMsg);
+					$output->writeln($logMsg);
 				} else {
 					if($input->getOption('verbose')) {
 						$output->writeln('Deleted user: ' . $localUser->getName() . '...');
