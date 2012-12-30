@@ -138,7 +138,7 @@ class Domain {
 	}
 
 	/**
-	 * @param \Jboehm\Lampcp\UserBundle\Entity\User $user
+	 * @param \Jboehm\Lampcp\CoreBundle\Entity\User $user
 	 *
 	 * @return Domain
 	 */
@@ -149,7 +149,7 @@ class Domain {
 	}
 
 	/**
-	 * @return \Jboehm\Lampcp\UserBundle\Entity\User
+	 * @return \Jboehm\Lampcp\CoreBundle\Entity\User
 	 */
 	public function getUser() {
 		return $this->user;
