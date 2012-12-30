@@ -11,6 +11,7 @@
 namespace Jboehm\Lampcp\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Jboehm\Lampcp\CoreBundle\Form\DomainSelectorType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -69,37 +70,9 @@ abstract class BaseController extends Controller {
 	 * @return \Symfony\Component\Form\Form
 	 */
 	protected function _createDomainselectorForm() {
-		$selectedDomain   = $this->_getSelectedDomain();
-		$domainSelectList = array();
-		$selectedId       = 0;
+		$form = $this->createForm(new DomainSelectorType(), array('domain' => $this->_getSelectedDomain()));
 
-		if($selectedDomain) {
-			$selectedId = $selectedDomain->getId();
-		}
-
-		foreach($this->_getDomains() as $domain) {
-			$domainSelectList[$domain->getId()] = $domain->getDomain();
-		}
-
-		return $this->createFormBuilder(array('domain' => $selectedId))
-			->add('domain', 'choice', array(
-										   'choices'     => $domainSelectList,
-										   'empty_value' => '------',
-									  ))
-			->getForm();
-	}
-
-	/**
-	 * Get domains
-	 *
-	 * @return \Jboehm\Lampcp\CoreBundle\Entity\Domain[]
-	 */
-	private function _getDomains() {
-		/** @var $domains Domain[] */
-		$em      = $this->getDoctrine()->getManager();
-		$domains = $em->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
-
-		return $domains;
+		return $form;
 	}
 
 	/**

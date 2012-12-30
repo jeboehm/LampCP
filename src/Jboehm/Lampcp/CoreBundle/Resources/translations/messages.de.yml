@@ -65,8 +65,6 @@ log.type.error: Fehler
 
 # Seiteninhalte
 default.topmenu.no.domain: Keine Domain ausgewählt
-form.domain: Domain auswählen
-
 default.headline.uptime: Uptime / Angemeldete User / Load
 default.headline.uname: Hostname / Kernel-Version
 
@@ -123,6 +121,8 @@ jboehm.lampcp.corebundle.mailaddresstype.hasCatchAll: Catch All
 jboehm.lampcp.corebundle.logtype.time: Zeit
 jboehm.lampcp.corebundle.logtype.message: Nachricht
 jboehm.lampcp.corebundle.logtype.type: Art
+
+jboehm.lampcp.corebundle.domainselectortype.domain: Domain auswählen
 
 # Systemconfig
 systemconfig.password: (Passwort)

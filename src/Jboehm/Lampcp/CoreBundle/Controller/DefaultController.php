@@ -58,16 +58,8 @@ class DefaultController extends BaseController {
 		$form->bind($request);
 
 		if($form->isValid()) {
-			$data   = $form->getData();
-			$domain = null;
-
-			/** @var $domain Domain */
-			$domain = $this
-				->getDoctrine()
-				->getManager()
-				->getRepository('JboehmLampcpCoreBundle:Domain')
-				->findOneById(intval($data['domain']));
-
+			$data    = $form->getData();
+			$domain  = $data['domain'];
 			$session = $this->_getSession();
 
 			if(!$domain) {

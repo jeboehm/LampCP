@@ -9,7 +9,7 @@
 
 $(document).ready(function () {
     // Domainselector
-    $('#form_domain').bind({
+    $('#jboehm_lampcp_corebundle_domainselectortype_domain').bind({
         change: function() {
             $(this.form).submit();
         }
