@@ -17,6 +17,7 @@ use Jboehm\Lampcp\ApacheConfigBundle\Exception\couldNotWriteFileException;
 
 class VhostBuilderService extends AbstractBuilderService {
 	const _twigVhost         = 'JboehmLampcpApacheConfigBundle:Default:vhost.conf.twig';
+	const _twigFcgiStarter   = 'JboehmLampcpApacheConfigBundle:Default:php-fcgi-starter.sh.twig';
 	const _configFileSuffix  = '.conf';
 	const _domainAliasPrefix = 'www.';
 
@@ -35,7 +36,7 @@ class VhostBuilderService extends AbstractBuilderService {
 			->setDocroot($domain->getFullWebrootPath())
 			->setSuexecuser($domain->getUser()->getName())
 			->setSuexecgroup($domain->getUser()->getGroupname())
-			->setFcgiwrapper($domain->getPath() . '/php-fcgi/php-fcgi-starter')
+			->setFcgiwrapper($domain->getPath() . '/php-fcgi/php-fcgi-starter.sh')
 			->setCustomlog($domain->getPath() . '/logs/access.log')
 			->setErrorlog($domain->getPath() . '/logs/error.log')
 			->setCustom($domain->getCustomconfig());
@@ -72,6 +73,15 @@ class VhostBuilderService extends AbstractBuilderService {
 	}
 
 	/**
+	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Domain $domain
+	 *
+	 * @return string
+	 */
+	protected function _renderFcgiStarter(Domain $domain) {
+		return $this->_getTemplating()->render(self::_twigFcgiStarter, array('domain' => $domain));
+	}
+
+	/**
 	 * Gets rendered config files for all domains and subdomains
 	 *
 	 * @return array
@@ -93,6 +103,16 @@ class VhostBuilderService extends AbstractBuilderService {
 	}
 
 	/**
+	 * Generate and save fcgi starter files
+	 */
+	protected function _writeFcgiStarter() {
+		foreach($this->_getAllDomains() as $domain) {
+			$filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
+			file_put_contents($filename, $this->_renderFcgiStarter($domain));
+		}
+	}
+
+	/**
 	 * Write config files
 	 */
 	public function writeConfigFiles() {
@@ -107,5 +127,7 @@ class VhostBuilderService extends AbstractBuilderService {
 
 			file_put_contents($target, $content);
 		}
+
+		$this->_writeFcgiStarter();
 	}
 }
