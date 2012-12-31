@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Jboehm\Lampcp\CoreBundle\Utilities\FilesizeUtility;
 
 /**
  * MailAccount
@@ -181,6 +182,15 @@ class MailAccount {
 	 */
 	public function getQuota() {
 		return $this->quota;
+	}
+
+	/**
+	 * Get quota in a human readable format
+	 *
+	 * @return string
+	 */
+	public function getQuotaHumanReadable() {
+		return FilesizeUtility::size_readable($this->quota);
 	}
 
 	/**
