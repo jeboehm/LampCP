@@ -36,6 +36,13 @@ class User
      */
     private $name;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="groupname", type="string", length=255)
+	 */
+	private $groupname;
+
     /**
      * @var integer
      *
@@ -129,4 +136,22 @@ class User
     {
         return $this->gid;
     }
+
+	/**
+	 * @param string $groupname
+	 *
+	 * @return User
+	 */
+	public function setGroupname($groupname) {
+		$this->groupname = $groupname;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getGroupname() {
+		return $this->groupname;
+	}
 }

@@ -11,6 +11,7 @@
 namespace Jboehm\Lampcp\UserBundle\Command;
 
 use Jboehm\Bundle\PasswdBundle\Model\PasswdService;
+use Jboehm\Bundle\PasswdBundle\Model\GroupService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Jboehm\Lampcp\CoreBundle\Entity\User;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Jboehm\Bundle\PasswdBundle\Model\Group;
 
 class LoadUsersCommand extends AbstractCommand {
 	/** @var \Doctrine\ORM\EntityRepository */
@@ -25,6 +27,9 @@ class LoadUsersCommand extends AbstractCommand {
 
 	/** @var PasswdService */
 	protected $_systemUserService;
+
+	/** @var GroupService */
+	protected $_systemGroupService;
 
 	/** @var \Doctrine\ORM\EntityRepository */
 	protected $_domainRepository;
@@ -51,6 +56,7 @@ class LoadUsersCommand extends AbstractCommand {
 		$this->_localUserRepository = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:User');
 		$this->_domainRepository    = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:Domain');
 		$this->_systemUserService   = new PasswdService($this->_getSystemConfigService()->getParameter('systemconfig.option.paths.unix.passwd.file'));
+		$this->_systemGroupService  = new GroupService($this->_getSystemConfigService()->getParameter('systemconfig.option.paths.unix.group.file'));
 
 		if($input->getOption('verbose')) {
 			$output->writeln('Found ' . count($this->_systemUserService->getAll()) . ' system users...');
@@ -83,6 +89,10 @@ class LoadUsersCommand extends AbstractCommand {
 				$localUser->setUid($systemUser->getUid());
 				$localUser->setGid($systemUser->getGid());
 
+				/** @var $group Group */
+				$group = $this->_systemGroupService->findOneBy(array('gid' => $systemUser->getGid()));
+				$localUser->setGroupname($group->getName());
+
 				$this->_getDoctrine()->persist($localUser);
 
 				if($input->getOption('verbose')) {
@@ -96,6 +106,11 @@ class LoadUsersCommand extends AbstractCommand {
 
 				if($localUser->getGid() != $systemUser->getGid()) {
 					$localUser->setGid($systemUser->getGid());
+
+					/** @var $group Group */
+					$group = $this->_systemGroupService->findOneBy(array('gid' => $systemUser->getGid()));
+					$localUser->setGroupname($group->getName());
+
 					$changed = true;
 				}
 

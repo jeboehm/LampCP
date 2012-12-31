@@ -25,7 +25,8 @@ class LoadDomain2Data implements FixtureInterface {
 		$user
 			->setName('test2')
 			->setUid(1002)
-			->setGid(1005);
+			->setGid(1005)
+			->setGroupname('test2');
 
 		$manager->persist($user);
 

@@ -25,6 +25,7 @@ class LoadConfigData implements FixtureInterface {
 						'systemconfig.option.paths.web.root.dir'     => '/srv/www',
 						'systemconfig.option.paths.mail.root.dir'    => '/srv/mail',
 						'systemconfig.option.paths.unix.passwd.file' => '/etc/passwd',
+						'systemconfig.option.paths.unix.group.file'  => '/etc/group',
 		);
 
 		foreach($config as $path => $value) {
