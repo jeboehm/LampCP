@@ -13,6 +13,8 @@ namespace Jboehm\Lampcp\ApacheConfigBundle\Service;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Doctrine\ORM\EntityManager;
 use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
+use Jboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
 
 abstract class AbstractBuilderService {
 	/** @var TwigEngine */
@@ -66,5 +68,29 @@ abstract class AbstractBuilderService {
 	 */
 	protected function _renderTemplate($template, array $options) {
 		return $this->_getTemplating()->render($template, $options);
+	}
+
+	/**
+	 * Get all domains
+	 *
+	 * @return \Jboehm\Lampcp\CoreBundle\Entity\Domain[]
+	 */
+	protected function _getAllDomains() {
+		/** @var $domains Domain[] */
+		$domains = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
+
+		return $domains;
+	}
+
+	/**
+	 * Get all Subdomains
+	 *
+	 * @return \Jboehm\Lampcp\CoreBundle\Entity\Subdomain[]
+	 */
+	protected function _getAllSubdomains() {
+		/** @var $subdomains Subdomain[] */
+		$subdomains = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:Subdomain')->findAll();
+
+		return $subdomains;
 	}
 }

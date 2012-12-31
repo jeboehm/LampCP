@@ -77,18 +77,14 @@ class VhostBuilderService extends AbstractBuilderService {
 	 * @return array
 	 */
 	protected function _getAllConfigFiles() {
-		/** @var $domains Domain[] */
-		/** @var $subdomains Subdomain[] */
-		$domains    = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
-		$subdomains = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:Subdomain')->findAll();
-		$config     = array();
+		$config = array();
 
-		foreach($domains as $domain) {
+		foreach($this->_getAllDomains() as $domain) {
 			$filename          = $domain->getDomain() . self::_configFileSuffix;
 			$config[$filename] = $this->_renderConfig($this->_getDomainConfig($domain));
 		}
 
-		foreach($subdomains as $subdomain) {
+		foreach($this->_getAllSubdomains() as $subdomain) {
 			$filename          = $subdomain->getFullDomain() . self::_configFileSuffix;
 			$config[$filename] = $this->_renderConfig($this->_getSubdomainConfig($subdomain));
 		}
