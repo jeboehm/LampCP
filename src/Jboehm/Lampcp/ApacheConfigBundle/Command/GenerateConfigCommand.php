@@ -14,10 +14,14 @@ use Jboehm\Lampcp\CoreBundle\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Jboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
+use Jboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
 
 class GenerateConfigCommand extends AbstractCommand {
 	/** @var VhostBuilderService */
 	protected $_vhostBuilderService;
+
+	/** @var DirectoryBuilderService */
+	protected $_directoryBuilderService;
 
 	/**
 	 * @return \Jboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService
@@ -28,6 +32,17 @@ class GenerateConfigCommand extends AbstractCommand {
 		}
 
 		return $this->_vhostBuilderService;
+	}
+
+	/**
+	 * @return \Jboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService
+	 */
+	protected function _getDirectoryBuilderService() {
+		if(!$this->_directoryBuilderService) {
+			$this->_directoryBuilderService = $this->getContainer()->get('jboehm_lampcp_apache_config_directorybuilder');
+		}
+
+		return $this->_directoryBuilderService;
 	}
 
 	/**
@@ -47,7 +62,12 @@ class GenerateConfigCommand extends AbstractCommand {
 	 * @return int|null|void
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		$this->_getLogService()->info('Executing GenerateConfigCommand');
+
 		$vhost = $this->_getVhostBuilderService();
 		$vhost->writeConfigFiles();
+
+		$directory = $this->_getDirectoryBuilderService();
+		$directory->createAllDirectorys();
 	}
 }

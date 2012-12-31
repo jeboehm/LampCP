@@ -16,10 +16,17 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
     <parameters>
         <parameter key="jboehm_lampcp_apache_config.vhostbuilderservice.class">Jboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService</parameter>
+        <parameter key="jboehm_lampcp_apache_config.directorybuilderservice.class">Jboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService</parameter>
     </parameters>
 
     <services>
         <service id="jboehm_lampcp_apache_config_vhostbuilder" class="%jboehm_lampcp_apache_config.vhostbuilderservice.class%">
+            <argument type="service" id="templating" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="jboehm_lampcp_core.systemconfigservice" />
+        </service>
+
+        <service id="jboehm_lampcp_apache_config_directorybuilder" class="%jboehm_lampcp_apache_config.directorybuilderservice.class%">
             <argument type="service" id="templating" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="jboehm_lampcp_core.systemconfigservice" />
