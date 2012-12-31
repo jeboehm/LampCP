@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+
+<!--
+
+LampCP
+https://github.com/jeboehm/LampCP
+
+Licensed under the GPL Version 2 license
+http://www.gnu.org/licenses/gpl-2.0.txt
+
+-->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="jboehm_lampcp_apache_config.vhostbuilderservice.class">Jboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService</parameter>
+    </parameters>
+
+    <services>
+        <service id="jboehm_lampcp_apache_config_vhostbuilder" class="%jboehm_lampcp_apache_config.vhostbuilderservice.class%">
+            <argument type="service" id="templating" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="jboehm_lampcp_core.systemconfigservice" />
+        </service>
+    </services>
+
+    <!--
+    <parameters>
+        <parameter key="jboehm_lampcp_apache_config.example.class">Jboehm\Lampcp\ApacheConfigBundle\Example</parameter>
+    </parameters>
+
+    <services>
+        <service id="jboehm_lampcp_apache_config.example" class="%jboehm_lampcp_apache_config.example.class%">
+            <argument type="service" id="service_id" />
+            <argument>plain_value</argument>
+            <argument>%parameter_name%</argument>
+        </service>
+    </services>
+    -->
+</container>

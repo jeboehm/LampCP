@@ -26,3 +26,6 @@ config:
         web_root_dir: [string]
         mail_root_dir: [string]
         unix_passwd_file: [string]
+
+    apache:
+        config_directory: [string]
