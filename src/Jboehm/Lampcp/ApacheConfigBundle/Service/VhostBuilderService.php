@@ -34,7 +34,7 @@ class VhostBuilderService extends AbstractBuilderService {
 			->setServeralias(self::_domainAliasPrefix . $domain->getDomain())
 			->setDocroot($domain->getFullWebrootPath())
 			->setSuexecuser($domain->getUser()->getName())
-			->setSuexecgroup($domain->getUser()->getName())
+			->setSuexecgroup($domain->getUser()->getGroupname())
 			->setFcgiwrapper($domain->getPath() . '/php-fcgi/php-fcgi-starter')
 			->setCustomlog($domain->getPath() . '/logs/access.log')
 			->setErrorlog($domain->getPath() . '/logs/error.log')
