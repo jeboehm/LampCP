@@ -70,7 +70,7 @@ class DomainController extends BaseController {
 	 */
 	public function newAction() {
 		$entity = new Domain();
-		$entity->setPath($this->_getSystemWebPath() . '/' . 'yourdomain.de');
+		$entity->setPath('(auto)');
 		$form = $this->createForm(new DomainType(), $entity);
 
 

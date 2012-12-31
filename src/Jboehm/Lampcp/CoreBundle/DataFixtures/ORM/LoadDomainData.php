@@ -45,14 +45,14 @@ class LoadDomainData implements FixtureInterface {
 
 		$subdomain = new Subdomain($domain);
 		$subdomain
-			->setPath('cv')
+			->setPath('htdocs/cv')
 			->setSubdomain('cv');
 
 		$manager->persist($subdomain);
 
 		$protection = new Protection($domain);
 		$protection
-			->setPath('cv')
+			->setPath('htdocs/cv')
 			->setRealm('Protected Area')
 			->setUsername('john')
 			->setPassword('johndoe');
