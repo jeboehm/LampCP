@@ -14,7 +14,8 @@
 #
 ##
 
-PHPRC="{{ domain.path }}/conf/"
+#PHPRC="{{ domain.path }}/conf/"
+PHPRC="/etc/php5/cgi/"
 export PHPRC
 export TMPDIR={{ domain.path }}/tmp
 exec /usr/bin/php5-cgi
