@@ -64,10 +64,10 @@ class GenerateConfigCommand extends AbstractCommand {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$this->_getLogService()->info('Executing GenerateConfigCommand');
 
-		$vhost = $this->_getVhostBuilderService();
-		$vhost->writeConfigFiles();
-
 		$directory = $this->_getDirectoryBuilderService();
 		$directory->createAllDirectorys();
+
+		$vhost = $this->_getVhostBuilderService();
+		$vhost->writeConfigFiles();
 	}
 }
