@@ -109,6 +109,12 @@ class VhostBuilderService extends AbstractBuilderService {
 		foreach($this->_getAllDomains() as $domain) {
 			$filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
 			file_put_contents($filename, $this->_renderFcgiStarter($domain));
+
+			// Change rights
+			chmod($filename, 0755);
+
+			// Change group
+			chgrp($filename, $domain->getUser()->getGroupname());
 		}
 	}
 
