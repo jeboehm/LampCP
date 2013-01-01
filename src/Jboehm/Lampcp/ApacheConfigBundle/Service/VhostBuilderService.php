@@ -33,6 +33,7 @@ class VhostBuilderService extends AbstractBuilderService {
 		$model
 			->setServername($domain->getDomain())
 			->setServeralias(self::_domainAliasPrefix . $domain->getDomain())
+			->setRoot($domain->getPath())
 			->setDocroot($domain->getFullWebrootPath())
 			->setSuexecuser($domain->getUser()->getName())
 			->setSuexecgroup($domain->getUser()->getGroupname())

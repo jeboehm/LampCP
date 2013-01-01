@@ -27,6 +27,9 @@ class Vhost {
 	protected $suexecgroup;
 
 	/** @var string */
+	protected $root;
+
+	/** @var string */
 	protected $docroot;
 
 	/** @var string */
@@ -86,6 +89,24 @@ class Vhost {
 	 */
 	public function getDirectoryindex() {
 		return $this->directoryindex;
+	}
+
+	/**
+	 * @param string $root
+	 *
+	 * @return Vhost
+	 */
+	public function setRoot($root) {
+		$this->root = $root;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRoot() {
+		return $this->root;
 	}
 
 	/**

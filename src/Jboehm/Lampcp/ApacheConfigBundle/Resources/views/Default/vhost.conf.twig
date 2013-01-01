@@ -39,4 +39,8 @@
     LogLevel warn
     CustomLog {{ vhost.customlog }} combined
     ServerSignature On
+
+    php_value session.save_path {{ vhost.root }}/tmp
+    php_value upload_tmp_dir {{ vhost.root }}/tmp
+    php_value open_basedir {{ vhost.docroot }}/:{{ vhost.root }}/tmp/
 </VirtualHost>
