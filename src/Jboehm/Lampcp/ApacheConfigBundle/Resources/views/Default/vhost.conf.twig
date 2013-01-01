@@ -32,6 +32,7 @@
         FCGIWrapper {{ vhost.fcgiwrapper }} .php
         Order allow,deny
         Allow from all
+        AllowOverride all
     </Directory>
 
     ErrorLog {{ vhost.errorlog }}
