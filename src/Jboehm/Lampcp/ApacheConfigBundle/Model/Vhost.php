@@ -48,7 +48,8 @@ class Vhost {
 	 * Konstruktor
 	 */
 	public function __construct() {
-		$this->serveradmin = 'none@example.com';
+		$this->serveradmin    = 'none@example.com';
+		$this->directoryindex = 'index.html index.htm index.php';
 	}
 
 	/**
@@ -57,8 +58,7 @@ class Vhost {
 	 * @return Vhost
 	 */
 	public function setCustomlog($customlog) {
-		$this->customlog      = $customlog;
-		$this->directoryindex = 'index.html index.htm index.php';
+		$this->customlog = $customlog;
 
 		return $this;
 	}
