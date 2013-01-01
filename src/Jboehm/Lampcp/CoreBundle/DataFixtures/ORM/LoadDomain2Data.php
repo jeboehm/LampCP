@@ -34,7 +34,7 @@ class LoadDomain2Data implements FixtureInterface {
 		$domain
 			->setDomain('jane-doe.invalid')
 			->setUser($user)
-			->setPath('/srv/www/jane-doe.invalid')
+			->setPath('/var/www/jane-doe.invalid')
 			->setWebroot('htdocs');
 
 		$manager->persist($domain);
