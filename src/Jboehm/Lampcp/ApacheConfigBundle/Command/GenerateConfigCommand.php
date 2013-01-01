@@ -66,7 +66,7 @@ class GenerateConfigCommand extends AbstractCommand {
 
 		try {
 			$directory = $this->_getDirectoryBuilderService();
-			$directory->createAllDirectorys();
+			$directory->createDirectorysForAllDomains();
 
 			$vhost = $this->_getVhostBuilderService();
 			$vhost->writeConfigFiles();
