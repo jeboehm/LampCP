@@ -33,8 +33,9 @@ class LogService {
 	 * @param string                               $message
 	 * @param string                               $source
 	 */
-	protected function _save(Log $log, $message) {
+	protected function _save(Log $log, $message, $source) {
 		$log->setMessage($message);
+		$log->setSource($source);
 
 		$this->_em->persist($log);
 		$this->_em->flush();
@@ -49,7 +50,7 @@ class LogService {
 	public function debug($message, $source = '') {
 		$log = new Log();
 		$log->setType($log::TYPE_DEBUG);
-		$this->_save($log, $message);
+		$this->_save($log, $message, $source);
 	}
 
 	/**
@@ -61,7 +62,7 @@ class LogService {
 	public function info($message, $source = '') {
 		$log = new Log();
 		$log->setType($log::TYPE_INFO);
-		$this->_save($log, $message);
+		$this->_save($log, $message, $source);
 	}
 
 	/**
@@ -73,7 +74,7 @@ class LogService {
 	public function warning($message, $source = '') {
 		$log = new Log();
 		$log->setType($log::TYPE_WARN);
-		$this->_save($log, $message);
+		$this->_save($log, $message, $source);
 	}
 
 	/**
@@ -85,6 +86,6 @@ class LogService {
 	public function error($message, $source = '') {
 		$log = new Log();
 		$log->setType($log::TYPE_ERROR);
-		$this->_save($log, $message);
+		$this->_save($log, $message, $source);
 	}
 }
