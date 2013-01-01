@@ -28,7 +28,8 @@ class Log {
 	 * Konstruktor
 	 */
 	public function __construct() {
-		$this->time = new \DateTime('now');
+		$this->time   = new \DateTime('now');
+		$this->source = '';
 	}
 
 	/**
@@ -64,7 +65,7 @@ class Log {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="domain", type="string", length=100)
+	 * @ORM\Column(name="source", type="string", length=100)
 	 */
 	private $source;
 
