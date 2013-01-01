@@ -22,13 +22,13 @@ class VhostBuilderService extends AbstractBuilderService {
 	const _domainAliasPrefix = 'www.';
 
 	/**
-	 * Get domain model for domain
+	 * Get vhost model for domain
 	 *
 	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Domain $domain
 	 *
 	 * @return Vhost
 	 */
-	protected function _getDomainConfig(Domain $domain) {
+	protected function _getVhostModelForDomain(Domain $domain) {
 		$model = new Vhost();
 		$model
 			->setServername($domain->getDomain())
@@ -45,14 +45,14 @@ class VhostBuilderService extends AbstractBuilderService {
 	}
 
 	/**
-	 * Get domain model for subdomain
+	 * Get vhost model for subdomain
 	 *
 	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Subdomain $subdomain
 	 *
 	 * @return \Jboehm\Lampcp\ApacheConfigBundle\Model\Vhost
 	 */
-	protected function _getSubdomainConfig(Subdomain $subdomain) {
-		$model = $this->_getDomainConfig($subdomain->getDomain());
+	protected function _getVhostModelForSubdomain(Subdomain $subdomain) {
+		$model = $this->_getVhostModelForDomain($subdomain->getDomain());
 
 		$model
 			->setServername($subdomain->getFullDomain())
@@ -68,7 +68,7 @@ class VhostBuilderService extends AbstractBuilderService {
 	 *
 	 * @return string
 	 */
-	protected function _renderConfig(Vhost $model) {
+	protected function _renderVhostConfig(Vhost $model) {
 		return $this->_getTemplating()->render(self::_twigVhost, array('vhost' => $model));
 	}
 
@@ -82,58 +82,78 @@ class VhostBuilderService extends AbstractBuilderService {
 	}
 
 	/**
-	 * Gets rendered config files for all domains and subdomains
+	 * Generate and save FCGI Starter Script
 	 *
-	 * @return array
+	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Domain $domain
 	 */
-	protected function _getAllConfigFiles() {
-		$config = array();
+	protected function _generateFcgiStarterForDomain(Domain $domain) {
+		$filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
+		file_put_contents($filename, $this->_renderFcgiStarter($domain));
 
+		// Change rights
+		chmod($filename, 0755);
+
+		// Change group
+		chgrp($filename, $domain->getUser()->getGroupname());
+	}
+
+	/**
+	 * Save vhost config
+	 *
+	 * @param string $filename
+	 * @param string $config
+	 *
+	 * @throws \Jboehm\Lampcp\ApacheConfigBundle\Exception\couldNotWriteFileException
+	 * @return void
+	 */
+	protected function _saveVhostConfig($filename, $config) {
+		$target = $this
+			->_getSystemConfigService()
+			->getParameter('systemconfig.option.apache.config.directory') . '/' . $filename;
+
+		if(!is_writable(dirname($target))) {
+			throw new couldNotWriteFileException();
+		}
+
+		file_put_contents($target, $config);
+	}
+
+	/**
+	 * Build domain configuration
+	 *
+	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Domain $domain
+	 */
+	public function buildDomain(Domain $domain) {
+		$filename = $domain->getDomain() . self::_configFileSuffix;
+		$config   = $this->_renderVhostConfig($this->_getVhostModelForDomain($domain));
+
+		$this->_saveVhostConfig($filename, $config);
+		$this->_generateFcgiStarterForDomain($domain);
+	}
+
+	/**
+	 * Build subdomain configuration
+	 *
+	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Subdomain $subdomain
+	 */
+	public function buildSubdomain(Subdomain $subdomain) {
+		$filename = $subdomain->getFullDomain() . self::_configFileSuffix;
+		$config   = $this->_renderVhostConfig($this->_getVhostModelForSubdomain($subdomain));
+
+		$this->_saveVhostConfig($filename, $config);
+		$this->_generateFcgiStarterForDomain($subdomain->getDomain());
+	}
+
+	/**
+	 * Build all configurations
+	 */
+	public function buildAll() {
 		foreach($this->_getAllDomains() as $domain) {
-			$filename          = $domain->getDomain() . self::_configFileSuffix;
-			$config[$filename] = $this->_renderConfig($this->_getDomainConfig($domain));
+			$this->buildDomain($domain);
 		}
 
 		foreach($this->_getAllSubdomains() as $subdomain) {
-			$filename          = $subdomain->getFullDomain() . self::_configFileSuffix;
-			$config[$filename] = $this->_renderConfig($this->_getSubdomainConfig($subdomain));
+			$this->buildSubdomain($subdomain);
 		}
-
-		return $config;
-	}
-
-	/**
-	 * Generate and save fcgi starter files
-	 */
-	protected function _writeFcgiStarter() {
-		foreach($this->_getAllDomains() as $domain) {
-			$filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
-			file_put_contents($filename, $this->_renderFcgiStarter($domain));
-
-			// Change rights
-			chmod($filename, 0755);
-
-			// Change group
-			chgrp($filename, $domain->getUser()->getGroupname());
-		}
-	}
-
-	/**
-	 * Write config files
-	 */
-	public function writeConfigFiles() {
-		foreach($this->_getAllConfigFiles() as $filename => $content) {
-			$target = $this
-				->_getSystemConfigService()
-				->getParameter('systemconfig.option.apache.config.directory') . '/' . $filename;
-
-			if(!is_writable(dirname($target))) {
-				throw new couldNotWriteFileException();
-			}
-
-			file_put_contents($target, $content);
-		}
-
-		$this->_writeFcgiStarter();
 	}
 }

@@ -59,6 +59,7 @@ class GenerateConfigCommand extends AbstractCommand {
 	 * @param \Symfony\Component\Console\Input\InputInterface   $input
 	 * @param \Symfony\Component\Console\Output\OutputInterface $output
 	 *
+	 * @throws \Exception
 	 * @return int|null|void
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
@@ -69,9 +70,11 @@ class GenerateConfigCommand extends AbstractCommand {
 			$directory->createDirectorysForAllDomains();
 
 			$vhost = $this->_getVhostBuilderService();
-			$vhost->writeConfigFiles();
+			$vhost->buildAll();
 		} catch(\Exception $e) {
 			$this->_getLogService()->error('Error while running GenerateConfigCommand. Please run it from console!', 'GenerateConfigCommand');
+
+			throw $e;
 		}
 	}
 }
