@@ -27,6 +27,7 @@ class LoadConfigData implements FixtureInterface {
 						'systemconfig.option.paths.unix.passwd.file'  => '/etc/passwd',
 						'systemconfig.option.paths.unix.group.file'   => '/etc/group',
 						'systemconfig.option.apache.config.directory' => '/etc/apache2/sites-enabled',
+						'systemconfig.option.apache.config.php.ini'   => '/etc/php5/cgi/php.ini',
 		);
 
 		foreach($config as $path => $value) {

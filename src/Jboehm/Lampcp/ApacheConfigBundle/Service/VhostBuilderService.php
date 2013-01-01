@@ -18,6 +18,7 @@ use Jboehm\Lampcp\ApacheConfigBundle\Exception\couldNotWriteFileException;
 class VhostBuilderService extends AbstractBuilderService {
 	const _twigVhost         = 'JboehmLampcpApacheConfigBundle:Default:vhost.conf.twig';
 	const _twigFcgiStarter   = 'JboehmLampcpApacheConfigBundle:Default:php-fcgi-starter.sh.twig';
+	const _twigPhpIni        = 'JboehmLampcpApacheConfigBundle:Default:php.ini.twig';
 	const _configFileSuffix  = '.conf';
 	const _domainAliasPrefix = 'www.';
 
@@ -83,16 +84,74 @@ class VhostBuilderService extends AbstractBuilderService {
 	}
 
 	/**
+	 * @param \Jboehm\Lampcp\ApacheConfigBundle\Model\Vhost $model
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	protected function _renderPhpIni(Vhost $model) {
+		$phpIniPath   = $this
+			->_getSystemConfigService()
+			->getParameter('systemconfig.option.apache.config.php.ini');
+		$globalConfig = null;
+
+		if(is_readable($phpIniPath)) {
+			$globalConfig = file_get_contents($phpIniPath);
+		}
+
+		if(empty($globalConfig)) {
+			throw new \Exception('Could not read global php.ini');
+		}
+
+		return $this->_getTemplating()->render(self::_twigPhpIni, array(
+																	   'vhost'  => $model,
+																	   'global' => $globalConfig,
+																  ));
+	}
+
+	/**
 	 * Generate and save FCGI Starter Script
 	 *
 	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Domain $domain
+	 *
+	 * @throws \Jboehm\Lampcp\ApacheConfigBundle\Exception\couldNotWriteFileException
+	 * @return void
 	 */
 	protected function _generateFcgiStarterForDomain(Domain $domain) {
 		$filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
+
+		if(!is_writable(dirname($filename))) {
+			throw new couldNotWriteFileException();
+		}
+
 		file_put_contents($filename, $this->_renderFcgiStarter($domain));
 
 		// Change rights
 		chmod($filename, 0755);
+
+		// Change user & group
+		chown($filename, $domain->getUser()->getName());
+		chgrp($filename, $domain->getUser()->getGroupname());
+	}
+
+	/**
+	 * Generate and save php.ini
+	 *
+	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Domain $domain
+	 *
+	 * @throws \Jboehm\Lampcp\ApacheConfigBundle\Exception\couldNotWriteFileException
+	 */
+	protected function _generatePhpIniForDomain(Domain $domain) {
+		$filename = $domain->getPath() . '/conf/php.ini';
+
+		if(!is_writable(dirname($filename))) {
+			throw new couldNotWriteFileException();
+		}
+
+		file_put_contents($filename, $this->_renderPhpIni($this->_getVhostModelForDomain($domain)));
+
+		// Change rights
+		chmod($filename, 0440);
 
 		// Change user & group
 		chown($filename, $domain->getUser()->getName());
@@ -131,6 +190,7 @@ class VhostBuilderService extends AbstractBuilderService {
 
 		$this->_saveVhostConfig($filename, $config);
 		$this->_generateFcgiStarterForDomain($domain);
+		$this->_generatePhpIniForDomain($domain);
 	}
 
 	/**
@@ -143,7 +203,6 @@ class VhostBuilderService extends AbstractBuilderService {
 		$config   = $this->_renderVhostConfig($this->_getVhostModelForSubdomain($subdomain));
 
 		$this->_saveVhostConfig($filename, $config);
-		$this->_generateFcgiStarterForDomain($subdomain->getDomain());
 	}
 
 	/**
