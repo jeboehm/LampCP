@@ -93,7 +93,8 @@ class VhostBuilderService extends AbstractBuilderService {
 		// Change rights
 		chmod($filename, 0755);
 
-		// Change group
+		// Change user & group
+		chown($filename, $domain->getUser()->getName());
 		chgrp($filename, $domain->getUser()->getGroupname());
 	}
 
