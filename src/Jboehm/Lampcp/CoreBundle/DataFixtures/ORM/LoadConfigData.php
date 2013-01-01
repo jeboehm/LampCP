@@ -22,7 +22,7 @@ class LoadConfigData implements FixtureInterface {
 	public function load(ObjectManager $manager) {
 		$config = array('systemconfig.option.mysql.root.user'         => 'root',
 						'systemconfig.option.mysql.root.password'     => 'changeme',
-						'systemconfig.option.paths.web.root.dir'      => '/srv/www',
+						'systemconfig.option.paths.web.root.dir'      => '/var/www',
 						'systemconfig.option.paths.mail.root.dir'     => '/srv/mail',
 						'systemconfig.option.paths.unix.passwd.file'  => '/etc/passwd',
 						'systemconfig.option.paths.unix.group.file'   => '/etc/group',
