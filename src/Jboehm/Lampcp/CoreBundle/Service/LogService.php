@@ -31,6 +31,7 @@ class LogService {
 	 *
 	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Log $log
 	 * @param string                               $message
+	 * @param string                               $source
 	 */
 	protected function _save(Log $log, $message) {
 		$log->setMessage($message);
@@ -43,8 +44,9 @@ class LogService {
 	 * New debug log entry
 	 *
 	 * @param string $message
+	 * @param string $source
 	 */
-	public function debug($message) {
+	public function debug($message, $source = '') {
 		$log = new Log();
 		$log->setType($log::TYPE_DEBUG);
 		$this->_save($log, $message);
@@ -54,8 +56,9 @@ class LogService {
 	 * New info log entry
 	 *
 	 * @param string $message
+	 * @param string $source
 	 */
-	public function info($message) {
+	public function info($message, $source = '') {
 		$log = new Log();
 		$log->setType($log::TYPE_INFO);
 		$this->_save($log, $message);
@@ -65,8 +68,9 @@ class LogService {
 	 * New warning log entry
 	 *
 	 * @param string $message
+	 * @param string $source
 	 */
-	public function warning($message) {
+	public function warning($message, $source = '') {
 		$log = new Log();
 		$log->setType($log::TYPE_WARN);
 		$this->_save($log, $message);
@@ -76,8 +80,9 @@ class LogService {
 	 * New error log entry
 	 *
 	 * @param string $message
+	 * @param string $source
 	 */
-	public function error($message) {
+	public function error($message, $source = '') {
 		$log = new Log();
 		$log->setType($log::TYPE_ERROR);
 		$this->_save($log, $message);

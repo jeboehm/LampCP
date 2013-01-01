@@ -61,6 +61,13 @@ class Log {
 	 */
 	private $message;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="domain", type="string", length=100)
+	 */
+	private $source;
+
 
 	/**
 	 * Get id
@@ -166,5 +173,23 @@ class Log {
 	 */
 	public function getMessage() {
 		return $this->message;
+	}
+
+	/**
+	 * @param string $source
+	 *
+	 * @return Log
+	 */
+	public function setSource($source) {
+		$this->source = $source;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSource() {
+		return $this->source;
 	}
 }
