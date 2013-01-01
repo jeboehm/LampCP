@@ -63,7 +63,7 @@ class LoadUsersCommand extends AbstractCommand {
 			$output->writeln('Found ' . count($this->_localUserRepository->findAll()) . ' cached users...');
 		}
 
-		$this->_getLogService()->info('Executing LoadUsersCommand');
+		$this->_getLogService()->info('Executing LoadUsersCommand', 'LoadUsersCommand');
 
 		$this->_syncSystemToLocal($output, $input);
 		$this->_checkDeleted($output, $input);
@@ -141,7 +141,7 @@ class LoadUsersCommand extends AbstractCommand {
 				if(count($domainsForUser) > 0) {
 					$logMsg = 'Could not delete invalid user ' . $localUser->getName() . ', because ' . count($domainsForUser) . ' domains are linked to it.';
 
-					$this->_getLogService()->error($logMsg);
+					$this->_getLogService()->error($logMsg, 'LoadUsersCommand');
 					$output->writeln($logMsg);
 				} else {
 					if($input->getOption('verbose')) {
