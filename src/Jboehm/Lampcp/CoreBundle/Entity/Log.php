@@ -181,7 +181,7 @@ class Log {
 	 * @return Log
 	 */
 	public function setSource($source) {
-		$this->source = $source;
+		$this->source = strval($source);
 
 		return $this;
 	}
