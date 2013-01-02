@@ -19,7 +19,7 @@ use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
 /**
  * SystemConfig controller.
  *
- * @Route("/systemconfig")
+ * @Route("//config/system")
  */
 class SystemConfigController extends BaseController {
 	/**

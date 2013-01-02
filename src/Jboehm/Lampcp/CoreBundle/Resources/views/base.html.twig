@@ -36,8 +36,7 @@
     {% javascripts
     '@SonatajQueryBundle/Resources/public/jquery-1.8.0.js'
     '@JboehmLampcpCoreBundle/Resources/public/bootstrap/js/bootstrap.js'
-    '@JboehmLampcpCoreBundle/Resources/public/js/*'
-    %}
+    '@JboehmLampcpCoreBundle/Resources/public/js/*' %}
 
     <script src="{{ asset_url }}" type="text/javascript"></script>
     {% endjavascripts %}
@@ -73,35 +72,37 @@
 
     <div class="container-fluid">
         <div class="row-fluid">
-            <div class="span3">
-                <div class="well sidebar-nav">
-                    <form action="{{ path('set_domain') }}" method="post">
-                        <ul class="nav nav-list">
-                            <li class="nav-header">{{ form_label(domainselector_form.domain) }}</li>
-
-                            <li>{{ form_widget(domainselector_form.domain) }}</li>
-                        </ul>
-
-                        {{ form_rest(domainselector_form) }}
-                    </form>
-                </div>
-                <!--/.well -->
-
-                {% if selecteddomain is defined and selecteddomain is not null %}
+            {% block leftbar %}
+                <div class="span3">
                     <div class="well sidebar-nav">
-                        {% block leftnav %}
+                        <form action="{{ path('set_domain') }}" method="post">
                             <ul class="nav nav-list">
-                                <li class="nav-header">Sidebar</li>
-                                <li class="active"><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
+                                <li class="nav-header">{{ form_label(domainselector_form.domain) }}</li>
+
+                                <li>{{ form_widget(domainselector_form.domain) }}</li>
                             </ul>
-                        {% endblock %}
+
+                            {{ form_rest(domainselector_form) }}
+                        </form>
                     </div>
                     <!--/.well -->
-                {% endif %}
-            </div>
+
+                    {% if selecteddomain is defined and selecteddomain is not null %}
+                        <div class="well sidebar-nav">
+                            {% block leftnav %}
+                                <ul class="nav nav-list">
+                                    <li class="nav-header">Sidebar</li>
+                                    <li class="active"><a href="#">Link</a></li>
+                                    <li><a href="#">Link</a></li>
+                                    <li><a href="#">Link</a></li>
+                                    <li><a href="#">Link</a></li>
+                                </ul>
+                            {% endblock %}
+                        </div>
+                        <!--/.well -->
+                    {% endif %}
+                </div>
+            {% endblock %}
 
             <div class="span9">
                 <div class="row-fluid">

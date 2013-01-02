@@ -19,12 +19,13 @@ use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 
 /**
- * Default controller.
+ * Status controller.
  */
-class DefaultController extends BaseController {
+class StatusController extends BaseController {
 	/**
 	 * Shows status page.
 	 *
+	 * @Route("/", name="status")
 	 * @Route("/", name="default")
 	 * @Template()
 	 * @return array
@@ -69,6 +70,6 @@ class DefaultController extends BaseController {
 			}
 		}
 
-		return $this->redirect($this->generateUrl('default'));
+		return $this->redirect($this->generateUrl('status'));
 	}
 }

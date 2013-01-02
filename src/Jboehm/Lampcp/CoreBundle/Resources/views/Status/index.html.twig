@@ -10,11 +10,11 @@
 {% extends 'JboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "title.page.default"|trans() }}</h1>
+    <h1>{{ "title.page.status"|trans() }}</h1>
 
-    <h3>{{ "default.headline.uptime"|trans() }}</h3>
+    <h3>{{ "status.headline.uptime"|trans() }}</h3>
     <pre>{{ uptime }}</pre>
 
-    <h3>{{ "default.headline.uname"|trans() }}</h3>
+    <h3>{{ "status.headline.uname"|trans() }}</h3>
     <pre>{{ uname }}</pre>
 {% endblock %}

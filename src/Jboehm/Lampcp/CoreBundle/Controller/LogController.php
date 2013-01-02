@@ -19,7 +19,7 @@ use Jboehm\Lampcp\CoreBundle\Entity\Log;
 /**
  * Log controller.
  *
- * @Route("/log")
+ * @Route("/config/log")
  */
 class LogController extends BaseController {
 	/**

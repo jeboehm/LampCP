@@ -1,17 +1,10 @@
-jms_security_extra:
-    secure_all_services: false
-    expressions: true
-
 security:
     encoders:
         Jboehm\Lampcp\CoreBundle\Entity\Admin:
           algorithm:         sha1
-          encode_as_base64:  false
-          iterations:        1
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
         administrators:
@@ -22,10 +15,26 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        secured_area:
+        login:
+            pattern:    ^/login$
+            anonymous:  ~
+
+        lampcp:
             pattern:    ^/
-            http_basic:
-                realm: "Control Panel Login"
+            form_login:
+                check_path: /login_check
+                login_path: /login
+                always_use_default_target_path: true
+                default_target_path:            /
+
+                username_parameter: _username
+                password_parameter: _password
+
+            logout:
+                path:   /logout
+                target: /
+                invalidate_session: false
 
     access_control:
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_ADMIN }
