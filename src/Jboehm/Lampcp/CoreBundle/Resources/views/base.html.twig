@@ -24,7 +24,7 @@
     'bundles/jboehmlampcpcore/bootstrap/css/bootstrap.css'
     'bundles/jboehmlampcpcore/bootstrap/css/bootstrap-responsive.css'
     'bundles/jboehmlampcpcore/css/main.css'
-    filter='cssrewrite,?yui_css' %}
+    filter='cssrewrite' %}
 
     <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
     {% endstylesheets %}
@@ -37,7 +37,7 @@
     '@SonatajQueryBundle/Resources/public/jquery-1.8.0.js'
     '@JboehmLampcpCoreBundle/Resources/public/bootstrap/js/bootstrap.js'
     '@JboehmLampcpCoreBundle/Resources/public/js/*'
-    filter='?yui_js' %}
+    %}
 
     <script src="{{ asset_url }}" type="text/javascript"></script>
     {% endjavascripts %}
