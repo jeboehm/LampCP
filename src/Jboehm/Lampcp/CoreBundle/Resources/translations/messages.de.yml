@@ -19,6 +19,7 @@ title.page.pathoption: Pfadoptionen
 title.page.protection: Beschränkungen
 title.page.subdomain: Subdomains
 title.page.systemconfig: Systemkonfiguration
+title.page.ipaddress: IP-Adressen
 title.page.log: Logbuch
 title.page.login: LogIn
 title.page.logout: LogOut
@@ -32,6 +33,7 @@ edit.page.pathoption: Pfadoption bearbeiten
 edit.page.protection: Beschränkung bearbeiten
 edit.page.subdomain: Subdomain bearbeiten
 edit.page.systemconfig: Systemkonfiguration bearbeiten
+edit.page.ipaddress: IP-Adressen bearbeiten
 
 show.page.admin: Administrator anzeigen
 show.page.domain: Domain anzeigen
@@ -41,7 +43,8 @@ show.page.mysqldatabase: Datenbank anzeigen
 show.page.pathoption: Pfadoption anzeigen
 show.page.protection: Beschränkung anzeigen
 show.page.subdomain: Subdomain anzeigen
-show.page.log: Logeintrag ansehen
+show.page.log: Logeintrag anzeigen
+show.page.ipaddress: IP-Adresse anzeigen
 
 create.page.admin: Administrator anlegen
 create.page.domain: Domain anlegen
@@ -51,6 +54,7 @@ create.page.mysqldatabase: Datenbank anlegen
 create.page.pathoption: Pfadoption anlegen
 create.page.protection: Beschränkung anlegen
 create.page.subdomain: Subdomain anlegen
+create.page.ipaddress: IP-Adresse anlegen
 
 # Buttons
 button.edit: Bearbeiten
@@ -128,6 +132,10 @@ jboehm.lampcp.corebundle.mailaddresstype.hasCatchAll: Catch All
 jboehm.lampcp.corebundle.logtype.time: Zeit
 jboehm.lampcp.corebundle.logtype.message: Nachricht
 jboehm.lampcp.corebundle.logtype.type: Art
+
+jboehm.lampcp.corebundle.ipaddresstype.alias: Name
+jboehm.lampcp.corebundle.ipaddresstype.ip: IP-Adresse
+jboehm.lampcp.corebundle.ipaddresstype.ipv6: Ist IPv6
 
 jboehm.lampcp.corebundle.domainselectortype.domain: Domain auswählen
 
