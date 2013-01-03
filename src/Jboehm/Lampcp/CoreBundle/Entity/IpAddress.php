@@ -43,6 +43,14 @@ class IpAddress {
 	 */
 	private $ip;
 
+	/**
+	 * @var int
+	 * @Assert\Min(1)
+	 * @Assert\Max(65000)
+	 * @ORM\Column(name="port", type="integer")
+	 */
+	private $port;
+
 
 	/**
 	 * Get id
@@ -95,6 +103,24 @@ class IpAddress {
 	 */
 	public function getIp() {
 		return $this->ip;
+	}
+
+	/**
+	 * @param int $port
+	 *
+	 * @return IpAddress
+	 */
+	public function setPort($port) {
+		$this->port = $port;
+
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPort() {
+		return $this->port;
 	}
 
 	/**

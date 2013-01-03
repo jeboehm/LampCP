@@ -17,7 +17,8 @@ class IpAddressType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('alias')
-			->add('ip');
+			->add('ip')
+			->add('port');
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

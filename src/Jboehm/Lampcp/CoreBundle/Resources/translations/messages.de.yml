@@ -136,6 +136,7 @@ jboehm.lampcp.corebundle.logtype.type: Art
 
 jboehm.lampcp.corebundle.ipaddresstype.alias: Name
 jboehm.lampcp.corebundle.ipaddresstype.ip: IP-Adresse
+jboehm.lampcp.corebundle.ipaddresstype.port: Port
 jboehm.lampcp.corebundle.ipaddresstype.ipv6: Ist IPv6
 
 jboehm.lampcp.corebundle.domainselectortype.domain: Domain auswählen

@@ -18,6 +18,7 @@
             <th>{{ "all.column.id"|trans() }}</th>
             <th>{{ "jboehm.lampcp.corebundle.ipaddresstype.alias"|trans() }}</th>
             <th>{{ "jboehm.lampcp.corebundle.ipaddresstype.ip"|trans() }}</th>
+            <th>{{ "jboehm.lampcp.corebundle.ipaddresstype.port"|trans() }}</th>
             <th>{{ "jboehm.lampcp.corebundle.ipaddresstype.ipv6"|trans() }}</th>
             <th>{{ "all.column.actions"|trans() }}</th>
         </tr>
@@ -28,6 +29,7 @@
                 <td><a href="{{ path('config_ipaddress_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.alias }}</td>
                 <td>{{ entity.ip }}</td>
+                <td>{{ entity.port }}</td>
                 <td>{{ entity.ipv6 }}</td>
                 <td>
                     <div class="btn-group">
