@@ -8,7 +8,7 @@
  *
  */
 
-namespace Jboehm\Lampcp\UserBundle\Command;
+namespace Jboehm\Lampcp\UserLoaderBundle\Command;
 
 use Jboehm\Bundle\PasswdBundle\Model\PasswdService;
 use Jboehm\Bundle\PasswdBundle\Model\GroupService;

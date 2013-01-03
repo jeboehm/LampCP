@@ -21,7 +21,7 @@ class AppKernel extends Kernel {
 			new Sonata\jQueryBundle\SonatajQueryBundle(),
 			new Jboehm\Bundle\PasswdBundle\JboehmPasswdBundle(),
 			new Jboehm\Lampcp\CoreBundle\JboehmLampcpCoreBundle(),
-            new Jboehm\Lampcp\UserBundle\JboehmLampcpUserBundle(),
+            new Jboehm\Lampcp\UserLoaderBundle\JboehmLampcpUserLoaderBundle(),
             new Jboehm\Lampcp\ApacheConfigBundle\JboehmLampcpApacheConfigBundle(),
 		);
 

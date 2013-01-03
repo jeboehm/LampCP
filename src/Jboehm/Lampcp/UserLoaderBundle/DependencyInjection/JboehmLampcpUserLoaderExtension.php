@@ -1,6 +1,6 @@
 <?php
 
-namespace Jboehm\Lampcp\UserBundle\DependencyInjection;
+namespace Jboehm\Lampcp\UserLoaderBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -12,14 +12,13 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class JboehmLampcpUserExtension extends Extension
+class JboehmLampcpUserLoaderExtension extends Extension
 {
     /**
      * {@inheritDoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+
     }
 }
