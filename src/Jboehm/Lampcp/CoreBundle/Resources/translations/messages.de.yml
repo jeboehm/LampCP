@@ -74,6 +74,7 @@ default.topmenu.no.domain: Keine Domain ausgewählt
 status.headline.uptime: Uptime / Angemeldete User / Load
 status.headline.uname: Hostname / Kernel-Version
 leftnavall.general: Allgemein
+leftnav.select.domain: Domain auswählen
 
 # Auth
 page.login.form.username: Benutzername
