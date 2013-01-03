@@ -73,6 +73,7 @@ log.type.error: Fehler
 default.topmenu.no.domain: Keine Domain ausgewählt
 status.headline.uptime: Uptime / Angemeldete User / Load
 status.headline.uname: Hostname / Kernel-Version
+leftnavall.general: Allgemein
 
 # Auth
 page.login.form.username: Benutzername

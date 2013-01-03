@@ -19,17 +19,24 @@
 
 {% block topnav %}
     <ul class="nav">
-        <li><a href="{{ path('config_admin') }}">{{ "title.page.admin"|trans() }}</a></li>
         <li><a href="{{ path('systemconfig') }}">{{ "title.page.systemconfig"|trans() }}</a></li>
         <li><a href="{{ path('log') }}">{{ "title.page.log"|trans() }}</a></li>
-        <li><a href="{{ path('config_domain') }}">{{ "title.page.domain"|trans() }}</a></li>
         <li><a href="{{ path('auth_logout') }}">{{ "title.page.logout"|trans() }}</a></li>
     </ul>
 {% endblock %}
 
-{% block leftnav %}
+{% block leftnavall %}
     <ul class="nav nav-list">
-        <!-- <li class="nav-header">Sidebar</li> -->
+        <li class="nav-header">{{ "leftnavall.general"|trans() }}</li>
+        <li><a href="{{ path('config_admin') }}">{{ "title.page.admin"|trans() }}</a></li>
+        <li><a href="{{ path('config_ipaddress') }}">{{ "title.page.ipaddress"|trans() }}</a></li>
+        <li><a href="{{ path('config_domain') }}">{{ "title.page.domain"|trans() }}</a></li>
+    </ul>
+{% endblock %}
+
+{% block leftnavdom %}
+    <ul class="nav nav-list">
+        <li class="nav-header">{{ selecteddomain.domain }}</li>
         <li><a href="{{ path('config_subdomain') }}">{{ "title.page.subdomain"|trans() }}</a></li>
         <li><a href="{{ path('config_mailaccount') }}">{{ "title.page.mailaccount"|trans() }}</a></li>
         <li><a href="{{ path('config_mysqldatabase') }}">{{ "title.page.mysqldatabase"|trans() }}</a></li>

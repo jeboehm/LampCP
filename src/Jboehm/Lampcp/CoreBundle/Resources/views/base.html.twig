@@ -75,13 +75,26 @@
             {% block leftbar %}
                 <div class="span3">
                     <div class="well sidebar-nav">
+                        {% block leftnavall %}
+                            <ul class="nav nav-list">
+                                <li class="nav-header">Sidebar</li>
+                                <li class="active"><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                            </ul>
+                        {% endblock %}
+                    </div>
+                    <!--/.well -->
+
+                    <div class="well sidebar-nav">
                         {% block domainselector %}{% endblock %}
                     </div>
                     <!--/.well -->
 
                     {% if selecteddomain is defined and selecteddomain is not null %}
                         <div class="well sidebar-nav">
-                            {% block leftnav %}
+                            {% block leftnavdom %}
                                 <ul class="nav nav-list">
                                     <li class="nav-header">Sidebar</li>
                                     <li class="active"><a href="#">Link</a></li>
