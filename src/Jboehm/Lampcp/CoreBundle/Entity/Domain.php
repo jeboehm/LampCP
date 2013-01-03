@@ -12,6 +12,7 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -59,6 +60,12 @@ class Domain {
 	 * @ManyToOne(targetEntity="User")
 	 */
 	private $user;
+
+	/**
+	 * @var IpAddress[]
+	 * @ManyToMany(targetEntity="IpAddress")
+	 */
+	private $ipaddress;
 
 	/**
 	 * @var string
@@ -186,5 +193,23 @@ class Domain {
 	 */
 	public function getFullWebrootPath() {
 		return $this->path . '/' . $this->webroot;
+	}
+
+	/**
+	 * @param \Jboehm\Lampcp\CoreBundle\Entity\IpAddress[] $ipaddress
+	 *
+	 * @return IpAddress[]
+	 */
+	public function setIpaddress($ipaddress) {
+		$this->ipaddress = $ipaddress;
+
+		return $this;
+	}
+
+	/**
+	 * @return \Jboehm\Lampcp\CoreBundle\Entity\IpAddress[]
+	 */
+	public function getIpaddress() {
+		return $this->ipaddress;
 	}
 }

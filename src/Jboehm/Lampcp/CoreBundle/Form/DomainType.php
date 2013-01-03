@@ -23,6 +23,12 @@ class DomainType extends AbstractType {
 										 'class'    => 'JboehmLampcpCoreBundle:User',
 										 'property' => 'name',
 									))
+			->add('ipaddress', 'entity', array(
+											  'class'    => 'JboehmLampcpCoreBundle:IpAddress',
+											  'property' => 'alias',
+											  'multiple' => true,
+											  'required' => false,
+										 ))
 			->add('customconfig', null, array('required' => false));
 	}
 
