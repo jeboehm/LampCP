@@ -37,3 +37,17 @@
         <li><a href="{{ path('config_protection') }}">{{ "title.page.protection"|trans() }}</a></li>
     </ul>
 {% endblock %}
+
+{% block footer %}<p>Powered by <a href="https://github.com/jeboehm/LampCP">LampCP</a></p>{% endblock %}
+
+{% block domainselector %}
+    <form action="{{ path('set_domain') }}" method="post">
+        <ul class="nav nav-list">
+            <li class="nav-header">{{ form_label(domainselector_form.domain) }}</li>
+
+            <li>{{ form_widget(domainselector_form.domain) }}</li>
+        </ul>
+
+        {{ form_rest(domainselector_form) }}
+    </form>
+{% endblock %}
