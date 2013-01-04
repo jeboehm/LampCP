@@ -43,7 +43,6 @@ show.page.mysqldatabase: Datenbank anzeigen
 show.page.pathoption: Pfadoption anzeigen
 show.page.protection: Beschränkung anzeigen
 show.page.subdomain: Subdomain anzeigen
-show.page.log: Logeintrag anzeigen
 show.page.ipaddress: IP-Adresse anzeigen
 
 create.page.admin: Administrator anlegen
@@ -62,12 +61,6 @@ button.delete: Löschen
 button.back: Zurück zur Liste
 button.create: Neuen Eintrag anlegen
 button.show: Anzeigen
-
-# Logtypen
-log.type.debug: Entwickler
-log.type.info: Info
-log.type.warn: Warnung
-log.type.error: Fehler
 
 # Seiteninhalte
 default.topmenu.no.domain: Keine Domain ausgewählt

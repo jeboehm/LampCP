@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Jboehm\Lampcp\CoreBundle\Entity\Log;
 
 /**
  * Log controller.
@@ -29,36 +28,10 @@ class LogController extends AbstractController {
 	 * @Template()
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine()->getManager();
-
-		/** @var $entities Log[] */
-		$entities = $em
-			->getRepository('JboehmLampcpCoreBundle:Log')->findBy(array(), array('time' => 'desc',
-																				 'id'   => 'desc'), 100);
+		$entities = $this->_getLogger()->getLogs();
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,
-								 ));
-	}
-
-	/**
-	 * Finds and displays a Log entity.
-	 *
-	 * @Route("/{id}/show", name="log_show")
-	 * @Template()
-	 */
-	public function showAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
-		/** @var $entity Log */
-		$entity = $em->getRepository('JboehmLampcpCoreBundle:Log')->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Log entity.');
-		}
-
-		return $this->_getReturn(array(
-									  'entity' => $entity,
 								 ));
 	}
 }
