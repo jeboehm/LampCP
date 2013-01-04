@@ -35,7 +35,7 @@ class Protection {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain")
+	 * @ManyToOne(targetEntity="Domain", inversedBy="protection")
 	 */
 	private $domain;
 

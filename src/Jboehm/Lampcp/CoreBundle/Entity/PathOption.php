@@ -35,7 +35,7 @@ class PathOption {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain")
+	 * @ManyToOne(targetEntity="Domain", inversedBy="pathoption")
 	 */
 	private $domain;
 

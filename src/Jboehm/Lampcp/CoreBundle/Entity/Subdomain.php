@@ -35,7 +35,7 @@ class Subdomain {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain")
+	 * @ManyToOne(targetEntity="Domain", inversedBy="subdomain")
 	 */
 	private $domain;
 

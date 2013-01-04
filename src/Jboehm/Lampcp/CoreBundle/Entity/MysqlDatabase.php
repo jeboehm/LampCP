@@ -35,7 +35,7 @@ class MysqlDatabase {
 	/**
 	 * @var string
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain")
+	 * @ManyToOne(targetEntity="Domain", inversedBy="mysqldatabase")
 	 */
 	private $domain;
 

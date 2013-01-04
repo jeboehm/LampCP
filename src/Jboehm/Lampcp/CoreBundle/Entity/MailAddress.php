@@ -35,7 +35,7 @@ class MailAddress {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain")
+	 * @ManyToOne(targetEntity="Domain", inversedBy="mailaddress")
 	 */
 	private $domain;
 
@@ -56,7 +56,7 @@ class MailAddress {
 	/**
 	 * @var MailAccount
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="MailAccount")
+	 * @ManyToOne(targetEntity="MailAccount", inversedBy="mailaddress")
 	 */
 	private $mailaccount;
 

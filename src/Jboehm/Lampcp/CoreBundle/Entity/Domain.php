@@ -13,6 +13,7 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -57,7 +58,7 @@ class Domain {
 	/**
 	 * @var User
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="User")
+	 * @ManyToOne(targetEntity="User", inversedBy="domain")
 	 */
 	private $user;
 
@@ -72,6 +73,42 @@ class Domain {
 	 * @ORM\Column(name="customconfig", type="text")
 	 */
 	private $customconfig;
+
+	/**
+	 * @var MailAccount[]
+	 * @OneToMany(targetEntity="MailAccount", mappedBy="domain")
+	 */
+	private $mailaccount;
+
+	/**
+	 * @var MailAddress[]
+	 * @OneToMany(targetEntity="MailAddress", mappedBy="domain")
+	 */
+	private $mailaddress;
+
+	/**
+	 * @var MysqlDatabase[]
+	 * @OneToMany(targetEntity="MysqlDatabase", mappedBy="domain")
+	 */
+	private $mysqldatabase;
+
+	/**
+	 * @var PathOption[]
+	 * @OneToMany(targetEntity="PathOption", mappedBy="domain")
+	 */
+	private $pathoption;
+
+	/**
+	 * @var Protection[]
+	 * @OneToMany(targetEntity="Protection", mappedBy="domain")
+	 */
+	private $protection;
+
+	/**
+	 * @var Subdomain[]
+	 * @OneToMany(targetEntity="Subdomain", mappedBy="domain")
+	 */
+	private $subdomain;
 
 	/**
 	 * Konstruktor
@@ -211,5 +248,113 @@ class Domain {
 	 */
 	public function getIpaddress() {
 		return $this->ipaddress;
+	}
+
+	/**
+	 * @param array $mailaccount
+	 *
+	 * @return Domain
+	 */
+	public function setMailaccount($mailaccount) {
+		$this->mailaccount = $mailaccount;
+
+		return $this;
+	}
+
+	/**
+	 * @return MailAccount[]
+	 */
+	public function getMailaccount() {
+		return $this->mailaccount;
+	}
+
+	/**
+	 * @param array $mailaddress
+	 *
+	 * @return Domain
+	 */
+	public function setMailaddress($mailaddress) {
+		$this->mailaddress = $mailaddress;
+
+		return $this;
+	}
+
+	/**
+	 * @return MailAddress[]
+	 */
+	public function getMailaddress() {
+		return $this->mailaddress;
+	}
+
+	/**
+	 * @param array $mysqldatabase
+	 *
+	 * @return Domain
+	 */
+	public function setMysqldatabase($mysqldatabase) {
+		$this->mysqldatabase = $mysqldatabase;
+
+		return $this;
+	}
+
+	/**
+	 * @return MysqlDatabase[]
+	 */
+	public function getMysqldatabase() {
+		return $this->mysqldatabase;
+	}
+
+	/**
+	 * @param array $pathoption
+	 *
+	 * @return Domain
+	 */
+	public function setPathoption($pathoption) {
+		$this->pathoption = $pathoption;
+
+		return $this;
+	}
+
+	/**
+	 * @return PathOption[]
+	 */
+	public function getPathoption() {
+		return $this->pathoption;
+	}
+
+	/**
+	 * @param array $protection
+	 *
+	 * @return Domain
+	 */
+	public function setProtection($protection) {
+		$this->protection = $protection;
+
+		return $this;
+	}
+
+	/**
+	 * @return Protection[]
+	 */
+	public function getProtection() {
+		return $this->protection;
+	}
+
+	/**
+	 * @param array $subdomain
+	 *
+	 * @return Domain
+	 */
+	public function setSubdomain($subdomain) {
+		$this->subdomain = $subdomain;
+
+		return $this;
+	}
+
+	/**
+	 * @return Subdomain[]
+	 */
+	public function getSubdomain() {
+		return $this->subdomain;
 	}
 }

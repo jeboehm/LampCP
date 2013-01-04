@@ -12,6 +12,7 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Jboehm\Lampcp\CoreBundle\Utilities\FilesizeUtility;
@@ -36,7 +37,7 @@ class MailAccount {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain")
+	 * @ManyToOne(targetEntity="Domain", inversedBy="mailaccount")
 	 */
 	private $domain;
 
@@ -88,6 +89,13 @@ class MailAccount {
 	 * @ORM\Column(name="enabled", type="boolean")
 	 */
 	private $enabled;
+
+	/**
+	 * @var MailAddress[]
+	 *
+	 * @OneToMany(targetEntity="MailAddress", mappedBy="mailaccount")
+	 */
+	private $mailaddress;
 
 	/**
 	 * Konstruktor
@@ -279,5 +287,23 @@ class MailAccount {
 	 */
 	public function getEnabled() {
 		return $this->enabled;
+	}
+
+	/**
+	 * @param array $mailaddress
+	 *
+	 * @return MailAccount
+	 */
+	public function setMailaddress($mailaddress) {
+		$this->mailaddress = $mailaddress;
+
+		return $this;
+	}
+
+	/**
+	 * @return MailAddress[]
+	 */
+	public function getMailaddress() {
+		return $this->mailaddress;
 	}
 }
