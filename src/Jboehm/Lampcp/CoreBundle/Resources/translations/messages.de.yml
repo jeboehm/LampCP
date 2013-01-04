@@ -143,13 +143,6 @@ jboehm.lampcp.corebundle.ipaddresstype.ipv6: Ist IPv6
 
 jboehm.lampcp.corebundle.domainselectortype.domain: Domain auswählen
 
-jboehm.lampcp.corebundle.domaintype.count.subdomain: Subdomains
-jboehm.lampcp.corebundle.domaintype.count.protection: Beschränkungen
-jboehm.lampcp.corebundle.domaintype.count.pathoption: Pfadoptionen
-jboehm.lampcp.corebundle.domaintype.count.mysqldatabase: Datenbanken
-jboehm.lampcp.corebundle.domaintype.count.mailaddress: E-Mailadressen
-jboehm.lampcp.corebundle.domaintype.count.mailaccount: E-Mailaccounts
-
 # Systemconfig
 systemconfig.password: (Passwort)
 systemconfig.group.mysql: MySQL
