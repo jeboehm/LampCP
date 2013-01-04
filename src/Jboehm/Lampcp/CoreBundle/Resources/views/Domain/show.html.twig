@@ -40,6 +40,30 @@
                 <pre>{{ entity.customconfig }}</pre>
             </td>
         </tr>
+        <tr>
+            <th>{{ "jboehm.lampcp.corebundle.domaintype.count.subdomain"|trans() }}</th>
+            <td>{{ entity.subdomain|length }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jboehm.lampcp.corebundle.domaintype.count.mailaccount"|trans() }}</th>
+            <td>{{ entity.mailaccount|length }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jboehm.lampcp.corebundle.domaintype.count.mailaddress"|trans() }}</th>
+            <td>{{ entity.mailaddress|length }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jboehm.lampcp.corebundle.domaintype.count.mysqldatabase"|trans() }}</th>
+            <td>{{ entity.mysqldatabase|length }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jboehm.lampcp.corebundle.domaintype.count.pathoption"|trans() }}</th>
+            <td>{{ entity.pathoption|length }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jboehm.lampcp.corebundle.domaintype.count.protection"|trans() }}</th>
+            <td>{{ entity.protection|length }}</td>
+        </tr>
         </tbody>
     </table>
 
