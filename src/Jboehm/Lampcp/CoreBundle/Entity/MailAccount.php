@@ -93,7 +93,7 @@ class MailAccount {
 	/**
 	 * @var MailAddress[]
 	 *
-	 * @OneToMany(targetEntity="MailAddress", mappedBy="mailaccount")
+	 * @OneToMany(targetEntity="MailAddress", mappedBy="mailaccount", cascade={"remove"})
 	 */
 	private $mailaddress;
 

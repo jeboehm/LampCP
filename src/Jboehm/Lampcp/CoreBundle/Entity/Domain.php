@@ -76,37 +76,37 @@ class Domain {
 
 	/**
 	 * @var MailAccount[]
-	 * @OneToMany(targetEntity="MailAccount", mappedBy="domain")
+	 * @OneToMany(targetEntity="MailAccount", mappedBy="domain", cascade={"remove"})
 	 */
 	private $mailaccount;
 
 	/**
 	 * @var MailAddress[]
-	 * @OneToMany(targetEntity="MailAddress", mappedBy="domain")
+	 * @OneToMany(targetEntity="MailAddress", mappedBy="domain", cascade={"remove"})
 	 */
 	private $mailaddress;
 
 	/**
 	 * @var MysqlDatabase[]
-	 * @OneToMany(targetEntity="MysqlDatabase", mappedBy="domain")
+	 * @OneToMany(targetEntity="MysqlDatabase", mappedBy="domain", cascade={"remove"})
 	 */
 	private $mysqldatabase;
 
 	/**
 	 * @var PathOption[]
-	 * @OneToMany(targetEntity="PathOption", mappedBy="domain")
+	 * @OneToMany(targetEntity="PathOption", mappedBy="domain", cascade={"remove"})
 	 */
 	private $pathoption;
 
 	/**
 	 * @var Protection[]
-	 * @OneToMany(targetEntity="Protection", mappedBy="domain")
+	 * @OneToMany(targetEntity="Protection", mappedBy="domain", cascade={"remove"})
 	 */
 	private $protection;
 
 	/**
 	 * @var Subdomain[]
-	 * @OneToMany(targetEntity="Subdomain", mappedBy="domain")
+	 * @OneToMany(targetEntity="Subdomain", mappedBy="domain", cascade={"remove"})
 	 */
 	private $subdomain;
 
