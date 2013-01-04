@@ -24,7 +24,7 @@ use Jboehm\Lampcp\CoreBundle\Form\MailAddressType;
  *
  * @Route("/config/mailaddress")
  */
-class MailAddressController extends BaseController {
+class MailAddressController extends AbstractController {
 	/**
 	 * Get MailAccount
 	 *

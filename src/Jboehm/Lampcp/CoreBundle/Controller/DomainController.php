@@ -22,7 +22,7 @@ use Jboehm\Lampcp\CoreBundle\Form\DomainType;
  *
  * @Route("/config/domain")
  */
-class DomainController extends BaseController {
+class DomainController extends AbstractController {
 	/**
 	 * Lists all Domain entities.
 	 *

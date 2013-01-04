@@ -19,7 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Auth controller.
  */
-class AuthController extends BaseController {
+class AuthController extends AbstractController {
 	/**
 	 * Shows login page.
 	 *

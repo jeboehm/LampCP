@@ -21,7 +21,7 @@ use Jboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 /**
  * Status controller.
  */
-class StatusController extends BaseController {
+class StatusController extends AbstractController {
 	/**
 	 * Shows status page.
 	 *

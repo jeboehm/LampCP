@@ -22,7 +22,7 @@ use Jboehm\Lampcp\CoreBundle\Form\IpAddressType;
  *
  * @Route("/config/ipaddress")
  */
-class IpAddressController extends BaseController {
+class IpAddressController extends AbstractController {
 	/**
 	 * Lists all IpAddress entities.
 	 *

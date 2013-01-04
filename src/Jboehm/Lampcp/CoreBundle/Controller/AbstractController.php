@@ -20,9 +20,9 @@ use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
 
 /**
- * Base controller.
+ * Abstract controller.
  */
-abstract class BaseController extends Controller {
+abstract class AbstractController extends Controller {
 	/**
 	 * Get system config service
 	 *

@@ -13,7 +13,7 @@ namespace Jboehm\Lampcp\CoreBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Doctrine\Common\Persistence\ObjectManager;
 use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
-use Jboehm\Lampcp\CoreBundle\Service\LogService;
+use Symfony\Bridge\Monolog\Logger;
 
 /**
  * AbstractCommand class
@@ -23,10 +23,10 @@ abstract class AbstractCommand extends ContainerAwareCommand {
 	private $_objectManager;
 
 	/** @var SystemConfigService */
-	protected $_systemConfigService;
+	private $_systemConfigService;
 
-	/** @var LogService */
-	protected $_logService;
+	/** @var Monolog */
+	private $_logger;
 
 	/**
 	 * Get doctrine
@@ -55,15 +55,15 @@ abstract class AbstractCommand extends ContainerAwareCommand {
 	}
 
 	/**
-	 * Get log service
+	 * Get logservice
 	 *
-	 * @return \Jboehm\Lampcp\CoreBundle\Service\LogService
+	 * @return Logger
 	 */
-	protected function _getLogService() {
-		if(!$this->_logService) {
-			$this->_logService = $this->getContainer()->get('jboehm_lampcp_core.logservice');
+	protected function _getLogger() {
+		if(!$this->_logger) {
+			$this->_logger = $this->getContainer()->get('logger');
 		}
 
-		return $this->_logService;
+		return $this->_logger;
 	}
 }

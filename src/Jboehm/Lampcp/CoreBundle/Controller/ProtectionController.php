@@ -22,7 +22,7 @@ use Jboehm\Lampcp\CoreBundle\Form\ProtectionType;
  *
  * @Route("/config/protection")
  */
-class ProtectionController extends BaseController {
+class ProtectionController extends AbstractController {
 	/**
 	 * Lists all Protection entities.
 	 *

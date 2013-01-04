@@ -63,7 +63,7 @@ class GenerateConfigCommand extends AbstractCommand {
 	 * @return int|null|void
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$this->_getLogService()->info('Executing GenerateConfigCommand', 'GenerateConfigCommand');
+		$this->_getLogger()->info('(GenerateConfigCommand) Executing...');
 
 		try {
 			$directory = $this->_getDirectoryBuilderService();
@@ -72,7 +72,7 @@ class GenerateConfigCommand extends AbstractCommand {
 			$vhost = $this->_getVhostBuilderService();
 			$vhost->buildAll();
 		} catch(\Exception $e) {
-			$this->_getLogService()->error('Error while running GenerateConfigCommand. Please run it from console!', 'GenerateConfigCommand');
+			$this->_getLogger()->err('(GenerateConfigCommand) Error: ' . $e->getMessage());
 
 			throw $e;
 		}

@@ -22,7 +22,7 @@ use Jboehm\Lampcp\CoreBundle\Form\MailAccountType;
  *
  * @Route("/config/mailaccount")
  */
-class MailAccountController extends BaseController {
+class MailAccountController extends AbstractController {
 	/**
 	 * Lists all MailAccount entities.
 	 *

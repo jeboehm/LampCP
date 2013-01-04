@@ -21,7 +21,7 @@ use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
  *
  * @Route("//config/system")
  */
-class SystemConfigController extends BaseController {
+class SystemConfigController extends AbstractController {
 	/**
 	 * Lists all Config entities.
 	 *

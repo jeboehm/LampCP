@@ -21,7 +21,7 @@ use Jboehm\Lampcp\CoreBundle\Entity\Log;
  *
  * @Route("/config/log")
  */
-class LogController extends BaseController {
+class LogController extends AbstractController {
 	/**
 	 * Lists all Log entities.
 	 *

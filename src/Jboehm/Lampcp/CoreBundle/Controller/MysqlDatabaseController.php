@@ -22,7 +22,7 @@ use Jboehm\Lampcp\CoreBundle\Form\MysqlDatabaseType;
  *
  * @Route("/config/mysqldatabase")
  */
-class MysqlDatabaseController extends BaseController {
+class MysqlDatabaseController extends AbstractController {
 	/**
 	 * Lists all MysqlDatabase entities.
 	 *

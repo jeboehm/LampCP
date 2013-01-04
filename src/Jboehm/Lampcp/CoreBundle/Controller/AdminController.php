@@ -22,7 +22,7 @@ use Jboehm\Lampcp\CoreBundle\Form\AdminType;
  *
  * @Route("/config/admin")
  */
-class AdminController extends BaseController {
+class AdminController extends AbstractController {
 	/**
 	 * Generates a password
 	 *
