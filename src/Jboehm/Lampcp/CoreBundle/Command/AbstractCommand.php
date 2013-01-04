@@ -55,7 +55,7 @@ abstract class AbstractCommand extends ContainerAwareCommand {
 	}
 
 	/**
-	 * Get logservice
+	 * Get logger
 	 *
 	 * @return Logger
 	 */

@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Bridge\Monolog\Logger;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
 
@@ -23,6 +24,9 @@ use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
  * Abstract controller.
  */
 abstract class AbstractController extends Controller {
+	/** @var Logger */
+	private $_logger;
+
 	/**
 	 * Get system config service
 	 *
@@ -39,6 +43,19 @@ abstract class AbstractController extends Controller {
 	 */
 	protected function _getSession() {
 		return $this->get('session');
+	}
+
+	/**
+	 * Get logger
+	 *
+	 * @return Logger
+	 */
+	protected function _getLogger() {
+		if(!$this->_logger) {
+			$this->_logger = $this->get('logger');
+		}
+
+		return $this->_logger;
 	}
 
 	/**
