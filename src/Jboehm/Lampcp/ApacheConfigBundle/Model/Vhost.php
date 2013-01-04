@@ -10,6 +10,8 @@
 
 namespace Jboehm\Lampcp\ApacheConfigBundle\Model;
 
+use Jboehm\Lampcp\CoreBundle\Entity\IpAddress;
+
 class Vhost {
 	/** @var string */
 	protected $serveradmin;
@@ -46,6 +48,9 @@ class Vhost {
 
 	/** @var string */
 	protected $custom;
+
+	/** @var IpAddress[] */
+	protected $ipaddress;
 
 	/**
 	 * Konstruktor
@@ -269,5 +274,23 @@ class Vhost {
 	 */
 	public function getCustom() {
 		return $this->custom;
+	}
+
+	/**
+	 * @param array $ipaddress
+	 *
+	 * @return Vhost
+	 */
+	public function setIpaddress($ipaddress) {
+		$this->ipaddress = $ipaddress;
+
+		return $this;
+	}
+
+	/**
+	 * @return \Jboehm\Lampcp\CoreBundle\Entity\IpAddress[]
+	 */
+	public function getIpaddress() {
+		return $this->ipaddress;
 	}
 }

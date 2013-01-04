@@ -11,6 +11,7 @@
 namespace Jboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jboehm\Lampcp\CoreBundle\Entity\IpAddress;
 use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
 use Jboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
 use Jboehm\Lampcp\ApacheConfigBundle\Exception\couldNotWriteFileException;
@@ -41,7 +42,17 @@ class VhostBuilderService extends AbstractBuilderService {
 			->setFcgiwrapper($domain->getPath() . '/php-fcgi/php-fcgi-starter.sh')
 			->setCustomlog($domain->getPath() . '/logs/access.log')
 			->setErrorlog($domain->getPath() . '/logs/error.log')
-			->setCustom($domain->getCustomconfig());
+			->setCustom($domain->getCustomconfig())
+			->setIpaddress($domain->getIpaddress());
+
+		if(count($domain->getIpaddress()) < 1) {
+			$ip = new IpAddress();
+			$ip
+				->setIp('*')
+				->setPort(80);
+
+			$model->setIpaddress(array($ip));
+		}
 
 		return $model;
 	}

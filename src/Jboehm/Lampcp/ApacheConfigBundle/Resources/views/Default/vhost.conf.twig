@@ -13,7 +13,12 @@
 #
 ##
 
-<VirtualHost *:80>
+{% for ip in vhost.ipaddress %}
+{% if ip.ipv6 %}
+<VirtualHost [{{ ip.ip }}]:{{ ip.port }}>
+{% else %}
+<VirtualHost {{ ip.ip }}:{{ ip.port }}>
+{% endif %}
     ServerAdmin {{ vhost.serveradmin }}
     ServerName {{ vhost.servername }}
     ServerAlias {{ vhost.serveralias }}
@@ -40,3 +45,5 @@
     CustomLog {{ vhost.customlog }} combined
     ServerSignature On
 </VirtualHost>
+
+{% endfor %}
