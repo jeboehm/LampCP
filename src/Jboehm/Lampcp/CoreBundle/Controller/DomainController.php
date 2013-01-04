@@ -48,6 +48,7 @@ class DomainController extends BaseController {
 	public function showAction($id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity Domain */
 		$entity = $em->getRepository('JboehmLampcpCoreBundle:Domain')->find($id);
 
 		if(!$entity) {
