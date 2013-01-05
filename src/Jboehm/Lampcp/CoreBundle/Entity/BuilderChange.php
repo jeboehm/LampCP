@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * BuilderChange
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jboehm\Lampcp\CoreBundle\Entity\BuilderChangeRepository")
  */
 class BuilderChange {
 	const METHOD_UPDATE = 0;

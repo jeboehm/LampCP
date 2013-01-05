@@ -16,6 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Jboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
 use Jboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
+use Jboehm\Lampcp\CoreBundle\Entity\BuilderChangeRepository;
 
 class GenerateConfigCommand extends AbstractCommand {
 	/** @var VhostBuilderService */
@@ -85,9 +86,9 @@ class GenerateConfigCommand extends AbstractCommand {
 		$run = false;
 		$this->_getLogger()->info('(GenerateConfigCommand) Executing...');
 
-		
+		// TODO Check watched entitys for changes
 
-		if($input->getOption('force')) {
+		if($input->getOption('force') || $this->_isChanged()) {
 			$run = true;
 		}
 
@@ -106,5 +107,28 @@ class GenerateConfigCommand extends AbstractCommand {
 				throw $e;
 			}
 		}
+	}
+
+	/**
+	 * Checks for changed entitys that are relevant for this task
+	 *
+	 * @return bool
+	 */
+	protected function _isChanged() {
+		/** @var $repo BuilderChangeRepository */
+		$repo = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:BuilderChange');
+		$data = $repo->getByEntitynamesArray($this->_getEntitys());
+
+		if(count($data) > 0) {
+			foreach($data as $entity) {
+				$this->_getDoctrine()->remove($entity);
+			}
+
+			$this->_getDoctrine()->flush();
+
+			return true;
+		}
+
+		return false;
 	}
 }
