@@ -172,6 +172,8 @@ class Domain {
 	}
 
 	/**
+	 * Set webroot
+	 *
 	 * @param string $webroot
 	 *
 	 * @return Domain
@@ -183,6 +185,8 @@ class Domain {
 	}
 
 	/**
+	 * Get webroot
+	 *
 	 * @return string
 	 */
 	public function getWebroot() {
@@ -190,6 +194,8 @@ class Domain {
 	}
 
 	/**
+	 * Set customconfig
+	 *
 	 * @param string $customconfig
 	 *
 	 * @return Domain
@@ -201,6 +207,8 @@ class Domain {
 	}
 
 	/**
+	 * Get customconfig
+	 *
 	 * @return string
 	 */
 	public function getCustomconfig() {
@@ -208,7 +216,9 @@ class Domain {
 	}
 
 	/**
-	 * @param \Jboehm\Lampcp\CoreBundle\Entity\User $user
+	 * Set user
+	 *
+	 * @param User $user
 	 *
 	 * @return Domain
 	 */
@@ -219,13 +229,17 @@ class Domain {
 	}
 
 	/**
-	 * @return \Jboehm\Lampcp\CoreBundle\Entity\User
+	 * Get user
+	 *
+	 * @return User
 	 */
 	public function getUser() {
 		return $this->user;
 	}
 
 	/**
+	 * Get full webroot path
+	 *
 	 * @return string
 	 */
 	public function getFullWebrootPath() {
@@ -233,6 +247,8 @@ class Domain {
 	}
 
 	/**
+	 * Set ipaddresses
+	 *
 	 * @param \Jboehm\Lampcp\CoreBundle\Entity\IpAddress[] $ipaddress
 	 *
 	 * @return IpAddress[]
@@ -244,6 +260,8 @@ class Domain {
 	}
 
 	/**
+	 * Get ipaddresses
+	 *
 	 * @return \Jboehm\Lampcp\CoreBundle\Entity\IpAddress[]
 	 */
 	public function getIpaddress() {
@@ -251,6 +269,8 @@ class Domain {
 	}
 
 	/**
+	 * Set mailaccounts
+	 *
 	 * @param array $mailaccount
 	 *
 	 * @return Domain
@@ -262,6 +282,8 @@ class Domain {
 	}
 
 	/**
+	 * Get mailaccounts
+	 *
 	 * @return MailAccount[]
 	 */
 	public function getMailaccount() {
@@ -269,6 +291,8 @@ class Domain {
 	}
 
 	/**
+	 * Set mailaddresses
+	 *
 	 * @param array $mailaddress
 	 *
 	 * @return Domain
@@ -280,6 +304,8 @@ class Domain {
 	}
 
 	/**
+	 * Get mailaddresses
+	 *
 	 * @return MailAddress[]
 	 */
 	public function getMailaddress() {
@@ -287,6 +313,8 @@ class Domain {
 	}
 
 	/**
+	 * Set mysqldatabases
+	 *
 	 * @param array $mysqldatabase
 	 *
 	 * @return Domain
@@ -298,6 +326,8 @@ class Domain {
 	}
 
 	/**
+	 * Get mysqldatabases
+	 *
 	 * @return MysqlDatabase[]
 	 */
 	public function getMysqldatabase() {
@@ -305,6 +335,8 @@ class Domain {
 	}
 
 	/**
+	 * Set pathoptions
+	 *
 	 * @param array $pathoption
 	 *
 	 * @return Domain
@@ -316,6 +348,8 @@ class Domain {
 	}
 
 	/**
+	 * Get pathoptions
+	 *
 	 * @return PathOption[]
 	 */
 	public function getPathoption() {
@@ -323,6 +357,8 @@ class Domain {
 	}
 
 	/**
+	 * Set protections
+	 *
 	 * @param array $protection
 	 *
 	 * @return Domain
@@ -334,6 +370,8 @@ class Domain {
 	}
 
 	/**
+	 * Get protections
+	 *
 	 * @return Protection[]
 	 */
 	public function getProtection() {
@@ -341,6 +379,8 @@ class Domain {
 	}
 
 	/**
+	 * Set subdomains
+	 *
 	 * @param array $subdomain
 	 *
 	 * @return Domain
@@ -352,6 +392,8 @@ class Domain {
 	}
 
 	/**
+	 * Get subdomains
+	 *
 	 * @return Subdomain[]
 	 */
 	public function getSubdomain() {
