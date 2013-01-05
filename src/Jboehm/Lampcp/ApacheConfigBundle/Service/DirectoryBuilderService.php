@@ -33,6 +33,7 @@ class DirectoryBuilderService extends AbstractBuilderService {
 	 */
 	public function createDirectorysForDomain(Domain $domain) {
 		if(!is_dir($domain->getPath())) {
+			$this->_getLogger()->info('(DirectoryBuilderService) Creating directory: ' . $domain->getPath());
 			mkdir($domain->getPath());
 		}
 
@@ -46,6 +47,7 @@ class DirectoryBuilderService extends AbstractBuilderService {
 
 			// Create directory
 			if(!is_dir($path)) {
+				$this->_getLogger()->info('(DirectoryBuilderService) Creating directory: ' . $path);
 				mkdir($path);
 			}
 

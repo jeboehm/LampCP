@@ -24,12 +24,14 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             <argument type="service" id="templating" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="jboehm_lampcp_core.systemconfigservice" />
+            <argument type="service" id="logger" />
         </service>
 
         <service id="jboehm_lampcp_apache_config_directorybuilder" class="%jboehm_lampcp_apache_config.directorybuilderservice.class%">
             <argument type="service" id="templating" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="jboehm_lampcp_core.systemconfigservice" />
+            <argument type="service" id="logger" />
         </service>
     </services>
 

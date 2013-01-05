@@ -71,6 +71,8 @@ class GenerateConfigCommand extends AbstractCommand {
 
 			$vhost = $this->_getVhostBuilderService();
 			$vhost->buildAll();
+
+			$vhost->cleanVhostDirectory();
 		} catch(\Exception $e) {
 			$this->_getLogger()->err('(GenerateConfigCommand) Error: ' . $e->getMessage());
 

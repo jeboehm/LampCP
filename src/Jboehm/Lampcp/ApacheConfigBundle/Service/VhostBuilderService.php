@@ -135,6 +135,7 @@ class VhostBuilderService extends AbstractBuilderService {
 			throw new couldNotWriteFileException();
 		}
 
+		$this->_getLogger()->info('(VhostBuilderService) Generating FCGI-Starter: ' . $filename);
 		file_put_contents($filename, $this->_renderFcgiStarter($domain));
 
 		// Change rights
@@ -159,6 +160,7 @@ class VhostBuilderService extends AbstractBuilderService {
 			throw new couldNotWriteFileException();
 		}
 
+		$this->_getLogger()->info('(VhostBuilderService) Generating php.ini:' . $filename);
 		file_put_contents($filename, $this->_renderPhpIni($this->_getVhostModelForDomain($domain)));
 
 		// Change rights
@@ -187,6 +189,7 @@ class VhostBuilderService extends AbstractBuilderService {
 			throw new couldNotWriteFileException();
 		}
 
+		$this->_getLogger()->info('(VhostBuilderService) Creating new config: ' . $target);
 		file_put_contents($target, $config);
 	}
 
@@ -226,6 +229,71 @@ class VhostBuilderService extends AbstractBuilderService {
 
 		foreach($this->_getAllSubdomains() as $subdomain) {
 			$this->buildSubdomain($subdomain);
+		}
+	}
+
+	/**
+	 * Extracts servername from LampCP signature in config files
+	 * TODO Validation could be better ;-)
+	 *
+	 * @param string $file
+	 *
+	 * @return string
+	 */
+	protected function _getServernameFromConfigSignature($file) {
+		$startSnippet = '[[[LAMPCP::';
+		$endSnippet   = '::LAMPCP]]]';
+		$posStart     = strpos($file, $startSnippet) + strlen($startSnippet);
+		$posEnd       = strpos($file, $endSnippet);
+		$length       = $posEnd - $posStart;
+		$domain       = substr($file, $posStart, $length);
+
+		if(strpos($domain, '.') !== false) {
+			return $domain;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Look for obsolete config files
+	 */
+	public function cleanVhostDirectory() {
+		$domainRepository = $this
+			->_getDoctrine()
+			->getRepository('JboehmLampcpCoreBundle:Domain');
+
+		$dir = $this
+			->_getSystemConfigService()
+			->getParameter('systemconfig.option.apache.config.directory');
+
+		$files = glob($dir . '/*' . self::_configFileSuffix);
+
+		foreach($files as $file) {
+			$content    = file_get_contents($file);
+			$servername = $this->_getServernameFromConfigSignature($content);
+			$skip       = false;
+
+			if(!empty($servername)) {
+				$domain = $domainRepository->findOneBy(array('domain' => $servername));
+
+				if($domain) {
+					continue;
+				}
+
+				foreach($this->_getAllSubdomains() as $subdomain) {
+					if($subdomain->getFullDomain() === $servername) {
+						$skip = true;
+					}
+				}
+
+				if($skip) {
+					continue;
+				} else {
+					$this->_getLogger()->info('(VhostBuilderService) Deleting obsolete config: ' . $file);
+					unlink($file);
+				}
+			}
 		}
 	}
 }

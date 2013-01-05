@@ -12,6 +12,7 @@ namespace Jboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Monolog\Logger;
 use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
@@ -25,6 +26,9 @@ abstract class AbstractBuilderService {
 
 	/** @var SystemConfigService */
 	private $_systemconfigservice;
+
+	/** @var Logger */
+	private $_logger;
 
 	/**
 	 * @return \Symfony\Bundle\TwigBundle\TwigEngine
@@ -48,14 +52,25 @@ abstract class AbstractBuilderService {
 	}
 
 	/**
+	 * Get Logger
+	 *
+	 * @return Logger
+	 */
+	protected function _getLogger() {
+		return $this->_logger;
+	}
+
+	/**
 	 * @param $templating
 	 * @param $doctrine
 	 * @param $systemconfigservice
+	 * @param $logger
 	 */
-	public function __construct($templating, $doctrine, $systemconfigservice) {
+	public function __construct($templating, $doctrine, $systemconfigservice, $logger) {
 		$this->_templating          = $templating;
 		$this->_doctrine            = $doctrine;
 		$this->_systemconfigservice = $systemconfigservice;
+		$this->_logger              = $logger;
 	}
 
 	/**
