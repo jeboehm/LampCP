@@ -14,43 +14,43 @@ use Jboehm\Lampcp\CoreBundle\Entity\IpAddress;
 
 class Vhost {
 	/** @var string */
-	protected $serveradmin;
+	private $serveradmin;
 
 	/** @var string */
-	protected $servername;
+	private $servername;
 
 	/** @var string */
-	protected $serveralias;
+	private $serveralias;
 
 	/** @var string */
-	protected $suexecuser;
+	private $suexecuser;
 
 	/** @var string */
-	protected $suexecgroup;
+	private $suexecgroup;
 
 	/** @var string */
-	protected $root;
+	private $root;
 
 	/** @var string */
-	protected $docroot;
+	private $docroot;
 
 	/** @var string */
-	protected $directoryindex;
+	private $directoryindex;
 
 	/** @var string */
-	protected $fcgiwrapper;
+	private $fcgiwrapper;
 
 	/** @var string */
-	protected $errorlog;
+	private $errorlog;
 
 	/** @var string */
-	protected $customlog;
+	private $customlog;
 
 	/** @var string */
-	protected $custom;
+	private $custom;
 
 	/** @var IpAddress[] */
-	protected $ipaddress;
+	private $ipaddress;
 
 	/**
 	 * Konstruktor
