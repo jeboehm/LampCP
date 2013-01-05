@@ -11,7 +11,7 @@
 namespace Jboehm\Lampcp\CoreBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
 use Symfony\Bridge\Monolog\Logger;
 
@@ -19,8 +19,8 @@ use Symfony\Bridge\Monolog\Logger;
  * AbstractCommand class
  */
 abstract class AbstractCommand extends ContainerAwareCommand {
-	/** @var ObjectManager */
-	private $_objectManager;
+	/** @var EntityManager */
+	private $_em;
 
 	/** @var SystemConfigService */
 	private $_systemConfigService;
@@ -31,14 +31,14 @@ abstract class AbstractCommand extends ContainerAwareCommand {
 	/**
 	 * Get doctrine
 	 *
-	 * @return \Doctrine\Common\Persistence\ObjectManager
+	 * @return EntityManager
 	 */
 	protected function _getDoctrine() {
-		if(!$this->_objectManager) {
-			$this->_objectManager = $this->getContainer()->get('doctrine.orm.entity_manager');
+		if(!$this->_em) {
+			$this->_em = $this->getContainer()->get('doctrine.orm.entity_manager');
 		}
 
-		return $this->_objectManager;
+		return $this->_em;
 	}
 
 	/**
