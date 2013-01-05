@@ -54,7 +54,7 @@ class GenerateLampcpConfigCommand extends GenerateConfigCommand {
 
 		$directory = $this->_getDirectoryBuilderService();
 		$vhost     = $this->_getVhostBuilderService();
-		$domain    = $this->_getFakeDomain($input->getArgument('vhost'), $input->getArgument('user'), $dir);
+		$domain    = $this->_getLampcpDomain($input->getArgument('vhost'), $input->getArgument('user'), $dir);
 
 		// Verzeichnisse erzeugen
 		$directory->createDirectorysForDomain($domain);
@@ -74,11 +74,23 @@ class GenerateLampcpConfigCommand extends GenerateConfigCommand {
 	 *
 	 * @return \Jboehm\Lampcp\CoreBundle\Entity\Domain
 	 */
-	protected function _getFakeDomain($servername, $username, $dir) {
+	protected function _getLampcpDomain($servername, $username, $dir) {
+		$domain = $this
+			->_getDoctrine()
+			->getRepository('JboehmLampcpCoreBundle:Domain')
+			->findOneBy(array('domain' => $servername));
+
+		if($domain) {
+			return $domain;
+		}
+
 		/** @var $user User */
-		$user = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:User')->findOneBy(array(
-																									'name' => $username,
-																							   ));
+		$user = $this
+			->_getDoctrine()
+			->getRepository('JboehmLampcpCoreBundle:User')
+			->findOneBy(array(
+							 'name' => $username,
+						));
 
 		if(!$user) {
 			$msg = '(GenerateLampcpConfigCommand) Cannot find User ' . $username . '!';
@@ -93,6 +105,9 @@ class GenerateLampcpConfigCommand extends GenerateConfigCommand {
 			->setWebroot('htdocs/web')
 			->setDomain($servername)
 			->setUser($user);
+
+		$this->_getDoctrine()->persist($domain);
+		$this->_getDoctrine()->flush();
 
 		return $domain;
 	}
