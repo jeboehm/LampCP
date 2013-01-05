@@ -92,6 +92,10 @@ class GenerateConfigCommand extends AbstractCommand {
 		if($run) {
 			$this->_getLogger()->info('(GenerateConfigCommand) Executing...');
 
+			if($input->getOption('verbose')) {
+				$output->writeln('(GenerateConfigCommand) Executing...');
+			}
+
 			try {
 				$directory = $this->_getDirectoryBuilderService();
 				$directory->createDirectorysForAllDomains();
@@ -104,6 +108,10 @@ class GenerateConfigCommand extends AbstractCommand {
 				$this->_getLogger()->err('(GenerateConfigCommand) Error: ' . $e->getMessage());
 
 				throw $e;
+			}
+		} else {
+			if($input->getOption('verbose')) {
+				$output->writeln('(GenerateConfigCommand) No changes detected.');
 			}
 		}
 	}
