@@ -66,7 +66,8 @@ abstract class AbstractBuilderService {
 	 * @param $systemconfigservice
 	 * @param $logger
 	 */
-	public function __construct($templating, $doctrine, $systemconfigservice, $logger) {
+	public function __construct(TwigEngine $templating, EntityManager $doctrine,
+								SystemConfigService $systemconfigservice, Logger $logger) {
 		$this->_templating          = $templating;
 		$this->_doctrine            = $doctrine;
 		$this->_systemconfigservice = $systemconfigservice;

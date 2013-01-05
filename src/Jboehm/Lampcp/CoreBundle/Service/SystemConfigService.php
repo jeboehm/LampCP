@@ -35,7 +35,7 @@ class SystemConfigService {
 	 *
 	 * @throws \Exception
 	 */
-	public function __construct($em, $configFile) {
+	public function __construct(EntityManager $em, $configFile) {
 		$this->_yaml       = new Parser();
 		$this->_em         = $em;
 		$this->_configFile = realpath(__DIR__ . '/../' . $configFile);
