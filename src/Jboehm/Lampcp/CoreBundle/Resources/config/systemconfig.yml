@@ -29,5 +29,6 @@ config:
         unix_group_file: [string]
 
     apache:
+        config_restartcmd: [string]
         config_directory: [string]
         config_php_ini: [string]

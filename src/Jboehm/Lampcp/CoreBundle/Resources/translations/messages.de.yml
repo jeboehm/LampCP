@@ -150,3 +150,4 @@ systemconfig.option.paths.unix.passwd.file: Pfad zur Unix-Benutzerdatei
 systemconfig.option.paths.unix.group.file: Pfad zur Unix-Gruppendatei
 systemconfig.option.apache.config.directory: Apache2 Konfigurationspfad
 systemconfig.option.apache.config.php.ini: Pfad zur globalen php.ini
+systemconfig.option.apache.config.restartcmd: Apache2 Neustartkommando

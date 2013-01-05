@@ -20,14 +20,15 @@ class LoadConfigData implements FixtureInterface {
 	 * {@inheritDoc}
 	 */
 	public function load(ObjectManager $manager) {
-		$config = array('systemconfig.option.mysql.root.user'         => 'root',
-						'systemconfig.option.mysql.root.password'     => 'changeme',
-						'systemconfig.option.paths.web.root.dir'      => '/var/www',
-						'systemconfig.option.paths.mail.root.dir'     => '/srv/mail',
-						'systemconfig.option.paths.unix.passwd.file'  => '/etc/passwd',
-						'systemconfig.option.paths.unix.group.file'   => '/etc/group',
-						'systemconfig.option.apache.config.directory' => '/etc/apache2/sites-enabled',
-						'systemconfig.option.apache.config.php.ini'   => '/etc/php5/cgi/php.ini',
+		$config = array('systemconfig.option.mysql.root.user'          => 'root',
+						'systemconfig.option.mysql.root.password'      => 'changeme',
+						'systemconfig.option.paths.web.root.dir'       => '/var/www',
+						'systemconfig.option.paths.mail.root.dir'      => '/srv/mail',
+						'systemconfig.option.paths.unix.passwd.file'   => '/etc/passwd',
+						'systemconfig.option.paths.unix.group.file'    => '/etc/group',
+						'systemconfig.option.apache.config.directory'  => '/etc/apache2/sites-enabled',
+						'systemconfig.option.apache.config.php.ini'    => '/etc/php5/cgi/php.ini',
+						'systemconfig.option.apache.config.restartcmd' => '/etc/init.d/apache2 restart',
 		);
 
 		foreach($config as $path => $value) {
