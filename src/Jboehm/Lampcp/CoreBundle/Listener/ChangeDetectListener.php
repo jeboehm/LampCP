@@ -15,8 +15,6 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Jboehm\Lampcp\CoreBundle\Entity\BuilderChange;
 
 class ChangeDetectListener {
-	const _ns = 'Jboehm\Lampcp\CoreBundle\Entity';
-
 	/**
 	 * Log Change
 	 *
@@ -32,9 +30,7 @@ class ChangeDetectListener {
 			->setEntityname(get_class($entity))
 			->setMethod($type);
 
-		if(substr(get_class($entity), 0, strlen(self::_ns)) === self::_ns
-			&& !($entity instanceof BuilderChange)
-		) {
+		if(!($entity instanceof BuilderChange)) {
 			$em->persist($change);
 			$em->flush();
 		}
