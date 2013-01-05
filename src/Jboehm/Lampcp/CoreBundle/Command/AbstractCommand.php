@@ -25,7 +25,7 @@ abstract class AbstractCommand extends ContainerAwareCommand {
 	/** @var SystemConfigService */
 	private $_systemConfigService;
 
-	/** @var Monolog */
+	/** @var Logger */
 	private $_logger;
 
 	/**
