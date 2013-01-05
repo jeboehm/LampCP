@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Jboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
 use Jboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
 use Jboehm\Lampcp\CoreBundle\Entity\BuilderChangeRepository;
+use Jboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 
 class GenerateConfigCommand extends AbstractCommand {
 	/** @var VhostBuilderService */
@@ -104,6 +105,8 @@ class GenerateConfigCommand extends AbstractCommand {
 				$vhost->buildAll();
 
 				$vhost->cleanVhostDirectory();
+
+				$this->_restartApache();
 			} catch(\Exception $e) {
 				$this->_getLogger()->err('(GenerateConfigCommand) Error: ' . $e->getMessage());
 
@@ -137,5 +140,30 @@ class GenerateConfigCommand extends AbstractCommand {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Restart apache2
+	 */
+	protected function _restartApache() {
+		$exec = new ExecUtility();
+		$cmd  = $this
+			->_getSystemConfigService()
+			->getParameter('systemconfig.option.apache.config.restartcmd');
+
+		if(!empty($cmd)) {
+			$this->_getLogger()->info('(GenerateConfigCommand) Restarting apache2...');
+
+			if(strpos($cmd, ' ') !== false) {
+				$cmdSplit = explode(' ', $cmd);
+				$exec->exec(array_shift($cmdSplit), $cmdSplit);
+			} else {
+				$exec->exec($cmd);
+			}
+
+			if($exec->getCode() > 0) {
+				$this->_getLogger()->err($exec->getOutput());
+			}
+		}
 	}
 }
