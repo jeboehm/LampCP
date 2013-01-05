@@ -22,6 +22,8 @@
         <li><a href="{{ path('systemconfig') }}">{{ "title.page.systemconfig"|trans() }}</a></li>
         <li><a href="{{ path('log') }}">{{ "title.page.log"|trans() }}</a></li>
         <li><a href="{{ path('auth_logout') }}">{{ "title.page.logout"|trans() }}</a></li>
+
+        {% block topnavext %}{% endblock %}
     </ul>
 {% endblock %}
 
@@ -31,6 +33,8 @@
         <li><a href="{{ path('config_admin') }}">{{ "title.page.admin"|trans() }}</a></li>
         <li><a href="{{ path('config_ipaddress') }}">{{ "title.page.ipaddress"|trans() }}</a></li>
         <li><a href="{{ path('config_domain') }}">{{ "title.page.domain"|trans() }}</a></li>
+
+        {% block leftnavallext %}{% endblock %}
     </ul>
 {% endblock %}
 
@@ -42,6 +46,8 @@
         <li><a href="{{ path('config_mysqldatabase') }}">{{ "title.page.mysqldatabase"|trans() }}</a></li>
         <li><a href="{{ path('config_pathoption') }}">{{ "title.page.pathoption"|trans() }}</a></li>
         <li><a href="{{ path('config_protection') }}">{{ "title.page.protection"|trans() }}</a></li>
+
+        {% block leftnavdomext %}{% endblock %}
     </ul>
 {% endblock %}
 
