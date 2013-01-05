@@ -84,15 +84,14 @@ class GenerateConfigCommand extends AbstractCommand {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$run = false;
-		$this->_getLogger()->info('(GenerateConfigCommand) Executing...');
-
-		// TODO Check watched entitys for changes
 
 		if($input->getOption('force') || $this->_isChanged()) {
 			$run = true;
 		}
 
 		if($run) {
+			$this->_getLogger()->info('(GenerateConfigCommand) Executing...');
+
 			try {
 				$directory = $this->_getDirectoryBuilderService();
 				$directory->createDirectorysForAllDomains();
