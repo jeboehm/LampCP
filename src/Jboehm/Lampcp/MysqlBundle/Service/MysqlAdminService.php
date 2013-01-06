@@ -11,8 +11,6 @@
 namespace Jboehm\Lampcp\MysqlBundle\Service;
 
 use Symfony\Bridge\Monolog\Logger;
-use Doctrine\ORM\EntityManager;
-use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
 use Jboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
 use Jboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel;
 use Jboehm\Lampcp\MysqlBundle\Exception\UserAlreadyExistsException;
@@ -24,53 +22,43 @@ class MysqlAdminService {
 	/** @var Logger */
 	protected $_logger;
 
-	/** @var SystemConfigService */
-	protected $_systemconfigservice;
-
-	/** @var EntityManager */
-	protected $_em;
-
 	/** @var \mysqli */
 	protected $_mysqli;
 
 	/**
 	 * Konstruktor
 	 *
-	 * @param \Symfony\Bridge\Monolog\Logger                        $logger
-	 * @param \Jboehm\Lampcp\CoreBundle\Service\SystemConfigService $systemconfigservice
-	 * @param \Doctrine\ORM\EntityManager                           $em
-	 *
-	 * @param string                                                $host
-	 * @param int                                                   $port
+	 * @param \Symfony\Bridge\Monolog\Logger $logger
 	 */
-	public function __construct(Logger $logger, SystemConfigService $systemconfigservice, EntityManager $em, $host,
-								$port = 3306) {
-		$this->_logger              = $logger;
-		$this->_systemconfigservice = $systemconfigservice;
-		$this->_em                  = $em;
-		$this->_mysqli              = $this->_createMysqlConnection($host, $port);
+	public function __construct(Logger $logger) {
+		$this->_logger = $logger;
+	}
+
+	/**
+	 * Connect
+	 *
+	 * @param string $host
+	 * @param string $user
+	 * @param string $password
+	 * @param int    $port
+	 */
+	public function connect($host, $user, $password = '', $port = 3306) {
+		$this->_mysqli = $this->_createMysqlConnection($host, $user, $password, $port);
 	}
 
 	/**
 	 * Create MySQLi Connection
 	 *
 	 * @param string $host
+	 * @param string $user
+	 * @param string $password
 	 * @param int    $port
 	 *
 	 * @return \mysqli
 	 * @throws \Exception
 	 */
-	protected function _createMysqlConnection($host, $port) {
-		if(!$this->_getMysqlUser()) {
-			$msg = '(MysqlAdminService) No MySQL user configured!';
-
-			$this->_logger->err($msg);
-			throw new \Exception($msg);
-		}
-
-		$user   = $this->_getMysqlUser();
-		$pass   = $this->_getMysqlPassword();
-		$mysqli = new \mysqli($host, $user, $pass, null, $port);
+	protected function _createMysqlConnection($host, $user, $password = '', $port = 3306) {
+		$mysqli = new \mysqli($host, $user, $password, null, $port);
 
 		if($mysqli->connect_error) {
 			$msg = '(MysqlAdminService) Conn Error: ' . $mysqli->connect_error;
@@ -80,24 +68,6 @@ class MysqlAdminService {
 		}
 
 		return $mysqli;
-	}
-
-	/**
-	 * Get MySQL root user
-	 *
-	 * @return string
-	 */
-	protected function _getMysqlUser() {
-		return $this->_systemconfigservice->getParameter('systemconfig.option.mysql.root.user');
-	}
-
-	/**
-	 * Get MySQL root password
-	 *
-	 * @return string
-	 */
-	protected function _getMysqlPassword() {
-		return $this->_systemconfigservice->getParameter('systemconfig.option.mysql.root.password');
 	}
 
 	/**
@@ -147,7 +117,7 @@ class MysqlAdminService {
 	 * @return bool
 	 * @throws \Jboehm\Lampcp\MysqlBundle\Exception\DatabaseAlreadyExistsException
 	 */
-	protected function _createDatabase(MysqlDatabaseModel $database) {
+	public function createDatabase(MysqlDatabaseModel $database) {
 		if($this->_checkDatabaseExists($database)) {
 			$this->_logger->err('(MysqlAdminService) Database already exists: ' . $database->getName());
 			throw new DatabaseAlreadyExistsException();
@@ -173,7 +143,7 @@ class MysqlAdminService {
 	 * @return bool
 	 * @throws \Jboehm\Lampcp\MysqlBundle\Exception\DatabaseNotExistsException
 	 */
-	protected function _dropDatabase(MysqlDatabaseModel $database) {
+	public function dropDatabase(MysqlDatabaseModel $database) {
 		if(!$this->_checkDatabaseExists($database)) {
 			$this->_logger->err('(MysqlAdminService) Database not exists: ' . $database->getName());
 			throw new DatabaseNotExistsException();
@@ -199,7 +169,7 @@ class MysqlAdminService {
 	 * @throws \Jboehm\Lampcp\MysqlBundle\Exception\UserAlreadyExistsException
 	 * @return bool
 	 */
-	protected function _createUser(MysqlUserModel $user) {
+	public function createUser(MysqlUserModel $user) {
 		if($this->_checkMysqlUserExists($user)) {
 			$this->_logger->err('(MysqlAdminService) User already exists: ' . $user->getUsername());
 			throw new UserAlreadyExistsException();
@@ -226,7 +196,7 @@ class MysqlAdminService {
 	 * @return bool
 	 * @throws \Jboehm\Lampcp\MysqlBundle\Exception\UserNotExistsException
 	 */
-	protected function _dropUser(MysqlUserModel $user) {
+	public function dropUser(MysqlUserModel $user) {
 		if(!$this->_checkMysqlUserExists($user)) {
 			$this->_logger->err('(MysqlAdminService) User not exists: ' . $user->getUsername());
 			throw new UserNotExistsException();
@@ -253,7 +223,7 @@ class MysqlAdminService {
 	 * @return bool
 	 * @throws \Jboehm\Lampcp\MysqlBundle\Exception\UserNotExistsException
 	 */
-	protected function _setUserPassword(MysqlUserModel $user) {
+	public function setUserPassword(MysqlUserModel $user) {
 		if(!$this->_checkMysqlUserExists($user)) {
 			$this->_logger->err('(MysqlAdminService) User not exists: ' . $user->getUsername());
 			throw new UserNotExistsException();
@@ -274,12 +244,13 @@ class MysqlAdminService {
 
 	/**
 	 * Grant permissions on database for MySQL User
+	 *
 	 * @param \Jboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel $database
 	 *
 	 * @return bool
 	 * @throws \Jboehm\Lampcp\MysqlBundle\Exception\DatabaseNotExistsException
 	 */
-	protected function _grantPermissionsOnDatabase(MysqlDatabaseModel $database) {
+	public function grantPermissionsOnDatabase(MysqlDatabaseModel $database) {
 		if(!$this->_checkDatabaseExists($database)) {
 			$this->_logger->err('(MysqlAdminService) Database not exists: ' . $database->getName());
 			throw new DatabaseNotExistsException();
@@ -299,18 +270,5 @@ class MysqlAdminService {
 		$this->_logger->info('(MysqlAdminService) Granted permissions on database: ' . $database->getName());
 
 		return true;
-	}
-
-	public function createAndDeleteDatabases() {
-		$user = new MysqlUserModel();
-		$user
-			->setUsername('tester')
-			->setPassword('jesus2');
-
-		$db = new MysqlDatabaseModel();
-		$db->setName('test')->setUsers(array($user));
-
-
-		$this->_grantPermissionsOnDatabase($db);
 	}
 }
