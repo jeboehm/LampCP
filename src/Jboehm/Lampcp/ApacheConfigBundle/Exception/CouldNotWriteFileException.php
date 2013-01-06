@@ -10,5 +10,5 @@
 
 namespace Jboehm\Lampcp\ApacheConfigBundle\Exception;
 
-class couldNotWriteFileException extends \Exception {
+class CouldNotWriteFileException extends \Exception {
 }

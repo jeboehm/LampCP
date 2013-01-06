@@ -13,7 +13,6 @@ namespace Jboehm\Lampcp\ApacheConfigBundle\Service;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
 use Jboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
-use Jboehm\Lampcp\ApacheConfigBundle\Exception\couldNotWriteFileException;
 
 class DirectoryBuilderService extends AbstractBuilderService {
 	const _root = 'root';

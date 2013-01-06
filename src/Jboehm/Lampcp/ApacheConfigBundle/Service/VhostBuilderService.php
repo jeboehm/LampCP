@@ -14,7 +14,7 @@ use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Entity\IpAddress;
 use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
 use Jboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
-use Jboehm\Lampcp\ApacheConfigBundle\Exception\couldNotWriteFileException;
+use Jboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
 
 class VhostBuilderService extends AbstractBuilderService {
 	const _twigVhost         = 'JboehmLampcpApacheConfigBundle:Default:vhost.conf.twig';
@@ -125,14 +125,14 @@ class VhostBuilderService extends AbstractBuilderService {
 	 *
 	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Domain $domain
 	 *
-	 * @throws \Jboehm\Lampcp\ApacheConfigBundle\Exception\couldNotWriteFileException
+	 * @throws \Jboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
 	 * @return void
 	 */
 	protected function _generateFcgiStarterForDomain(Domain $domain) {
 		$filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
 
 		if(!is_writable(dirname($filename))) {
-			throw new couldNotWriteFileException();
+			throw new CouldNotWriteFileException();
 		}
 
 		$this->_getLogger()->info('(VhostBuilderService) Generating FCGI-Starter: ' . $filename);
@@ -151,13 +151,13 @@ class VhostBuilderService extends AbstractBuilderService {
 	 *
 	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Domain $domain
 	 *
-	 * @throws \Jboehm\Lampcp\ApacheConfigBundle\Exception\couldNotWriteFileException
+	 * @throws \Jboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
 	 */
 	protected function _generatePhpIniForDomain(Domain $domain) {
 		$filename = $domain->getPath() . '/conf/php.ini';
 
 		if(!is_writable(dirname($filename))) {
-			throw new couldNotWriteFileException();
+			throw new CouldNotWriteFileException();
 		}
 
 		$this->_getLogger()->info('(VhostBuilderService) Generating php.ini:' . $filename);
@@ -177,7 +177,7 @@ class VhostBuilderService extends AbstractBuilderService {
 	 * @param string $filename
 	 * @param string $config
 	 *
-	 * @throws \Jboehm\Lampcp\ApacheConfigBundle\Exception\couldNotWriteFileException
+	 * @throws \Jboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
 	 * @return void
 	 */
 	protected function _saveVhostConfig($filename, $config) {
@@ -186,7 +186,7 @@ class VhostBuilderService extends AbstractBuilderService {
 			->getParameter('systemconfig.option.apache.config.directory') . '/' . $filename;
 
 		if(!is_writable(dirname($target))) {
-			throw new couldNotWriteFileException();
+			throw new CouldNotWriteFileException();
 		}
 
 		$this->_getLogger()->info('(VhostBuilderService) Creating new config: ' . $target);
