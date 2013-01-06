@@ -10,30 +10,31 @@
 
 namespace Jboehm\Lampcp\MysqlBundle\Model;
 
-class MysqlUserModel {
+class MysqlDatabaseModel {
 	/** @var string */
-	private $username;
+	private $name;
 
 	/** @var string */
-	private $password;
+	private $charset;
 
-	/** @var string */
-	private $host;
+	/** @var MysqlUserModel[] */
+	private $users;
 
 	/**
 	 * Konstruktor
 	 */
 	public function __construct() {
-		$this->host = 'localhost';
+		$this->users   = array();
+		$this->charset = 'utf8_general_ci';
 	}
 
 	/**
-	 * @param string $host
+	 * @param string $name
 	 *
-	 * @return MysqlUserModel
+	 * @return MysqlDatabaseModel
 	 */
-	public function setHost($host) {
-		$this->host = $host;
+	public function setName($name) {
+		$this->name = $name;
 
 		return $this;
 	}
@@ -41,17 +42,35 @@ class MysqlUserModel {
 	/**
 	 * @return string
 	 */
-	public function getHost() {
-		return $this->host;
+	public function getName() {
+		return $this->name;
 	}
 
 	/**
-	 * @param string $password
+	 * @param array $users
 	 *
-	 * @return MysqlUserModel
+	 * @return MysqlDatabaseModel
 	 */
-	public function setPassword($password) {
-		$this->password = $password;
+	public function setUsers($users) {
+		$this->users = $users;
+
+		return $this;
+	}
+
+	/**
+	 * @return MysqlUserModel[]
+	 */
+	public function getUsers() {
+		return $this->users;
+	}
+
+	/**
+	 * @param string $charset
+	 *
+	 * @return MysqlDatabaseModel
+	 */
+	public function setCharset($charset) {
+		$this->charset = $charset;
 
 		return $this;
 	}
@@ -59,25 +78,31 @@ class MysqlUserModel {
 	/**
 	 * @return string
 	 */
-	public function getPassword() {
-		return $this->password;
+	public function getCharset() {
+		return $this->charset;
 	}
 
 	/**
-	 * @param string $username
+	 * Get MySQL Database Permissions
 	 *
-	 * @return MysqlUserModel
+	 * @return array
 	 */
-	public function setUsername($username) {
-		$this->username = $username;
+	public function getPermission() {
+		$perm = array(
+			'SELECT',
+			'INSERT',
+			'UPDATE',
+			'DELETE',
+			'CREATE',
+			'DROP',
+			'INDEX',
+			'ALTER',
+			'CREATE TEMPORARY TABLES',
+			'LOCK TABLES',
+			'CREATE VIEW',
+			'SHOW VIEW',
+		);
 
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUsername() {
-		return $this->username;
+		return $perm;
 	}
 }
