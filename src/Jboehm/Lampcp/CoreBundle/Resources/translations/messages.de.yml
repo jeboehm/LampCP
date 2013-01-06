@@ -144,6 +144,7 @@ systemconfig.group.apache: Apache2
 
 systemconfig.option.mysql.root.user: Root Benutzername
 systemconfig.option.mysql.root.password: Root Passwort
+systemconfig.option.mysql.db.prefix: Datenbankprefix
 systemconfig.option.paths.web.root.dir: Hauptverzeichnis der Web-Roots
 systemconfig.option.paths.mail.root.dir: Hauptverzeichnis der E-Mailkonten
 systemconfig.option.paths.unix.passwd.file: Pfad zur Unix-Benutzerdatei

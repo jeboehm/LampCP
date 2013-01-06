@@ -21,6 +21,7 @@ config:
     mysql:
         root_user: [string]
         root_password: [password]
+        db_prefix: [string]
 
     paths:
         web_root_dir: [string]
