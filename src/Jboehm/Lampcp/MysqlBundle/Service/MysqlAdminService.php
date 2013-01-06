@@ -73,6 +73,61 @@ class MysqlAdminService {
 	}
 
 	/**
+	 * Get MySQL Users with specified prefix
+	 *
+	 * @param string $prefix
+	 *
+	 * @return \Jboehm\Lampcp\MysqlBundle\Model\MysqlUserModel[]
+	 */
+	public function getUsers($prefix = '') {
+		/** @var $users MysqlUserModel[] */
+		$users  = array();
+		$q      = sprintf('SELECT User, Host FROM mysql.user WHERE User LIKE "%s%%"', $prefix);
+		$result = $this->_mysqli->query($q);
+
+		if($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				$user = new MysqlUserModel();
+				$user
+					->setUsername($row['User'])
+					->setHost($row['Host']);
+				$users[] = $user;
+			}
+		}
+
+		return $users;
+	}
+
+	/**
+	 * Get MySQL databases with specified prefix
+	 *
+	 * @param string $prefix
+	 *
+	 * @return \Jboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel[]
+	 */
+	public function getDatabases($prefix = '') {
+		/** @var $dbs MysqlDatabaseModel[] */
+		$dbs    = array();
+		$q      = sprintf('show databases');
+		$result = $this->_mysqli->query($q);
+
+		while($row = $result->fetch_assoc()) {
+			$db = new MysqlDatabaseModel();
+			$db->setName($row['Database']);
+
+			if(!empty($prefix)) {
+				if(substr($db->getName(), 0, strlen($prefix)) === $prefix) {
+					$dbs[] = $db;
+				}
+			} else {
+				$dbs[] = $db;
+			}
+		}
+
+		return $dbs;
+	}
+
+	/**
 	 * Checks, if a specified user exists in MySQL
 	 *
 	 * @param \Jboehm\Lampcp\MysqlBundle\Model\MysqlUserModel $user
