@@ -8,3 +8,4 @@
 .idea
 *~
 /composer.phar
+/schema_created
