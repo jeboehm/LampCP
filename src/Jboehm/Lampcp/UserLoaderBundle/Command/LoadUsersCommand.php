@@ -136,6 +136,7 @@ class LoadUsersCommand extends AbstractCommand {
 			/** @var $localUser User */
 
 			if(!$this->_systemUserService->findOneBy(array('name' => $localUser->getName()))) {
+				/** @var $domainsForUser Domain[] */
 				$domainsForUser = $this->_domainRepository->findBy(array('user' => $localUser));
 
 				if(count($domainsForUser) > 0) {
