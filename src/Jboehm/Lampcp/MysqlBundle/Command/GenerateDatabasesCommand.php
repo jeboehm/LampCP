@@ -11,6 +11,7 @@
 namespace Jboehm\Lampcp\MysqlBundle\Command;
 
 use Jboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Jboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -39,9 +40,22 @@ class GenerateDatabasesCommand extends AbstractCommand {
 	protected function _getMysqlAdminService() {
 		if(!$this->_mysqladminservice) {
 			$this->_mysqladminservice = $this->getContainer()->get('jboehm_lampcp_mysql.mysqladminservice');
+			$this->_mysqlAdminServiceConnect();
 		}
 
 		return $this->_mysqladminservice;
+	}
+
+	/**
+	 * Initialize MySQLAdminService
+	 */
+	protected function _mysqlAdminServiceConnect() {
+		$this->_getMysqlAdminService()->connect(
+			$this->getContainer()->getParameter('database_host'),
+			$this->_getSystemConfigService()->getParameter('systemconfig.option.mysql.root.user'),
+			$this->_getSystemConfigService()->getParameter('systemconfig.option.mysql.root.password'),
+			$this->getContainer()->getParameter('database_port')
+		);
 	}
 
 	/**
@@ -76,7 +90,10 @@ class GenerateDatabasesCommand extends AbstractCommand {
 				$output->writeln('(GenerateDatabasesCommand) Executing...');
 			}
 
-			$this->_getMysqlAdminService()->createAndDeleteDatabases();
+			$user = new MysqlUserModel();
+			$user->setUsername('tester')->setPassword('jesus');
+
+			$this->_getMysqlAdminService()->dropUser($user);
 		} else {
 			if($input->getOption('verbose')) {
 				$output->writeln('(GenerateDatabasesCommand) No changes detected.');

@@ -43,7 +43,9 @@ class MysqlAdminService {
 	 * @param int    $port
 	 */
 	public function connect($host, $user, $password = '', $port = 3306) {
-		$this->_mysqli = $this->_createMysqlConnection($host, $user, $password, $port);
+		if(!$this->_mysqli) {
+			$this->_mysqli = $this->_createMysqlConnection($host, $user, $password, $port);
+		}
 	}
 
 	/**
