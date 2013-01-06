@@ -272,6 +272,35 @@ class MysqlAdminService {
 		return false;
 	}
 
+	/**
+	 * Grant permissions on database for MySQL User
+	 * @param \Jboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel $database
+	 *
+	 * @return bool
+	 * @throws \Jboehm\Lampcp\MysqlBundle\Exception\DatabaseNotExistsException
+	 */
+	protected function _grantPermissionsOnDatabase(MysqlDatabaseModel $database) {
+		if(!$this->_checkDatabaseExists($database)) {
+			$this->_logger->err('(MysqlAdminService) Database not exists: ' . $database->getName());
+			throw new DatabaseNotExistsException();
+		}
+
+		foreach($database->getUsers() as $user) {
+			$q      = sprintf('GRANT %s ON %s.* TO "%s"@"%s"',
+				join(', ', $database->getPermission()), $database->getName(), $user->getUsername(),
+				$user->getHost());
+			$result = $this->_mysqli->query($q);
+
+			if(!$result) {
+				$this->_logger->err('(MysqlAdminService) Could not grant permissions on database: ' . $database->getName());
+			}
+		}
+
+		$this->_logger->info('(MysqlAdminService) Granted permissions on database: ' . $database->getName());
+
+		return true;
+	}
+
 	public function createAndDeleteDatabases() {
 		$user = new MysqlUserModel();
 		$user
@@ -282,6 +311,6 @@ class MysqlAdminService {
 		$db->setName('test')->setUsers(array($user));
 
 
-		$this->_setUserPassword($user);
+		$this->_grantPermissionsOnDatabase($db);
 	}
 }
