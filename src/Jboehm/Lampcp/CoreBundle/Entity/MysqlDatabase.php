@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * MysqlDatabase
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository")
  * @UniqueEntity(fields = {"name"})
  */
 class MysqlDatabase {

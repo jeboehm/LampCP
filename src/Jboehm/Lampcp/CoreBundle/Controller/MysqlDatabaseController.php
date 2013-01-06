@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
+use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
 use Jboehm\Lampcp\CoreBundle\Form\MysqlDatabaseType;
 
 /**
@@ -30,9 +31,7 @@ class MysqlDatabaseController extends AbstractController {
 	 * @Template()
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine()->getManager();
-
-		$entities = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->findByDomain($this->_getSelectedDomain());
+		$entities = $this->_getRepository()->findByDomain($this->_getSelectedDomain());
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,
@@ -46,10 +45,8 @@ class MysqlDatabaseController extends AbstractController {
 	 * @Template()
 	 */
 	public function showAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity MysqlDatabase */
-		$entity = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
@@ -71,7 +68,9 @@ class MysqlDatabaseController extends AbstractController {
 	 */
 	public function newAction() {
 		$entity = new MysqlDatabase($this->_getSelectedDomain());
-		$form   = $this->createForm(new MysqlDatabaseType(), $entity);
+		$entity->setName($this->_getNewDatabaseName());
+
+		$form = $this->createForm(new MysqlDatabaseType(), $entity);
 
 		return $this->_getReturn(array(
 									  'entity' => $entity,
@@ -88,7 +87,9 @@ class MysqlDatabaseController extends AbstractController {
 	 */
 	public function createAction(Request $request) {
 		$entity = new MysqlDatabase($this->_getSelectedDomain());
-		$form   = $this->createForm(new MysqlDatabaseType(), $entity);
+		$entity->setName($this->_getNewDatabaseName());
+
+		$form = $this->createForm(new MysqlDatabaseType(), $entity);
 		$form->bind($request);
 
 		if($form->isValid()) {
@@ -112,10 +113,8 @@ class MysqlDatabaseController extends AbstractController {
 	 * @Template()
 	 */
 	public function editAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity MysqlDatabase */
-		$entity = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
@@ -142,7 +141,7 @@ class MysqlDatabaseController extends AbstractController {
 		$em = $this->getDoctrine()->getManager();
 
 		/** @var $entity MysqlDatabase */
-		$entity = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
@@ -188,7 +187,7 @@ class MysqlDatabaseController extends AbstractController {
 			$em = $this->getDoctrine()->getManager();
 
 			/** @var $entity MysqlDatabase */
-			$entity = $em->getRepository('JboehmLampcpCoreBundle:MysqlDatabase')->find($id);
+			$entity = $this->_getRepository()->find($id);
 
 			if(!$entity) {
 				throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
@@ -205,5 +204,33 @@ class MysqlDatabaseController extends AbstractController {
 		return $this->createFormBuilder(array('id' => $id))
 			->add('id', 'hidden')
 			->getForm();
+	}
+
+	/**
+	 * Return repository
+	 *
+	 * @return MysqlDatabaseRepository
+	 */
+	protected function _getRepository() {
+		return $this
+			->getDoctrine()
+			->getManager()
+			->getRepository('JboehmLampcpCoreBundle:MysqlDatabase');
+	}
+
+	/**
+	 * Get new database name
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	protected function _getNewDatabaseName() {
+		$prefix = $this->_getSystemConfigService()->getParameter('systemconfig.option.mysql.db.prefix');
+
+		if(empty($prefix)) {
+			throw new \Exception('Please set MySQL Database Prefix in configuration!');
+		}
+
+		return $prefix . strval($this->_getRepository()->getFreeId());
 	}
 }

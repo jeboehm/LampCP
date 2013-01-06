@@ -16,7 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class MysqlDatabaseType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('name')
+			->add('name', null, array(
+									 'read_only' => true,
+								))
 			->add('comment');
 
 		if($this->_getIsEditMode()) {
