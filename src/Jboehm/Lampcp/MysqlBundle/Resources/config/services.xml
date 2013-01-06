@@ -16,11 +16,19 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
     <parameters>
         <parameter key="jboehm_lampcp_mysql.mysqladminservice.class">Jboehm\Lampcp\MysqlBundle\Service\MysqlAdminService</parameter>
+        <parameter key="jboehm_lampcp_mysql.mysqlsynchronizerservice.class">Jboehm\Lampcp\MysqlBundle\Service\MysqlSynchronizerService</parameter>
     </parameters>
 
     <services>
         <service id="jboehm_lampcp_mysql.mysqladminservice" class="%jboehm_lampcp_mysql.mysqladminservice.class%">
             <argument type="service" id="logger" />
+        </service>
+
+        <service id="jboehm_lampcp_mysql.mysqlsynchronizerservice" class="%jboehm_lampcp_mysql.mysqlsynchronizerservice.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="jboehm_lampcp_mysql.mysqladminservice" />
+            <argument type="service" id="jboehm_lampcp_core.systemconfigservice" />
         </service>
     </services>
 
