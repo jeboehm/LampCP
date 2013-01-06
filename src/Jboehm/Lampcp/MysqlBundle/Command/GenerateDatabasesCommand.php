@@ -16,10 +16,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Jboehm\Lampcp\MysqlBundle\Service\MysqlAdminService;
+use Jboehm\Lampcp\MysqlBundle\Service\MysqlSynchronizerService;
 
 class GenerateDatabasesCommand extends AbstractCommand {
 	/** @var MysqlAdminService */
 	protected $_mysqladminservice;
+
+	/** @var MysqlSynchronizerService */
+	protected $_mysqlsyncservice;
 
 	/**
 	 * Get watched entitys
@@ -59,6 +63,20 @@ class GenerateDatabasesCommand extends AbstractCommand {
 	}
 
 	/**
+	 * Get MysqlSynchronizerService
+	 *
+	 * @return \Jboehm\Lampcp\MysqlBundle\Service\MysqlSynchronizerService
+	 */
+	protected function _getMysqlSynchronizerService() {
+		if(!$this->_mysqlsyncservice) {
+			$this->_getMysqlAdminService();
+			$this->_mysqlsyncservice = $this->getContainer()->get('jboehm_lampcp_mysql.mysqlsynchronizerservice');
+		}
+
+		return $this->_mysqlsyncservice;
+	}
+
+	/**
 	 * Configure command
 	 */
 	protected function configure() {
@@ -90,10 +108,10 @@ class GenerateDatabasesCommand extends AbstractCommand {
 				$output->writeln('(GenerateDatabasesCommand) Executing...');
 			}
 
-			$user = new MysqlUserModel();
-			$user->setUsername('tester')->setPassword('jesus');
+			$this->_getMysqlSynchronizerService()->createDatabases();
+			$this->_getMysqlSynchronizerService()->deleteObsoleteDatabases();
+			$this->_getMysqlSynchronizerService()->deleteObsoleteUsers();
 
-			$this->_getMysqlAdminService()->dropUser($user);
 		} else {
 			if($input->getOption('verbose')) {
 				$output->writeln('(GenerateDatabasesCommand) No changes detected.');

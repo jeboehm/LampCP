@@ -14,9 +14,6 @@ class MysqlDatabaseModel {
 	/** @var string */
 	private $name;
 
-	/** @var string */
-	private $charset;
-
 	/** @var MysqlUserModel[] */
 	private $users;
 
@@ -24,8 +21,7 @@ class MysqlDatabaseModel {
 	 * Konstruktor
 	 */
 	public function __construct() {
-		$this->users   = array();
-		$this->charset = 'utf8_general_ci';
+		$this->users = array();
 	}
 
 	/**
@@ -62,24 +58,6 @@ class MysqlDatabaseModel {
 	 */
 	public function getUsers() {
 		return $this->users;
-	}
-
-	/**
-	 * @param string $charset
-	 *
-	 * @return MysqlDatabaseModel
-	 */
-	public function setCharset($charset) {
-		$this->charset = $charset;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getCharset() {
-		return $this->charset;
 	}
 
 	/**

@@ -11,10 +11,13 @@
 namespace Jboehm\Lampcp\MysqlBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Jboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel;
+use Jboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
 use Symfony\Bridge\Monolog\Logger;
 use Jboehm\Lampcp\MysqlBundle\Service\MysqlAdminService;
 use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
 use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
+use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
 
 class MysqlSynchronizerService {
 	/** @var EntityManager */
@@ -98,6 +101,39 @@ class MysqlSynchronizerService {
 			if(!$mysqldb) {
 				$this->_logger->alert('(MysqlSynchronizerService) Deleting obsolete user: ' . $user->getUsername());
 				$this->_mysqladmin->dropUser($user);
+			}
+		}
+	}
+
+	/**
+	 * Create MySQL databases, users and grant permissions
+	 */
+	public function createDatabases() {
+		/** @var $dbs MysqlDatabase[] */
+		$dbs = $this->_getRepository()->findAll();
+
+		foreach($dbs as $db) {
+			$userModel = new MysqlUserModel();
+			$userModel
+				->setUsername($db->getName())
+				->setPassword($db->getPassword());
+
+			$dbModel = new MysqlDatabaseModel();
+			$dbModel
+				->setName($db->getName())
+				->setUsers(array($userModel));
+
+			if($this->_mysqladmin->checkUserExists($userModel)) {
+				$this->_mysqladmin->setUserPassword($userModel);
+			} else {
+				$this->_logger->info('(MysqlSynchronizerService) Adding user: ' . $userModel->getUsername());
+				$this->_mysqladmin->createUser($userModel);
+			}
+
+			if(!$this->_mysqladmin->checkDatabaseExists($dbModel)) {
+				$this->_logger->info('(MysqlSynchronizerService) Creating database: ' . $dbModel->getName());
+				$this->_mysqladmin->createDatabase($dbModel);
+				$this->_mysqladmin->grantPermissionsOnDatabase($dbModel);
 			}
 		}
 	}
