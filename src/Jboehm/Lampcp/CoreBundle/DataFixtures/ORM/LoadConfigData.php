@@ -36,12 +36,6 @@ class LoadConfigData implements FixtureInterface {
 			$this->_createOption($path, $value, $manager);
 		}
 
-		$log = new Log();
-		$log
-			->setType($log::TYPE_INFO)
-			->setMessage('Loaded config fixtures');
-		$manager->persist($log);
-
 		$manager->flush();
 	}
 

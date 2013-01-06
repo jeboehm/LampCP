@@ -39,12 +39,6 @@ class LoadDomain2Data implements FixtureInterface {
 
 		$manager->persist($domain);
 
-		$log = new Log();
-		$log
-			->setType($log::TYPE_INFO)
-			->setMessage('Loaded Jane Doe fixtures');
-		$manager->persist($log);
-
 		$manager->flush();
 	}
 }

@@ -82,17 +82,11 @@ class LoadDomainData implements FixtureInterface {
 
 		$mysqldatabase = new MysqlDatabase($domain);
 		$mysqldatabase
-			->setName('johnsql1')
+			->setName('lampcpsql1')
 			->setPassword('test123')
 			->setComment('Testdatabase');
 
 		$manager->persist($mysqldatabase);
-
-		$log = new Log();
-		$log
-			->setType($log::TYPE_INFO)
-			->setMessage('Loaded John Doe fixtures');
-		$manager->persist($log);
 
 		$manager->flush();
 	}

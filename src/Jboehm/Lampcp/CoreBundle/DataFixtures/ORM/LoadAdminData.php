@@ -39,13 +39,6 @@ class LoadAdminData implements FixtureInterface, ContainerAwareInterface {
 		$this->_setPassword($admin, 'admin');
 
 		$manager->persist($admin);
-
-		$log = new Log();
-		$log
-			->setType($log::TYPE_WARN)
-			->setMessage('Loaded admin fixtures, please change them!');
-		$manager->persist($log);
-
 		$manager->flush();
 	}
 
