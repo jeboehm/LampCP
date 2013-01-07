@@ -10,6 +10,7 @@
 
 namespace Jboehm\Lampcp\ApacheConfigBundle\Service;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
 use Jboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
@@ -21,42 +22,39 @@ class DirectoryBuilderService extends AbstractBuilderService {
 	/**
 	 * Get default directorys
 	 *
+	 * @param string $basepath
+	 *
 	 * @return array
 	 */
-	protected function _getDefaultDirs() {
-		return explode(',', self::_dirs);
+	protected function _getDefaultDirs($basepath) {
+		$directoryname = explode(',', self::_dirs);
+		$fullpath      = array();
+
+		foreach($directoryname as $dn) {
+			$fullpath[] = $basepath . '/' . $dn;
+		}
+
+		return $fullpath;
 	}
 
 	/**
+	 * Create default directorys
+	 *
 	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Domain $domain
 	 */
 	public function createDirectorysForDomain(Domain $domain) {
-		if(!is_dir($domain->getPath())) {
-			$this->_getLogger()->info('(DirectoryBuilderService) Creating directory: ' . $domain->getPath());
-			mkdir($domain->getPath());
-		}
+		$fs = new Filesystem();
 
-		// Rechte Domain-Root
-		chmod($domain->getPath(), 0750);
-		chown($domain->getPath(), self::_root);
-		chgrp($domain->getPath(), $domain->getUser()->getGroupname());
+		$fs->mkdir(
+			array_merge(array($domain->getPath()),
+				$this->_getDefaultDirs($domain->getPath())),
+			0750);
 
-		foreach($this->_getDefaultDirs() as $dir) {
-			$path = $domain->getPath() . '/' . $dir;
+		$fs->chown($domain->getPath(), self::_root); // Domain Root
+		$fs->chgrp($domain->getPath(), $domain->getUser()->getGroupname(), true); // Domain Root + Child
 
-			// Create directory
-			if(!is_dir($path)) {
-				$this->_getLogger()->info('(DirectoryBuilderService) Creating directory: ' . $path);
-				mkdir($path);
-			}
-
-			// Change owner and group
-			chown($path, $domain->getUser()->getName());
-			chgrp($path, $domain->getUser()->getGroupname());
-
-			// Change rights
-			chmod($path, 0750);
-		}
+		// Child directorys
+		$fs->chown($this->_getDefaultDirs($domain->getPath()), $domain->getUser()->getName(), true);
 	}
 
 	/**
