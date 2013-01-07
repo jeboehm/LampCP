@@ -284,6 +284,7 @@ class VhostBuilderService extends AbstractBuilderService {
 				foreach($this->_getAllSubdomains() as $subdomain) {
 					if($subdomain->getFullDomain() === $servername) {
 						$skip = true;
+						continue;
 					}
 				}
 
