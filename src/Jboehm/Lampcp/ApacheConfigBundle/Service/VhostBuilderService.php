@@ -266,12 +266,10 @@ class VhostBuilderService extends AbstractBuilderService {
 		$domainRepository = $this
 			->_getDoctrine()
 			->getRepository('JboehmLampcpCoreBundle:Domain');
-
-		$dir = $this
+		$dir              = $this
 			->_getSystemConfigService()
 			->getParameter('systemconfig.option.apache.config.directory');
-
-		$files = glob($dir . '/*' . self::_configFileSuffix);
+		$files            = glob($dir . '/*' . self::_configFileSuffix);
 
 		foreach($files as $file) {
 			$content    = file_get_contents($file);
