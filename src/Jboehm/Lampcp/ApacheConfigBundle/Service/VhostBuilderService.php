@@ -10,6 +10,7 @@
 
 namespace Jboehm\Lampcp\ApacheConfigBundle\Service;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Entity\IpAddress;
 use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
@@ -129,6 +130,7 @@ class VhostBuilderService extends AbstractBuilderService {
 	 * @return void
 	 */
 	protected function _generateFcgiStarterForDomain(Domain $domain) {
+		$fs       = new Filesystem();
 		$filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
 
 		if(!is_writable(dirname($filename))) {
@@ -139,11 +141,11 @@ class VhostBuilderService extends AbstractBuilderService {
 		file_put_contents($filename, $this->_renderFcgiStarter($domain));
 
 		// Change rights
-		chmod($filename, 0755);
+		$fs->chmod($filename, 0755);
 
 		// Change user & group
-		chown($filename, $domain->getUser()->getName());
-		chgrp($filename, $domain->getUser()->getGroupname());
+		$fs->chown($filename, $domain->getUser()->getName());
+		$fs->chgrp($filename, $domain->getUser()->getGroupname());
 	}
 
 	/**
@@ -154,6 +156,7 @@ class VhostBuilderService extends AbstractBuilderService {
 	 * @throws \Jboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
 	 */
 	protected function _generatePhpIniForDomain(Domain $domain) {
+		$fs       = new Filesystem();
 		$filename = $domain->getPath() . '/conf/php.ini';
 
 		if(!is_writable(dirname($filename))) {
@@ -164,11 +167,11 @@ class VhostBuilderService extends AbstractBuilderService {
 		file_put_contents($filename, $this->_renderPhpIni($this->_getVhostModelForDomain($domain)));
 
 		// Change rights
-		chmod($filename, 0440);
+		$fs->chmod($filename, 0440);
 
 		// Change user & group
-		chown($filename, $domain->getUser()->getName());
-		chgrp($filename, $domain->getUser()->getGroupname());
+		$fs->chown($filename, $domain->getUser()->getName());
+		$fs->chgrp($filename, $domain->getUser()->getGroupname());
 	}
 
 	/**
@@ -259,6 +262,7 @@ class VhostBuilderService extends AbstractBuilderService {
 	 * Look for obsolete config files
 	 */
 	public function cleanVhostDirectory() {
+		$fs               = new Filesystem();
 		$domainRepository = $this
 			->_getDoctrine()
 			->getRepository('JboehmLampcpCoreBundle:Domain');
@@ -292,7 +296,7 @@ class VhostBuilderService extends AbstractBuilderService {
 					continue;
 				} else {
 					$this->_getLogger()->info('(VhostBuilderService) Deleting obsolete config: ' . $file);
-					unlink($file);
+					$fs->remove($file);
 				}
 			}
 		}
