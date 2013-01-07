@@ -277,6 +277,7 @@ class VhostBuilderService extends AbstractBuilderService {
 			$content    = file_get_contents($file);
 			$servername = $this->_getServernameFromConfigSignature($content);
 			$skip       = false;
+			$domain     = null;
 
 			if(!empty($servername)) {
 				$domain = $domainRepository->findOneBy(array('domain' => $servername));
