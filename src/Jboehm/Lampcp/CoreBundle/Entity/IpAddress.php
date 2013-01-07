@@ -46,7 +46,7 @@ class IpAddress {
 	/**
 	 * @var int
 	 * @Assert\Min(1)
-	 * @Assert\Max(65000)
+	 * @Assert\Max(65535)
 	 * @ORM\Column(name="port", type="integer")
 	 */
 	private $port;

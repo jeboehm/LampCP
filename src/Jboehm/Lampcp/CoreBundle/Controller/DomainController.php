@@ -123,7 +123,7 @@ class DomainController extends AbstractController {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
 		}
 
-		$editForm   = $this->createForm(new DomainType(), $entity);
+		$editForm   = $this->createForm(new DomainType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
@@ -150,7 +150,7 @@ class DomainController extends AbstractController {
 		}
 
 		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new DomainType(), $entity);
+		$editForm   = $this->createForm(new DomainType(true), $entity);
 		$editForm->bind($request);
 		$entity->setPath($this->_getSystemWebPath() . '/' . $entity->getDomain());
 

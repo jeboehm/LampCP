@@ -36,6 +36,7 @@ class Domain {
 
 	/**
 	 * @var string
+	 * @Assert\Regex("/^([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i")
 	 * @Assert\NotBlank()
 	 * @ORM\Column(name="domain", type="string", length=100)
 	 */
@@ -135,7 +136,7 @@ class Domain {
 	 * @return Domain
 	 */
 	public function setDomain($domain) {
-		$this->domain = $domain;
+		$this->domain = strtolower($domain);
 
 		return $this;
 	}

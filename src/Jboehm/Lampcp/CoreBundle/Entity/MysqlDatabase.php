@@ -42,6 +42,7 @@ class MysqlDatabase {
 	/**
 	 * @var string
 	 * @Assert\NotBlank()
+	 * @Assert\Regex("/^[a-z\d-.]{2,64}$/i")
 	 * @ORM\Column(name="name", type="string", length=64)
 	 */
 	private $name;
@@ -95,7 +96,7 @@ class MysqlDatabase {
 	 * @return MysqlDatabase
 	 */
 	public function setName($name) {
-		$this->name = $name;
+		$this->name = strtolower($name);
 
 		return $this;
 	}

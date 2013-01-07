@@ -101,7 +101,7 @@ class Admin implements UserInterface, \Serializable {
 	 * @return Admin
 	 */
 	public function setEmail($email) {
-		$this->email = $email;
+		$this->email = strtolower($email);
 
 		return $this;
 	}

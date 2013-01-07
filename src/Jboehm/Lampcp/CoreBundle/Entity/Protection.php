@@ -168,7 +168,7 @@ class Protection {
 	 * @return Protection
 	 */
 	public function setUsername($username) {
-		$this->username = $username;
+		$this->username = strtolower($username);
 
 		return $this;
 	}

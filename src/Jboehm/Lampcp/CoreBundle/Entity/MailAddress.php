@@ -42,6 +42,7 @@ class MailAddress {
 	/**
 	 * @var string
 	 * @Assert\NotBlank()
+	 * @Assert\Regex("/^[a-z\d-.]{1,255}$/i")
 	 * @ORM\Column(name="address", type="string", length=255)
 	 */
 	private $address;
@@ -98,7 +99,7 @@ class MailAddress {
 	 * @return MailAddress
 	 */
 	public function setAddress($address) {
-		$this->address = $address;
+		$this->address = strtolower($address);
 
 		return $this;
 	}
@@ -121,10 +122,6 @@ class MailAddress {
 	 */
 	public function setHasCatchAll($hasCatchAll) {
 		$this->hasCatchAll = $hasCatchAll;
-
-		if($hasCatchAll) {
-			$this->address = '*';
-		}
 
 		return $this;
 	}

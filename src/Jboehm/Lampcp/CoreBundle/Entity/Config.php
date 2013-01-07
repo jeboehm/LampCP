@@ -74,7 +74,7 @@ class Config {
 	 * @return Config
 	 */
 	public function setPath($path) {
-		$this->path = $path;
+		$this->path = strtolower($path);
 
 		return $this;
 	}

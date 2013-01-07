@@ -42,6 +42,7 @@ class Subdomain {
 	/**
 	 * @var string
 	 * @Assert\NotBlank()
+	 * @Assert\Regex("/^[a-z\d-.]{1,255}$/i")
 	 * @ORM\Column(name="subdomain", type="string", length=255)
 	 */
 	private $subdomain;
@@ -95,7 +96,7 @@ class Subdomain {
 	 * @return Subdomain
 	 */
 	public function setSubdomain($subdomain) {
-		$this->subdomain = $subdomain;
+		$this->subdomain = strtolower($subdomain);
 
 		return $this;
 	}
