@@ -12,3 +12,4 @@ parameters:
     mailer_password:   ~
 
     locale:            de
+    crypt:             LampCP-please-change-this
