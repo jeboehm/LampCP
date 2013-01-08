@@ -92,7 +92,7 @@ class ProtectionController extends AbstractController {
 		$form->bind($request);
 
 		if($form->isValid()) {
-			$entity->setPassword($entity->cryptPassword($entity->getPassword()));
+			$entity->setPassword($this->_getCryptService()->encrypt($entity->getPassword()));
 
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
@@ -160,7 +160,7 @@ class ProtectionController extends AbstractController {
 			if(!$entity->getPassword()) {
 				$entity->setPassword($oldPassword);
 			} else {
-				$entity->setPassword($entity->cryptPassword($entity->getPassword()));
+				$entity->setPassword($this->_getCryptService()->encrypt($entity->getPassword()));
 			}
 
 			$em->persist($entity);

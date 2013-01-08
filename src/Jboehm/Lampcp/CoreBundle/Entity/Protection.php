@@ -63,6 +63,7 @@ class Protection {
 	 * @var string
 	 * @ORM\Column(name="password", type="string", length=255)
 	 * @Assert\MinLength(6)
+	 * @Assert\MaxLength(50)
 	 */
 	private $password;
 
@@ -180,17 +181,6 @@ class Protection {
 	 */
 	public function getUsername() {
 		return $this->username;
-	}
-
-	/**
-	 * Crypt password
-	 *
-	 * @param string $password
-	 *
-	 * @return string
-	 */
-	public function cryptPassword($password) {
-		return crypt($password, base64_encode($password));
 	}
 
 	/**
