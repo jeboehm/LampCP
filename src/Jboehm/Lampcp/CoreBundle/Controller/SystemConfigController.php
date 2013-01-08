@@ -80,7 +80,9 @@ class SystemConfigController extends AbstractController {
 
 		for($i = 0; $i < count($templ); $i++) {
 			foreach($templ[$i]['options'] as $option) {
-				$optionValues[str_replace('.', '_', $option['optionname'])] = $option['optionvalue'];
+				if($option['type'] !== 'password') {
+					$optionValues[str_replace('.', '_', $option['optionname'])] = $option['optionvalue'];
+				}
 			}
 		}
 

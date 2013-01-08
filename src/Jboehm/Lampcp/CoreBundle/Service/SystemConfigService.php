@@ -15,6 +15,8 @@ use Doctrine\ORM\EntityManager;
 use Jboehm\Lampcp\CoreBundle\Entity\Config;
 
 class SystemConfigService {
+	const _TYPE_PASSWORD = 'password';
+	
 	/** @var string */
 	protected $_configFile;
 
@@ -24,6 +26,9 @@ class SystemConfigService {
 	/** @var EntityManager */
 	protected $_em;
 
+	/** @var CryptService */
+	protected $_cs;
+
 	/** @var array */
 	protected $_parsedTemplate;
 
@@ -31,13 +36,15 @@ class SystemConfigService {
 	 * Konstruktor
 	 *
 	 * @param EntityManager $em
+	 * @param CryptService  $cs
 	 * @param string        $configFile
 	 *
 	 * @throws \Exception
 	 */
-	public function __construct(EntityManager $em, $configFile) {
+	public function __construct(EntityManager $em, CryptService $cs, $configFile) {
 		$this->_yaml       = new Parser();
 		$this->_em         = $em;
+		$this->_cs         = $cs;
 		$this->_configFile = realpath(__DIR__ . '/../' . $configFile);
 
 		if(!is_readable($this->_configFile)) {
@@ -67,16 +74,16 @@ class SystemConfigService {
 			$x             = 0;
 
 			foreach($parameters as $parameter => $options) {
-				$optionName      = 'systemconfig.option.' . $group . '.' . str_replace('_', '.', $parameter);
-				$opt[$x]         = array('optionname'  => $optionName,
-										 'optionvalue' => $this->getParameter($optionName),
+				$optionName = 'systemconfig.option.' . $group . '.' . str_replace('_', '.', $parameter);
+				$opt[$x]    = array('optionname'  => $optionName,
+									'optionvalue' => $this->_loadConfigParameter($optionName),
+									'type'        => 'text',
 				);
-				$opt[$x]['type'] = 'text';
 
 				if(is_array($options)) {
-//					if(in_array('password', $options)) {
-//						$opt[$x]['type'] = 'password';
-//					}
+					if(in_array(self::_TYPE_PASSWORD, $options)) {
+						$opt[$x]['type'] = self::_TYPE_PASSWORD;
+					}
 
 					if(in_array('bool', $options)) {
 						$opt[$x]['type'] = 'checkbox';
@@ -121,13 +128,13 @@ class SystemConfigService {
 	}
 
 	/**
-	 * Get Config Parameter
+	 * Load Config Parameter
 	 *
 	 * @param string $name
 	 *
 	 * @return string
 	 */
-	public function getParameter($name) {
+	protected function _loadConfigParameter($name) {
 		/** @var $config Config */
 		$name   = str_replace('_', '.', $name);
 		$config = $this->_getConfigRepository()->findOneBy(array('path' => $name));
@@ -140,6 +147,51 @@ class SystemConfigService {
 	}
 
 	/**
+	 * Get config entity
+	 *
+	 * @param string $name
+	 *
+	 * @return null|array
+	 */
+	protected function _getParameterEntity($name) {
+		$config = $this->getConfigTemplate();
+
+		foreach($config as $group) {
+			foreach($group['options'] as $entity) {
+				if($entity['optionname'] === $name) {
+					return $entity;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get config parameter
+	 *
+	 * @param string $name
+	 *
+	 * @return string
+	 */
+	public function getParameter($name) {
+		$entity = $this->_getParameterEntity($name);
+		$retVal = '';
+
+		if($entity) {
+			if($entity['type'] === self::_TYPE_PASSWORD) {
+				if(!empty($entity['optionvalue'])) {
+					$retVal = $this->_cs->decrypt($entity['optionvalue']);
+				}
+			} else {
+				$retVal = $entity['optionvalue'];
+			}
+		}
+
+		return $retVal;
+	}
+
+	/**
 	 * Set Config Parameter
 	 *
 	 * @param string $name
@@ -147,8 +199,24 @@ class SystemConfigService {
 	 */
 	public function setParameter($name, $value) {
 		/** @var $config Config */
+		$entity = $this->_getParameterEntity($name);
 		$name   = str_replace('_', '.', $name);
 		$config = $this->_getConfigRepository()->findOneBy(array('path' => $name));
+
+		if($entity['type'] === self::_TYPE_PASSWORD) {
+			// Passwörter können nicht geleert werden
+			if(!empty($entity['optionvalue']) && empty($value)) {
+				return;
+			}
+
+			if(!empty($value)) {
+				$value = $this->_cs->encrypt($value);
+			}
+		}
+
+		if($config->getValue() === $value) {
+			return;
+		}
 
 		if($config) {
 			$config->setValue($value);
