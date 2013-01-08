@@ -16,6 +16,7 @@ use Jboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
 use Symfony\Bridge\Monolog\Logger;
 use Jboehm\Lampcp\MysqlBundle\Service\MysqlAdminService;
 use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
+use Jboehm\Lampcp\CoreBundle\Service\CryptService;
 use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
 use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
 
@@ -32,6 +33,9 @@ class MysqlSynchronizerService {
 	/** @var SystemConfigService */
 	protected $_systemconfig;
 
+	/** @var CryptService */
+	protected $_cryptservice;
+
 	/**
 	 * Konstruktor
 	 *
@@ -39,13 +43,15 @@ class MysqlSynchronizerService {
 	 * @param \Symfony\Bridge\Monolog\Logger                        $logger
 	 * @param MysqlAdminService                                     $mysqladmin
 	 * @param \Jboehm\Lampcp\CoreBundle\Service\SystemConfigService $systemconfig
+	 * @param \Jboehm\Lampcp\CoreBundle\Service\CryptService        $cryptservice
 	 */
 	public function __construct(EntityManager $em, Logger $logger, MysqlAdminService $mysqladmin,
-								SystemConfigService $systemconfig) {
+								SystemConfigService $systemconfig, CryptService $cryptservice) {
 		$this->_em           = $em;
 		$this->_logger       = $logger;
 		$this->_mysqladmin   = $mysqladmin;
 		$this->_systemconfig = $systemconfig;
+		$this->_cryptservice = $cryptservice;
 	}
 
 	/**
@@ -116,7 +122,7 @@ class MysqlSynchronizerService {
 			$userModel = new MysqlUserModel();
 			$userModel
 				->setUsername($db->getName())
-				->setPassword($db->getPassword());
+				->setPassword($this->_cryptservice->decrypt($db->getPassword()));
 
 			$dbModel = new MysqlDatabaseModel();
 			$dbModel
