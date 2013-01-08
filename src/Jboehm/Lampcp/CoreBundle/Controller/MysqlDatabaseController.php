@@ -93,6 +93,8 @@ class MysqlDatabaseController extends AbstractController {
 		$form->bind($request);
 
 		if($form->isValid()) {
+			$entity->setPassword($this->_getCryptService()->encrypt($entity->getPassword()));
+
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
@@ -157,7 +159,7 @@ class MysqlDatabaseController extends AbstractController {
 			if(!$entity->getPassword()) {
 				$entity->setPassword($oldPassword);
 			} else {
-				$entity->setPassword($entity->getPassword());
+				$entity->setPassword($this->_getCryptService()->encrypt($entity->getPassword()));
 			}
 
 			$em->persist($entity);

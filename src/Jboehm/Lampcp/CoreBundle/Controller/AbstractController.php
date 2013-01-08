@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bridge\Monolog\Logger;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
+use Jboehm\Lampcp\CoreBundle\Service\CryptService;
 
 /**
  * Abstract controller.
@@ -106,5 +107,14 @@ abstract class AbstractController extends Controller {
 		);
 
 		return array_merge($arrGlob, $arrReturn);
+	}
+
+	/**
+	 * Get CryptService
+	 *
+	 * @return CryptService
+	 */
+	protected function _getCryptService() {
+		return $this->get('jboehm_lampcp_core.cryptservice');
 	}
 }
