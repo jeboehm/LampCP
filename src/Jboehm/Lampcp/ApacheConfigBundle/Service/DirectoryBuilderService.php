@@ -50,6 +50,10 @@ class DirectoryBuilderService extends AbstractBuilderService {
 				$this->_getDefaultDirs($domain->getPath())),
 			0750);
 
+		$fs->chmod(
+			array_merge(array($domain->getPath()), $this->_getDefaultDirs($domain->getPath())),
+			0750);
+
 		$fs->chown($domain->getPath(), self::_root); // Domain Root
 		$fs->chgrp($domain->getPath(), $domain->getUser()->getGroupname(), true); // Domain Root + Child
 
