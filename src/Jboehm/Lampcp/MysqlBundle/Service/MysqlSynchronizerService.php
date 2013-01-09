@@ -15,7 +15,7 @@ use Jboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel;
 use Jboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
 use Symfony\Bridge\Monolog\Logger;
 use Jboehm\Lampcp\MysqlBundle\Service\MysqlAdminService;
-use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
+use Jboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jboehm\Lampcp\CoreBundle\Service\CryptService;
 use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
 use Jboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
@@ -30,7 +30,7 @@ class MysqlSynchronizerService {
 	/** @var MysqlAdminService */
 	protected $_mysqladmin;
 
-	/** @var SystemConfigService */
+	/** @var ConfigService */
 	protected $_systemconfig;
 
 	/** @var CryptService */
@@ -42,11 +42,11 @@ class MysqlSynchronizerService {
 	 * @param EntityManager                                         $em
 	 * @param \Symfony\Bridge\Monolog\Logger                        $logger
 	 * @param MysqlAdminService                                     $mysqladmin
-	 * @param \Jboehm\Lampcp\CoreBundle\Service\SystemConfigService $systemconfig
+	 * @param \Jboehm\Lampcp\ConfigBundle\Service\ConfigService $systemconfig
 	 * @param \Jboehm\Lampcp\CoreBundle\Service\CryptService        $cryptservice
 	 */
 	public function __construct(EntityManager $em, Logger $logger, MysqlAdminService $mysqladmin,
-								SystemConfigService $systemconfig, CryptService $cryptservice) {
+								ConfigService $systemconfig, CryptService $cryptservice) {
 		$this->_em           = $em;
 		$this->_logger       = $logger;
 		$this->_mysqladmin   = $mysqladmin;
@@ -72,7 +72,7 @@ class MysqlSynchronizerService {
 	 * @return string
 	 */
 	protected function _getPrefix() {
-		$prefix = $this->_systemconfig->getParameter('systemconfig.option.mysql.db.prefix');
+		$prefix = $this->_systemconfig->getParameter('mysql.dbprefix');
 
 		if(empty($prefix)) {
 			$msg = '(MysqlSynchronizerService) Empty database prefix!';

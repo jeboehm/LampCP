@@ -18,18 +18,9 @@ http://www.gnu.org/licenses/gpl-2.0.txt
     <parameters>
         <parameter key="cryptservice.class">Jboehm\Lampcp\CoreBundle\Service\CryptService</parameter>
         <parameter key="changedetectlistener.class">Jboehm\Lampcp\CoreBundle\Listener\ChangeDetectListener</parameter>
-
-        <parameter key="systemconfigservice.class">Jboehm\Lampcp\CoreBundle\Service\SystemConfigService</parameter>
-        <parameter key="systemconfig.yaml">Resources/config/systemconfig.yml</parameter>
     </parameters>
 
     <services>
-        <service id="jboehm_lampcp_core.systemconfigservice" class="%systemconfigservice.class%">
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="jboehm_lampcp_core.cryptservice" />
-            <argument>%systemconfig.yaml%</argument>
-        </service>
-
         <service id="jboehm_lampcp_core.changedetectlistener" class="%changedetectlistener.class%">
             <tag name="doctrine.event_listener" event="postPersist" />
             <tag name="doctrine.event_listener" event="postUpdate" />

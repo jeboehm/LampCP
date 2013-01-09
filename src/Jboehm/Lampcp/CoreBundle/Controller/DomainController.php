@@ -205,6 +205,6 @@ class DomainController extends AbstractController {
 	 * @return string
 	 */
 	protected function _getSystemWebPath() {
-		return $this->_getSystemConfigService()->getParameter('systemconfig.option.paths.web.root.dir');
+		return $this->_getConfigService()->getParameter('apache.pathwww');
 	}
 }

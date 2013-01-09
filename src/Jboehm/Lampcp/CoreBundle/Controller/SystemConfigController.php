@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
+use Jboehm\Lampcp\ConfigBundle\Service\ConfigService;
 
 /**
  * SystemConfig controller.
@@ -30,7 +30,7 @@ class SystemConfigController extends AbstractController {
 	 */
 	public function indexAction() {
 		return $this->_getReturn(array(
-									  'config' => $this->_getSystemConfigService()->getConfigTemplate(),
+									  'config' => $this->_getConfigService()->getConfigTemplate(),
 								 ));
 	}
 
@@ -62,7 +62,7 @@ class SystemConfigController extends AbstractController {
 
 			foreach($data as $name => $value) {
 				$name = str_replace('_', '.', $name);
-				$this->_getSystemConfigService()->setParameter($name, $value);
+				$this->_getConfigService()->setParameter($name, $value);
 			}
 		}
 
@@ -75,7 +75,7 @@ class SystemConfigController extends AbstractController {
 	 * @return \Symfony\Component\Form\Form
 	 */
 	protected function _getConfigForm() {
-		$templ        = $this->_getSystemConfigService()->getConfigTemplate();
+		$templ        = $this->_getConfigService()->getConfigTemplate();
 		$optionValues = array();
 
 		for($i = 0; $i < count($templ); $i++) {

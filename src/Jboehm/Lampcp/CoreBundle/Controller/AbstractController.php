@@ -18,7 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bridge\Monolog\Logger;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
+use Jboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jboehm\Lampcp\CoreBundle\Service\CryptService;
 
 /**
@@ -31,10 +31,10 @@ abstract class AbstractController extends Controller {
 	/**
 	 * Get system config service
 	 *
-	 * @return SystemConfigService
+	 * @return ConfigService
 	 */
-	protected function _getSystemConfigService() {
-		return $this->get('jboehm_lampcp_core.systemconfigservice');
+	protected function _getConfigService() {
+		return $this->get('config');
 	}
 
 	/**

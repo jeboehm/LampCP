@@ -13,7 +13,7 @@ namespace Jboehm\Lampcp\ApacheConfigBundle\Service;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Monolog\Logger;
-use Jboehm\Lampcp\CoreBundle\Service\SystemConfigService;
+use Jboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
 
@@ -24,8 +24,8 @@ abstract class AbstractBuilderService {
 	/** @var EntityManager */
 	private $_doctrine;
 
-	/** @var SystemConfigService */
-	private $_systemconfigservice;
+	/** @var ConfigService */
+	private $_configService;
 
 	/** @var Logger */
 	private $_logger;
@@ -45,10 +45,10 @@ abstract class AbstractBuilderService {
 	}
 
 	/**
-	 * @return \Jboehm\Lampcp\CoreBundle\Service\SystemConfigService
+	 * @return \Jboehm\Lampcp\ConfigBundle\Service\ConfigService
 	 */
-	protected function _getSystemConfigService() {
-		return $this->_systemconfigservice;
+	protected function _getConfigService() {
+		return $this->_configService;
 	}
 
 	/**
@@ -61,17 +61,19 @@ abstract class AbstractBuilderService {
 	}
 
 	/**
-	 * @param $templating
-	 * @param $doctrine
-	 * @param $systemconfigservice
-	 * @param $logger
+	 * Konstruktor
+	 *
+	 * @param \Symfony\Bundle\TwigBundle\TwigEngine             $templating
+	 * @param \Doctrine\ORM\EntityManager                       $doctrine
+	 * @param \Jboehm\Lampcp\ConfigBundle\Service\ConfigService $configService
+	 * @param \Symfony\Bridge\Monolog\Logger                    $logger
 	 */
 	public function __construct(TwigEngine $templating, EntityManager $doctrine,
-								SystemConfigService $systemconfigservice, Logger $logger) {
-		$this->_templating          = $templating;
-		$this->_doctrine            = $doctrine;
-		$this->_systemconfigservice = $systemconfigservice;
-		$this->_logger              = $logger;
+								ConfigService $configService, Logger $logger) {
+		$this->_templating    = $templating;
+		$this->_doctrine      = $doctrine;
+		$this->_configService = $configService;
+		$this->_logger        = $logger;
 	}
 
 	/**

@@ -42,8 +42,8 @@ class GenerateLampcpConfigCommand extends GenerateConfigCommand {
 		$this->_getLogger()->info('(GenerateLampcpConfigCommand) Executing...');
 
 		$dir = $this
-			->_getSystemConfigService()
-			->getParameter('systemconfig.option.paths.web.root.dir') . '/lampcp';
+			->_getConfigService()
+			->getParameter('apache.pathwww') . '/lampcp';
 
 		if(!is_dir($dir . '/htdocs/app')) {
 			$msg = '(GenerateLampcpConfigCommand) Could not generate config, because this is not a supported directory structure. Expecting LampCP in ' . $dir . '/htdocs';

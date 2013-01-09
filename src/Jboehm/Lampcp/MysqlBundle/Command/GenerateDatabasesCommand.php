@@ -56,8 +56,8 @@ class GenerateDatabasesCommand extends AbstractCommand {
 	protected function _mysqlAdminServiceConnect() {
 		$this->_getMysqlAdminService()->connect(
 			$this->getContainer()->getParameter('database_host'),
-			$this->_getSystemConfigService()->getParameter('systemconfig.option.mysql.root.user'),
-			$this->_getSystemConfigService()->getParameter('systemconfig.option.mysql.root.password'),
+			$this->_getConfigService()->getParameter('mysql.rootuser'),
+			$this->_getConfigService()->getParameter('mysql.rootpassword'),
 			$this->getContainer()->getParameter('database_port')
 		);
 	}
@@ -70,7 +70,9 @@ class GenerateDatabasesCommand extends AbstractCommand {
 	protected function _getMysqlSynchronizerService() {
 		if(!$this->_mysqlsyncservice) {
 			$this->_getMysqlAdminService();
-			$this->_mysqlsyncservice = $this->getContainer()->get('jboehm_lampcp_mysql.mysqlsynchronizerservice');
+			$this->_mysqlsyncservice = $this
+				->getContainer()
+				->get('jboehm_lampcp_mysql.mysqlsynchronizerservice');
 		}
 
 		return $this->_mysqlsyncservice;

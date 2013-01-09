@@ -23,29 +23,15 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <service id="jboehm_lampcp_apache_config_vhostbuilder" class="%jboehm_lampcp_apache_config.vhostbuilderservice.class%">
             <argument type="service" id="templating" />
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="jboehm_lampcp_core.systemconfigservice" />
+            <argument type="service" id="config" />
             <argument type="service" id="logger" />
         </service>
 
         <service id="jboehm_lampcp_apache_config_directorybuilder" class="%jboehm_lampcp_apache_config.directorybuilderservice.class%">
             <argument type="service" id="templating" />
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="jboehm_lampcp_core.systemconfigservice" />
+            <argument type="service" id="config" />
             <argument type="service" id="logger" />
         </service>
     </services>
-
-    <!--
-    <parameters>
-        <parameter key="jboehm_lampcp_apache_config.example.class">Jboehm\Lampcp\ApacheConfigBundle\Example</parameter>
-    </parameters>
-
-    <services>
-        <service id="jboehm_lampcp_apache_config.example" class="%jboehm_lampcp_apache_config.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
-        </service>
-    </services>
-    -->
 </container>

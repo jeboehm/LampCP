@@ -227,7 +227,7 @@ class MysqlDatabaseController extends AbstractController {
 	 * @throws \Exception
 	 */
 	protected function _getNewDatabaseName() {
-		$prefix = $this->_getSystemConfigService()->getParameter('systemconfig.option.mysql.db.prefix');
+		$prefix = $this->_getConfigService()->getParameter('mysql.dbprefix');
 
 		if(empty($prefix)) {
 			throw new \Exception('Please set MySQL Database Prefix in configuration!');

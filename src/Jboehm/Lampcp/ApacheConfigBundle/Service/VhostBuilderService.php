@@ -103,8 +103,8 @@ class VhostBuilderService extends AbstractBuilderService {
 	 */
 	protected function _renderPhpIni(Vhost $model) {
 		$phpIniPath   = $this
-			->_getSystemConfigService()
-			->getParameter('systemconfig.option.apache.config.php.ini');
+			->_getConfigService()
+			->getParameter('apache.pathphpini');
 		$globalConfig = null;
 
 		if(is_readable($phpIniPath)) {
@@ -185,8 +185,8 @@ class VhostBuilderService extends AbstractBuilderService {
 	 */
 	protected function _saveVhostConfig($filename, $config) {
 		$target = $this
-			->_getSystemConfigService()
-			->getParameter('systemconfig.option.apache.config.directory') . '/' . $filename;
+			->_getConfigService()
+			->getParameter('apache.pathapache2conf') . '/' . $filename;
 
 		if(!is_writable(dirname($target))) {
 			throw new CouldNotWriteFileException();
@@ -267,8 +267,8 @@ class VhostBuilderService extends AbstractBuilderService {
 			->_getDoctrine()
 			->getRepository('JboehmLampcpCoreBundle:Domain');
 		$dir              = $this
-			->_getSystemConfigService()
-			->getParameter('systemconfig.option.apache.config.directory');
+			->_getConfigService()
+			->getParameter('apache.pathapache2conf');
 		$files            = glob($dir . '/*' . self::_configFileSuffix);
 
 		foreach($files as $file) {

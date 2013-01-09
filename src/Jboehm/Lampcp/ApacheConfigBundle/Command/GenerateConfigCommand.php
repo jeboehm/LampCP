@@ -148,8 +148,8 @@ class GenerateConfigCommand extends AbstractCommand {
 	protected function _restartApache() {
 		$exec = new ExecUtility();
 		$cmd  = $this
-			->_getSystemConfigService()
-			->getParameter('systemconfig.option.apache.config.restartcmd');
+			->_getConfigService()
+			->getParameter('apache.cmdapache2restart');
 
 		if(!empty($cmd)) {
 			$this->_getLogger()->info('(GenerateConfigCommand) Restarting apache2...');

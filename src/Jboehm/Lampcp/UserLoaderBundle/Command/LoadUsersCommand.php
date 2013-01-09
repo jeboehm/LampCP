@@ -55,8 +55,8 @@ class LoadUsersCommand extends AbstractCommand {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$this->_localUserRepository = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:User');
 		$this->_domainRepository    = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:Domain');
-		$this->_systemUserService   = new PasswdService($this->_getSystemConfigService()->getParameter('systemconfig.option.paths.unix.passwd.file'));
-		$this->_systemGroupService  = new GroupService($this->_getSystemConfigService()->getParameter('systemconfig.option.paths.unix.group.file'));
+		$this->_systemUserService   = new PasswdService($this->_getConfigService()->getParameter('unix.passwdfile'));
+		$this->_systemGroupService  = new GroupService($this->_getConfigService()->getParameter('unix.groupfile'));
 
 		if($input->getOption('verbose')) {
 			$output->writeln('Found ' . count($this->_systemUserService->getAll()) . ' system users...');
@@ -85,9 +85,10 @@ class LoadUsersCommand extends AbstractCommand {
 
 			if(!$localUser) {
 				$localUser = new User();
-				$localUser->setName($systemUser->getName());
-				$localUser->setUid($systemUser->getUid());
-				$localUser->setGid($systemUser->getGid());
+				$localUser
+					->setName($systemUser->getName())
+					->setUid($systemUser->getUid())
+					->setGid($systemUser->getGid());
 
 				/** @var $group Group */
 				$group = $this->_systemGroupService->findOneBy(array('gid' => $systemUser->getGid()));
