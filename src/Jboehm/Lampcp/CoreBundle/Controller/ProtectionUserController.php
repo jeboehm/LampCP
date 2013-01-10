@@ -124,6 +124,8 @@ class ProtectionUserController extends AbstractController {
 		$form->bind($request);
 
 		if($form->isValid()) {
+			$entity->setPassword($this->_getCryptService()->encrypt($entity->getPassword()));
+
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
@@ -181,11 +183,19 @@ class ProtectionUserController extends AbstractController {
 			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
 		}
 
+		$oldPassword = $entity->getPassword();
+
 		$deleteForm = $this->createDeleteForm($id);
 		$editForm   = $this->createForm(new ProtectionUserType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			if(!$entity->getPassword()) {
+				$entity->setPassword($oldPassword);
+			} else {
+				$entity->setPassword($this->_getCryptService()->encrypt($entity->getPassword()));
+			}
+
 			$em->persist($entity);
 			$em->flush();
 
