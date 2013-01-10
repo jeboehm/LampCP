@@ -13,8 +13,29 @@
     <h1>{{ "edit.page.systemconfig"|trans() }}</h1>
 
     <form action="{{ path('systemconfig_update') }}"
-          method="post" {{ form_enctype(edit_form) }}>
-        {{ form_widget(edit_form) }}
+          method="post" {{ form_enctype(form) }}>
+
+        {% set i = 0 %}
+        {% for entity in form.configentity %}
+            {% set prev = i - 1 %}
+
+            {% if i > 0 %}
+                {% if entity.vars.value.configgroup.name != form.configentity[prev].vars.value.configgroup.name %}
+                    <h2>{{ entity.vars.value.configgroup.name|trans() }}</h2>
+                {% endif %}
+            {% else %}
+                <h2>{{ entity.vars.value.configgroup.name|trans() }}</h2>
+            {% endif %}
+
+
+            {{ form_label(entity, (entity.vars.value.configgroup.name ~ "." ~ entity.vars.value.name)|trans()) }}
+            {{ form_widget(entity.value) }}
+
+            {% set i = i + 1 %}
+        {% endfor %}
+
+        {{ form_rest(form) }}
+
         <p>
             <button class="btn btn-success" type="submit">{{ "button.edit"|trans() }}</button>
         </p>

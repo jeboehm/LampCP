@@ -137,18 +137,16 @@ jboehm.lampcp.corebundle.ipaddresstype.ipv6: Ist IPv6
 jboehm.lampcp.corebundle.domainselectortype.domain: Domain auswählen
 
 # Systemconfig
-systemconfig.password: (Passwort)
-systemconfig.group.mysql: MySQL
-systemconfig.group.paths: Pfade
-systemconfig.group.apache: Apache2
+apache.pathwww: Apache2 Webseitenverzeichnis
+apache.pathapache2conf: Apache2 Konfigurationsverzeichnis
+apache.pathphpini: PHP5 Standardkonfiguration
+apache.cmdapache2restart: Apache2 Neustartbefehl
 
-systemconfig.option.mysql.root.user: Root Benutzername
-systemconfig.option.mysql.root.password: Root Passwort
-systemconfig.option.mysql.db.prefix: Datenbankprefix
-systemconfig.option.paths.web.root.dir: Hauptverzeichnis der Web-Roots
-systemconfig.option.paths.mail.root.dir: Hauptverzeichnis der E-Mailkonten
-systemconfig.option.paths.unix.passwd.file: Pfad zur Unix-Benutzerdatei
-systemconfig.option.paths.unix.group.file: Pfad zur Unix-Gruppendatei
-systemconfig.option.apache.config.directory: Apache2 Konfigurationspfad
-systemconfig.option.apache.config.php.ini: Pfad zur globalen php.ini
-systemconfig.option.apache.config.restartcmd: Apache2 Neustartkommando
+mysql.rootuser: MySQL Administrator
+mysql.rootpassword: MySQL Administratorpasswort
+mysql.dbprefix: MySQL Datenbankprefix
+
+unix.passwdfile: Unix Benutzerdatei
+unix.groupfile: Unix Gruppendatei
+
+config.password.set: (Passwort gesetzt)

@@ -12,7 +12,9 @@ namespace Jboehm\Lampcp\ConfigBundle\Service;
 
 use Symfony\Bridge\Monolog\Logger;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Form\FormFactory;
 use Jboehm\Lampcp\CoreBundle\Service\CryptService;
+use Jboehm\Lampcp\ConfigBundle\Form\ConfigType;
 use Jboehm\Lampcp\ConfigBundle\Entity\ConfigEntityRepository;
 use Jboehm\Lampcp\ConfigBundle\Exception\ConfigEntityNotFoundException;
 
@@ -26,17 +28,25 @@ class ConfigService {
 	/** @var \Jboehm\Lampcp\CoreBundle\Service\CryptService */
 	private $_cs;
 
+	/** @var \Symfony\Component\Form\FormFactory */
+	private $_form;
+
 	/**
 	 * Konstruktor
 	 *
 	 * @param \Doctrine\ORM\EntityManager                    $em
 	 * @param \Symfony\Bridge\Monolog\Logger                 $log
 	 * @param \Jboehm\Lampcp\CoreBundle\Service\CryptService $cs
+	 * @param \Symfony\Component\Form\FormFactory            $form
 	 */
-	public function __construct(EntityManager $em, Logger $log, CryptService $cs) {
-		$this->_em  = $em;
-		$this->_log = $log;
-		$this->_cs  = $cs;
+	public function __construct(EntityManager $em,
+								Logger $log,
+								CryptService $cs,
+								FormFactory $form) {
+		$this->_em   = $em;
+		$this->_log  = $log;
+		$this->_cs   = $cs;
+		$this->_form = $form;
 	}
 
 	/**
@@ -112,12 +122,7 @@ class ConfigService {
 	 */
 	public function setParameter($name, $value) {
 		$entity = $this->_getEntity($name);
-		$entval = $entity->getValue();
 		$newval = '';
-
-		if($value === $entval) {
-			return;
-		}
 
 		switch($entity->getType()) {
 			case $entity::TYPE_PASSWORD:
@@ -139,5 +144,20 @@ class ConfigService {
 			$this->_em->persist($entity);
 			$this->_em->flush();
 		}
+	}
+
+	/**
+	 * Get config form
+	 *
+	 * @return \Symfony\Component\Form\Form
+	 */
+	public function getForm() {
+		$form = $this->_form->create(new ConfigType(), array(
+															'configentity' => $this
+																->_getConfigEntityRepository()
+																->findAll(),
+													   ));
+
+		return $form;
 	}
 }

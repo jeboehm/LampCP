@@ -12,8 +12,6 @@ namespace Jboehm\Lampcp\ConfigBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\ManyToMany;
-use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -46,6 +44,7 @@ class ConfigEntity {
 
 	/**
 	 * @var ConfigGroup
+	 * @ORM\OrderBy({"name" = "asc"})
 	 * @ManyToOne(targetEntity="ConfigGroup", inversedBy="configentity")
 	 */
 	private $configgroup;
@@ -64,7 +63,7 @@ class ConfigEntity {
 	private $value;
 
 	/**
-	 * @param \Jboehm\Lampcp\ConfigBundle\Model\ConfigGroup $configgroup
+	 * @param \Jboehm\Lampcp\ConfigBundle\Entity\ConfigGroup $configgroup
 	 *
 	 * @return ConfigEntity
 	 */
@@ -75,7 +74,7 @@ class ConfigEntity {
 	}
 
 	/**
-	 * @return \Jboehm\Lampcp\ConfigBundle\Model\ConfigGroup
+	 * @return \Jboehm\Lampcp\ConfigBundle\Entity\ConfigGroup
 	 */
 	public function getConfiggroup() {
 		return $this->configgroup;

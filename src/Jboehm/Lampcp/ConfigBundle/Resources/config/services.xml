@@ -16,6 +16,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
     <parameters>
         <parameter key="jboehm_lampcp_config.configservice.class">Jboehm\Lampcp\ConfigBundle\Service\ConfigService</parameter>
+        <parameter key="jboehm_lampcp_config.configformtype.class">Jboehm\Lampcp\ConfigBundle\Form\ConfigType</parameter>
     </parameters>
 
     <services>
@@ -23,6 +24,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="logger" />
             <argument type="service" id="jboehm_lampcp_core.cryptservice" />
+            <argument type="service" id="form.factory" />
         </service>
     </services>
 </container>

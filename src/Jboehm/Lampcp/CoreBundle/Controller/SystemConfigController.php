@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Jboehm\Lampcp\ConfigBundle\Service\ConfigService;
+use Jboehm\Lampcp\ConfigBundle\Entity\ConfigEntity;
 
 /**
  * SystemConfig controller.
@@ -29,8 +29,10 @@ class SystemConfigController extends AbstractController {
 	 * @Template()
 	 */
 	public function indexAction() {
+		$groups = $this->getDoctrine()->getRepository('JboehmLampcpConfigBundle:ConfigGroup')->findAll();
+
 		return $this->_getReturn(array(
-									  'config' => $this->_getConfigService()->getConfigTemplate(),
+									  'groups' => $groups,
 								 ));
 	}
 
@@ -41,10 +43,11 @@ class SystemConfigController extends AbstractController {
 	 * @Template()
 	 */
 	public function editAction() {
-		$this->_getConfigForm();
-
 		return $this->_getReturn(array(
-									  'edit_form' => $this->_getConfigForm()->createView()
+									  'form' => $this
+										  ->_getConfigService()
+										  ->getForm()
+										  ->createView(),
 								 ));
 	}
 
@@ -54,51 +57,19 @@ class SystemConfigController extends AbstractController {
 	 * @Route("/update", name="systemconfig_update")
 	 */
 	public function updateAction(Request $request) {
-		$form = $this->_getConfigForm();
+		$form = $this->_getConfigService()->getForm();
 		$form->bind($request);
 
 		if($form->isValid()) {
-			$data = $form->getData();
+			$formdata = $form->getData();
 
-			foreach($data as $name => $value) {
-				$name = str_replace('_', '.', $name);
-				$this->_getConfigService()->setParameter($name, $value);
+			foreach($formdata['configentity'] as $entity) {
+				/** @var $entity ConfigEntity */
+				$name = $entity->getConfiggroup()->getName() . '.' . $entity->getName();
+				$this->_getConfigService()->setParameter($name, $entity->getValue());
 			}
 		}
 
 		return $this->redirect($this->generateUrl('systemconfig'));
-	}
-
-	/**
-	 * Get form
-	 *
-	 * @return \Symfony\Component\Form\Form
-	 */
-	protected function _getConfigForm() {
-		$templ        = $this->_getConfigService()->getConfigTemplate();
-		$optionValues = array();
-
-		for($i = 0; $i < count($templ); $i++) {
-			foreach($templ[$i]['options'] as $option) {
-				if($option['type'] !== 'password') {
-					$optionValues[str_replace('.', '_', $option['optionname'])] = $option['optionvalue'];
-				}
-			}
-		}
-
-		$builder = $this->createFormBuilder($optionValues);
-
-		foreach($templ as $group) {
-			// TODO Gruppe darstellen
-
-			foreach($group['options'] as $option) {
-				$builder->add(str_replace('.', '_', $option['optionname']), $option['type'],
-					array('label'    => $option['optionname'],
-						  'required' => false,
-					));
-			}
-		}
-
-		return $builder->getForm();
 	}
 }
