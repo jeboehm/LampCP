@@ -294,7 +294,7 @@ class MailAccount {
 	 *
 	 * @return MailAccount
 	 */
-	public function setMailaddress($mailaddress) {
+	public function setMailaddress(array $mailaddress) {
 		$this->mailaddress = $mailaddress;
 
 		return $this;
