@@ -106,6 +106,12 @@ class Domain {
 	private $protection;
 
 	/**
+	 * @var ProtectionUser[]
+	 * @OneToMany(targetEntity="ProtectionUser", mappedBy="domain", cascade={"remove"})
+	 */
+	private $protectionuser;
+
+	/**
 	 * @var Subdomain[]
 	 * @OneToMany(targetEntity="Subdomain", mappedBy="domain", cascade={"remove"})
 	 */
@@ -270,38 +276,12 @@ class Domain {
 	}
 
 	/**
-	 * Set mailaccounts
-	 *
-	 * @param array $mailaccount
-	 *
-	 * @return Domain
-	 */
-	public function setMailaccount($mailaccount) {
-		$this->mailaccount = $mailaccount;
-
-		return $this;
-	}
-
-	/**
 	 * Get mailaccounts
 	 *
 	 * @return MailAccount[]
 	 */
 	public function getMailaccount() {
 		return $this->mailaccount;
-	}
-
-	/**
-	 * Set mailaddresses
-	 *
-	 * @param array $mailaddress
-	 *
-	 * @return Domain
-	 */
-	public function setMailaddress($mailaddress) {
-		$this->mailaddress = $mailaddress;
-
-		return $this;
 	}
 
 	/**
@@ -314,38 +294,12 @@ class Domain {
 	}
 
 	/**
-	 * Set mysqldatabases
-	 *
-	 * @param array $mysqldatabase
-	 *
-	 * @return Domain
-	 */
-	public function setMysqldatabase($mysqldatabase) {
-		$this->mysqldatabase = $mysqldatabase;
-
-		return $this;
-	}
-
-	/**
 	 * Get mysqldatabases
 	 *
 	 * @return MysqlDatabase[]
 	 */
 	public function getMysqldatabase() {
 		return $this->mysqldatabase;
-	}
-
-	/**
-	 * Set pathoptions
-	 *
-	 * @param array $pathoption
-	 *
-	 * @return Domain
-	 */
-	public function setPathoption($pathoption) {
-		$this->pathoption = $pathoption;
-
-		return $this;
 	}
 
 	/**
@@ -358,19 +312,6 @@ class Domain {
 	}
 
 	/**
-	 * Set protections
-	 *
-	 * @param array $protection
-	 *
-	 * @return Domain
-	 */
-	public function setProtection($protection) {
-		$this->protection = $protection;
-
-		return $this;
-	}
-
-	/**
 	 * Get protections
 	 *
 	 * @return Protection[]
@@ -380,16 +321,12 @@ class Domain {
 	}
 
 	/**
-	 * Set subdomains
+	 * Get protectionusers
 	 *
-	 * @param array $subdomain
-	 *
-	 * @return Domain
+	 * @return ProtectionUser[]
 	 */
-	public function setSubdomain($subdomain) {
-		$this->subdomain = $subdomain;
-
-		return $this;
+	public function getProtectionuser() {
+		return $this->protectionuser;
 	}
 
 	/**
