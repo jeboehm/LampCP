@@ -158,17 +158,6 @@ class User {
 	}
 
 	/**
-	 * @param array $domain
-	 *
-	 * @return User
-	 */
-	public function setDomain($domain) {
-		$this->domain = $domain;
-
-		return $this;
-	}
-
-	/**
 	 * @return Domain[]
 	 */
 	public function getDomain() {
