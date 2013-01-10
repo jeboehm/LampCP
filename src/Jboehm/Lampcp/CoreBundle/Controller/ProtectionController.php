@@ -32,6 +32,7 @@ class ProtectionController extends AbstractController {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entities Protection[] */
 		$entities = $em->getRepository('JboehmLampcpCoreBundle:Protection')->findByDomain($this->_getSelectedDomain());
 
 		return $this->_getReturn(array(
@@ -92,8 +93,6 @@ class ProtectionController extends AbstractController {
 		$form->bind($request);
 
 		if($form->isValid()) {
-			$entity->setPassword($this->_getCryptService()->encrypt($entity->getPassword()));
-
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
@@ -150,19 +149,11 @@ class ProtectionController extends AbstractController {
 			throw $this->createNotFoundException('Unable to find Protection entity.');
 		}
 
-		$oldPassword = $entity->getPassword();
-
 		$deleteForm = $this->createDeleteForm($id);
 		$editForm   = $this->createForm(new ProtectionType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
-			if(!$entity->getPassword()) {
-				$entity->setPassword($oldPassword);
-			} else {
-				$entity->setPassword($this->_getCryptService()->encrypt($entity->getPassword()));
-			}
-
 			$em->persist($entity);
 			$em->flush();
 

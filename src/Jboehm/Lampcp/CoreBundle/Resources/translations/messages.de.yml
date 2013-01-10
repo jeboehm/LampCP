@@ -17,6 +17,7 @@ title.page.mailaddress: E-Mailadressen
 title.page.mysqldatabase: Datenbanken
 title.page.pathoption: Pfadoptionen
 title.page.protection: Beschränkungen
+title.page.protectionuser: Beschränkungsaccounts
 title.page.subdomain: Subdomains
 title.page.systemconfig: Systemkonfiguration
 title.page.ipaddress: IP-Adressen
@@ -31,6 +32,7 @@ edit.page.mailaddress: E-Mailadresse bearbeiten
 edit.page.mysqldatabase: Datenbank bearbeiten
 edit.page.pathoption: Pfadoption bearbeiten
 edit.page.protection: Beschränkung bearbeiten
+edit.page.protectionuser: Beschränkungsaccount bearbeiten
 edit.page.subdomain: Subdomain bearbeiten
 edit.page.systemconfig: Systemkonfiguration bearbeiten
 edit.page.ipaddress: IP-Adressen bearbeiten
@@ -42,6 +44,7 @@ show.page.mailaddress: E-Mailadresse anzeigen
 show.page.mysqldatabase: Datenbank anzeigen
 show.page.pathoption: Pfadoption anzeigen
 show.page.protection: Beschränkung anzeigen
+show.page.protectionuser: Beschränkungsaccount anzeigen
 show.page.subdomain: Subdomain anzeigen
 show.page.ipaddress: IP-Adresse anzeigen
 
@@ -52,6 +55,7 @@ create.page.mailaddress: E-Mailadresse anlegen
 create.page.mysqldatabase: Datenbank anlegen
 create.page.pathoption: Pfadoption anlegen
 create.page.protection: Beschränkung anlegen
+create.page.protectionuser: Beschränkungsaccount anlegen
 create.page.subdomain: Subdomain anlegen
 create.page.ipaddress: IP-Adresse anlegen
 
@@ -118,9 +122,10 @@ jboehm.lampcp.corebundle.pathoptiontype.error500: 500-Fehlerseite
 
 jboehm.lampcp.corebundle.protectiontype.path: Pfad
 jboehm.lampcp.corebundle.protectiontype.realm: Name
-jboehm.lampcp.corebundle.protectiontype.username: Benutzername
-jboehm.lampcp.corebundle.protectiontype.password.first: Passwort
-jboehm.lampcp.corebundle.protectiontype.password.second: Passwort wiederholen
+
+jboehm.lampcp.corebundle.protectionusertype.username: Benutzername
+jboehm.lampcp.corebundle.protectionusertype.password.first: Passwort
+jboehm.lampcp.corebundle.protectionusertype.password.second: Passwort wiederholen
 
 jboehm.lampcp.corebundle.mailaddresstype.address: Adresse
 jboehm.lampcp.corebundle.mailaddresstype.hasCatchAll: Catch All

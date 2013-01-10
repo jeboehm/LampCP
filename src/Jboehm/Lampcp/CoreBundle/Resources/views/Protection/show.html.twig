@@ -27,8 +27,8 @@
             <td>{{ entity.realm }}</td>
         </tr>
         <tr>
-            <th>{{ "jboehm.lampcp.corebundle.protectiontype.username"|trans() }}</th>
-            <td>{{ entity.username }}</td>
+            <th>{{ "title.page.protectionuser"|trans() }}</th>
+            <td>{{ entity.protectionuser|length }}</td>
         </tr>
         </tbody>
     </table>
@@ -40,6 +40,9 @@
             <a class="btn" href="{{ path('config_protection') }}">
                 {{ "button.back"|trans() }}
             </a>
+
+            <a class="btn"
+               href="{{ path('config_protectionuser', { 'protectionid': entity.id }) }}">{{ "title.page.protectionuser"|trans() }}</a>
 
             <a class="btn btn-warning" href="{{ path('config_protection_edit', { 'id': entity.id }) }}">
                 {{ "button.edit"|trans() }}

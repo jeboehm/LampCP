@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table()
  * @ORM\Entity
- * @UniqueEntity(fields = {"username", "domain"})
+ * @UniqueEntity("path")
  */
 class Protection {
 	/**
