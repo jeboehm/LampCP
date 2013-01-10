@@ -25,9 +25,7 @@
                         {% if entity.type != 2 %}
                             {{ entity.value }}
                         {% else %}
-                            {% if entity.value is not null %}
-                                {{ "config.password.set"|trans() }}
-                            {% endif %}
+                            {{ "config.password"|trans() }}
                         {% endif %}
                     </td>
                 </tr>

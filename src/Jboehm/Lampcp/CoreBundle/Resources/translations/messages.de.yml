@@ -149,4 +149,4 @@ mysql.dbprefix: MySQL Datenbankprefix
 unix.passwdfile: Unix Benutzerdatei
 unix.groupfile: Unix Gruppendatei
 
-config.password.set: (Passwort gesetzt)
+config.password: (Passwort)
