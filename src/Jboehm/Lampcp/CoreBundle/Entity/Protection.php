@@ -12,6 +12,7 @@ namespace Jboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -40,6 +41,12 @@ class Protection {
 	private $domain;
 
 	/**
+	 * @var ProtectionUser[]
+	 * @OneToMany(targetEntity="ProtectionUser", mappedBy="protection", cascade={"remove"})
+	 */
+	private $protectionuser;
+
+	/**
 	 * @var string
 	 * @ORM\Column(name="path", type="string", length=255)
 	 */
@@ -53,28 +60,12 @@ class Protection {
 	private $realm;
 
 	/**
-	 * @var string
-	 * @Assert\NotBlank()
-	 * @ORM\Column(name="username", type="string", length=15)
-	 */
-	private $username;
-
-	/**
-	 * @var string
-	 * @ORM\Column(name="password", type="string", length=255)
-	 * @Assert\MinLength(6)
-	 * @Assert\MaxLength(50)
-	 */
-	private $password;
-
-	/**
 	 * Konstruktor
 	 *
 	 * @param Domain $domain
 	 */
 	public function __construct(Domain $domain) {
 		$this->domain = $domain;
-		$this->path   = '';
 	}
 
 	/**
@@ -118,28 +109,6 @@ class Protection {
 	}
 
 	/**
-	 * Set password
-	 *
-	 * @param string $password
-	 *
-	 * @return Protection
-	 */
-	public function setPassword($password) {
-		$this->password = $password;
-
-		return $this;
-	}
-
-	/**
-	 * Get password
-	 *
-	 * @return string
-	 */
-	public function getPassword() {
-		return $this->password;
-	}
-
-	/**
 	 * Set realm
 	 *
 	 * @param string $realm
@@ -162,25 +131,25 @@ class Protection {
 	}
 
 	/**
-	 * Set username
+	 * Set ProtectionUser
 	 *
-	 * @param string $username
+	 * @param array $protectionuser
 	 *
 	 * @return Protection
 	 */
-	public function setUsername($username) {
-		$this->username = strtolower($username);
+	public function setProtectionuser(array $protectionuser) {
+		$this->protectionuser = $protectionuser;
 
 		return $this;
 	}
 
 	/**
-	 * Get username
+	 * Get ProtectionUser
 	 *
-	 * @return string
+	 * @return ProtectionUser[]
 	 */
-	public function getUsername() {
-		return $this->username;
+	public function getProtectionuser() {
+		return $this->protectionuser;
 	}
 
 	/**

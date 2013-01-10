@@ -51,15 +51,6 @@ class LoadDomainData implements FixtureInterface {
 
 		$manager->persist($subdomain);
 
-		$protection = new Protection($domain);
-		$protection
-			->setPath('htdocs/cv')
-			->setRealm('Protected Area')
-			->setUsername('john')
-			->setPassword('johndoe');
-
-		$manager->persist($protection);
-
 		$mailaccount = new MailAccount($domain);
 		$mailaccount
 			->setUsername('johndoemail')
