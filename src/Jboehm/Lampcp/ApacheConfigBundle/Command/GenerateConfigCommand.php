@@ -16,16 +16,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Jboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
 use Jboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
+use Jboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService;
 use Jboehm\Lampcp\CoreBundle\Entity\BuilderChangeRepository;
 use Jboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 
 class GenerateConfigCommand extends AbstractCommand {
-	/** @var VhostBuilderService */
-	protected $_vhostBuilderService;
-
-	/** @var DirectoryBuilderService */
-	protected $_directoryBuilderService;
-
 	/**
 	 * Get watched entitys
 	 *
@@ -44,25 +39,24 @@ class GenerateConfigCommand extends AbstractCommand {
 	}
 
 	/**
-	 * @return \Jboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService
+	 * @return VhostBuilderService
 	 */
 	protected function _getVhostBuilderService() {
-		if(!$this->_vhostBuilderService) {
-			$this->_vhostBuilderService = $this->getContainer()->get('jboehm_lampcp_apache_config_vhostbuilder');
-		}
-
-		return $this->_vhostBuilderService;
+		return $this->getContainer()->get('jboehm_lampcp_apache_config_vhostbuilder');
 	}
 
 	/**
-	 * @return \Jboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService
+	 * @return DirectoryBuilderService
 	 */
 	protected function _getDirectoryBuilderService() {
-		if(!$this->_directoryBuilderService) {
-			$this->_directoryBuilderService = $this->getContainer()->get('jboehm_lampcp_apache_config_directorybuilder');
-		}
+		return $this->getContainer()->get('jboehm_lampcp_apache_config_directorybuilder');
+	}
 
-		return $this->_directoryBuilderService;
+	/**
+	 * @return ProtectionBuilderService
+	 */
+	protected function _getProtectionBuilderService() {
+		return $this->getContainer()->get('jboehm_lampcp_apache_config_protectionbuilder');
 	}
 
 	/**
@@ -103,8 +97,10 @@ class GenerateConfigCommand extends AbstractCommand {
 
 				$vhost = $this->_getVhostBuilderService();
 				$vhost->buildAll();
-
 				$vhost->cleanVhostDirectory();
+
+				$protection = $this->_getProtectionBuilderService();
+				$protection->buildAll();
 
 				$this->_restartApache();
 			} catch(\Exception $e) {

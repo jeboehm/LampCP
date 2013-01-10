@@ -14,6 +14,7 @@ use Symfony\Bundle\TwigBundle\TwigEngine;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Monolog\Logger;
 use Jboehm\Lampcp\ConfigBundle\Service\ConfigService;
+use Jboehm\Lampcp\CoreBundle\Service\CryptService;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jboehm\Lampcp\CoreBundle\Entity\Subdomain;
 
@@ -29,6 +30,9 @@ abstract class AbstractBuilderService {
 
 	/** @var Logger */
 	private $_logger;
+
+	/** @var CryptService */
+	private $_cryptService;
 
 	/**
 	 * @return \Symfony\Bundle\TwigBundle\TwigEngine
@@ -61,19 +65,31 @@ abstract class AbstractBuilderService {
 	}
 
 	/**
+	 * Get cryptservice
+	 *
+	 * @return \Jboehm\Lampcp\CoreBundle\Service\CryptService
+	 */
+	protected function _getCryptService() {
+		return $this->_cryptService;
+	}
+
+	/**
 	 * Konstruktor
 	 *
 	 * @param \Symfony\Bundle\TwigBundle\TwigEngine             $templating
 	 * @param \Doctrine\ORM\EntityManager                       $doctrine
 	 * @param \Jboehm\Lampcp\ConfigBundle\Service\ConfigService $configService
 	 * @param \Symfony\Bridge\Monolog\Logger                    $logger
+	 * @param \Jboehm\Lampcp\CoreBundle\Service\CryptService    $cs
 	 */
 	public function __construct(TwigEngine $templating, EntityManager $doctrine,
-								ConfigService $configService, Logger $logger) {
+								ConfigService $configService, Logger $logger,
+								CryptService $cs) {
 		$this->_templating    = $templating;
 		$this->_doctrine      = $doctrine;
 		$this->_configService = $configService;
 		$this->_logger        = $logger;
+		$this->_cryptService  = $cs;
 	}
 
 	/**
