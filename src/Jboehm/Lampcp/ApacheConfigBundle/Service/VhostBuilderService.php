@@ -163,8 +163,10 @@ class VhostBuilderService extends AbstractBuilderService {
 			throw new CouldNotWriteFileException();
 		}
 
-		$this->_getLogger()->info('(VhostBuilderService) Generating php.ini:' . $filename);
-		file_put_contents($filename, $this->_renderPhpIni($this->_getVhostModelForDomain($domain)));
+		if(!file_exists($filename)) {
+			$this->_getLogger()->info('(VhostBuilderService) Generating php.ini:' . $filename);
+			file_put_contents($filename, $this->_renderPhpIni($this->_getVhostModelForDomain($domain)));
+		}
 
 		// Change rights
 		$fs->chmod($filename, 0440);
