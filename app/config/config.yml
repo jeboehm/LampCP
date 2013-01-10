@@ -23,7 +23,7 @@ twig:
     strict_variables: "%kernel.debug%"
     form:
         resources:
-            - 'JboehmLampcpCoreBundle::label.html.twig'
+            - 'JboehmLampcpCoreBundle::form.html.twig'
     globals:
         env:          "%kernel.environment%"
 
