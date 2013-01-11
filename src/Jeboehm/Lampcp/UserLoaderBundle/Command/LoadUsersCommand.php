@@ -10,8 +10,8 @@
 
 namespace Jeboehm\Lampcp\UserLoaderBundle\Command;
 
-use Jeboehm\Bundle\PasswdBundle\Model\PasswdService;
-use Jeboehm\Bundle\PasswdBundle\Model\GroupService;
+use Jboehm\Bundle\PasswdBundle\Model\PasswdService;
+use Jboehm\Bundle\PasswdBundle\Model\GroupService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Jeboehm\Lampcp\CoreBundle\Entity\User;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
-use Jeboehm\Bundle\PasswdBundle\Model\Group;
+use Jboehm\Bundle\PasswdBundle\Model\Group;
 
 class LoadUsersCommand extends AbstractCommand {
 	/** @var \Doctrine\ORM\EntityRepository */
