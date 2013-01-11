@@ -11,11 +11,32 @@
 namespace Jboehm\Lampcp\ApacheConfigBundle\Model;
 
 class Protection {
+	/** @var integer */
+	private $id;
+
 	/** @var string */
 	private $username;
 
 	/** @var string */
 	private $password;
+
+	/**
+	 * @param int $id
+	 *
+	 * @return Protection
+	 */
+	public function setId($id) {
+		$this->id = $id;
+
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getId() {
+		return $this->id;
+	}
 
 	/**
 	 * @param string $username

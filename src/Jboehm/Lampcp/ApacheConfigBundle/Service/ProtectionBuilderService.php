@@ -32,6 +32,7 @@ class ProtectionBuilderService extends AbstractBuilderService {
 		foreach($protection->getProtectionuser() as $prot) {
 			$mod = new ProtectionConfigModel();
 			$mod
+				->setId($prot->getId())
 				->setUsername($prot->getUsername())
 				->setPassword($this->_getCryptService()->decrypt($prot->getPassword()));
 
