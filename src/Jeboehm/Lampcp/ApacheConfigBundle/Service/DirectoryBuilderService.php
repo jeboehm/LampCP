@@ -11,10 +11,10 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderInterface;
+use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 
-class DirectoryBuilderService extends AbstractBuilderService implements BuilderInterface {
+class DirectoryBuilderService extends AbstractBuilderService implements BuilderServiceInterface {
 	const _root = 'root';
 	const _dirs = 'conf,htdocs,logs,php-fcgi,tmp';
 

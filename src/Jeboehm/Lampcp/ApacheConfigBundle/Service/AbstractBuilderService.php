@@ -17,9 +17,9 @@ use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderInterface;
+use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 
-abstract class AbstractBuilderService implements BuilderInterface {
+abstract class AbstractBuilderService implements BuilderServiceInterface {
 	/** @var TwigEngine */
 	private $_templating;
 

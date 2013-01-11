@@ -11,24 +11,12 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderInterface;
+use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\CoreBundle\Entity\PathOption;
 
-class PathOptionBuilderService extends AbstractBuilderService implements BuilderInterface {
-	const _twigPathOptionConf = 'JeboehmLampcpApacheConfigBundle:Default:pathoptions.conf.twig';
-
-	/**
-	 * Render PathOption config
-	 *
-	 * @param PathOption[] $pathoptions
-	 *
-	 * @return string
-	 */
-	protected function _renderPathOptionConfig(array $pathoptions) {
-		return $this->_getTemplating()->render(self::_twigPathOptionConf, array(
-																					 'pathoptions' => $pathoptions,
-																				));
-	}
+class PathOptionBuilderService extends AbstractBuilderService implements BuilderServiceInterface {
+	const _twigPathOptionConf = 'JeboehmLampcpApacheConfigBundle:Apache2:pathoptions.conf.twig';
+	const _pathOptionFileName = '30_directory_options.conf';
 
 	/**
 	 * Generate PathOption config
@@ -36,10 +24,11 @@ class PathOptionBuilderService extends AbstractBuilderService implements Builder
 	protected function _generatePathOptionConf() {
 		/** @var $pathoptions PathOption[] */
 		$apacheConfigDir = $this->_getConfigService()->getParameter('apache.pathapache2conf');
-		$filename        = '99_pathoptions.conf';
-		$configFilePath  = $apacheConfigDir . '/' . $filename;
+		$configFilePath  = $apacheConfigDir . '/' . self::_pathOptionFileName;
 		$pathoptions     = $this->_getDoctrine()->getRepository('JeboehmLampcpCoreBundle:PathOption')->findAll();
-		$config          = $this->_renderPathOptionConfig($pathoptions);
+		$config          = $this->_renderTemplate(self::_twigPathOptionConf, array(
+																				  'pathoptions' => $pathoptions,
+																			 ));
 
 		if(!is_writable(dirname($configFilePath))) {
 			throw new CouldNotWriteFileException();

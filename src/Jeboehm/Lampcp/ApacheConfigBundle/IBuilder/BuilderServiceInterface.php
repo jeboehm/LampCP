@@ -10,7 +10,7 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\IBuilder;
 
-interface BuilderInterface {
+interface BuilderServiceInterface {
 	/**
 	 * @return void
 	 */

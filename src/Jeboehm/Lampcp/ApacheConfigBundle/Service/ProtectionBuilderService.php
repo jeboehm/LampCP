@@ -11,15 +11,16 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderInterface;
+use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
 use Jeboehm\Lampcp\ApacheConfigBundle\Model\Protection as ProtectionConfigModel;
 use Jeboehm\Lampcp\CoreBundle\Entity\Protection as ProtectionEntity;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 
-class ProtectionBuilderService extends AbstractBuilderService implements BuilderInterface {
-	const _twigAuthUserFile         = 'JeboehmLampcpApacheConfigBundle:Default:AuthUserFile.conf.twig';
-	const _twigApacheProtectionConf = 'JeboehmLampcpApacheConfigBundle:Default:protections.conf.twig';
+class ProtectionBuilderService extends AbstractBuilderService implements BuilderServiceInterface {
+	const _twigAuthUserFile         = 'JeboehmLampcpApacheConfigBundle:Apache2:AuthUserFile.conf.twig';
+	const _twigApacheProtectionConf = 'JeboehmLampcpApacheConfigBundle:Apache2:protections.conf.twig';
+	const _protectionFileName       = '40_directory_protections.conf';
 
 	/**
 	 * Get protection model array
@@ -45,32 +46,6 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
 	}
 
 	/**
-	 * Render AuthUserFile
-	 *
-	 * @param array $models
-	 *
-	 * @return string
-	 */
-	protected function _renderAuthUserFile(array $models) {
-		return $this->_getTemplating()->render(self::_twigAuthUserFile, array(
-																			 'users' => $models,
-																		));
-	}
-
-	/**
-	 * Render Apache's Protection config
-	 *
-	 * @param ProtectionEntity[] $protections
-	 *
-	 * @return string
-	 */
-	protected function _renderApacheProtectionConf(array $protections) {
-		return $this->_getTemplating()->render(self::_twigApacheProtectionConf, array(
-																					 'protections' => $protections,
-																				));
-	}
-
-	/**
 	 * Generate AuthUserFile
 	 *
 	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Protection $protection
@@ -79,6 +54,9 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
 	 */
 	protected function _generateAuthUserFile(ProtectionEntity $protection) {
 		$fs               = new Filesystem();
+		$models           = $this->_getProtectionModelArray($protection);
+		$contents         = $this->_renderTemplate(self::_twigAuthUserFile, array('users' => $models,
+																			));
 		$pathAuthUserFile = sprintf(
 			'%s/conf/authuser_%s.passwd',
 			$protection->getDomain()->getPath(),
@@ -90,7 +68,7 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
 		}
 
 		$this->_getLogger()->info('(ProtectionBuilderService) Generating AuthUserFile:' . $pathAuthUserFile);
-		file_put_contents($pathAuthUserFile, $this->_renderAuthUserFile($this->_getProtectionModelArray($protection)));
+		file_put_contents($pathAuthUserFile, $contents);
 
 		// Change rights
 		$fs->chmod($pathAuthUserFile, 0440);
@@ -106,13 +84,14 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
 	protected function _generateApacheProtectionConfig() {
 		/** @var $protections ProtectionEntity[] */
 		$apacheConfigDir = $this->_getConfigService()->getParameter('apache.pathapache2conf');
-		$filename        = '98_protections.conf';
-		$configFilePath  = $apacheConfigDir . '/' . $filename;
+		$configFilePath  = $apacheConfigDir . '/' . self::_protectionFileName;
 		$protections     = $this->_getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Protection')->findAll();
-		$config          = $this->_renderApacheProtectionConf($protections);
+		$content         = $this->_renderTemplate(self::_twigApacheProtectionConf, array(
+																						'protections' => $protections,
+																				   ));
 
 		$this->_getLogger()->info('(ProtectionBuilderService) Generating Protection Config:' . $configFilePath);
-		file_put_contents($configFilePath, $config);
+		file_put_contents($configFilePath, $content);
 	}
 
 	/**

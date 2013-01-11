@@ -15,14 +15,15 @@ use Symfony\Component\Filesystem\Filesystem;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
 use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderInterface;
+use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
 use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
 
-class VhostBuilderService extends AbstractBuilderService implements BuilderInterface {
-	const _twigVhost         = 'JeboehmLampcpApacheConfigBundle:Default:vhost.conf.twig';
-	const _twigFcgiStarter   = 'JeboehmLampcpApacheConfigBundle:Default:php-fcgi-starter.sh.twig';
-	const _twigPhpIni        = 'JeboehmLampcpApacheConfigBundle:Default:php.ini.twig';
+class VhostBuilderService extends AbstractBuilderService implements BuilderServiceInterface {
+	const _twigVhost         = 'JeboehmLampcpApacheConfigBundle:Apache2:vhost.conf.twig';
+	const _twigFcgiStarter   = 'JeboehmLampcpApacheConfigBundle:PHP:php-fcgi-starter.sh.twig';
+	const _twigPhpIni        = 'JeboehmLampcpApacheConfigBundle:PHP:php.ini.twig';
+	const _configFilePrefix  = '20_vhost_';
 	const _configFileSuffix  = '.conf';
 	const _domainAliasPrefix = 'www.';
 
@@ -85,7 +86,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderInter
 	 * @return string
 	 */
 	protected function _renderVhostConfig(Vhost $model) {
-		return $this->_getTemplating()->render(self::_twigVhost, array('vhost' => $model));
+		return $this->_renderTemplate(self::_twigVhost, array('vhost' => $model));
 	}
 
 	/**
@@ -94,7 +95,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderInter
 	 * @return string
 	 */
 	protected function _renderFcgiStarter(Domain $domain) {
-		return $this->_getTemplating()->render(self::_twigFcgiStarter, array('domain' => $domain));
+		return $this->_renderTemplate(self::_twigFcgiStarter, array('domain' => $domain));
 	}
 
 	/**
@@ -117,10 +118,10 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderInter
 			throw new \Exception('Could not read global php.ini');
 		}
 
-		return $this->_getTemplating()->render(self::_twigPhpIni, array(
-																	   'vhost'  => $model,
-																	   'global' => $globalConfig,
-																  ));
+		return $this->_renderTemplate(self::_twigPhpIni, array(
+															  'vhost'  => $model,
+															  'global' => $globalConfig,
+														 ));
 	}
 
 	/**
@@ -206,7 +207,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderInter
 	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
 	 */
 	protected function _buildDomain(Domain $domain) {
-		$filename = $domain->getDomain() . self::_configFileSuffix;
+		$filename = self::_configFilePrefix . $domain->getDomain() . self::_configFileSuffix;
 		$config   = $this->_renderVhostConfig($this->_getVhostModelForDomain($domain));
 
 		$this->_saveVhostConfig($filename, $config);
@@ -220,7 +221,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderInter
 	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain $subdomain
 	 */
 	protected function _buildSubdomain(Subdomain $subdomain) {
-		$filename = $subdomain->getFullDomain() . self::_configFileSuffix;
+		$filename = self::_configFilePrefix . $subdomain->getFullDomain() . self::_configFileSuffix;
 		$config   = $this->_renderVhostConfig($this->_getVhostModelForSubdomain($subdomain));
 
 		$this->_saveVhostConfig($filename, $config);
@@ -275,7 +276,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderInter
 		$dir              = $this
 			->_getConfigService()
 			->getParameter('apache.pathapache2conf');
-		$files            = glob($dir . '/*' . self::_configFileSuffix);
+		$files            = glob($dir . '/' . self::_configFilePrefix . '*' . self::_configFileSuffix);
 
 		foreach($files as $file) {
 			$content    = file_get_contents($file);
