@@ -11,13 +11,15 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
+
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
 use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
+use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderInterface;
 use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
 use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
 
-class VhostBuilderService extends AbstractBuilderService {
+class VhostBuilderService extends AbstractBuilderService implements BuilderInterface {
 	const _twigVhost         = 'JeboehmLampcpApacheConfigBundle:Default:vhost.conf.twig';
 	const _twigFcgiStarter   = 'JeboehmLampcpApacheConfigBundle:Default:php-fcgi-starter.sh.twig';
 	const _twigPhpIni        = 'JeboehmLampcpApacheConfigBundle:Default:php.ini.twig';
@@ -203,7 +205,7 @@ class VhostBuilderService extends AbstractBuilderService {
 	 *
 	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
 	 */
-	public function buildDomain(Domain $domain) {
+	protected function _buildDomain(Domain $domain) {
 		$filename = $domain->getDomain() . self::_configFileSuffix;
 		$config   = $this->_renderVhostConfig($this->_getVhostModelForDomain($domain));
 
@@ -217,7 +219,7 @@ class VhostBuilderService extends AbstractBuilderService {
 	 *
 	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain $subdomain
 	 */
-	public function buildSubdomain(Subdomain $subdomain) {
+	protected function _buildSubdomain(Subdomain $subdomain) {
 		$filename = $subdomain->getFullDomain() . self::_configFileSuffix;
 		$config   = $this->_renderVhostConfig($this->_getVhostModelForSubdomain($subdomain));
 
@@ -229,12 +231,14 @@ class VhostBuilderService extends AbstractBuilderService {
 	 */
 	public function buildAll() {
 		foreach($this->_getAllDomains() as $domain) {
-			$this->buildDomain($domain);
+			$this->_buildDomain($domain);
 		}
 
 		foreach($this->_getAllSubdomains() as $subdomain) {
-			$this->buildSubdomain($subdomain);
+			$this->_buildSubdomain($subdomain);
 		}
+
+		$this->_cleanVhostDirectory();
 	}
 
 	/**
@@ -263,7 +267,7 @@ class VhostBuilderService extends AbstractBuilderService {
 	/**
 	 * Look for obsolete config files
 	 */
-	public function cleanVhostDirectory() {
+	protected function _cleanVhostDirectory() {
 		$fs               = new Filesystem();
 		$domainRepository = $this
 			->_getDoctrine()

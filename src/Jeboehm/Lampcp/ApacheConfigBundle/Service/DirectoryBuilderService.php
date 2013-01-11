@@ -11,11 +11,10 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderInterface;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
-use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
 
-class DirectoryBuilderService extends AbstractBuilderService {
+class DirectoryBuilderService extends AbstractBuilderService implements BuilderInterface {
 	const _root = 'root';
 	const _dirs = 'conf,htdocs,logs,php-fcgi,tmp';
 
@@ -42,7 +41,7 @@ class DirectoryBuilderService extends AbstractBuilderService {
 	 *
 	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
 	 */
-	public function createDirectorysForDomain(Domain $domain) {
+	protected function _createDirectorysForDomain(Domain $domain) {
 		$fs = new Filesystem();
 
 		$fs->mkdir(
@@ -64,9 +63,9 @@ class DirectoryBuilderService extends AbstractBuilderService {
 	/**
 	 * Create directory structure for all domains
 	 */
-	public function createDirectorysForAllDomains() {
+	public function buildAll() {
 		foreach($this->_getAllDomains() as $domain) {
-			$this->createDirectorysForDomain($domain);
+			$this->_createDirectorysForDomain($domain);
 		}
 	}
 }

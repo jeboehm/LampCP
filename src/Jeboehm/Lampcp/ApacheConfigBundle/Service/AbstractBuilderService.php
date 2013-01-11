@@ -17,8 +17,9 @@ use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
+use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderInterface;
 
-abstract class AbstractBuilderService {
+abstract class AbstractBuilderService implements BuilderInterface {
 	/** @var TwigEngine */
 	private $_templating;
 
@@ -76,10 +77,10 @@ abstract class AbstractBuilderService {
 	/**
 	 * Konstruktor
 	 *
-	 * @param \Symfony\Bundle\TwigBundle\TwigEngine             $templating
-	 * @param \Doctrine\ORM\EntityManager                       $doctrine
+	 * @param \Symfony\Bundle\TwigBundle\TwigEngine              $templating
+	 * @param \Doctrine\ORM\EntityManager                        $doctrine
 	 * @param \Jeboehm\Lampcp\ConfigBundle\Service\ConfigService $configService
-	 * @param \Symfony\Bridge\Monolog\Logger                    $logger
+	 * @param \Symfony\Bridge\Monolog\Logger                     $logger
 	 * @param \Jeboehm\Lampcp\CoreBundle\Service\CryptService    $cs
 	 */
 	public function __construct(TwigEngine $templating, EntityManager $doctrine,

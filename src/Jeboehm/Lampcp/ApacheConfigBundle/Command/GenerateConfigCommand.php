@@ -102,15 +102,13 @@ class GenerateConfigCommand extends AbstractCommand {
 
 			try {
 				$directory = $this->_getDirectoryBuilderService();
-				$directory->createDirectorysForAllDomains();
+				$directory->buildAll();
 
 				$vhost = $this->_getVhostBuilderService();
 				$vhost->buildAll();
-				$vhost->cleanVhostDirectory();
 
 				$protection = $this->_getProtectionBuilderService();
 				$protection->buildAll();
-				$protection->cleanConfDirectory();
 
 				$pathoption = $this->_getPathOptionBuilderService();
 				$pathoption->buildAll();

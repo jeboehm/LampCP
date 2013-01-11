@@ -11,9 +11,10 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
+use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderInterface;
 use Jeboehm\Lampcp\CoreBundle\Entity\PathOption;
 
-class PathOptionBuilderService extends AbstractBuilderService {
+class PathOptionBuilderService extends AbstractBuilderService implements BuilderInterface {
 	const _twigPathOptionConf = 'JeboehmLampcpApacheConfigBundle:Default:pathoptions.conf.twig';
 
 	/**

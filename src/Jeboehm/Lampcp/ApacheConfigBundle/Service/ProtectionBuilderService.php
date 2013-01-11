@@ -11,12 +11,13 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderInterface;
 use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
 use Jeboehm\Lampcp\ApacheConfigBundle\Model\Protection as ProtectionConfigModel;
 use Jeboehm\Lampcp\CoreBundle\Entity\Protection as ProtectionEntity;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 
-class ProtectionBuilderService extends AbstractBuilderService {
+class ProtectionBuilderService extends AbstractBuilderService implements BuilderInterface {
 	const _twigAuthUserFile         = 'JeboehmLampcpApacheConfigBundle:Default:AuthUserFile.conf.twig';
 	const _twigApacheProtectionConf = 'JeboehmLampcpApacheConfigBundle:Default:protections.conf.twig';
 
@@ -136,12 +137,13 @@ class ProtectionBuilderService extends AbstractBuilderService {
 		}
 
 		$this->_generateApacheProtectionConfig();
+		$this->_cleanConfDirectory();
 	}
 
 	/**
 	 * Look for obsolete AuthUserFile files
 	 */
-	public function cleanConfDirectory() {
+	protected function _cleanConfDirectory() {
 		/** @var $domains Domain[] */
 		$fs      = new Filesystem();
 		$domains = $this

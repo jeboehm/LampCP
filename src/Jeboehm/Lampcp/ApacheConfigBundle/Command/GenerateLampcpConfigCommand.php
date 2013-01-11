@@ -57,7 +57,7 @@ class GenerateLampcpConfigCommand extends GenerateConfigCommand {
 		$domain    = $this->_getLampcpDomain($input->getArgument('vhost'), $input->getArgument('user'), $dir);
 
 		// Verzeichnisse erzeugen
-		$directory->createDirectorysForDomain($domain);
+		$directory->buildAll();
 
 		// Configs erzeugen
 		$vhost->buildDomain($domain);
