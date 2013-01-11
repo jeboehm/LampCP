@@ -83,8 +83,10 @@ abstract class AbstractBuilderService implements BuilderServiceInterface {
 	 * @param \Symfony\Bridge\Monolog\Logger                     $logger
 	 * @param \Jeboehm\Lampcp\CoreBundle\Service\CryptService    $cs
 	 */
-	public function __construct(TwigEngine $templating, EntityManager $doctrine,
-								ConfigService $configService, Logger $logger,
+	public function __construct(TwigEngine $templating,
+								EntityManager $doctrine,
+								ConfigService $configService,
+								Logger $logger,
 								CryptService $cs) {
 		$this->_templating    = $templating;
 		$this->_doctrine      = $doctrine;
