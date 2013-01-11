@@ -131,19 +131,6 @@ class Protection {
 	}
 
 	/**
-	 * Set ProtectionUser
-	 *
-	 * @param array $protectionuser
-	 *
-	 * @return Protection
-	 */
-	public function setProtectionuser(array $protectionuser) {
-		$this->protectionuser = $protectionuser;
-
-		return $this;
-	}
-
-	/**
 	 * Get ProtectionUser
 	 *
 	 * @return ProtectionUser[]

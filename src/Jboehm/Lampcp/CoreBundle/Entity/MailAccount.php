@@ -290,17 +290,6 @@ class MailAccount {
 	}
 
 	/**
-	 * @param array $mailaddress
-	 *
-	 * @return MailAccount
-	 */
-	public function setMailaddress(array $mailaddress) {
-		$this->mailaddress = $mailaddress;
-
-		return $this;
-	}
-
-	/**
 	 * @return MailAddress[]
 	 */
 	public function getMailaddress() {
