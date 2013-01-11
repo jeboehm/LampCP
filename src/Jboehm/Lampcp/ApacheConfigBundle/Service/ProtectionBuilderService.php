@@ -17,7 +17,8 @@ use Jboehm\Lampcp\CoreBundle\Entity\Protection as ProtectionEntity;
 use Jboehm\Lampcp\CoreBundle\Entity\Domain;
 
 class ProtectionBuilderService extends AbstractBuilderService {
-	const _twigAuthUserFile = 'JboehmLampcpApacheConfigBundle:Default:AuthUserFile.conf.twig';
+	const _twigAuthUserFile         = 'JboehmLampcpApacheConfigBundle:Default:AuthUserFile.conf.twig';
+	const _twigApacheProtectionConf = 'JboehmLampcpApacheConfigBundle:Default:protections.conf.twig';
 
 	/**
 	 * Get protection model array
@@ -50,7 +51,22 @@ class ProtectionBuilderService extends AbstractBuilderService {
 	 * @return string
 	 */
 	protected function _renderAuthUserFile(array $models) {
-		return $this->_getTemplating()->render(self::_twigAuthUserFile, array('users' => $models));
+		return $this->_getTemplating()->render(self::_twigAuthUserFile, array(
+																			 'users' => $models,
+																		));
+	}
+
+	/**
+	 * Render Apache's Protection config
+	 *
+	 * @param ProtectionEntity[] $protections
+	 *
+	 * @return string
+	 */
+	protected function _renderApacheProtectionConf(array $protections) {
+		return $this->_getTemplating()->render(self::_twigApacheProtectionConf, array(
+																					 'protections' => $protections,
+																				));
 	}
 
 	/**
@@ -84,13 +100,28 @@ class ProtectionBuilderService extends AbstractBuilderService {
 	}
 
 	/**
+	 * Generate Apache's Protection config
+	 */
+	protected function _generateApacheProtectionConfig() {
+		/** @var $protections ProtectionEntity[] */
+		$apacheConfigDir = $this->_getConfigService()->getParameter('apache.pathapache2conf');
+		$filename        = 'protections.conf';
+		$configFilePath  = $apacheConfigDir . '/' . $filename;
+		$protections     = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:Protection')->findAll();
+		$config          = $this->_renderApacheProtectionConf($protections);
+
+		$this->_getLogger()->info('(ProtectionBuilderService) Generating Protection Config:' . $configFilePath);
+		file_put_contents($configFilePath, $config);
+	}
+
+	/**
 	 * Build domain's protections configuration
 	 *
 	 * @param \Jboehm\Lampcp\CoreBundle\Entity\Domain $domain
 	 *
 	 * @return void
 	 */
-	public function buildDomain(Domain $domain) {
+	protected function _buildDomain(Domain $domain) {
 		foreach($domain->getProtection() as $protection) {
 			$this->_generateAuthUserFile($protection);
 		}
@@ -101,8 +132,10 @@ class ProtectionBuilderService extends AbstractBuilderService {
 	 */
 	public function buildAll() {
 		foreach($this->_getAllDomains() as $domain) {
-			$this->buildDomain($domain);
+			$this->_buildDomain($domain);
 		}
+
+		$this->_generateApacheProtectionConfig();
 	}
 
 	/**
