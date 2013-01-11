@@ -101,6 +101,7 @@ class GenerateConfigCommand extends AbstractCommand {
 
 				$protection = $this->_getProtectionBuilderService();
 				$protection->buildAll();
+				$protection->cleanConfDirectory();
 
 				$this->_restartApache();
 			} catch(\Exception $e) {

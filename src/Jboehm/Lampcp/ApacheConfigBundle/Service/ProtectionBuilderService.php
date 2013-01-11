@@ -105,45 +105,35 @@ class ProtectionBuilderService extends AbstractBuilderService {
 	}
 
 	/**
-	 * Look for obsolete config files
+	 * Look for obsolete AuthUserFile files
 	 */
 	public function cleanConfDirectory() {
-		// TODO Delete old files
-
-		$fs               = new Filesystem();
-		$domainRepository = $this
+		/** @var $domains Domain[] */
+		$fs      = new Filesystem();
+		$domains = $this
 			->_getDoctrine()
-			->getRepository('JboehmLampcpCoreBundle:Domain');
-		$dir              = $this
-			->_getConfigService()
-			->getParameter('apache.pathapache2conf');
-		$files            = glob($dir . '/*' . self::_configFileSuffix);
+			->getRepository('JboehmLampcpCoreBundle:Domain')->findAll();
 
-		foreach($files as $file) {
-			$content    = file_get_contents($file);
-			$servername = $this->_getServernameFromConfigSignature($content);
-			$skip       = false;
-			$domain     = null;
+		foreach($domains as $domain) {
+			$dir   = $domain->getPath() . '/conf';
+			$files = glob($dir . '/authuser_*.passwd');
 
-			if(!empty($servername)) {
-				$domain = $domainRepository->findOneBy(array('domain' => $servername));
+			foreach($files as $filepath) {
+				$idStart = strpos($filepath, 'authuser_') + strlen('authuser_');
+				$idEnd   = strpos($filepath, '.passwd');
+				$id      = intval(substr($filepath, $idStart, ($idEnd - $idStart)));
 
-				if($domain) {
-					continue;
-				}
+				$protection = $this
+					->_getDoctrine()
+					->getRepository('JboehmLampcpCoreBundle:Protection')
+					->findOneBy(array(
+									 'id'     => $id,
+									 'domain' => $domain->getId(),
+								));
 
-				foreach($this->_getAllSubdomains() as $subdomain) {
-					if($subdomain->getFullDomain() === $servername) {
-						$skip = true;
-						continue;
-					}
-				}
-
-				if($skip) {
-					continue;
-				} else {
-					$this->_getLogger()->info('(VhostBuilderService) Deleting obsolete config: ' . $file);
-					$fs->remove($file);
+				if(!$protection) {
+					$this->_getLogger()->info('(ProtectionBuilderService) Deleting obsolete AuthUserFile: ' . $filepath);
+					$fs->remove($filepath);
 				}
 			}
 		}
