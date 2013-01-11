@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Jboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
 use Jboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
 use Jboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService;
+use Jboehm\Lampcp\ApacheConfigBundle\Service\PathOptionBuilderService;
 use Jboehm\Lampcp\CoreBundle\Entity\BuilderChangeRepository;
 use Jboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 
@@ -58,6 +59,13 @@ class GenerateConfigCommand extends AbstractCommand {
 	 */
 	protected function _getProtectionBuilderService() {
 		return $this->getContainer()->get('jboehm_lampcp_apache_config_protectionbuilder');
+	}
+
+	/**
+	 * @return PathOptionBuilderService
+	 */
+	protected function _getPathOptionBuilderService() {
+		return $this->getContainer()->get('jboehm_lampcp_apache_config_pathoptionbuilder');
 	}
 
 	/**
@@ -103,6 +111,9 @@ class GenerateConfigCommand extends AbstractCommand {
 				$protection = $this->_getProtectionBuilderService();
 				$protection->buildAll();
 				$protection->cleanConfDirectory();
+
+				$pathoption = $this->_getPathOptionBuilderService();
+				$pathoption->buildAll();
 
 				$this->_restartApache();
 			} catch(\Exception $e) {
