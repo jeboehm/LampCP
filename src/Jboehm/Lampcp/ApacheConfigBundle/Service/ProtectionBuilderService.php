@@ -105,7 +105,7 @@ class ProtectionBuilderService extends AbstractBuilderService {
 	protected function _generateApacheProtectionConfig() {
 		/** @var $protections ProtectionEntity[] */
 		$apacheConfigDir = $this->_getConfigService()->getParameter('apache.pathapache2conf');
-		$filename        = 'protections.conf';
+		$filename        = '98_protections.conf';
 		$configFilePath  = $apacheConfigDir . '/' . $filename;
 		$protections     = $this->_getDoctrine()->getRepository('JboehmLampcpCoreBundle:Protection')->findAll();
 		$config          = $this->_renderApacheProtectionConf($protections);
