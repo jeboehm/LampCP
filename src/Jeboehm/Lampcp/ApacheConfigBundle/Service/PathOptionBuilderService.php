@@ -14,31 +14,35 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
 use Jeboehm\Lampcp\CoreBundle\Entity\PathOption;
 
 class PathOptionBuilderService extends AbstractBuilderService {
-	const _twigApachePathOptionConf = 'JeboehmLampcpApacheConfigBundle:Default:pathoptions.conf.twig';
+	const _twigPathOptionConf = 'JeboehmLampcpApacheConfigBundle:Default:pathoptions.conf.twig';
 
 	/**
-	 * Render Apache's PathOption config
+	 * Render PathOption config
 	 *
 	 * @param PathOption[] $pathoptions
 	 *
 	 * @return string
 	 */
-	protected function _renderApachePathOptionConfig(array $pathoptions) {
-		return $this->_getTemplating()->render(self::_twigApachePathOptionConf, array(
+	protected function _renderPathOptionConfig(array $pathoptions) {
+		return $this->_getTemplating()->render(self::_twigPathOptionConf, array(
 																					 'pathoptions' => $pathoptions,
 																				));
 	}
 
 	/**
-	 * Generate Apache's PathOption config
+	 * Generate PathOption config
 	 */
-	protected function _generateApachePathOptionConf() {
+	protected function _generatePathOptionConf() {
 		/** @var $pathoptions PathOption[] */
 		$apacheConfigDir = $this->_getConfigService()->getParameter('apache.pathapache2conf');
 		$filename        = '99_pathoptions.conf';
 		$configFilePath  = $apacheConfigDir . '/' . $filename;
 		$pathoptions     = $this->_getDoctrine()->getRepository('JeboehmLampcpCoreBundle:PathOption')->findAll();
-		$config          = $this->_renderApachePathOptionConfig($pathoptions);
+		$config          = $this->_renderPathOptionConfig($pathoptions);
+
+		if(!is_writable(dirname($configFilePath))) {
+			throw new CouldNotWriteFileException();
+		}
 
 		$this->_getLogger()->info('(ProtectionBuilderService) Generating PathOption Config:' . $configFilePath);
 		file_put_contents($configFilePath, $config);
@@ -48,6 +52,6 @@ class PathOptionBuilderService extends AbstractBuilderService {
 	 * Build all configurations
 	 */
 	public function buildAll() {
-		$this->_generateApachePathOptionConf();
+		$this->_generatePathOptionConf();
 	}
 }
