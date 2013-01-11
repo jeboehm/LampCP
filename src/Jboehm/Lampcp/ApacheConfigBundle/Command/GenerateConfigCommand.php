@@ -32,6 +32,7 @@ class GenerateConfigCommand extends AbstractCommand {
 			'Jboehm\Lampcp\CoreBundle\Entity\Subdomain',
 			'Jboehm\Lampcp\CoreBundle\Entity\PathOption',
 			'Jboehm\Lampcp\CoreBundle\Entity\Protection',
+			'Jboehm\Lampcp\CoreBundle\Entity\ProtectionUser',
 			'Jboehm\Lampcp\CoreBundle\Entity\IpAddress',
 		);
 
