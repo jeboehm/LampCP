@@ -1,5 +1,5 @@
 jboehm_lampcp_core:
-    resource: "@JboehmLampcpCoreBundle/Controller/"
+    resource: "@JeboehmLampcpCoreBundle/Controller/"
     type:     annotation
     prefix:   /
 

@@ -15,16 +15,13 @@ class AppKernel extends Kernel {
 			new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
 			new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
 			new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-//			new JMS\AopBundle\JMSAopBundle(),
-//			new JMS\DiExtraBundle\JMSDiExtraBundle($this),
-//			new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
 			new Sonata\jQueryBundle\SonatajQueryBundle(),
 			new Jboehm\Bundle\PasswdBundle\JboehmPasswdBundle(),
-			new Jboehm\Lampcp\CoreBundle\JboehmLampcpCoreBundle(),
-            new Jboehm\Lampcp\UserLoaderBundle\JboehmLampcpUserLoaderBundle(),
-            new Jboehm\Lampcp\ApacheConfigBundle\JboehmLampcpApacheConfigBundle(),
-            new Jboehm\Lampcp\MysqlBundle\JboehmLampcpMysqlBundle(),
-            new Jboehm\Lampcp\ConfigBundle\JboehmLampcpConfigBundle(),
+			new Jeboehm\Lampcp\CoreBundle\JeboehmLampcpCoreBundle(),
+            new Jeboehm\Lampcp\UserLoaderBundle\JeboehmLampcpUserLoaderBundle(),
+            new Jeboehm\Lampcp\ApacheConfigBundle\JeboehmLampcpApacheConfigBundle(),
+            new Jeboehm\Lampcp\MysqlBundle\JeboehmLampcpMysqlBundle(),
+            new Jeboehm\Lampcp\ConfigBundle\JeboehmLampcpConfigBundle(),
 		);
 
 		if(in_array($this->getEnvironment(), array('dev', 'test'))) {

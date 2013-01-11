@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+
+<!--
+
+LampCP
+https://github.com/jeboehm/LampCP
+
+Licensed under the GPL Version 2 license
+http://www.gnu.org/licenses/gpl-2.0.txt
+
+-->
+
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="cryptservice.class">Jeboehm\Lampcp\CoreBundle\Service\CryptService</parameter>
+        <parameter key="changedetectlistener.class">Jeboehm\Lampcp\CoreBundle\Listener\ChangeDetectListener</parameter>
+    </parameters>
+
+    <services>
+        <service id="jeboehm_lampcp_core.changedetectlistener" class="%changedetectlistener.class%">
+            <tag name="doctrine.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="postUpdate" />
+            <tag name="doctrine.event_listener" event="preRemove" />
+        </service>
+
+        <service id="jeboehm_lampcp_core.cryptservice" class="%cryptservice.class%">
+            <argument>%crypt%</argument>
+        </service>
+    </services>
+
+
+    <!--
+    <parameters>
+        <parameter key="jeboehm_lampcp_core.example.class">Jeboehm\Lampcp\CoreBundle\Example</parameter>
+    </parameters>
+
+    <services>
+        <service id="jeboehm_lampcp_core.example" class="%jeboehm_lampcp_core.example.class%">
+            <argument type="service" id="service_id" />
+            <argument>plain_value</argument>
+            <argument>%parameter_name%</argument>
+        </service>
+    </services>
+    -->
+</container>

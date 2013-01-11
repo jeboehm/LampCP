@@ -1,1 +1,1 @@
-src/Jboehm/Lampcp/CoreBundle/Resources/misc/Install.sh
+src/Jeboehm/Lampcp/CoreBundle/Resources/misc/Install.sh

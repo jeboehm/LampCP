@@ -1,1 +1,1 @@
-src/Jboehm/Lampcp/CoreBundle/Resources/misc/README.md
+src/Jeboehm/Lampcp/CoreBundle/Resources/misc/README.md

@@ -1,0 +1,50 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends 'JeboehmLampcpCoreBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ "title.page.protection"|trans() }}</h1>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>{{ "all.column.id"|trans() }}</th>
+            <th>{{ "jeboehm.lampcp.corebundle.protectiontype.path"|trans() }}</th>
+            <th>{{ "jeboehm.lampcp.corebundle.protectiontype.realm"|trans() }}</th>
+            <th>{{ "title.page.protectionuser"|trans() }}</th>
+            <th>{{ "all.column.actions"|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('config_protection_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.fullpath }}</td>
+                <td>{{ entity.realm }}</td>
+                <td>{{ entity.protectionuser|length }}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-info btn-mini"
+                           href="{{ path('config_protection_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
+                        <a class="btn btn-warning btn-mini"
+                           href="{{ path('config_protection_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
+                        <a class="btn btn-mini"
+                           href="{{ path('config_protectionuser', { 'protectionid': entity.id }) }}">{{ "title.page.protectionuser"|trans() }}</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('config_protection_new') }}">
+        {{ "button.create"|trans() }}
+    </a>
+{% endblock %}

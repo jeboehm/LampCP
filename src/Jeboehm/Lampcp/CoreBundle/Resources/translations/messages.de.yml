@@ -1,0 +1,157 @@
+##
+# LampCP
+# https://github.com/jeboehm/LampCP
+#
+# Licensed under the GPL Version 2 license
+# http://www.gnu.org/licenses/gpl-2.0.txt
+#
+##
+
+# Seitentitel
+title.head: LampCP
+title.page.status: Status
+title.page.admin: Administratoren
+title.page.domain: Domains
+title.page.mailaccount: E-Mailaccounts
+title.page.mailaddress: E-Mailadressen
+title.page.mysqldatabase: Datenbanken
+title.page.pathoption: Pfadoptionen
+title.page.protection: Beschränkungen
+title.page.protectionuser: Beschränkungsaccounts
+title.page.subdomain: Subdomains
+title.page.systemconfig: Systemkonfiguration
+title.page.ipaddress: IP-Adressen
+title.page.log: Logbuch
+title.page.login: LogIn
+title.page.logout: LogOut
+
+edit.page.admin: Administrator bearbeiten
+edit.page.domain: Domain bearbeiten
+edit.page.mailaccount: E-Mailaccount bearbeiten
+edit.page.mailaddress: E-Mailadresse bearbeiten
+edit.page.mysqldatabase: Datenbank bearbeiten
+edit.page.pathoption: Pfadoption bearbeiten
+edit.page.protection: Beschränkung bearbeiten
+edit.page.protectionuser: Beschränkungsaccount bearbeiten
+edit.page.subdomain: Subdomain bearbeiten
+edit.page.systemconfig: Systemkonfiguration bearbeiten
+edit.page.ipaddress: IP-Adressen bearbeiten
+
+show.page.admin: Administrator anzeigen
+show.page.domain: Domain anzeigen
+show.page.mailaccount: E-Mailaccount anzeigen
+show.page.mailaddress: E-Mailadresse anzeigen
+show.page.mysqldatabase: Datenbank anzeigen
+show.page.pathoption: Pfadoption anzeigen
+show.page.protection: Beschränkung anzeigen
+show.page.protectionuser: Beschränkungsaccount anzeigen
+show.page.subdomain: Subdomain anzeigen
+show.page.ipaddress: IP-Adresse anzeigen
+
+create.page.admin: Administrator anlegen
+create.page.domain: Domain anlegen
+create.page.mailaccount: E-Mailaccount anlegen
+create.page.mailaddress: E-Mailadresse anlegen
+create.page.mysqldatabase: Datenbank anlegen
+create.page.pathoption: Pfadoption anlegen
+create.page.protection: Beschränkung anlegen
+create.page.protectionuser: Beschränkungsaccount anlegen
+create.page.subdomain: Subdomain anlegen
+create.page.ipaddress: IP-Adresse anlegen
+
+# Buttons
+button.edit: Bearbeiten
+button.delete: Löschen
+button.back: Zurück zur Liste
+button.create: Neuen Eintrag anlegen
+button.show: Anzeigen
+
+# Seiteninhalte
+default.topmenu.no.domain: Keine Domain ausgewählt
+status.headline.uptime: Uptime / Angemeldete User / Load
+status.headline.uname: Hostname / Kernel-Version
+leftnavall.general: Allgemein
+leftnav.select.domain: Domain auswählen
+
+# Auth
+page.login.form.username: Benutzername
+page.login.form.password: Passwort
+page.login.form.submit: LogIn
+
+# Tabellenspalten / Attribute
+all.column.actions: Aktionen
+all.column.id: Nr.
+
+# Formularlabels
+jeboehm.lampcp.corebundle.admintype.email: E-Mailadresse
+jeboehm.lampcp.corebundle.admintype.lastseen: Zuletzt gesehen
+jeboehm.lampcp.corebundle.admintype.registered: Registriert
+jeboehm.lampcp.corebundle.admintype.password.first: Passwort
+jeboehm.lampcp.corebundle.admintype.password.second: Passwort wiederholen
+
+jeboehm.lampcp.corebundle.domaintype.domain: Domain
+jeboehm.lampcp.corebundle.domaintype.path: Pfad
+jeboehm.lampcp.corebundle.domaintype.webroot: Web-Pfad
+jeboehm.lampcp.corebundle.domaintype.customconfig: Benutzerdef. Konfiguration
+jeboehm.lampcp.corebundle.domaintype.user: Besitzer
+jeboehm.lampcp.corebundle.domaintype.ipaddress: IP-Adresse
+
+jeboehm.lampcp.corebundle.subdomaintype.subdomain: Subdomain
+jeboehm.lampcp.corebundle.subdomaintype.path: Pfad
+jeboehm.lampcp.corebundle.subdomaintype.customconfig: Benutzerdef. Konfiguration
+
+jeboehm.lampcp.corebundle.mailaccounttype.username: Benutzername
+jeboehm.lampcp.corebundle.mailaccounttype.password.first: Passwort
+jeboehm.lampcp.corebundle.mailaccounttype.password.second: Passwort wiederholen
+jeboehm.lampcp.corebundle.mailaccounttype.quota: Speicherplatz
+jeboehm.lampcp.corebundle.mailaccounttype.hasPop3: POP3 aktivieren
+jeboehm.lampcp.corebundle.mailaccounttype.hasImap4: IMAP4 aktivieren
+jeboehm.lampcp.corebundle.mailaccounttype.hasSmtp: SMTP aktivieren
+jeboehm.lampcp.corebundle.mailaccounttype.enabled: Konto aktivieren
+
+jeboehm.lampcp.corebundle.mysqldatabasetype.name: Datenbankname
+jeboehm.lampcp.corebundle.mysqldatabasetype.comment: Kommentar
+jeboehm.lampcp.corebundle.mysqldatabasetype.password.first: Passwort
+jeboehm.lampcp.corebundle.mysqldatabasetype.password.second: Passwort wiederholen
+
+jeboehm.lampcp.corebundle.pathoptiontype.path: Pfad
+jeboehm.lampcp.corebundle.pathoptiontype.hasDirectoryListing: Verzeichnisinhalt anzeigen
+jeboehm.lampcp.corebundle.pathoptiontype.error404: 404-Fehlerseite
+jeboehm.lampcp.corebundle.pathoptiontype.error403: 403-Fehlerseite
+jeboehm.lampcp.corebundle.pathoptiontype.error500: 500-Fehlerseite
+
+jeboehm.lampcp.corebundle.protectiontype.path: Pfad
+jeboehm.lampcp.corebundle.protectiontype.realm: Name
+
+jeboehm.lampcp.corebundle.protectionusertype.username: Benutzername
+jeboehm.lampcp.corebundle.protectionusertype.password.first: Passwort
+jeboehm.lampcp.corebundle.protectionusertype.password.second: Passwort wiederholen
+
+jeboehm.lampcp.corebundle.mailaddresstype.address: Adresse
+jeboehm.lampcp.corebundle.mailaddresstype.hasCatchAll: Catch All
+
+jeboehm.lampcp.corebundle.logtype.time: Zeit
+jeboehm.lampcp.corebundle.logtype.message: Nachricht
+jeboehm.lampcp.corebundle.logtype.type: Art
+
+jeboehm.lampcp.corebundle.ipaddresstype.alias: Name
+jeboehm.lampcp.corebundle.ipaddresstype.ip: IP-Adresse
+jeboehm.lampcp.corebundle.ipaddresstype.port: Port
+jeboehm.lampcp.corebundle.ipaddresstype.ipv6: Ist IPv6
+
+jeboehm.lampcp.corebundle.domainselectortype.domain: Domain auswählen
+
+# Systemconfig
+apache.pathwww: Apache2 Webseitenverzeichnis
+apache.pathapache2conf: Apache2 Konfigurationsverzeichnis
+apache.pathphpini: PHP5 Standardkonfiguration
+apache.cmdapache2restart: Apache2 Neustartbefehl
+
+mysql.rootuser: MySQL Administrator
+mysql.rootpassword: MySQL Administratorpasswort
+mysql.dbprefix: MySQL Datenbankprefix
+
+unix.passwdfile: Unix Benutzerdatei
+unix.groupfile: Unix Gruppendatei
+
+config.password: (Passwort)

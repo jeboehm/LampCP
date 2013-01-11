@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+
+<!--
+
+LampCP
+https://github.com/jeboehm/LampCP
+
+Licensed under the GPL Version 2 license
+http://www.gnu.org/licenses/gpl-2.0.txt
+
+-->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="jeboehm_lampcp_apache_config.vhostbuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService</parameter>
+        <parameter key="jeboehm_lampcp_apache_config.directorybuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService</parameter>
+        <parameter key="jeboehm_lampcp_apache_config.protectionbuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService</parameter>
+        <parameter key="jeboehm_lampcp_apache_config.pathoptionbuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\PathOptionBuilderService</parameter>
+    </parameters>
+
+    <services>
+        <service id="jeboehm_lampcp_apache_config_vhostbuilder" class="%jeboehm_lampcp_apache_config.vhostbuilderservice.class%">
+            <argument type="service" id="templating" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="config" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="jeboehm_lampcp_core.cryptservice" />
+        </service>
+
+        <service id="jeboehm_lampcp_apache_config_directorybuilder" class="%jeboehm_lampcp_apache_config.directorybuilderservice.class%">
+            <argument type="service" id="templating" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="config" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="jeboehm_lampcp_core.cryptservice" />
+        </service>
+
+        <service id="jeboehm_lampcp_apache_config_protectionbuilder" class="%jeboehm_lampcp_apache_config.protectionbuilderservice.class%">
+            <argument type="service" id="templating" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="config" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="jeboehm_lampcp_core.cryptservice" />
+        </service>
+
+        <service id="jeboehm_lampcp_apache_config_pathoptionbuilder" class="%jeboehm_lampcp_apache_config.pathoptionbuilderservice.class%">
+            <argument type="service" id="templating" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="config" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="jeboehm_lampcp_core.cryptservice" />
+        </service>
+    </services>
+</container>

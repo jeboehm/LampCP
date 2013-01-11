@@ -1,0 +1,53 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends 'JeboehmLampcpCoreBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ "show.page.subdomain"|trans() }}</h1>
+
+    <table class="table table-striped table-bordered">
+        <tbody>
+        <tr>
+            <th>{{ "all.column.id"|trans() }}</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.subdomaintype.subdomain"|trans() }}</th>
+            <td>{{ entity.subdomain }}<em>.{{ entity.domain.domain }}</em></td>
+        </tr>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.subdomaintype.path"|trans() }}</th>
+            <td>{{ entity.fullpath }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.subdomaintype.customconfig"|trans() }}</th>
+            <td>
+                <pre>{{ entity.customconfig }}</pre>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="btn-group">
+        <form action="{{ path('config_subdomain_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+
+            <a class="btn" href="{{ path('config_subdomain') }}">
+                {{ "button.back"|trans() }}
+            </a>
+
+            <a class="btn btn-warning" href="{{ path('config_subdomain_edit', { 'id': entity.id }) }}">
+                {{ "button.edit"|trans() }}
+            </a>
+
+            <button class="btn btn-danger" type="submit">{{ "button.delete"|trans() }}</button>
+        </form>
+    </div>
+{% endblock %}

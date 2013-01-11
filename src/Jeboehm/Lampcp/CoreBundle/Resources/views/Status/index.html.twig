@@ -1,0 +1,20 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends 'JeboehmLampcpCoreBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ "title.page.status"|trans() }}</h1>
+
+    <h3>{{ "status.headline.uptime"|trans() }}</h3>
+    <pre>{{ uptime }}</pre>
+
+    <h3>{{ "status.headline.uname"|trans() }}</h3>
+    <pre>{{ uname }}</pre>
+{% endblock %}

@@ -1,6 +1,6 @@
 security:
     encoders:
-        Jboehm\Lampcp\CoreBundle\Entity\Admin:
+        Jeboehm\Lampcp\CoreBundle\Entity\Admin:
           algorithm:         sha1
 
     role_hierarchy:
@@ -8,7 +8,7 @@ security:
 
     providers:
         administrators:
-            entity: { class: JboehmLampcpCoreBundle:Admin, property: email }
+            entity: { class: JeboehmLampcpCoreBundle:Admin, property: email }
 
     firewalls:
         dev:

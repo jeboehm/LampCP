@@ -1,0 +1,26 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends 'JeboehmLampcpCoreBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ "create.page.mailaddress"|trans() }}</h1>
+
+    <form action="{{ path('config_mailaddress_create', { 'mailaccountid': mailaccount.id }) }}"
+          method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button class="btn btn-primary" type="submit">{{ "button.create"|trans() }}</button>
+        </p>
+    </form>
+
+    <a class="btn" href="{{ path('config_mailaddress', { 'mailaccountid': mailaccount.id }) }}">
+        {{ "button.back"|trans() }}
+    </a>
+{% endblock %}
