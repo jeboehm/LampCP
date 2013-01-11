@@ -152,7 +152,6 @@ class DomainController extends AbstractController {
 		$deleteForm = $this->createDeleteForm($id);
 		$editForm   = $this->createForm(new DomainType(true), $entity);
 		$editForm->bind($request);
-		$entity->setPath($this->_getSystemWebPath() . '/' . $entity->getDomain());
 
 		if($editForm->isValid()) {
 			$em->persist($entity);
