@@ -60,7 +60,7 @@ class GenerateLampcpConfigCommand extends GenerateConfigCommand {
 		$directory->buildAll();
 
 		// Configs erzeugen
-		$vhost->buildDomain($domain);
+		$vhost->buildAll();
 	}
 
 	/**
