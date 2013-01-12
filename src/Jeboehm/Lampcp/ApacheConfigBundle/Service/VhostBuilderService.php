@@ -23,8 +23,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	const _twigVhost         = 'JeboehmLampcpApacheConfigBundle:Apache2:vhost.conf.twig';
 	const _twigFcgiStarter   = 'JeboehmLampcpApacheConfigBundle:PHP:php-fcgi-starter.sh.twig';
 	const _twigPhpIni        = 'JeboehmLampcpApacheConfigBundle:PHP:php.ini.twig';
-	const _configFilePrefix  = '20_vhost_';
-	const _configFileSuffix  = '.conf';
+	const _domainFileName    = '20_vhost.conf';
 	const _domainAliasPrefix = 'www.';
 
 	/**
@@ -167,133 +166,46 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	/**
 	 * Save vhost config
 	 *
-	 * @param string $filename
-	 * @param string $config
+	 * @param string $content
 	 *
 	 * @throws \Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
 	 * @return void
 	 */
-	protected function _saveVhostConfig($filename, $config) {
+	protected function _saveVhostConfig($content) {
 		$target = $this
 			->_getConfigService()
-			->getParameter('apache.pathapache2conf') . '/' . $filename;
+			->getParameter('apache.pathapache2conf') . '/' . self::_domainFileName;
 
 		if(!is_writable(dirname($target))) {
 			throw new CouldNotWriteFileException();
 		}
 
 		$this->_getLogger()->info('(VhostBuilderService) Creating new config: ' . $target);
-		file_put_contents($target, $config);
-	}
-
-	/**
-	 * Build domain configuration
-	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
-	 */
-	protected function _buildDomain(Domain $domain) {
-		$filename = self::_configFilePrefix . $domain->getDomain() . self::_configFileSuffix;
-		$content  = $this->_renderTemplate(self::_twigVhost, array(
-																  'vhost' => $this->_getVhostModelForDomain($domain),
-															 ));
-
-		$this->_saveVhostConfig($filename, $content);
-		$this->_generateFcgiStarterForDomain($domain);
-		$this->_generatePhpIniForDomain($domain);
-	}
-
-	/**
-	 * Build subdomain configuration
-	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain $subdomain
-	 */
-	protected function _buildSubdomain(Subdomain $subdomain) {
-		$filename = self::_configFilePrefix . $subdomain->getFullDomain() . self::_configFileSuffix;
-		$content  = $this->_renderTemplate(self::_twigVhost, array(
-																  'vhost' => $this->_getVhostModelForSubdomain($subdomain),
-															 ));
-
-		$this->_saveVhostConfig($filename, $content);
+		file_put_contents($target, $content);
 	}
 
 	/**
 	 * Build all configurations
 	 */
 	public function buildAll() {
+		$domainModels    = array();
+		$subdomainModels = array();
+
 		foreach($this->_getAllDomains() as $domain) {
-			$this->_buildDomain($domain);
+			$domainModels[] = $this->_getVhostModelForDomain($domain);
+			$this->_generatePhpIniForDomain($domain);
+			$this->_generateFcgiStarterForDomain($domain);
 		}
 
 		foreach($this->_getAllSubdomains() as $subdomain) {
-			$this->_buildSubdomain($subdomain);
+			$subdomainModels[] = $this->_getVhostModelForSubdomain($subdomain);
 		}
 
-		$this->_cleanVhostDirectory();
-	}
+		$content = $this->_renderTemplate(self::_twigVhost, array(
+																 'domains' => array_merge($domainModels,
+																	 $subdomainModels),
+															));
 
-	/**
-	 * Extracts servername from LampCP signature in config files
-	 * TODO Validation could be better ;-)
-	 *
-	 * @param string $file
-	 *
-	 * @return string
-	 */
-	protected function _getServernameFromConfigSignature($file) {
-		$startSnippet = '[[[LAMPCP::';
-		$endSnippet   = '::LAMPCP]]]';
-		$posStart     = strpos($file, $startSnippet) + strlen($startSnippet);
-		$posEnd       = strpos($file, $endSnippet);
-		$length       = $posEnd - $posStart;
-		$domain       = substr($file, $posStart, $length);
-
-		if(strpos($domain, '.') !== false) {
-			return $domain;
-		}
-
-		return '';
-	}
-
-	/**
-	 * Look for obsolete config files
-	 */
-	protected function _cleanVhostDirectory() {
-		$fs               = new Filesystem();
-		$domainRepository = $this
-			->_getDoctrine()
-			->getRepository('JeboehmLampcpCoreBundle:Domain');
-		$dir              = $this
-			->_getConfigService()
-			->getParameter('apache.pathapache2conf');
-		$files            = glob($dir . '/' . self::_configFilePrefix . '*' . self::_configFileSuffix);
-
-		foreach($files as $file) {
-			$content    = file_get_contents($file);
-			$servername = $this->_getServernameFromConfigSignature($content);
-			$skip       = false;
-			$domain     = null;
-
-			if(!empty($servername)) {
-				$domain = $domainRepository->findOneBy(array('domain' => $servername));
-
-				if($domain) {
-					continue;
-				}
-
-				foreach($this->_getAllSubdomains() as $subdomain) {
-					if($subdomain->getFullDomain() === $servername) {
-						$skip = true;
-						continue;
-					}
-				}
-
-				if($skip) {
-					continue;
-				} else {
-					$this->_getLogger()->info('(VhostBuilderService) Deleting obsolete config: ' . $file);
-					$fs->remove($file);
-				}
-			}
-		}
+		$this->_saveVhostConfig($content);
 	}
 }

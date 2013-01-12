@@ -12,44 +12,43 @@
 # CHANGES WILL BE OVERWRITTEN
 #
 ##
-#######################################################
-## LampCP Signature - please do not remove or change
-## [[[LAMPCP::{{ vhost.servername }}::LAMPCP]]]
-#######################################################
 
-{% for ip in vhost.ipaddress %}
-{% if ip.ipv6 %}
-<VirtualHost [{{ ip.ip }}]:{{ ip.port }}>
-{% else %}
-<VirtualHost {{ ip.ip }}:{{ ip.port }}>
-{% endif %}
-    ServerAdmin {{ vhost.serveradmin }}
-    ServerName {{ vhost.servername }}
-    ServerAlias {{ vhost.serveralias }}
-    SuexecUserGroup {{ vhost.suexecuser }} {{ vhost.suexecgroup }}
-    AddHandler fcgid-script .php
-    DocumentRoot "{{ vhost.docroot }}"
-    DirectoryIndex {{ vhost.directoryindex }}
+{% for vhost in domains %}
+    {% for ip in vhost.ipaddress %}
+        {% if ip.ipv6 %}
+            <VirtualHost [{{ ip.ip }}]:{{ ip.port }}>
+        {% else %}
+            <VirtualHost {{ ip.ip }}:{{ ip.port }}>
+        {% endif %}
 
-    <Directory "/">
-        Options FollowSymLinks
-        AllowOverride None
-        Order allow,deny
-        Deny from all
-    </Directory>
+        ServerAdmin {{ vhost.serveradmin }}
+        ServerName {{ vhost.servername }}
+        ServerAlias {{ vhost.serveralias }}
+        SuexecUserGroup {{ vhost.suexecuser }} {{ vhost.suexecgroup }}
+        AddHandler fcgid-script .php
+        DocumentRoot "{{ vhost.docroot }}"
+        DirectoryIndex {{ vhost.directoryindex }}
 
-    <Directory "{{ vhost.docroot }}">
-        Options Indexes MultiViews FollowSymLinks +ExecCGI
-        FCGIWrapper {{ vhost.fcgiwrapper }} .php
-        Order allow,deny
-        Allow from all
-        AllowOverride all
-    </Directory>
+        <Directory "/">
+            Options FollowSymLinks
+            AllowOverride None
+            Order allow,deny
+            Deny from all
+        </Directory>
 
-    ErrorLog {{ vhost.errorlog }}
-    LogLevel warn
-    CustomLog {{ vhost.customlog }} combined
-    ServerSignature On
-</VirtualHost>
+        <Directory "{{ vhost.docroot }}">
+            Options Indexes MultiViews FollowSymLinks +ExecCGI
+            FCGIWrapper {{ vhost.fcgiwrapper }} .php
+            Order allow,deny
+            Allow from all
+            AllowOverride all
+        </Directory>
 
+        ErrorLog {{ vhost.errorlog }}
+        LogLevel warn
+        CustomLog {{ vhost.customlog }} combined
+        ServerSignature On
+    </VirtualHost>
+
+    {% endfor %}
 {% endfor %}
