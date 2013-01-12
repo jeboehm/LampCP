@@ -43,7 +43,7 @@ class Domain {
 	private $domain;
 
 	/**
-	 * @var Certificate[]
+	 * @var Certificate
 	 * @ManyToOne(targetEntity="Certificate", inversedBy="domain")
 	 */
 	private $certificate;
@@ -178,7 +178,7 @@ class Domain {
 	/**
 	 * Get certificate
 	 *
-	 * @return Certificate[]
+	 * @return Certificate
 	 */
 	public function getCertificate() {
 		return $this->certificate;

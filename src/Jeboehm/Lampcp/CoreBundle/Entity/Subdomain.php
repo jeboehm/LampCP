@@ -40,7 +40,7 @@ class Subdomain {
 	private $domain;
 
 	/**
-	 * @var Certificate[]
+	 * @var Certificate
 	 * @ManyToOne(targetEntity="Certificate", inversedBy="subdomain")
 	 */
 	private $certificate;
@@ -132,7 +132,7 @@ class Subdomain {
 	/**
 	 * Get certificate
 	 *
-	 * @return Certificate[]
+	 * @return Certificate
 	 */
 	public function getCertificate() {
 		return $this->certificate;

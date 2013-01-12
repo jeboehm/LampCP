@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Model;
 
 use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
+use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
 
 class Vhost {
 	/** @var string */
@@ -51,6 +52,9 @@ class Vhost {
 
 	/** @var IpAddress[] */
 	private $ipaddress;
+
+	/** @var Certificate */
+	private $certificate;
 
 	/**
 	 * Konstruktor
@@ -292,5 +296,23 @@ class Vhost {
 	 */
 	public function getIpaddress() {
 		return $this->ipaddress;
+	}
+
+	/**
+	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Certificate $certificate
+	 *
+	 * @return Vhost
+	 */
+	public function setCertificate($certificate) {
+		$this->certificate = $certificate;
+
+		return $this;
+	}
+
+	/**
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Certificate
+	 */
+	public function getCertificate() {
+		return $this->certificate;
 	}
 }
