@@ -13,42 +13,63 @@
 #
 ##
 
+{% for ip in ips %}
+    {% if ip.ip != "*" %}
+        {% if ip.ipv6 %}
+            NameVirtualHost [{{ ip.ip }}]:{{ ip.port }}
+        {% else %}
+            NameVirtualHost {{ ip.ip }}:{{ ip.port }}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
 {% for vhost in domains %}
     {% for ip in vhost.ipaddress %}
-        {% if ip.ipv6 %}
-            <VirtualHost [{{ ip.ip }}]:{{ ip.port }}>
-        {% else %}
-            <VirtualHost {{ ip.ip }}:{{ ip.port }}>
-        {% endif %}
+            {% if ip.ipv6 %}
+                <VirtualHost [{{ ip.ip }}]:{{ ip.port }}>
+            {% else %}
+                <VirtualHost {{ ip.ip }}:{{ ip.port }}>
+            {% endif %}
 
-        ServerAdmin {{ vhost.serveradmin }}
-        ServerName {{ vhost.servername }}
-        ServerAlias {{ vhost.serveralias }}
-        SuexecUserGroup {{ vhost.suexecuser }} {{ vhost.suexecgroup }}
-        AddHandler fcgid-script .php
-        DocumentRoot "{{ vhost.docroot }}"
-        DirectoryIndex {{ vhost.directoryindex }}
+            ServerAdmin {{ vhost.serveradmin }}
+            ServerName {{ vhost.servername }}
+            ServerAlias {{ vhost.serveralias }}
+            SuexecUserGroup {{ vhost.suexecuser }} {{ vhost.suexecgroup }}
+            AddHandler fcgid-script .php
+            DocumentRoot "{{ vhost.docroot }}"
+            DirectoryIndex {{ vhost.directoryindex }}
 
-        <Directory "/">
-            Options FollowSymLinks
-            AllowOverride None
-            Order allow,deny
-            Deny from all
-        </Directory>
+            {% if ip.hasSsl and vhost.certificate is not null %}
+                SSLEngine on
+                SSLProtocol all -SSLv2
+                SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM
+                SSLCertificateFile /usr/local/apache/conf/ssl.crt
+                SSLCertificateKeyFile /usr/local/apache/conf/ssl.key
+                SSLCertificateChainFile /usr/local/apache/conf/sub.class1.server.ca.pem
+                SSLCACertificateFile /usr/local/apache/conf/ca.pem
+                SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown
+            {% endif %}
 
-        <Directory "{{ vhost.docroot }}">
-            Options Indexes MultiViews FollowSymLinks +ExecCGI
-            FCGIWrapper {{ vhost.fcgiwrapper }} .php
-            Order allow,deny
-            Allow from all
-            AllowOverride all
-        </Directory>
+            <Directory "/">
+                Options FollowSymLinks
+                AllowOverride None
+                Order allow,deny
+                Deny from all
+            </Directory>
 
-        ErrorLog {{ vhost.errorlog }}
-        LogLevel warn
-        CustomLog {{ vhost.customlog }} combined
-        ServerSignature On
-    </VirtualHost>
+            <Directory "{{ vhost.docroot }}">
+                Options Indexes MultiViews FollowSymLinks +ExecCGI
+                FCGIWrapper {{ vhost.fcgiwrapper }} .php
+                Order allow,deny
+                Allow from all
+                AllowOverride all
+            </Directory>
+
+            ErrorLog {{ vhost.errorlog }}
+            LogLevel warn
+            CustomLog {{ vhost.customlog }} combined
+            ServerSignature On
+        </VirtualHost>
 
     {% endfor %}
 {% endfor %}
