@@ -187,6 +187,21 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	}
 
 	/**
+	 * Get all IPs
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\IpAddress[]
+	 */
+	protected function _getAllIpAddresses() {
+		/** @var $ips IpAddress[] */
+		$ips = $this
+			->_getDoctrine()
+			->getRepository('JeboehmLampcpCoreBundle:IpAddress')
+			->findAll();
+
+		return $ips;
+	}
+
+	/**
 	 * Build all configurations
 	 */
 	public function buildAll() {
@@ -206,6 +221,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 		$content = $this->_renderTemplate(self::_twigVhost, array(
 																 'domains' => array_merge($domainModels,
 																	 $subdomainModels),
+																 'ips'     => $this->_getAllIpAddresses(),
 															));
 
 		$this->_saveVhostConfig($content);
