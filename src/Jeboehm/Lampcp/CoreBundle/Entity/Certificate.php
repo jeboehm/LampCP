@@ -46,7 +46,7 @@ class Certificate {
 
 	/**
 	 * @var Subdomain[]
-	 * @OneToMany(targetEntity="Domain", mappedBy="certificate")
+	 * @OneToMany(targetEntity="Subdomain", mappedBy="certificate")
 	 */
 	private $subdomain;
 
