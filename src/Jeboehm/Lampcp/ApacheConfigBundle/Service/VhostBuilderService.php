@@ -84,24 +84,6 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	 * @param \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost $model
 	 *
 	 * @return string
-	 */
-	protected function _renderVhostConfig(Vhost $model) {
-		return $this->_renderTemplate(self::_twigVhost, array('vhost' => $model));
-	}
-
-	/**
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
-	 *
-	 * @return string
-	 */
-	protected function _renderFcgiStarter(Domain $domain) {
-		return $this->_renderTemplate(self::_twigFcgiStarter, array('domain' => $domain));
-	}
-
-	/**
-	 * @param \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost $model
-	 *
-	 * @return string
 	 * @throws \Exception
 	 */
 	protected function _renderPhpIni(Vhost $model) {
@@ -135,13 +117,16 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	protected function _generateFcgiStarterForDomain(Domain $domain) {
 		$fs       = new Filesystem();
 		$filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
+		$content  = $this->_renderTemplate(self::_twigFcgiStarter, array(
+																		'domain' => $domain,
+																   ));
 
 		if(!is_writable(dirname($filename))) {
 			throw new CouldNotWriteFileException();
 		}
 
 		$this->_getLogger()->info('(VhostBuilderService) Generating FCGI-Starter: ' . $filename);
-		file_put_contents($filename, $this->_renderFcgiStarter($domain));
+		file_put_contents($filename, $content);
 
 		// Change rights
 		$fs->chmod($filename, 0755);
@@ -208,9 +193,11 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	 */
 	protected function _buildDomain(Domain $domain) {
 		$filename = self::_configFilePrefix . $domain->getDomain() . self::_configFileSuffix;
-		$config   = $this->_renderVhostConfig($this->_getVhostModelForDomain($domain));
+		$content  = $this->_renderTemplate(self::_twigVhost, array(
+																  'vhost' => $this->_getVhostModelForDomain($domain),
+															 ));
 
-		$this->_saveVhostConfig($filename, $config);
+		$this->_saveVhostConfig($filename, $content);
 		$this->_generateFcgiStarterForDomain($domain);
 		$this->_generatePhpIniForDomain($domain);
 	}
@@ -222,9 +209,11 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	 */
 	protected function _buildSubdomain(Subdomain $subdomain) {
 		$filename = self::_configFilePrefix . $subdomain->getFullDomain() . self::_configFileSuffix;
-		$config   = $this->_renderVhostConfig($this->_getVhostModelForSubdomain($subdomain));
+		$content  = $this->_renderTemplate(self::_twigVhost, array(
+																  'vhost' => $this->_getVhostModelForSubdomain($subdomain),
+															 ));
 
-		$this->_saveVhostConfig($filename, $config);
+		$this->_saveVhostConfig($filename, $content);
 	}
 
 	/**
