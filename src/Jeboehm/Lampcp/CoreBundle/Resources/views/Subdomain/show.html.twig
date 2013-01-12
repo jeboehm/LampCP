@@ -23,6 +23,14 @@
             <td>{{ entity.subdomain }}<em>.{{ entity.domain.domain }}</em></td>
         </tr>
         <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.subdomaintype.certificate"|trans() }}</th>
+            {% if entity.certificate is not null %}
+                <td>{{ entity.certificate.name }}</td>
+            {% else %}
+                <td></td>
+            {% endif %}
+        </tr>
+        <tr>
             <th>{{ "jeboehm.lampcp.corebundle.subdomaintype.path"|trans() }}</th>
             <td>{{ entity.fullpath }}</td>
         </tr>

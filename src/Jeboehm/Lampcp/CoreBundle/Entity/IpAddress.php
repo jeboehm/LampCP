@@ -51,6 +51,11 @@ class IpAddress {
 	 */
 	private $port;
 
+	/**
+	 * @var bool
+	 * @ORM\Column(name="hasSsl", type="boolean")
+	 */
+	private $hasSsl;
 
 	/**
 	 * Get id
@@ -121,6 +126,28 @@ class IpAddress {
 	 */
 	public function getPort() {
 		return $this->port;
+	}
+
+	/**
+	 * Set hasSsl
+	 *
+	 * @param boolean $hasSsl
+	 *
+	 * @return IpAddress
+	 */
+	public function setHasSsl($hasSsl) {
+		$this->hasSsl = $hasSsl;
+
+		return $this;
+	}
+
+	/**
+	 * Get hasSsl
+	 *
+	 * @return boolean
+	 */
+	public function getHasSsl() {
+		return $this->hasSsl;
 	}
 
 	/**

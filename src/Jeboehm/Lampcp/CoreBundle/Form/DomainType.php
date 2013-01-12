@@ -29,6 +29,11 @@ class DomainType extends AbstractType {
 		$builder
 			->add('path', null, array('read_only' => true))
 			->add('webroot')
+			->add('certificate', 'entity', array(
+												'class'    => 'JeboehmLampcpCoreBundle:Certificate',
+												'property' => 'name',
+												'required' => false,
+										   ))
 			->add('user', 'entity', array(
 										 'class'    => 'JeboehmLampcpCoreBundle:User',
 										 'property' => 'name',

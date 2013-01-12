@@ -40,6 +40,12 @@ class Subdomain {
 	private $domain;
 
 	/**
+	 * @var Certificate[]
+	 * @ManyToOne(targetEntity="Certificate")
+	 */
+	private $certificate;
+
+	/**
 	 * @var string
 	 * @Assert\NotBlank()
 	 * @Assert\Regex("/^[a-z\d-.]{1,255}$/i")
@@ -108,6 +114,28 @@ class Subdomain {
 	 */
 	public function getSubdomain() {
 		return $this->subdomain;
+	}
+
+	/**
+	 * Set certificate
+	 *
+	 * @param Certificate $certificate
+	 *
+	 * @return Subdomain
+	 */
+	public function setCertificate($certificate) {
+		$this->certificate = $certificate;
+
+		return $this;
+	}
+
+	/**
+	 * Get certificate
+	 *
+	 * @return Certificate[]
+	 */
+	public function getCertificate() {
+		return $this->certificate;
 	}
 
 	/**

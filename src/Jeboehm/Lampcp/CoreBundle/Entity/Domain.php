@@ -43,6 +43,12 @@ class Domain {
 	private $domain;
 
 	/**
+	 * @var Certificate[]
+	 * @ManyToOne(targetEntity="Certificate")
+	 */
+	private $certificate;
+
+	/**
 	 * @var string
 	 * @Assert\NotBlank()
 	 * @ORM\Column(name="path", type="string", length=255)
@@ -154,6 +160,28 @@ class Domain {
 	 */
 	public function getDomain() {
 		return $this->domain;
+	}
+
+	/**
+	 * Set certificate
+	 *
+	 * @param Certificate $certificate
+	 *
+	 * @return Domain
+	 */
+	public function setCertificate($certificate) {
+		$this->certificate = $certificate;
+
+		return $this;
+	}
+
+	/**
+	 * Get certificate
+	 *
+	 * @return Certificate[]
+	 */
+	public function getCertificate() {
+		return $this->certificate;
 	}
 
 	/**
