@@ -78,6 +78,14 @@ class Certificate {
 	 */
 	private $CACertificateFile;
 
+	/**
+	 * Konstruktor
+	 */
+	public function __construct() {
+		$this->CACertificateFile    = '';
+		$this->CertificateChainFile = '';
+		$this->CertificateKeyFile   = '';
+	}
 
 	/**
 	 * Get id

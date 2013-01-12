@@ -56,10 +56,14 @@ class CertificateController extends AbstractController {
 			throw $this->createNotFoundException('Unable to find Certificate entity.');
 		}
 
-		$privKey = $entity->getCertificateKeyFile();
+		try {
+			$privKey = $entity->getCertificateKeyFile();
 
-		if(!empty($privKey)) {
-			$entity->setCertificateKeyFile($this->_getCryptService()->decrypt($privKey));
+			if(!empty($privKey)) {
+				$entity->setCertificateKeyFile($this->_getCryptService()->decrypt($privKey));
+			}
+		} catch(\Exception $e) {
+
 		}
 
 		$deleteForm = $this->createDeleteForm($id);
@@ -99,6 +103,12 @@ class CertificateController extends AbstractController {
 		$form->bind($request);
 
 		if($form->isValid()) {
+			$privKey = $entity->getCertificateKeyFile();
+
+			if(!empty($privKey)) {
+				$entity->setCertificateKeyFile($this->_getCryptService()->encrypt($privKey));
+			}
+
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
@@ -128,10 +138,14 @@ class CertificateController extends AbstractController {
 			throw $this->createNotFoundException('Unable to find Certificate entity.');
 		}
 
-		$privKey = $entity->getCertificateKeyFile();
+		try {
+			$privKey = $entity->getCertificateKeyFile();
 
-		if(!empty($privKey)) {
-			$entity->setCertificateKeyFile($this->_getCryptService()->decrypt($privKey));
+			if(!empty($privKey)) {
+				$entity->setCertificateKeyFile($this->_getCryptService()->decrypt($privKey));
+			}
+		} catch(\Exception $e) {
+
 		}
 
 		$editForm   = $this->createForm(new CertificateType(), $entity);
