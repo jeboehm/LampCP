@@ -56,6 +56,12 @@ class CertificateController extends AbstractController {
 			throw $this->createNotFoundException('Unable to find Certificate entity.');
 		}
 
+		$privKey = $entity->getCertificateKeyFile();
+
+		if(!empty($privKey)) {
+			$entity->setCertificateKeyFile($this->_getCryptService()->decrypt($privKey));
+		}
+
 		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
@@ -115,10 +121,17 @@ class CertificateController extends AbstractController {
 	public function editAction($id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity Certificate */
 		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Certificate')->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Certificate entity.');
+		}
+
+		$privKey = $entity->getCertificateKeyFile();
+
+		if(!empty($privKey)) {
+			$entity->setCertificateKeyFile($this->_getCryptService()->decrypt($privKey));
 		}
 
 		$editForm   = $this->createForm(new CertificateType(), $entity);
@@ -141,6 +154,7 @@ class CertificateController extends AbstractController {
 	public function updateAction(Request $request, $id) {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entity Certificate */
 		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Certificate')->find($id);
 
 		if(!$entity) {
@@ -152,6 +166,9 @@ class CertificateController extends AbstractController {
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			$privKey = $this->_getCryptService()->encrypt($entity->getCertificateKeyFile());
+			$entity->setCertificateKeyFile($privKey);
+
 			$em->persist($entity);
 			$em->flush();
 
@@ -176,7 +193,9 @@ class CertificateController extends AbstractController {
 		$form->bind($request);
 
 		if($form->isValid()) {
-			$em     = $this->getDoctrine()->getManager();
+			$em = $this->getDoctrine()->getManager();
+
+			/** @var $entity Certificate */
 			$entity = $em->getRepository('JeboehmLampcpCoreBundle:Certificate')->find($id);
 
 			if(!$entity) {
