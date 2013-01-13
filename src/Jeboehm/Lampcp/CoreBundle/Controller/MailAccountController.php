@@ -92,6 +92,8 @@ class MailAccountController extends AbstractController {
 		$form->bind($request);
 
 		if($form->isValid()) {
+			$entity->setPassword(md5($entity->getPassword()));
+
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
@@ -159,6 +161,7 @@ class MailAccountController extends AbstractController {
 				$entity->setPassword($oldPassword);
 			} else {
 				$entity->setPassword($entity->getPassword());
+				$entity->setPassword(md5($entity->getPassword()));
 			}
 
 			$em->persist($entity);
