@@ -84,7 +84,7 @@ class GenerateDatabasesCommand extends AbstractCommand {
 	protected function configure() {
 		$this->setName('lampcp:mysql:generatedatabases');
 		$this->setDescription('Generates (and deletes) MySQL Databases');
-		$this->addOption('force', InputOption::VALUE_OPTIONAL);
+		$this->addOption('force', 'f', InputOption::VALUE_NONE);
 	}
 
 	/**

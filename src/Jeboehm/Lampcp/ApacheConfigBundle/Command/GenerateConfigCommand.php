@@ -83,7 +83,7 @@ class GenerateConfigCommand extends AbstractCommand {
 	protected function configure() {
 		$this->setName('lampcp:apache:generateconfig');
 		$this->setDescription('Generates the apache2 configuration');
-		$this->addOption('force', InputOption::VALUE_OPTIONAL);
+		$this->addOption('force', 'f', InputOption::VALUE_NONE);
 	}
 
 	/**
