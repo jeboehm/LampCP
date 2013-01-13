@@ -174,10 +174,12 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	 * @return void
 	 */
 	protected function _saveVhostConfig($content) {
-		$target  = $this
+		$target = $this
 			->_getConfigService()
 			->getParameter('apache.pathapache2conf') . '/' . self::_domainFileName;
+
 		$content = str_replace('  ', '', $content);
+		$content = str_replace(PHP_EOL . PHP_EOL, PHP_EOL, $content);
 
 		if(!is_writable(dirname($target))) {
 			throw new CouldNotWriteFileException();
