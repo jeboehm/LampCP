@@ -56,6 +56,14 @@ class LoadConfigData implements FixtureInterface {
 			->setValue('/etc/init.d/apache2 restart');
 		$manager->persist($entity);
 
+		$entity = new ConfigEntity();
+		$entity
+			->setName('pathcertificate')
+			->setConfiggroup($group)
+			->setType($entity::TYPE_STRING)
+			->setValue('/etc/ssl/lampcp');
+		$manager->persist($entity);
+
 		$manager->flush();
 	}
 }

@@ -159,6 +159,7 @@ apache.pathwww: Apache2 Webseitenverzeichnis
 apache.pathapache2conf: Apache2 Konfigurationsverzeichnis
 apache.pathphpini: PHP5 Standardkonfiguration
 apache.cmdapache2restart: Apache2 Neustartbefehl
+apache.pathcertificate: Verzeichnis für Zertifikate
 
 mysql.rootuser: MySQL Administrator
 mysql.rootpassword: MySQL Administratorpasswort

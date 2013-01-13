@@ -17,7 +17,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ConfigEntityType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('value');
+			->add('value', null, array(
+									  'required' => false,
+								 ));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
