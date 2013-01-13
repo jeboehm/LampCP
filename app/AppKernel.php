@@ -22,6 +22,7 @@ class AppKernel extends Kernel {
             new Jeboehm\Lampcp\ApacheConfigBundle\JeboehmLampcpApacheConfigBundle(),
             new Jeboehm\Lampcp\MysqlBundle\JeboehmLampcpMysqlBundle(),
             new Jeboehm\Lampcp\ConfigBundle\JeboehmLampcpConfigBundle(),
+            new Jeboehm\Lampcp\PostfixBundle\JeboehmLampcpPostfixBundle(),
 		);
 
 		if(in_array($this->getEnvironment(), array('dev', 'test'))) {
