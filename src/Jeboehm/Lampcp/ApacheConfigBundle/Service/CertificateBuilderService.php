@@ -99,6 +99,8 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
 				$cert->$mSetPath($fullfilename);
 			} else {
 				if($fs->exists($fullfilename)) {
+					$this->_getLogger()->info('(CertificateBuilderService) Deleting Cert.: ' . $fullfilename);
+
 					$fs->remove($fullfilename);
 				}
 
@@ -140,6 +142,8 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
 			$mSetPath = 'set' . $method . 'Path';
 
 			if($fs->exists($fullfilename)) {
+				$this->_getLogger()->info('(CertificateBuilderService) Deleting Cert.: ' . $fullfilename);
+
 				$fs->remove($fullfilename);
 				$cert->$mSetPath('');
 			}
