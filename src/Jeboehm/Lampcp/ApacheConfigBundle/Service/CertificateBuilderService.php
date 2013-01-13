@@ -94,6 +94,7 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
 			$mSetPath = 'set' . $method . 'Path';
 
 			if($cert->$mGet()) {
+				$this->_getLogger()->info('(CertificateBuilderService) Generating Cert.: ' . $fullfilename);
 				file_put_contents($fullfilename, $cert->$mGet());
 				$fs->chmod($fullfilename, 0644);
 				$cert->$mSetPath($fullfilename);
