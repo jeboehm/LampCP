@@ -15,7 +15,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Jeboehm\Lampcp\CoreBundle\Entity\Admin;
-use Jeboehm\Lampcp\CoreBundle\Entity\Log;
 
 class LoadAdminData implements FixtureInterface, ContainerAwareInterface {
 	/**
@@ -34,12 +33,14 @@ class LoadAdminData implements FixtureInterface, ContainerAwareInterface {
 	 * {@inheritDoc}
 	 */
 	public function load(ObjectManager $manager) {
-		$admin = new Admin();
-		$admin->setEmail('admin@lampcp.invalid');
-		$this->_setPassword($admin, 'admin');
+		if(count($manager->getRepository('JeboehmLampcpCoreBundle:Admin')->findAll()) < 1) {
+			$admin = new Admin();
+			$admin->setEmail('admin@lampcp.invalid');
+			$this->_setPassword($admin, 'admin');
 
-		$manager->persist($admin);
-		$manager->flush();
+			$manager->persist($admin);
+			$manager->flush();
+		}
 	}
 
 	protected function _setPassword(Admin $user, $password) {
