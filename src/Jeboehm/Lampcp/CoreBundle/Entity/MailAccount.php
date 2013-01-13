@@ -79,13 +79,6 @@ class MailAccount {
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="hasSmtp", type="boolean")
-	 */
-	private $hasSmtp;
-
-	/**
-	 * @var boolean
-	 *
 	 * @ORM\Column(name="enabled", type="boolean")
 	 */
 	private $enabled;
@@ -243,28 +236,6 @@ class MailAccount {
 	 */
 	public function getHasImap4() {
 		return $this->hasImap4;
-	}
-
-	/**
-	 * Set hasSmtp
-	 *
-	 * @param boolean $hasSmtp
-	 *
-	 * @return MailAccount
-	 */
-	public function setHasSmtp($hasSmtp) {
-		$this->hasSmtp = $hasSmtp;
-
-		return $this;
-	}
-
-	/**
-	 * Get hasSmtp
-	 *
-	 * @return boolean
-	 */
-	public function getHasSmtp() {
-		return $this->hasSmtp;
 	}
 
 	/**

@@ -112,7 +112,6 @@ jeboehm.lampcp.corebundle.mailaccounttype.password.second: Passwort wiederholen
 jeboehm.lampcp.corebundle.mailaccounttype.quota: Speicherplatz
 jeboehm.lampcp.corebundle.mailaccounttype.hasPop3: POP3 aktivieren
 jeboehm.lampcp.corebundle.mailaccounttype.hasImap4: IMAP4 aktivieren
-jeboehm.lampcp.corebundle.mailaccounttype.hasSmtp: SMTP aktivieren
 jeboehm.lampcp.corebundle.mailaccounttype.enabled: Konto aktivieren
 
 jeboehm.lampcp.corebundle.mysqldatabasetype.name: Datenbankname
