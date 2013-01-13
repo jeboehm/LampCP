@@ -95,8 +95,21 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
 
 			if($cert->$mGet()) {
 				$this->_getLogger()->info('(CertificateBuilderService) Generating Cert.: ' . $fullfilename);
-				file_put_contents($fullfilename, $cert->$mGet());
-				$fs->chmod($fullfilename, 0644);
+
+				if($ext === self::_EXTENSION_PRIVATEKEY) {
+					$content = $this->_getCryptService()->decrypt($cert->$mGet());
+				} else {
+					$content = $cert->$mGet();
+				}
+
+				file_put_contents($fullfilename, $content);
+
+				if($ext === self::_EXTENSION_PRIVATEKEY) {
+					$fs->chmod($fullfilename, 0600);
+				} else {
+					$fs->chmod($fullfilename, 0644);
+				}
+
 				$cert->$mSetPath($fullfilename);
 			} else {
 				if($fs->exists($fullfilename)) {
