@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -28,6 +29,12 @@ class IpAddress {
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	private $id;
+
+	/**
+	 * @var Domain[]
+	 * @ManyToMany(targetEntity="Domain", mappedBy="ipaddress")
+	 */
+	private $domain;
 
 	/**
 	 * @var string
@@ -161,5 +168,27 @@ class IpAddress {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Set domain
+	 *
+	 * @param array $domain
+	 *
+	 * @return IpAddress
+	 */
+	public function setDomain($domain) {
+		$this->domain = $domain;
+
+		return $this;
+	}
+
+	/**
+	 * Get domain
+	 *
+	 * @return Domain[]
+	 */
+	public function getDomain() {
+		return $this->domain;
 	}
 }

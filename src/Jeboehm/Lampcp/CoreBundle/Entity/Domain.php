@@ -71,7 +71,7 @@ class Domain {
 
 	/**
 	 * @var IpAddress[]
-	 * @ManyToMany(targetEntity="IpAddress")
+	 * @ManyToMany(targetEntity="IpAddress", inversedBy="domain")
 	 */
 	private $ipaddress;
 

@@ -14,7 +14,7 @@
 ##
 
 {% for ip in ips %}
-    {% if ip.ip != "*" %}
+    {% if ip.ip != "*" and ip.domain|length > 0 %}
         {% if ip.ipv6 %}
             NameVirtualHost [{{ ip.ip }}]:{{ ip.port }}
         {% else %}
