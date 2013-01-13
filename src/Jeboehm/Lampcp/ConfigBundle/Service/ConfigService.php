@@ -36,10 +36,10 @@ class ConfigService {
 	/**
 	 * Konstruktor
 	 *
-	 * @param \Doctrine\ORM\EntityManager                    $em
-	 * @param \Symfony\Bridge\Monolog\Logger                 $log
+	 * @param \Doctrine\ORM\EntityManager                     $em
+	 * @param \Symfony\Bridge\Monolog\Logger                  $log
 	 * @param \Jeboehm\Lampcp\CoreBundle\Service\CryptService $cs
-	 * @param \Symfony\Component\Form\FormFactory            $form
+	 * @param \Symfony\Component\Form\FormFactory             $form
 	 */
 	public function __construct(EntityManager $em,
 								Logger $log,
@@ -145,11 +145,9 @@ class ConfigService {
 				$newval = $value;
 		}
 
-		if($newval !== $entity->getValue()) {
-			$entity->setValue($newval);
-			$this->_em->persist($entity);
-			$this->_em->flush();
-		}
+		$entity->setValue($newval);
+		$this->_em->persist($entity);
+		$this->_em->flush();
 	}
 
 	/**
