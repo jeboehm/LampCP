@@ -25,50 +25,63 @@
 
 {% for vhost in domains %}
     {% for ip in vhost.ipaddress %}
-            {% if ip.ipv6 %}
-                <VirtualHost [{{ ip.ip }}]:{{ ip.port }}>
-            {% else %}
-                <VirtualHost {{ ip.ip }}:{{ ip.port }}>
+        {% if ip.ipv6 %}
+            <VirtualHost [{{ ip.ip }}]:{{ ip.port }}>
+        {% else %}
+            <VirtualHost {{ ip.ip }}:{{ ip.port }}>
+        {% endif %}
+
+        ServerAdmin {{ vhost.serveradmin }}
+        ServerName {{ vhost.servername }}
+        ServerAlias {{ vhost.serveralias }}
+        SuexecUserGroup {{ vhost.suexecuser }} {{ vhost.suexecgroup }}
+        AddHandler fcgid-script .php
+        DocumentRoot "{{ vhost.docroot }}"
+        DirectoryIndex {{ vhost.directoryindex }}
+
+        {% if ip.hasSsl and vhost.certificate is not null %}
+            SSLEngine on
+            SSLProtocol all -SSLv2
+            SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM
+
+            {% if vhost.certificate.CertificateFilePath != "" %}
+                SSLCertificateFile {{ vhost.certificate.CertificateFilePath }}
             {% endif %}
 
-            ServerAdmin {{ vhost.serveradmin }}
-            ServerName {{ vhost.servername }}
-            ServerAlias {{ vhost.serveralias }}
-            SuexecUserGroup {{ vhost.suexecuser }} {{ vhost.suexecgroup }}
-            AddHandler fcgid-script .php
-            DocumentRoot "{{ vhost.docroot }}"
-            DirectoryIndex {{ vhost.directoryindex }}
-
-            {% if ip.hasSsl and vhost.certificate is not null %}
-                SSLEngine on
-                SSLProtocol all -SSLv2
-                SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM
-                SSLCertificateFile /usr/local/apache/conf/ssl.crt
-                SSLCertificateKeyFile /usr/local/apache/conf/ssl.key
-                SSLCertificateChainFile /usr/local/apache/conf/sub.class1.server.ca.pem
-                SSLCACertificateFile /usr/local/apache/conf/ca.pem
-                SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown
+            {% if vhost.certificate.CertificateKeyFilePath != "" %}
+                SSLCertificateKeyFile {{ vhost.certificate.CertificateKeyFilePath }}
             {% endif %}
 
-            <Directory "/">
-                Options FollowSymLinks
-                AllowOverride None
-                Order allow,deny
-                Deny from all
-            </Directory>
+            {% if vhost.certificate.CertificateChainFilePath != "" %}
+                SSLCertificateChainFile {{ vhost.certificate.CertificateChainFilePath }}
+            {% endif %}
 
-            <Directory "{{ vhost.docroot }}">
-                Options Indexes MultiViews FollowSymLinks +ExecCGI
-                FCGIWrapper {{ vhost.fcgiwrapper }} .php
-                Order allow,deny
-                Allow from all
-                AllowOverride all
-            </Directory>
+            {% if vhost.certificate.CACertificateFilePath != "" %}
+                SSLCACertificateFile {{ vhost.certificate.CACertificateFilePath }}
+            {% endif %}
 
-            ErrorLog {{ vhost.errorlog }}
-            LogLevel warn
-            CustomLog {{ vhost.customlog }} combined
-            ServerSignature On
+            SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown
+        {% endif %}
+
+        <Directory "/">
+        Options FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        Deny from all
+        </Directory>
+
+        <Directory "{{ vhost.docroot }}">
+        Options Indexes MultiViews FollowSymLinks +ExecCGI
+        FCGIWrapper {{ vhost.fcgiwrapper }} .php
+        Order allow,deny
+        Allow from all
+        AllowOverride all
+        </Directory>
+
+        ErrorLog {{ vhost.errorlog }}
+        LogLevel warn
+        CustomLog {{ vhost.customlog }} combined
+        ServerSignature On
         </VirtualHost>
 
     {% endfor %}
