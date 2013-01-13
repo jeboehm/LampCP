@@ -10,7 +10,7 @@
 {% extends 'JeboehmLampcpCoreBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "edit.page.domain"|trans() }}</h1>
+    <h1>{{ "edit.page.certificate"|trans() }}</h1>
 
     <form action="{{ path('config_certificate_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         {{ form_widget(edit_form) }}

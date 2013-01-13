@@ -20,6 +20,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <parameter key="jeboehm_lampcp_apache_config.directorybuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService</parameter>
         <parameter key="jeboehm_lampcp_apache_config.protectionbuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService</parameter>
         <parameter key="jeboehm_lampcp_apache_config.pathoptionbuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\PathOptionBuilderService</parameter>
+        <parameter key="jeboehm_lampcp_apache_config.certificatebuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService</parameter>
     </parameters>
 
     <services>
@@ -35,5 +36,6 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <service id="jeboehm_lampcp_apache_config_directorybuilder" class="%jeboehm_lampcp_apache_config.directorybuilderservice.class%" parent="jeboehm_lampcp_apache_config_abstractbuilder" />
         <service id="jeboehm_lampcp_apache_config_protectionbuilder" class="%jeboehm_lampcp_apache_config.protectionbuilderservice.class%" parent="jeboehm_lampcp_apache_config_abstractbuilder" />
         <service id="jeboehm_lampcp_apache_config_pathoptionbuilder" class="%jeboehm_lampcp_apache_config.pathoptionbuilderservice.class%" parent="jeboehm_lampcp_apache_config_abstractbuilder" />
+        <service id="jeboehm_lampcp_apache_config_certificatebuilder" class="%jeboehm_lampcp_apache_config.certificatebuilderservice.class%" parent="jeboehm_lampcp_apache_config_abstractbuilder" />
     </services>
 </container>

@@ -18,6 +18,7 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\PathOptionBuilderService;
+use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService;
 use Jeboehm\Lampcp\CoreBundle\Entity\BuilderChangeRepository;
 use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 
@@ -35,6 +36,7 @@ class GenerateConfigCommand extends AbstractCommand {
 			'Jeboehm\Lampcp\CoreBundle\Entity\Protection',
 			'Jeboehm\Lampcp\CoreBundle\Entity\ProtectionUser',
 			'Jeboehm\Lampcp\CoreBundle\Entity\IpAddress',
+			'Jeboehm\Lampcp\CoreBundle\Entity\Certificate',
 		);
 
 		return $entitys;
@@ -66,6 +68,13 @@ class GenerateConfigCommand extends AbstractCommand {
 	 */
 	protected function _getPathOptionBuilderService() {
 		return $this->getContainer()->get('jeboehm_lampcp_apache_config_pathoptionbuilder');
+	}
+
+	/**
+	 * @return CertificateBuilderService
+	 */
+	protected function _getCertificateBuilderService() {
+		return $this->getContainer()->get('jeboehm_lampcp_apache_config_certificatebuilder');
 	}
 
 	/**
@@ -101,6 +110,9 @@ class GenerateConfigCommand extends AbstractCommand {
 			}
 
 			try {
+				$certificate = $this->_getCertificateBuilderService();
+				$certificate->buildAll();
+
 				$directory = $this->_getDirectoryBuilderService();
 				$directory->buildAll();
 

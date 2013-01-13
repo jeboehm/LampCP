@@ -60,9 +60,23 @@ class Certificate {
 	/**
 	 * @var string
 	 *
+	 * @ORM\Column(name="CertificateFilePath", type="string", length=255)
+	 */
+	private $CertificateFilePath;
+
+	/**
+	 * @var string
+	 *
 	 * @ORM\Column(name="CertificateKeyFile", type="text")
 	 */
 	private $CertificateKeyFile;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="CertificateKeyFilePath", type="string", length=255)
+	 */
+	private $CertificateKeyFilePath;
 
 	/**
 	 * @var string
@@ -74,17 +88,35 @@ class Certificate {
 	/**
 	 * @var string
 	 *
+	 * @ORM\Column(name="CertificateChainFilePath", type="string", length=255)
+	 */
+	private $CertificateChainFilePath;
+
+	/**
+	 * @var string
+	 *
 	 * @ORM\Column(name="CACertificateFile", type="text")
 	 */
 	private $CACertificateFile;
 
 	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="CACertificateFilePath", type="string", length=255)
+	 */
+	private $CACertificateFilePath;
+
+	/**
 	 * Konstruktor
 	 */
 	public function __construct() {
-		$this->CACertificateFile    = '';
-		$this->CertificateChainFile = '';
-		$this->CertificateKeyFile   = '';
+		$this->CACertificateFile        = '';
+		$this->CertificateChainFile     = '';
+		$this->CertificateKeyFile       = '';
+		$this->CertificateFilePath      = '';
+		$this->CertificateKeyFilePath   = '';
+		$this->CACertificateFilePath    = '';
+		$this->CertificateChainFilePath = '';
 	}
 
 	/**
@@ -222,5 +254,77 @@ class Certificate {
 	 */
 	public function getSubdomain() {
 		return $this->subdomain;
+	}
+
+	/**
+	 * @param string $CACertificateFilePath
+	 *
+	 * @return Certificate
+	 */
+	public function setCACertificateFilePath($CACertificateFilePath) {
+		$this->CACertificateFilePath = strval($CACertificateFilePath);
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCACertificateFilePath() {
+		return $this->CACertificateFilePath;
+	}
+
+	/**
+	 * @param string $CertificateChainFilePath
+	 *
+	 * @return Certificate
+	 */
+	public function setCertificateChainFilePath($CertificateChainFilePath) {
+		$this->CertificateChainFilePath = strval($CertificateChainFilePath);
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCertificateChainFilePath() {
+		return $this->CertificateChainFilePath;
+	}
+
+	/**
+	 * @param string $CertificateFilePath
+	 *
+	 * @return Certificate
+	 */
+	public function setCertificateFilePath($CertificateFilePath) {
+		$this->CertificateFilePath = strval($CertificateFilePath);
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCertificateFilePath() {
+		return $this->CertificateFilePath;
+	}
+
+	/**
+	 * @param string $CertificateKeyFilePath
+	 *
+	 * @return Certificate
+	 */
+	public function setCertificateKeyFilePath($CertificateKeyFilePath) {
+		$this->CertificateKeyFilePath = strval($CertificateKeyFilePath);
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCertificateKeyFilePath() {
+		return $this->CertificateKeyFilePath;
 	}
 }
