@@ -46,6 +46,7 @@ ln -sf /var/www/lampcp/htdocs/app/console /usr/bin/lampcp
 if ! [ -r "schema_created" ]; then
     lampcp doctrine:schema:create
     lampcp doctrine:fixtures:load
+    lampcp lampcp:postfix -c
     touch schema_created
 fi
 
