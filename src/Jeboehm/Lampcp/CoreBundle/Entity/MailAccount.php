@@ -21,7 +21,7 @@ use Jeboehm\Lampcp\CoreBundle\Utilities\FilesizeUtility;
  * MailAccount
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jeboehm\Lampcp\CoreBundle\Entity\MailAccountRepository")
  * @UniqueEntity(fields = {"username"})
  */
 class MailAccount {
@@ -44,6 +44,7 @@ class MailAccount {
 	/**
 	 * @var string
 	 * @Assert\NotBlank()
+	 * @Assert\Regex("/^[a-z\d-.]{2,64}$/i")
 	 * @ORM\Column(name="username", type="string", length=32)
 	 */
 	private $username;
@@ -80,8 +81,8 @@ class MailAccount {
 	 * Konstruktor
 	 */
 	public function __construct(Domain $domain) {
-		$this->enabled  = true;
-		$this->domain   = $domain;
+		$this->enabled = true;
+		$this->domain  = $domain;
 	}
 
 	/**

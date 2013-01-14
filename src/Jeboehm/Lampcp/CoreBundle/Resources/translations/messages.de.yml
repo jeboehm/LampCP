@@ -164,4 +164,6 @@ mysql.dbprefix: MySQL Datenbankprefix
 unix.passwdfile: Unix Benutzerdatei
 unix.groupfile: Unix Gruppendatei
 
+mail.accountprefix: Prefix für E-Mailaccountnamen
+
 config.password: (Passwort)

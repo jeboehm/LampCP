@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\MailAccount;
 use Jeboehm\Lampcp\CoreBundle\Form\MailAccountType;
+use Jeboehm\Lampcp\CoreBundle\Entity\MailAccountRepository;
 
 /**
  * MailAccount controller.
@@ -32,6 +33,7 @@ class MailAccountController extends AbstractController {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entities MailAccount[] */
 		$entities = $em->getRepository('JeboehmLampcpCoreBundle:MailAccount')->findByDomain($this->_getSelectedDomain());
 
 		return $this->_getReturn(array(
@@ -71,7 +73,9 @@ class MailAccountController extends AbstractController {
 	 */
 	public function newAction() {
 		$entity = new MailAccount($this->_getSelectedDomain());
-		$form   = $this->createForm(new MailAccountType(), $entity);
+		$entity->setUsername($this->_getNewMailAccountName());
+
+		$form = $this->createForm(new MailAccountType(), $entity);
 
 		return $this->_getReturn(array(
 									  'entity' => $entity,
@@ -88,7 +92,9 @@ class MailAccountController extends AbstractController {
 	 */
 	public function createAction(Request $request) {
 		$entity = new MailAccount($this->_getSelectedDomain());
-		$form   = $this->createForm(new MailAccountType(), $entity);
+		$entity->setUsername($this->_getNewMailAccountName());
+
+		$form = $this->createForm(new MailAccountType(), $entity);
 		$form->bind($request);
 
 		if($form->isValid()) {
@@ -204,9 +210,41 @@ class MailAccountController extends AbstractController {
 		return $this->redirect($this->generateUrl('config_mailaccount'));
 	}
 
+	/**
+	 * Get delete form
+	 *
+	 * @param int $id
+	 *
+	 * @return \Symfony\Component\Form\Form
+	 */
 	private function createDeleteForm($id) {
 		return $this->createFormBuilder(array('id' => $id))
 			->add('id', 'hidden')
 			->getForm();
+	}
+
+	/**
+	 * Get repository
+	 *
+	 * @return MailAccountRepository
+	 */
+	protected function _getRepository() {
+		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:MailAccount');
+	}
+
+	/**
+	 * Get new account name
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	protected function _getNewMailAccountName() {
+		$prefix = $this->_getConfigService()->getParameter('mail.accountprefix');
+
+		if(empty($prefix)) {
+			throw new \Exception('Please set Mail Account Prefix in configuration!');
+		}
+
+		return $prefix . strval($this->_getRepository()->getFreeId());
 	}
 }
