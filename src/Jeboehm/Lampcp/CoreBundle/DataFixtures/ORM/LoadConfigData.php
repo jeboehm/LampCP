@@ -15,14 +15,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Jeboehm\Lampcp\ConfigBundle\Entity\ConfigGroup;
 use Jeboehm\Lampcp\ConfigBundle\Entity\ConfigEntity;
 
-class LoadConfigData implements FixtureInterface {
+class LoadConfigData extends AbstractConfigFixture implements FixtureInterface {
 	/**
 	 * {@inheritDoc}
 	 */
 	public function load(ObjectManager $manager) {
-		$group = new ConfigGroup();
-		$group->setName('mail');
-		$manager->persist($group);
+		$group = $this->_configGroup('mail', $manager);
 
 		$entity = new ConfigEntity();
 		$entity
@@ -30,7 +28,7 @@ class LoadConfigData implements FixtureInterface {
 			->setConfiggroup($group)
 			->setType($entity::TYPE_STRING)
 			->setValue('lampcpmail');
-		$manager->persist($entity);
+		$this->_configEntity($entity, $manager);
 
 		$manager->flush();
 	}

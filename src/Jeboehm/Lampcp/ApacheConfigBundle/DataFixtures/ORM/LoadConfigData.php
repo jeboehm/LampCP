@@ -14,15 +14,14 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Jeboehm\Lampcp\ConfigBundle\Entity\ConfigGroup;
 use Jeboehm\Lampcp\ConfigBundle\Entity\ConfigEntity;
+use Jeboehm\Lampcp\CoreBundle\DataFixtures\ORM\AbstractConfigFixture;
 
-class LoadConfigData implements FixtureInterface {
+class LoadConfigData extends AbstractConfigFixture implements FixtureInterface {
 	/**
 	 * {@inheritDoc}
 	 */
 	public function load(ObjectManager $manager) {
-		$group = new ConfigGroup();
-		$group->setName('apache');
-		$manager->persist($group);
+		$group = $this->_configGroup('apache', $manager);
 
 		$entity = new ConfigEntity();
 		$entity
@@ -30,7 +29,7 @@ class LoadConfigData implements FixtureInterface {
 			->setConfiggroup($group)
 			->setType($entity::TYPE_STRING)
 			->setValue('/var/www');
-		$manager->persist($entity);
+		$this->_configEntity($entity, $manager);
 
 		$entity = new ConfigEntity();
 		$entity
@@ -38,7 +37,7 @@ class LoadConfigData implements FixtureInterface {
 			->setConfiggroup($group)
 			->setType($entity::TYPE_STRING)
 			->setValue('/etc/apache2/sites-enabled');
-		$manager->persist($entity);
+		$this->_configEntity($entity, $manager);
 
 		$entity = new ConfigEntity();
 		$entity
@@ -46,7 +45,7 @@ class LoadConfigData implements FixtureInterface {
 			->setConfiggroup($group)
 			->setType($entity::TYPE_STRING)
 			->setValue('/etc/php5/cgi/php.ini');
-		$manager->persist($entity);
+		$this->_configEntity($entity, $manager);
 
 		$entity = new ConfigEntity();
 		$entity
@@ -54,7 +53,7 @@ class LoadConfigData implements FixtureInterface {
 			->setConfiggroup($group)
 			->setType($entity::TYPE_STRING)
 			->setValue('/etc/init.d/apache2 restart');
-		$manager->persist($entity);
+		$this->_configEntity($entity, $manager);
 
 		$entity = new ConfigEntity();
 		$entity
@@ -62,7 +61,7 @@ class LoadConfigData implements FixtureInterface {
 			->setConfiggroup($group)
 			->setType($entity::TYPE_STRING)
 			->setValue('/etc/ssl/lampcp');
-		$manager->persist($entity);
+		$this->_configEntity($entity, $manager);
 
 		$manager->flush();
 	}
