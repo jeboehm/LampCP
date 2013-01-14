@@ -31,6 +31,7 @@ class MysqlDatabaseController extends AbstractController {
 	 * @Template()
 	 */
 	public function indexAction() {
+		/** @var $entities MysqlDatabase[] */
 		$entities = $this->_getRepository()->findByDomain($this->_getSelectedDomain());
 
 		return $this->_getReturn(array(
