@@ -35,8 +35,6 @@ class MailAccountType extends AbstractType {
 
 		$builder
 			->add('quota')
-			->add('hasPop3', null, array('required' => false))
-			->add('hasImap4', null, array('required' => false))
 			->add('enabled', null, array('required' => false));
 	}
 

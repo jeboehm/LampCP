@@ -48,13 +48,6 @@ class MailAddress {
 	private $address;
 
 	/**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="hasCatchAll", type="boolean")
-	 */
-	private $hasCatchAll;
-
-	/**
 	 * @var MailAccount
 	 * @Assert\NotNull()
 	 * @ManyToOne(targetEntity="MailAccount", inversedBy="mailaddress")
@@ -70,7 +63,6 @@ class MailAddress {
 	public function __construct(Domain $domain, MailAccount $account) {
 		$this->domain      = $domain;
 		$this->mailaccount = $account;
-		$this->hasCatchAll = false;
 	}
 
 	/**
@@ -111,28 +103,6 @@ class MailAddress {
 	 */
 	public function getAddress() {
 		return $this->address;
-	}
-
-	/**
-	 * Set hasCatchAll
-	 *
-	 * @param boolean $hasCatchAll
-	 *
-	 * @return MailAddress
-	 */
-	public function setHasCatchAll($hasCatchAll) {
-		$this->hasCatchAll = $hasCatchAll;
-
-		return $this;
-	}
-
-	/**
-	 * Get hasCatchAll
-	 *
-	 * @return boolean
-	 */
-	public function getHasCatchAll() {
-		return $this->hasCatchAll;
 	}
 
 	/**

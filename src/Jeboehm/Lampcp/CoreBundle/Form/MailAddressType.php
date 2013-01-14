@@ -15,9 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class MailAddressType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder
-			->add('address')
-			->add('hasCatchAll', null, array('required' => false));
+		$builder->add('address');
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

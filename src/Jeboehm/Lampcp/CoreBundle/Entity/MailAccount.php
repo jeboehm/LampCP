@@ -65,20 +65,6 @@ class MailAccount {
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="hasPop3", type="boolean")
-	 */
-	private $hasPop3;
-
-	/**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="hasImap4", type="boolean")
-	 */
-	private $hasImap4;
-
-	/**
-	 * @var boolean
-	 *
 	 * @ORM\Column(name="enabled", type="boolean")
 	 */
 	private $enabled;
@@ -95,9 +81,6 @@ class MailAccount {
 	 */
 	public function __construct(Domain $domain) {
 		$this->enabled  = true;
-		$this->hasImap4 = false;
-		$this->hasPop3  = false;
-		$this->hasSmtp  = false;
 		$this->domain   = $domain;
 	}
 
@@ -192,50 +175,6 @@ class MailAccount {
 	 */
 	public function getQuotaHumanReadable() {
 		return FilesizeUtility::size_readable($this->quota);
-	}
-
-	/**
-	 * Set hasPop3
-	 *
-	 * @param boolean $hasPop3
-	 *
-	 * @return MailAccount
-	 */
-	public function setHasPop3($hasPop3) {
-		$this->hasPop3 = $hasPop3;
-
-		return $this;
-	}
-
-	/**
-	 * Get hasPop3
-	 *
-	 * @return boolean
-	 */
-	public function getHasPop3() {
-		return $this->hasPop3;
-	}
-
-	/**
-	 * Set hasImap4
-	 *
-	 * @param boolean $hasImap4
-	 *
-	 * @return MailAccount
-	 */
-	public function setHasImap4($hasImap4) {
-		$this->hasImap4 = $hasImap4;
-
-		return $this;
-	}
-
-	/**
-	 * Get hasImap4
-	 *
-	 * @return boolean
-	 */
-	public function getHasImap4() {
-		return $this->hasImap4;
 	}
 
 	/**
