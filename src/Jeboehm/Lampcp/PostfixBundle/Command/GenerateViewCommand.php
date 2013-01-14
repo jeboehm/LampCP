@@ -40,7 +40,7 @@ class GenerateViewCommand extends AbstractCommand {
 			$sql = array(
 				'CREATE VIEW postfix_virtual_aliases AS select concat(MailAddress.address,"@",Domain.domain) AS source,MailAccount.username AS destination from MailAddress,MailAccount,Domain where MailAccount.id = MailAddress.mailaccount_id and Domain.id = MailAccount.domain_id',
 				'CREATE VIEW postfix_virtual_domains AS select Domain.domain AS domain from Domain,MailAccount where Domain.id = MailAccount.domain_id group by Domain.id',
-				'CREATE VIEW postfix_virtual_users AS select MailAccount.username AS username, MailAccount.password AS password from MailAccount where MailAccount.enabled = 1',
+				'CREATE VIEW postfix_virtual_users AS select concat(MailAddress.address,"@",Domain.domain) AS email, MailAccount.username, MailAccount.password from MailAddress,MailAccount,Domain where MailAccount.id = MailAddress.mailaccount_id and Domain.id = MailAccount.domain_id and MailAccount.enabled = 1',
 			);
 
 			foreach($sql as $statement) {
