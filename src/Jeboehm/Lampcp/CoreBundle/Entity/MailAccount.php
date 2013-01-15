@@ -12,17 +12,15 @@ namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OneToOne;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Jeboehm\Lampcp\CoreBundle\Utilities\FilesizeUtility;
 
 /**
  * MailAccount
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Jeboehm\Lampcp\CoreBundle\Entity\MailAccountRepository")
- * @UniqueEntity(fields = {"username"})
+ * @ORM\Entity
  */
 class MailAccount {
 	/**
@@ -42,12 +40,11 @@ class MailAccount {
 	private $domain;
 
 	/**
-	 * @var string
-	 * @Assert\NotBlank()
-	 * @Assert\Regex("/^[a-z\d-.]{2,64}$/i")
-	 * @ORM\Column(name="username", type="string", length=32)
+	 * @var MailAddress
+	 * @Assert\NotNull()
+	 * @OneToOne(targetEntity="MailAddress", inversedBy="mailaccount")
 	 */
-	private $username;
+	private $mailaddress;
 
 	/**
 	 * @var string
@@ -64,25 +61,11 @@ class MailAccount {
 	private $quota;
 
 	/**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="enabled", type="boolean")
-	 */
-	private $enabled;
-
-	/**
-	 * @var MailAddress[]
-	 *
-	 * @OneToMany(targetEntity="MailAddress", mappedBy="mailaccount", cascade={"remove"})
-	 */
-	private $mailaddress;
-
-	/**
 	 * Konstruktor
 	 */
-	public function __construct(Domain $domain) {
-		$this->enabled = true;
-		$this->domain  = $domain;
+	public function __construct(Domain $domain, MailAddress $address) {
+		$this->domain      = $domain;
+		$this->mailaddress = $address;
 	}
 
 	/**
@@ -101,28 +84,6 @@ class MailAccount {
 	 */
 	public function getDomain() {
 		return $this->domain;
-	}
-
-	/**
-	 * Set username
-	 *
-	 * @param string $username
-	 *
-	 * @return MailAccount
-	 */
-	public function setUsername($username) {
-		$this->username = $username;
-
-		return $this;
-	}
-
-	/**
-	 * Get username
-	 *
-	 * @return string
-	 */
-	public function getUsername() {
-		return $this->username;
 	}
 
 	/**
@@ -179,29 +140,9 @@ class MailAccount {
 	}
 
 	/**
-	 * Set enabled
+	 * Get MailAddress
 	 *
-	 * @param boolean $enabled
-	 *
-	 * @return MailAccount
-	 */
-	public function setEnabled($enabled) {
-		$this->enabled = $enabled;
-
-		return $this;
-	}
-
-	/**
-	 * Get enabled
-	 *
-	 * @return boolean
-	 */
-	public function getEnabled() {
-		return $this->enabled;
-	}
-
-	/**
-	 * @return MailAddress[]
+	 * @return MailAddress
 	 */
 	public function getMailaddress() {
 		return $this->mailaddress;

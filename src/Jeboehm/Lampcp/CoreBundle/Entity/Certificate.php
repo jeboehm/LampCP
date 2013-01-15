@@ -13,6 +13,7 @@ namespace Jeboehm\Lampcp\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Certificate
@@ -39,13 +40,13 @@ class Certificate {
 	private $name;
 
 	/**
-	 * @var Domain[]
+	 * @var Collection
 	 * @OneToMany(targetEntity="Domain", mappedBy="certificate")
 	 */
 	private $domain;
 
 	/**
-	 * @var Subdomain[]
+	 * @var Collection
 	 * @OneToMany(targetEntity="Subdomain", mappedBy="certificate")
 	 */
 	private $subdomain;
@@ -241,7 +242,7 @@ class Certificate {
 	/**
 	 * Get Domains
 	 *
-	 * @return Domain[]
+	 * @return Collection
 	 */
 	public function getDomain() {
 		return $this->domain;
@@ -250,7 +251,7 @@ class Certificate {
 	/**
 	 * Get Subdomains
 	 *
-	 * @return Subdomain[]
+	 * @return Collection
 	 */
 	public function getSubdomain() {
 		return $this->subdomain;

@@ -116,7 +116,7 @@ class ProtectionUser {
 	/**
 	 * Set Protection
 	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Protection $protection
+	 * @param Protection $protection
 	 *
 	 * @return ProtectionUser
 	 */

@@ -12,6 +12,7 @@ namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * User
@@ -58,7 +59,7 @@ class User {
 	private $gid;
 
 	/**
-	 * @var Domain[]
+	 * @var Collection
 	 * @OneToMany(targetEntity="Domain", mappedBy="user")
 	 */
 	private $domain;
@@ -158,7 +159,7 @@ class User {
 	}
 
 	/**
-	 * @return Domain[]
+	 * @return Collection
 	 */
 	public function getDomain() {
 		return $this->domain;

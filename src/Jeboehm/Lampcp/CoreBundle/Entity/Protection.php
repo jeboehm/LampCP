@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Protection
@@ -41,7 +42,7 @@ class Protection {
 	private $domain;
 
 	/**
-	 * @var ProtectionUser[]
+	 * @var Collection
 	 * @OneToMany(targetEntity="ProtectionUser", mappedBy="protection", cascade={"remove"})
 	 */
 	private $protectionuser;
@@ -133,7 +134,7 @@ class Protection {
 	/**
 	 * Get ProtectionUser
 	 *
-	 * @return ProtectionUser[]
+	 * @return Collection
 	 */
 	public function getProtectionuser() {
 		return $this->protectionuser;

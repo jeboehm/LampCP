@@ -11,7 +11,10 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -49,20 +52,23 @@ class MailAddress {
 
 	/**
 	 * @var MailAccount
-	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="MailAccount", inversedBy="mailaddress")
+	 * @OneToOne(targetEntity="MailAccount", mappedBy="mailaddress", cascade={"remove"})
 	 */
 	private $mailaccount;
 
 	/**
+	 * @var Collection
+	 * @OneToMany(targetEntity="MailForward", mappedBy="mailaddress", cascade={"persist","remove"})
+	 */
+	private $mailforward;
+
+	/**
 	 * Konstruktor
 	 *
-	 * @param Domain      $domain
-	 * @param MailAccount $account
+	 * @param Domain $domain
 	 */
-	public function __construct(Domain $domain, MailAccount $account) {
-		$this->domain      = $domain;
-		$this->mailaccount = $account;
+	public function __construct(Domain $domain) {
+		$this->domain = $domain;
 	}
 
 	/**
@@ -125,5 +131,44 @@ class MailAddress {
 	 */
 	public function getMailaccount() {
 		return $this->mailaccount;
+	}
+
+	/**
+	 * Set mailforward
+	 *
+	 * @param Collection $mailforward
+	 *
+	 * @return MailAddress
+	 */
+	public function setMailforward(Collection $mailforward) {
+		if(!is_null($mailforward)) {
+			foreach($mailforward as $forward) {
+				/** @var $forward MailForward */
+				$forward->setDomain($this->domain);
+				$forward->setMailaddress($this);
+			}
+		}
+
+		$this->mailforward = $mailforward;
+
+		return $this;
+	}
+
+	/**
+	 * Get mailforward
+	 *
+	 * @return Collection
+	 */
+	public function getMailforward() {
+		return $this->mailforward;
+	}
+
+	/**
+	 * Get full address (user@domain.de)
+	 *
+	 * @return string
+	 */
+	public function getFullAddress() {
+		return $this->address . '@' . $this->domain->getDomain();
 	}
 }

@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\OneToMany;
@@ -70,7 +71,7 @@ class Domain {
 	private $user;
 
 	/**
-	 * @var IpAddress[]
+	 * @var Collection
 	 * @ManyToMany(targetEntity="IpAddress", inversedBy="domain")
 	 */
 	private $ipaddress;
@@ -82,43 +83,49 @@ class Domain {
 	private $customconfig;
 
 	/**
-	 * @var MailAccount[]
+	 * @var Collection
 	 * @OneToMany(targetEntity="MailAccount", mappedBy="domain", cascade={"remove"})
 	 */
 	private $mailaccount;
 
 	/**
-	 * @var MailAddress[]
+	 * @var Collection
 	 * @OneToMany(targetEntity="MailAddress", mappedBy="domain", cascade={"remove"})
 	 */
 	private $mailaddress;
 
 	/**
-	 * @var MysqlDatabase[]
+	 * @var Collection
+	 * @OneToMany(targetEntity="MailForward", mappedBy="domain", cascade={"remove"})
+	 */
+	private $mailforward;
+
+	/**
+	 * @var Collection
 	 * @OneToMany(targetEntity="MysqlDatabase", mappedBy="domain", cascade={"remove"})
 	 */
 	private $mysqldatabase;
 
 	/**
-	 * @var PathOption[]
+	 * @var Collection
 	 * @OneToMany(targetEntity="PathOption", mappedBy="domain", cascade={"remove"})
 	 */
 	private $pathoption;
 
 	/**
-	 * @var Protection[]
+	 * @var Collection
 	 * @OneToMany(targetEntity="Protection", mappedBy="domain", cascade={"remove"})
 	 */
 	private $protection;
 
 	/**
-	 * @var ProtectionUser[]
+	 * @var Collection
 	 * @OneToMany(targetEntity="ProtectionUser", mappedBy="domain", cascade={"remove"})
 	 */
 	private $protectionuser;
 
 	/**
-	 * @var Subdomain[]
+	 * @var Collection
 	 * @OneToMany(targetEntity="Subdomain", mappedBy="domain", cascade={"remove"})
 	 */
 	private $subdomain;
@@ -282,22 +289,21 @@ class Domain {
 	}
 
 	/**
-	 * Set ipaddresses
+	 * Set IpAddresses
+	 * @param Collection $ipaddress
 	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\IpAddress[] $ipaddress
-	 *
-	 * @return IpAddress[]
+	 * @return Domain
 	 */
-	public function setIpaddress($ipaddress) {
+	public function setIpaddress(Collection $ipaddress) {
 		$this->ipaddress = $ipaddress;
 
 		return $this;
 	}
 
 	/**
-	 * Get ipaddresses
+	 * Get IpAddresses
 	 *
-	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\IpAddress[]
+	 * @return Collection
 	 */
 	public function getIpaddress() {
 		return $this->ipaddress;
@@ -306,16 +312,25 @@ class Domain {
 	/**
 	 * Get mailaccounts
 	 *
-	 * @return MailAccount[]
+	 * @return Collection
 	 */
 	public function getMailaccount() {
 		return $this->mailaccount;
 	}
 
 	/**
+	 * Get mailforwards
+	 *
+	 * @return Collection
+	 */
+	public function getMailforward() {
+		return $this->mailforward;
+	}
+
+	/**
 	 * Get mailaddresses
 	 *
-	 * @return MailAddress[]
+	 * @return Collection
 	 */
 	public function getMailaddress() {
 		return $this->mailaddress;
@@ -324,7 +339,7 @@ class Domain {
 	/**
 	 * Get mysqldatabases
 	 *
-	 * @return MysqlDatabase[]
+	 * @return Collection
 	 */
 	public function getMysqldatabase() {
 		return $this->mysqldatabase;
@@ -333,7 +348,7 @@ class Domain {
 	/**
 	 * Get pathoptions
 	 *
-	 * @return PathOption[]
+	 * @return Collection
 	 */
 	public function getPathoption() {
 		return $this->pathoption;
@@ -342,7 +357,7 @@ class Domain {
 	/**
 	 * Get protections
 	 *
-	 * @return Protection[]
+	 * @return Collection
 	 */
 	public function getProtection() {
 		return $this->protection;
@@ -351,7 +366,7 @@ class Domain {
 	/**
 	 * Get protectionusers
 	 *
-	 * @return ProtectionUser[]
+	 * @return Collection
 	 */
 	public function getProtectionuser() {
 		return $this->protectionuser;
@@ -360,7 +375,7 @@ class Domain {
 	/**
 	 * Get subdomains
 	 *
-	 * @return Subdomain[]
+	 * @return Collection
 	 */
 	public function getSubdomain() {
 		return $this->subdomain;
