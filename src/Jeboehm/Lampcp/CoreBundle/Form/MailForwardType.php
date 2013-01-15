@@ -13,29 +13,20 @@ namespace Jeboehm\Lampcp\CoreBundle\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class MailAddressType extends AbstractType {
+class MailForwardType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$forwardType = new MailForwardType();
-
-		$builder->add('address');
-
-		if($this->_getIsEditMode()) {
-			$builder->add('mailforward', 'collection', array(
-															'type'         => $forwardType,
-															'allow_add'    => true,
-															'allow_delete' => true,
-															'by_reference' => false,
-													   ));
-		}
+		$builder->add('target', null, array(
+										   'label' => '',
+									  ));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailAddress'
+									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailForward'
 							   ));
 	}
 
 	public function getName() {
-		return 'jeboehm_lampcp_corebundle_mailaddresstype';
+		return 'jeboehm_lampcp_corebundle_mailforwardtype';
 	}
 }

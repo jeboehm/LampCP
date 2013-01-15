@@ -12,6 +12,7 @@ namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\OneToMany;
@@ -68,7 +69,8 @@ class MailAddress {
 	 * @param Domain $domain
 	 */
 	public function __construct(Domain $domain) {
-		$this->domain = $domain;
+		$this->domain      = $domain;
+		$this->mailforward = new ArrayCollection();
 	}
 
 	/**

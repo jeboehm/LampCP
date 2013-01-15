@@ -53,12 +53,16 @@
             <td>{{ entity.subdomain|length }}</td>
         </tr>
         <tr>
-            <th>{{ "title.page.mailaccount"|trans() }}</th>
+            <th>{{ "title.page.mailaddress"|trans() }}</th>
+            <td>{{ entity.mailaddress|length }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailaccount"|trans() }}</th>
             <td>{{ entity.mailaccount|length }}</td>
         </tr>
         <tr>
-            <th>{{ "title.page.mailaddress"|trans() }}</th>
-            <td>{{ entity.mailaddress|length }}</td>
+            <th>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailforward"|trans() }}</th>
+            <td>{{ entity.mailforward|length }}</td>
         </tr>
         <tr>
             <th>{{ "title.page.mysqldatabase"|trans() }}</th>

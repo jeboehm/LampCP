@@ -13,6 +13,7 @@ namespace Jeboehm\Lampcp\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User
@@ -64,6 +65,12 @@ class User {
 	 */
 	private $domain;
 
+	/**
+	 * Konstruktor
+	 */
+	public function __construct() {
+		$this->domain = new ArrayCollection();
+	}
 
 	/**
 	 * Get id

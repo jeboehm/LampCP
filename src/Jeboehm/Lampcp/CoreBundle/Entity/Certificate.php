@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Certificate
@@ -118,6 +119,8 @@ class Certificate {
 		$this->CertificateKeyFilePath   = '';
 		$this->CACertificateFilePath    = '';
 		$this->CertificateChainFilePath = '';
+		$this->domain                   = new ArrayCollection();
+		$this->subdomain                = new ArrayCollection();
 	}
 
 	/**

@@ -27,7 +27,7 @@ class AdminController extends AbstractController {
 	 * Generates a password
 	 *
 	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Admin $user
-	 * @param                                        $password
+	 * @param                                         $password
 	 *
 	 * @return string
 	 */

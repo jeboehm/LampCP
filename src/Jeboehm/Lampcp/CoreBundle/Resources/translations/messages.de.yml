@@ -12,7 +12,6 @@ title.head: LampCP
 title.page.status: Status
 title.page.admin: Administratoren
 title.page.domain: Domains
-title.page.mailaccount: E-Mailaccounts
 title.page.mailaddress: E-Mailadressen
 title.page.mysqldatabase: Datenbanken
 title.page.pathoption: Pfadoptionen
@@ -28,7 +27,6 @@ title.page.logout: LogOut
 
 edit.page.admin: Administrator bearbeiten
 edit.page.domain: Domain bearbeiten
-edit.page.mailaccount: E-Mailaccount bearbeiten
 edit.page.mailaddress: E-Mailadresse bearbeiten
 edit.page.mysqldatabase: Datenbank bearbeiten
 edit.page.pathoption: Pfadoption bearbeiten
@@ -41,7 +39,6 @@ edit.page.certificate: Zertifikate bearbeiten
 
 show.page.admin: Administrator anzeigen
 show.page.domain: Domain anzeigen
-show.page.mailaccount: E-Mailaccount anzeigen
 show.page.mailaddress: E-Mailadresse anzeigen
 show.page.mysqldatabase: Datenbank anzeigen
 show.page.pathoption: Pfadoption anzeigen
@@ -53,7 +50,6 @@ show.page.certificate: Zertifikat anzeigen
 
 create.page.admin: Administrator anlegen
 create.page.domain: Domain anlegen
-create.page.mailaccount: E-Mailaccount anlegen
 create.page.mailaddress: E-Mailadresse anlegen
 create.page.mysqldatabase: Datenbank anlegen
 create.page.pathoption: Pfadoption anlegen
@@ -106,12 +102,6 @@ jeboehm.lampcp.corebundle.subdomaintype.path: Pfad
 jeboehm.lampcp.corebundle.subdomaintype.customconfig: Benutzerdef. Konfiguration
 jeboehm.lampcp.corebundle.subdomaintype.certificate: Zertifikat
 
-jeboehm.lampcp.corebundle.mailaccounttype.username: Benutzername
-jeboehm.lampcp.corebundle.mailaccounttype.password.first: Passwort
-jeboehm.lampcp.corebundle.mailaccounttype.password.second: Passwort wiederholen
-jeboehm.lampcp.corebundle.mailaccounttype.quota: Speicherplatz
-jeboehm.lampcp.corebundle.mailaccounttype.enabled: Konto aktivieren
-
 jeboehm.lampcp.corebundle.mysqldatabasetype.name: Datenbankname
 jeboehm.lampcp.corebundle.mysqldatabasetype.comment: Kommentar
 jeboehm.lampcp.corebundle.mysqldatabasetype.password.first: Passwort
@@ -131,6 +121,8 @@ jeboehm.lampcp.corebundle.protectionusertype.password.first: Passwort
 jeboehm.lampcp.corebundle.protectionusertype.password.second: Passwort wiederholen
 
 jeboehm.lampcp.corebundle.mailaddresstype.address: Adresse
+jeboehm.lampcp.corebundle.mailaddresstype.mailforward: Weiterleitungen
+jeboehm.lampcp.corebundle.mailaddresstype.mailaccount: E-Mailaccounts
 
 jeboehm.lampcp.corebundle.logtype.time: Zeit
 jeboehm.lampcp.corebundle.logtype.message: Nachricht
@@ -163,7 +155,5 @@ mysql.dbprefix: MySQL Datenbankprefix
 
 unix.passwdfile: Unix Benutzerdatei
 unix.groupfile: Unix Gruppendatei
-
-mail.accountprefix: Prefix für E-Mailaccountnamen
 
 config.password: (Passwort)

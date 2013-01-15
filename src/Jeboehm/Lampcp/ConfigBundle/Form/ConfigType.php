@@ -18,10 +18,10 @@ class ConfigType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('configentity', 'collection', array(
-											   'type'      => new ConfigEntityType(),
-											   'prototype' => false,
+													 'type'      => new ConfigEntityType(),
+													 'prototype' => false,
 
-										  ));
+												));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

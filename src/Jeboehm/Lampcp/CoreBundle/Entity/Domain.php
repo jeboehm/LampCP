@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\ManyToMany;
@@ -134,8 +135,17 @@ class Domain {
 	 * Konstruktor
 	 */
 	public function __construct() {
-		$this->customconfig = '';
-		$this->webroot      = 'htdocs';
+		$this->customconfig   = '';
+		$this->webroot        = 'htdocs';
+		$this->subdomain      = new ArrayCollection();
+		$this->protection     = new ArrayCollection();
+		$this->protectionuser = new ArrayCollection();
+		$this->pathoption     = new ArrayCollection();
+		$this->mysqldatabase  = new ArrayCollection();
+		$this->mailforward    = new ArrayCollection();
+		$this->mailaddress    = new ArrayCollection();
+		$this->mysqldatabase  = new ArrayCollection();
+		$this->ipaddress      = new ArrayCollection();
 	}
 
 	/**
@@ -290,6 +300,7 @@ class Domain {
 
 	/**
 	 * Set IpAddresses
+	 *
 	 * @param Collection $ipaddress
 	 *
 	 * @return Domain

@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Protection
@@ -66,7 +67,8 @@ class Protection {
 	 * @param Domain $domain
 	 */
 	public function __construct(Domain $domain) {
-		$this->domain = $domain;
+		$this->domain         = $domain;
+		$this->protectionuser = new ArrayCollection();
 	}
 
 	/**

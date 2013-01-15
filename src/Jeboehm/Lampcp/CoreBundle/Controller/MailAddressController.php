@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\MailAddress;
+use Jeboehm\Lampcp\CoreBundle\Entity\MailForward;
 use Jeboehm\Lampcp\CoreBundle\Entity\MailAccount;
 use Jeboehm\Lampcp\CoreBundle\Form\MailAddressType;
 
@@ -25,45 +26,21 @@ use Jeboehm\Lampcp\CoreBundle\Form\MailAddressType;
  */
 class MailAddressController extends AbstractController {
 	/**
-	 * Get MailAccount
-	 *
-	 * @param $mailaccountId
-	 *
-	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\MailAccount
-	 * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-	 */
-	protected function _getMailAccount($mailaccountId) {
-		/** @var $account MailAccount */
-		$account = $this
-			->getDoctrine()
-			->getRepository('JeboehmLampcpCoreBundle:MailAccount')
-			->findOneBy(array('id' => intval($mailaccountId)));
-
-		if(!$account) {
-			throw $this->createNotFoundException();
-		}
-
-		return $account;
-	}
-
-	/**
 	 * Lists all MailAddress entities.
 	 *
-	 * @Route("/{mailaccountid}/", name="config_mailaddress")
+	 * @Route("/", name="config_mailaddress")
 	 * @Template()
 	 */
-	public function indexAction($mailaccountid) {
-		/** @var $mailaccount MailAccount */
-		$mailaccount = $this->_getMailAccount($mailaccountid);
-		$em          = $this->getDoctrine()->getManager();
+	public function indexAction() {
+		$em = $this->getDoctrine()->getManager();
 
+		/** @var $entities MailAddress[] */
 		$entities = $em
 			->getRepository('JeboehmLampcpCoreBundle:MailAddress')
-			->findBy(array('mailaccount' => $mailaccount));
+			->findByDomain($this->_getSelectedDomain());
 
 		return $this->_getReturn(array(
-									  'entities'    => $entities,
-									  'mailaccount' => $mailaccount,
+									  'entities' => $entities,
 								 ));
 	}
 
@@ -94,34 +71,29 @@ class MailAddressController extends AbstractController {
 	/**
 	 * Displays a form to create a new MailAddress entity.
 	 *
-	 * @Route("/{mailaccountid}/new", name="config_mailaddress_new")
+	 * @Route("/new", name="config_mailaddress_new")
 	 * @Template()
 	 */
-	public function newAction($mailaccountid) {
-		/** @var $mailaccount MailAccount */
-		$mailaccount = $this->_getMailAccount($mailaccountid);
-		$entity      = new MailAddress($this->_getSelectedDomain(), $mailaccount);
-		$form        = $this->createForm(new MailAddressType(), $entity);
+	public function newAction() {
+		$entity = new MailAddress($this->_getSelectedDomain());
+		$form   = $this->createForm(new MailAddressType(), $entity);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'form'        => $form->createView(),
-									  'mailaccount' => $mailaccount,
+									  'entity' => $entity,
+									  'form'   => $form->createView(),
 								 ));
 	}
 
 	/**
 	 * Creates a new MailAddress entity.
 	 *
-	 * @Route("/{mailaccountid}/create", name="config_mailaddress_create")
+	 * @Route("/create", name="config_mailaddress_create")
 	 * @Method("POST")
 	 * @Template("JeboehmLampcpCoreBundle:MailAddress:new.html.twig")
 	 */
-	public function createAction(Request $request, $mailaccountid) {
-		/** @var $mailaccount MailAccount */
-		$mailaccount = $this->_getMailAccount($mailaccountid);
-		$entity      = new MailAddress($this->_getSelectedDomain(), $mailaccount);
-		$form        = $this->createForm(new MailAddressType(), $entity);
+	public function createAction(Request $request) {
+		$entity = new MailAddress($this->_getSelectedDomain());
+		$form   = $this->createForm(new MailAddressType(), $entity);
 		$form->bind($request);
 
 		if($form->isValid()) {
@@ -133,9 +105,8 @@ class MailAddressController extends AbstractController {
 		}
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'form'        => $form->createView(),
-									  'mailaccount' => $mailaccount,
+									  'entity' => $entity,
+									  'form'   => $form->createView(),
 								 ));
 	}
 
@@ -155,7 +126,7 @@ class MailAddressController extends AbstractController {
 			throw $this->createNotFoundException('Unable to find MailAddress entity.');
 		}
 
-		$editForm   = $this->createForm(new MailAddressType(), $entity);
+		$editForm   = $this->createForm(new MailAddressType(true), $entity);
 		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
@@ -182,11 +153,35 @@ class MailAddressController extends AbstractController {
 			throw $this->createNotFoundException('Unable to find MailAddress entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new MailAddressType(), $entity);
+
+		$oldForwards = $entity->getMailforward();
+		$deleteForm  = $this->createDeleteForm($id);
+		$editForm    = $this->createForm(new MailAddressType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			$newForwards = $entity->getMailforward();
+
+			/*
+			 * Prüfen, ob MailForward gelöscht wurde
+			 */
+			foreach($oldForwards as $key => $oldForward) {
+				/** @var $oldForward MailForward */
+				$delete = true;
+
+				foreach($newForwards as $newForward) {
+					/** @var $newForward MailForward */
+					if($oldForward->getId() === $newForward->getId()) {
+						$delete = false;
+					}
+				}
+
+				if($delete) {
+					$em->remove($oldForward);
+					$entity->getMailforward()->removeElement($oldForward);
+				}
+			}
+
 			$em->persist($entity);
 			$em->flush();
 
@@ -220,15 +215,20 @@ class MailAddressController extends AbstractController {
 				throw $this->createNotFoundException('Unable to find MailAddress entity.');
 			}
 
-			$mailaccountid = $entity->getMailaccount()->getId();
-
 			$em->remove($entity);
 			$em->flush();
 		}
 
-		return $this->redirect($this->generateUrl('config_mailaddress', array('mailaccountid' => $mailaccountid)));
+		return $this->redirect($this->generateUrl('config_mailaddress'));
 	}
 
+	/**
+	 * Get delete form
+	 *
+	 * @param int $id
+	 *
+	 * @return \Symfony\Component\Form\Form
+	 */
 	private function createDeleteForm($id) {
 		return $this->createFormBuilder(array('id' => $id))
 			->add('id', 'hidden')

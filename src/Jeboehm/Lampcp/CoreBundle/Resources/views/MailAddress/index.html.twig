@@ -17,6 +17,7 @@
         <tr>
             <th>{{ "all.column.id"|trans() }}</th>
             <th>{{ "jeboehm.lampcp.corebundle.mailaddresstype.address"|trans() }}</th>
+            <th>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailforward"|trans() }}</th>
             <th>{{ "all.column.actions"|trans() }}</th>
         </tr>
         </thead>
@@ -24,7 +25,8 @@
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('config_mailaddress_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.address }}<em>@{{ entity.mailaccount.domain.domain }}</em></td>
+                <td>{{ entity.fulladdress }}</td>
+                <td>{{ entity.mailforward|length }}</td>
                 <td>
                     <div class="btn-group">
                         <a class="btn btn-info btn-mini"
@@ -38,7 +40,7 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href="{{ path('config_mailaddress_new', { 'mailaccountid': mailaccount.id }) }}">
+    <a class="btn btn-primary" href="{{ path('config_mailaddress_new') }}">
         {{ "button.create"|trans() }}
     </a>
 {% endblock %}

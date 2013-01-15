@@ -15,12 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class MailAccountType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add('username', null, array(
-											 'read_only' => true,
-										));
-
 		if($this->_isEditMode) {
-
 			$builder->add('password', 'repeated', array(
 													   'type'     => 'password',
 													   'required' => false,
@@ -32,9 +27,7 @@ class MailAccountType extends AbstractType {
 												  ));
 		}
 
-		$builder
-			->add('quota')
-			->add('enabled', null, array('required' => false));
+		$builder->add('quota');
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

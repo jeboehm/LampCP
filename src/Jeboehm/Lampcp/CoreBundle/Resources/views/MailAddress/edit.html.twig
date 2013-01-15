@@ -9,12 +9,38 @@
 
 {% extends 'JeboehmLampcpCoreBundle::layout.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts
+    '@JeboehmLampcpCoreBundle/Resources/public/js/mailaddress.js' %}
+
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}
+
 {% block content %}
     <h1>{{ "edit.page.mailaddress"|trans() }}</h1>
 
     <form action="{{ path('config_mailaddress_update', { 'id': entity.id }) }}"
           method="post" {{ form_enctype(edit_form) }}>
-        {{ form_widget(edit_form) }}
+        {{ form_row(edit_form.address) }}
+
+        <h2>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailforward"|trans }}</h2>
+        <ul class="mailforward" style="list-style: none;"
+            data-prototype="{{ form_widget(edit_form.mailforward.vars.prototype)|e }}">
+            {% for forward in edit_form.mailforward %}
+                <li>{{ form_row(forward.target) }}</li>
+            {% endfor %}
+
+            <li><a href="#" class="btn mailforward-add">+</a></li>
+        </ul>
+
+        {# TODO: Wenn das mal schön werden könnte.. #}
+        <div style="display: none;">
+            {{ form_rest(edit_form) }}
+        </div>
+
         <p>
             <button class="btn btn-success" type="submit">{{ "button.edit"|trans() }}</button>
         </p>
@@ -24,7 +50,7 @@
         <form action="{{ path('config_mailaddress_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
 
-            <a class="btn" href="{{ path('config_mailaddress', { 'mailaccountid': entity.mailaccount.id }) }}">
+            <a class="btn" href="{{ path('config_mailaddress' ) }}">
                 {{ "button.back"|trans() }}
             </a>
 

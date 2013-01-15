@@ -39,10 +39,10 @@ class MysqlSynchronizerService {
 	/**
 	 * Konstruktor
 	 *
-	 * @param EntityManager                                         $em
-	 * @param \Symfony\Bridge\Monolog\Logger                        $logger
-	 * @param MysqlAdminService                                     $mysqladmin
-	 * @param \Jeboehm\Lampcp\ConfigBundle\Service\ConfigService $systemconfig
+	 * @param EntityManager                                          $em
+	 * @param \Symfony\Bridge\Monolog\Logger                         $logger
+	 * @param MysqlAdminService                                      $mysqladmin
+	 * @param \Jeboehm\Lampcp\ConfigBundle\Service\ConfigService     $systemconfig
 	 * @param \Jeboehm\Lampcp\CoreBundle\Service\CryptService        $cryptservice
 	 */
 	public function __construct(EntityManager $em, Logger $logger, MysqlAdminService $mysqladmin,
