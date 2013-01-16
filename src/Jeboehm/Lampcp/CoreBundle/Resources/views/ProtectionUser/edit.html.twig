@@ -15,20 +15,7 @@
     <form action="{{ path('config_protectionuser_update', { 'id': entity.id }) }}"
           method="post" {{ form_enctype(edit_form) }}>
         {{ form_widget(edit_form) }}
-        <p>
-            <button class="btn btn-success" type="submit">{{ "button.edit"|trans() }}</button>
-        </p>
+
+        {{ macros.formbuttongrp() }}
     </form>
-
-    <div class="btn-group">
-        <form action="{{ path('config_protectionuser_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-
-            <a class="btn" href="{{ path('config_protectionuser', { 'protectionid': entity.protection.id }) }}">
-                {{ "button.back"|trans() }}
-            </a>
-
-            <button class="btn btn-danger" type="submit">{{ "button.delete"|trans() }}</button>
-        </form>
-    </div>
 {% endblock %}

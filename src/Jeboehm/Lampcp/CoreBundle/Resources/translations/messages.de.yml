@@ -62,6 +62,7 @@ create.page.certificate: Zertifikat anlegen
 # Buttons
 button.edit: Bearbeiten
 button.delete: Löschen
+button.delete.confirm: Wirklich löschen?
 button.back: Zurück zur Liste
 button.create: Neuen Eintrag anlegen
 button.show: Anzeigen

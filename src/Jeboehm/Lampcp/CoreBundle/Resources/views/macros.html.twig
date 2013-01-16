@@ -8,9 +8,34 @@
  #}
 
 {% macro excerpt(text, len) %}
-{% if text|length > len %}
-{{ text|slice(0, len) }}...
-{% else %}
-{{ text }}
-{% endif %}
+    {% if text|length > len %}
+        {{ text|slice(0, len) }}...
+    {% else %}
+        {{ text }}
+    {% endif %}
+{% endmacro %}
+
+{% macro formbuttongrp(delete = 1, save = 1, back = 1) %}
+    <hr>
+
+    <div class="btn-group">
+        {% if save == 1 %}
+            <button class="btn btn-success submitbutton" type="submit">
+                {{ "button.edit"|trans() }}
+            </button>
+        {% endif %}
+
+        {% if delete == 1 %}
+            <button prototype-confirm="{{ "button.delete.confirm"|trans() }}"
+                    class="btn btn-danger deletebutton">
+                {{ "button.delete"|trans() }}
+            </button>
+        {% endif %}
+
+        {% if back == 1 %}
+            <button class="btn backbutton">
+                {{ "button.back"|trans() }}
+            </button>
+        {% endif %}
+    </div>
 {% endmacro %}

@@ -36,13 +36,6 @@
 
         {{ form_rest(form) }}
 
-        <p>
-            <button class="btn btn-success" type="submit">{{ "button.edit"|trans() }}</button>
-        </p>
+        {{ macros.formbuttongrp(0) }}
     </form>
-
-    <a class="btn" href="{{ path('systemconfig') }}">
-        {{ "button.back"|trans() }}
-    </a>
-
 {% endblock %}

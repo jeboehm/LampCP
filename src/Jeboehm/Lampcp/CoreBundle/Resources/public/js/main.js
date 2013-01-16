@@ -10,8 +10,26 @@
 $(document).ready(function () {
     // Domainselector
     $('#jeboehm_lampcp_corebundle_domainselectortype_domain').bind({
-        change: function() {
+        change:function () {
             $(this.form).submit();
+        }
+    });
+
+    $('.deletebutton').on({
+        click:function (e) {
+            e.preventDefault();
+
+            if (confirm($(this).attr('prototype-confirm'))) {
+                location.href = 'delete';
+            }
+        }
+    });
+
+    $('.backbutton').on({
+        click:function (e) {
+            e.preventDefault();
+
+            location.href = '../';
         }
     });
 });

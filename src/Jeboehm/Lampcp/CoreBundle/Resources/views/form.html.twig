@@ -22,6 +22,7 @@
 {% block form_widget_simple %}
     {% spaceless %}
         {% set type = type|default('text') %}
-        <input autocomplete="off" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        <input autocomplete="off"
+               type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     {% endspaceless %}
 {% endblock form_widget_simple %}
