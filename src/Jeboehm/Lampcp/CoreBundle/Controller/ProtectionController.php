@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\ProtectionType;
  *
  * @Route("/config/protection")
  */
-class ProtectionController extends AbstractController {
+class ProtectionController extends AbstractController implements ICrudController {
 	/**
 	 * Lists all Protection entities.
 	 *

@@ -23,7 +23,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\ProtectionUserType;
  *
  * @Route("/config/protectionuser")
  */
-class ProtectionUserController extends AbstractController {
+class ProtectionUserController extends AbstractController implements ICrudSubController {
 	/**
 	 * @param int $protectionId
 	 *

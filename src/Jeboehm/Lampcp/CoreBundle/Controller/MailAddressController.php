@@ -24,7 +24,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\MailAddressType;
  *
  * @Route("/config/mailaddress")
  */
-class MailAddressController extends AbstractController {
+class MailAddressController extends AbstractController implements ICrudController {
 	/**
 	 * Lists all MailAddress entities.
 	 *

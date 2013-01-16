@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\SubdomainType;
  *
  * @Route("/config/subdomain")
  */
-class SubdomainController extends AbstractController {
+class SubdomainController extends AbstractController implements ICrudController {
 	/**
 	 * Lists all Subdomain entities.
 	 *

@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\DomainType;
  *
  * @Route("/config/domain")
  */
-class DomainController extends AbstractController {
+class DomainController extends AbstractController implements ICrudController {
 	/**
 	 * Lists all Domain entities.
 	 *

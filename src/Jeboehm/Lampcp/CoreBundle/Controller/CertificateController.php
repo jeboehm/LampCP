@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\CertificateType;
  *
  * @Route("/config/certificate")
  */
-class CertificateController extends AbstractController {
+class CertificateController extends AbstractController implements ICrudController {
 	/**
 	 * Lists all Certificate entities.
 	 *

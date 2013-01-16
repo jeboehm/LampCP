@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\PathOptionType;
  *
  * @Route("/config/pathoption")
  */
-class PathOptionController extends AbstractController {
+class PathOptionController extends AbstractController implements ICrudController {
 	/**
 	 * Lists all PathOption entities.
 	 *
