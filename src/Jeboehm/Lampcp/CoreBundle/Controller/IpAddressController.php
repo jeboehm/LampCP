@@ -55,11 +55,9 @@ class IpAddressController extends AbstractController implements ICrudController 
 			throw $this->createNotFoundException('Unable to find IpAddress entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'delete_form' => $deleteForm->createView(),
+									  'entity' => $entity,
 								 ));
 	}
 
@@ -121,13 +119,11 @@ class IpAddressController extends AbstractController implements ICrudController 
 			throw $this->createNotFoundException('Unable to find IpAddress entity.');
 		}
 
-		$editForm   = $this->createForm(new IpAddressType(), $entity);
-		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createForm(new IpAddressType(), $entity);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -148,8 +144,7 @@ class IpAddressController extends AbstractController implements ICrudController 
 			throw $this->createNotFoundException('Unable to find IpAddress entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new IpAddressType(), $entity);
+		$editForm = $this->createForm(new IpAddressType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
@@ -160,9 +155,8 @@ class IpAddressController extends AbstractController implements ICrudController 
 		}
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -170,25 +164,19 @@ class IpAddressController extends AbstractController implements ICrudController 
 	 * Deletes a IpAddress entity.
 	 *
 	 * @Route("/{id}/delete", name="config_ipaddress_delete")
-	 * @Method("POST")
 	 */
-	public function deleteAction(Request $request, $id) {
-		$form = $this->createDeleteForm($id);
-		$form->bind($request);
+	public function deleteAction($id) {
+		$em = $this->getDoctrine()->getManager();
 
-		if($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
+		/** @var $entity IpAddress */
+		$entity = $em->getRepository('JeboehmLampcpCoreBundle:IpAddress')->find($id);
 
-			/** @var $entity IpAddress */
-			$entity = $em->getRepository('JeboehmLampcpCoreBundle:IpAddress')->find($id);
-
-			if(!$entity) {
-				throw $this->createNotFoundException('Unable to find IpAddress entity.');
-			}
-
-			$em->remove($entity);
-			$em->flush();
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find IpAddress entity.');
 		}
+
+		$em->remove($entity);
+		$em->flush();
 
 		return $this->redirect($this->generateUrl('config_ipaddress'));
 	}

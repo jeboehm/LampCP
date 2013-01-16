@@ -55,11 +55,9 @@ class DomainController extends AbstractController implements ICrudController {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'delete_form' => $deleteForm->createView(),
+									  'entity' => $entity,
 								 ));
 	}
 
@@ -123,13 +121,11 @@ class DomainController extends AbstractController implements ICrudController {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
 		}
 
-		$editForm   = $this->createForm(new DomainType(true), $entity);
-		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createForm(new DomainType(true), $entity);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -149,8 +145,7 @@ class DomainController extends AbstractController implements ICrudController {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new DomainType(true), $entity);
+		$editForm = $this->createForm(new DomainType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
@@ -161,9 +156,8 @@ class DomainController extends AbstractController implements ICrudController {
 		}
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -171,31 +165,19 @@ class DomainController extends AbstractController implements ICrudController {
 	 * Deletes a Domain entity.
 	 *
 	 * @Route("/{id}/delete", name="config_domain_delete")
-	 * @Method("POST")
 	 */
-	public function deleteAction(Request $request, $id) {
-		$form = $this->createDeleteForm($id);
-		$form->bind($request);
+	public function deleteAction($id) {
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Domain')->find($id);
 
-		if($form->isValid()) {
-			$em     = $this->getDoctrine()->getManager();
-			$entity = $em->getRepository('JeboehmLampcpCoreBundle:Domain')->find($id);
-
-			if(!$entity) {
-				throw $this->createNotFoundException('Unable to find Domain entity.');
-			}
-
-			$em->remove($entity);
-			$em->flush();
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find Domain entity.');
 		}
 
-		return $this->redirect($this->generateUrl('config_domain'));
-	}
+		$em->remove($entity);
+		$em->flush();
 
-	private function createDeleteForm($id) {
-		return $this->createFormBuilder(array('id' => $id))
-			->add('id', 'hidden')
-			->getForm();
+		return $this->redirect($this->generateUrl('config_domain'));
 	}
 
 	/**

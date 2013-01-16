@@ -55,11 +55,9 @@ class PathOptionController extends AbstractController implements ICrudController
 			throw $this->createNotFoundException('Unable to find PathOption entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'delete_form' => $deleteForm->createView(),
+									  'entity' => $entity,
 								 ));
 	}
 
@@ -121,13 +119,11 @@ class PathOptionController extends AbstractController implements ICrudController
 			throw $this->createNotFoundException('Unable to find PathOption entity.');
 		}
 
-		$editForm   = $this->createForm(new PathOptionType(), $entity);
-		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createForm(new PathOptionType(), $entity);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -148,8 +144,7 @@ class PathOptionController extends AbstractController implements ICrudController
 			throw $this->createNotFoundException('Unable to find PathOption entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new PathOptionType(), $entity);
+		$editForm = $this->createForm(new PathOptionType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
@@ -160,9 +155,8 @@ class PathOptionController extends AbstractController implements ICrudController
 		}
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -170,32 +164,20 @@ class PathOptionController extends AbstractController implements ICrudController
 	 * Deletes a PathOption entity.
 	 *
 	 * @Route("/{id}/delete", name="config_pathoption_delete")
-	 * @Method("POST")
 	 */
-	public function deleteAction(Request $request, $id) {
-		$form = $this->createDeleteForm($id);
-		$form->bind($request);
+	public function deleteAction($id) {
+		$em = $this->getDoctrine()->getManager();
 
-		if($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
+		/** @var $entity PathOption */
+		$entity = $em->getRepository('JeboehmLampcpCoreBundle:PathOption')->find($id);
 
-			/** @var $entity PathOption */
-			$entity = $em->getRepository('JeboehmLampcpCoreBundle:PathOption')->find($id);
-
-			if(!$entity) {
-				throw $this->createNotFoundException('Unable to find PathOption entity.');
-			}
-
-			$em->remove($entity);
-			$em->flush();
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find PathOption entity.');
 		}
 
-		return $this->redirect($this->generateUrl('config_pathoption'));
-	}
+		$em->remove($entity);
+		$em->flush();
 
-	private function createDeleteForm($id) {
-		return $this->createFormBuilder(array('id' => $id))
-			->add('id', 'hidden')
-			->getForm();
+		return $this->redirect($this->generateUrl('config_pathoption'));
 	}
 }

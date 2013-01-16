@@ -56,11 +56,9 @@ class ProtectionController extends AbstractController implements ICrudController
 			throw $this->createNotFoundException('Unable to find Protection entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'delete_form' => $deleteForm->createView(),
+									  'entity' => $entity,
 								 ));
 	}
 
@@ -122,13 +120,11 @@ class ProtectionController extends AbstractController implements ICrudController
 			throw $this->createNotFoundException('Unable to find Protection entity.');
 		}
 
-		$editForm   = $this->createForm(new ProtectionType(true), $entity);
-		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createForm(new ProtectionType(true), $entity);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -149,8 +145,7 @@ class ProtectionController extends AbstractController implements ICrudController
 			throw $this->createNotFoundException('Unable to find Protection entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new ProtectionType(true), $entity);
+		$editForm = $this->createForm(new ProtectionType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
@@ -161,9 +156,8 @@ class ProtectionController extends AbstractController implements ICrudController
 		}
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -171,32 +165,20 @@ class ProtectionController extends AbstractController implements ICrudController
 	 * Deletes a Protection entity.
 	 *
 	 * @Route("/{id}/delete", name="config_protection_delete")
-	 * @Method("POST")
 	 */
-	public function deleteAction(Request $request, $id) {
-		$form = $this->createDeleteForm($id);
-		$form->bind($request);
+	public function deleteAction($id) {
+		$em = $this->getDoctrine()->getManager();
 
-		if($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
+		/** @var $entity Protection */
+		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Protection')->find($id);
 
-			/** @var $entity Protection */
-			$entity = $em->getRepository('JeboehmLampcpCoreBundle:Protection')->find($id);
-
-			if(!$entity) {
-				throw $this->createNotFoundException('Unable to find Protection entity.');
-			}
-
-			$em->remove($entity);
-			$em->flush();
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find Protection entity.');
 		}
 
-		return $this->redirect($this->generateUrl('config_protection'));
-	}
+		$em->remove($entity);
+		$em->flush();
 
-	private function createDeleteForm($id) {
-		return $this->createFormBuilder(array('id' => $id))
-			->add('id', 'hidden')
-			->getForm();
+		return $this->redirect($this->generateUrl('config_protection'));
 	}
 }

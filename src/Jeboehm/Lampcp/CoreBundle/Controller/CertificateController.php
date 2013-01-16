@@ -66,11 +66,9 @@ class CertificateController extends AbstractController implements ICrudControlle
 
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'delete_form' => $deleteForm->createView(),
+									  'entity' => $entity,
 								 ));
 	}
 
@@ -148,13 +146,11 @@ class CertificateController extends AbstractController implements ICrudControlle
 
 		}
 
-		$editForm   = $this->createForm(new CertificateType(), $entity);
-		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createForm(new CertificateType(), $entity);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -175,8 +171,7 @@ class CertificateController extends AbstractController implements ICrudControlle
 			throw $this->createNotFoundException('Unable to find Certificate entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new CertificateType(), $entity);
+		$editForm = $this->createForm(new CertificateType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
@@ -190,9 +185,8 @@ class CertificateController extends AbstractController implements ICrudControlle
 		}
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -200,39 +194,20 @@ class CertificateController extends AbstractController implements ICrudControlle
 	 * Deletes a Certificate entity.
 	 *
 	 * @Route("/{id}/delete", name="config_certificate_delete")
-	 * @Method("POST")
 	 */
-	public function deleteAction(Request $request, $id) {
-		$form = $this->createDeleteForm($id);
-		$form->bind($request);
+	public function deleteAction($id) {
+		$em = $this->getDoctrine()->getManager();
 
-		if($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
+		/** @var $entity Certificate */
+		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Certificate')->find($id);
 
-			/** @var $entity Certificate */
-			$entity = $em->getRepository('JeboehmLampcpCoreBundle:Certificate')->find($id);
-
-			if(!$entity) {
-				throw $this->createNotFoundException('Unable to find Certificate entity.');
-			}
-
-			$em->remove($entity);
-			$em->flush();
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find Certificate entity.');
 		}
 
-		return $this->redirect($this->generateUrl('config_certificate'));
-	}
+		$em->remove($entity);
+		$em->flush();
 
-	/**
-	 * Get delete form
-	 *
-	 * @param int $id
-	 *
-	 * @return \Symfony\Component\Form\Form
-	 */
-	private function createDeleteForm($id) {
-		return $this->createFormBuilder(array('id' => $id))
-			->add('id', 'hidden')
-			->getForm();
+		return $this->redirect($this->generateUrl('config_certificate'));
 	}
 }

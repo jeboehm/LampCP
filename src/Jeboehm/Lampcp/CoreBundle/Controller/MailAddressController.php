@@ -60,11 +60,9 @@ class MailAddressController extends AbstractController implements ICrudControlle
 			throw $this->createNotFoundException('Unable to find MailAddress entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'delete_form' => $deleteForm->createView(),
+									  'entity' => $entity,
 								 ));
 	}
 
@@ -126,13 +124,11 @@ class MailAddressController extends AbstractController implements ICrudControlle
 			throw $this->createNotFoundException('Unable to find MailAddress entity.');
 		}
 
-		$editForm   = $this->createForm(new MailAddressType(true), $entity);
-		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createForm(new MailAddressType(true), $entity);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -189,9 +185,8 @@ class MailAddressController extends AbstractController implements ICrudControlle
 		}
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -199,25 +194,19 @@ class MailAddressController extends AbstractController implements ICrudControlle
 	 * Deletes a MailAddress entity.
 	 *
 	 * @Route("/{id}/delete", name="config_mailaddress_delete")
-	 * @Method("POST")
 	 */
-	public function deleteAction(Request $request, $id) {
-		$form = $this->createDeleteForm($id);
-		$form->bind($request);
+	public function deleteAction($id) {
+		$em = $this->getDoctrine()->getManager();
 
-		if($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
+		/** @var $entity MailAddress */
+		$entity = $em->getRepository('JeboehmLampcpCoreBundle:MailAddress')->find($id);
 
-			/** @var $entity MailAddress */
-			$entity = $em->getRepository('JeboehmLampcpCoreBundle:MailAddress')->find($id);
-
-			if(!$entity) {
-				throw $this->createNotFoundException('Unable to find MailAddress entity.');
-			}
-
-			$em->remove($entity);
-			$em->flush();
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find MailAddress entity.');
 		}
+
+		$em->remove($entity);
+		$em->flush();
 
 		return $this->redirect($this->generateUrl('config_mailaddress'));
 	}

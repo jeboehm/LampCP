@@ -46,10 +46,9 @@ interface ICrudAbstractController {
 	/**
 	 * Delete
 	 *
-	 * @param \Symfony\Component\HttpFoundation\Request $request
 	 * @param int                                       $id
 	 *
 	 * @return mixed
 	 */
-	public function deleteAction(Request $request, $id);
+	public function deleteAction($id);
 }

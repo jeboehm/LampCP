@@ -71,11 +71,8 @@ class AdminController extends AbstractController implements ICrudController {
 			throw $this->createNotFoundException('Unable to find Admin entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
-
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'delete_form' => $deleteForm->createView(),
+									  'entity' => $entity,
 								 ));
 	}
 
@@ -140,13 +137,11 @@ class AdminController extends AbstractController implements ICrudController {
 			throw $this->createNotFoundException('Unable to find Admin entity.');
 		}
 
-		$editForm   = $this->createForm(new AdminType(true), $entity);
-		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createForm(new AdminType(true), $entity);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -169,8 +164,7 @@ class AdminController extends AbstractController implements ICrudController {
 
 		$oldPassword = $entity->getPassword();
 
-		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new AdminType(true), $entity);
+		$editForm = $this->createForm(new AdminType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
@@ -187,9 +181,8 @@ class AdminController extends AbstractController implements ICrudController {
 		}
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -197,30 +190,18 @@ class AdminController extends AbstractController implements ICrudController {
 	 * Deletes a Admin entity.
 	 *
 	 * @Route("/{id}/delete", name="config_admin_delete")
-	 * @Method("POST")
 	 */
-	public function deleteAction(Request $request, $id) {
-		$form = $this->createDeleteForm($id);
-		$form->bind($request);
+	public function deleteAction($id) {
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Admin')->find($id);
 
-		if($form->isValid()) {
-			$em     = $this->getDoctrine()->getManager();
-			$entity = $em->getRepository('JeboehmLampcpCoreBundle:Admin')->find($id);
-
-			if(!$entity) {
-				throw $this->createNotFoundException('Unable to find Admin entity.');
-			}
-
-			$em->remove($entity);
-			$em->flush();
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find Admin entity.');
 		}
 
-		return $this->redirect($this->generateUrl('config_admin'));
-	}
+		$em->remove($entity);
+		$em->flush();
 
-	private function createDeleteForm($id) {
-		return $this->createFormBuilder(array('id' => $id))
-			->add('id', 'hidden')
-			->getForm();
+		return $this->redirect($this->generateUrl('config_admin'));
 	}
 }

@@ -55,11 +55,9 @@ class SubdomainController extends AbstractController implements ICrudController 
 			throw $this->createNotFoundException('Unable to find Subdomain entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'delete_form' => $deleteForm->createView(),
+									  'entity' => $entity,
 								 ));
 	}
 
@@ -121,13 +119,11 @@ class SubdomainController extends AbstractController implements ICrudController 
 			throw $this->createNotFoundException('Unable to find Subdomain entity.');
 		}
 
-		$editForm   = $this->createForm(new SubdomainType(), $entity);
-		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createForm(new SubdomainType(), $entity);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -148,8 +144,7 @@ class SubdomainController extends AbstractController implements ICrudController 
 			throw $this->createNotFoundException('Unable to find Subdomain entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new SubdomainType(), $entity);
+		$editForm = $this->createForm(new SubdomainType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
@@ -160,9 +155,8 @@ class SubdomainController extends AbstractController implements ICrudController 
 		}
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -170,32 +164,20 @@ class SubdomainController extends AbstractController implements ICrudController 
 	 * Deletes a Subdomain entity.
 	 *
 	 * @Route("/{id}/delete", name="config_subdomain_delete")
-	 * @Method("POST")
 	 */
-	public function deleteAction(Request $request, $id) {
-		$form = $this->createDeleteForm($id);
-		$form->bind($request);
+	public function deleteAction($id) {
+		$em = $this->getDoctrine()->getManager();
 
-		if($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
+		/** @var $entity Subdomain */
+		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Subdomain')->find($id);
 
-			/** @var $entity Subdomain */
-			$entity = $em->getRepository('JeboehmLampcpCoreBundle:Subdomain')->find($id);
-
-			if(!$entity) {
-				throw $this->createNotFoundException('Unable to find Subdomain entity.');
-			}
-
-			$em->remove($entity);
-			$em->flush();
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find Subdomain entity.');
 		}
 
-		return $this->redirect($this->generateUrl('config_subdomain'));
-	}
+		$em->remove($entity);
+		$em->flush();
 
-	private function createDeleteForm($id) {
-		return $this->createFormBuilder(array('id' => $id))
-			->add('id', 'hidden')
-			->getForm();
+		return $this->redirect($this->generateUrl('config_subdomain'));
 	}
 }

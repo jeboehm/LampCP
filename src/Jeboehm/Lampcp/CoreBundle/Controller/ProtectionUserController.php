@@ -81,11 +81,9 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'delete_form' => $deleteForm->createView(),
+									  'entity' => $entity,
 								 ));
 	}
 
@@ -155,13 +153,11 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
 		}
 
-		$editForm   = $this->createForm(new ProtectionUserType(true), $entity);
-		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createForm(new ProtectionUserType(true), $entity);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -184,8 +180,7 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 
 		$oldPassword = $entity->getPassword();
 
-		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new ProtectionUserType(true), $entity);
+		$editForm = $this->createForm(new ProtectionUserType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
@@ -202,9 +197,8 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 		}
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -212,34 +206,22 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 	 * Deletes a ProtectionUser entity.
 	 *
 	 * @Route("/{id}/delete", name="config_protectionuser_delete")
-	 * @Method("POST")
 	 */
-	public function deleteAction(Request $request, $id) {
-		$form = $this->createDeleteForm($id);
-		$form->bind($request);
+	public function deleteAction($id) {
+		$em = $this->getDoctrine()->getManager();
 
-		if($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
+		/** @var $entity ProtectionUser */
+		$entity = $em->getRepository('JeboehmLampcpCoreBundle:ProtectionUser')->find($id);
 
-			/** @var $entity ProtectionUser */
-			$entity = $em->getRepository('JeboehmLampcpCoreBundle:ProtectionUser')->find($id);
-
-			if(!$entity) {
-				throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
-			}
-
-			$protectionid = $entity->getProtection()->getId();
-
-			$em->remove($entity);
-			$em->flush();
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
 		}
 
-		return $this->redirect($this->generateUrl('config_protectionuser', array('protectionid' => $protectionid)));
-	}
+		$protectionid = $entity->getProtection()->getId();
 
-	private function createDeleteForm($id) {
-		return $this->createFormBuilder(array('id' => $id))
-			->add('id', 'hidden')
-			->getForm();
+		$em->remove($entity);
+		$em->flush();
+
+		return $this->redirect($this->generateUrl('config_protectionuser', array('protectionid' => $protectionid)));
 	}
 }

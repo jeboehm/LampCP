@@ -53,11 +53,9 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
 		}
 
-		$deleteForm = $this->createDeleteForm($id);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'delete_form' => $deleteForm->createView(),
+									  'entity' => $entity,
 								 ));
 	}
 
@@ -123,13 +121,11 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
 		}
 
-		$editForm   = $this->createForm(new MysqlDatabaseType(true), $entity);
-		$deleteForm = $this->createDeleteForm($id);
+		$editForm = $this->createForm(new MysqlDatabaseType(true), $entity);
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -152,8 +148,7 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 
 		$oldPassword = $entity->getPassword();
 
-		$deleteForm = $this->createDeleteForm($id);
-		$editForm   = $this->createForm(new MysqlDatabaseType(true), $entity);
+		$editForm = $this->createForm(new MysqlDatabaseType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
@@ -170,9 +165,8 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 		}
 
 		return $this->_getReturn(array(
-									  'entity'      => $entity,
-									  'edit_form'   => $editForm->createView(),
-									  'delete_form' => $deleteForm->createView(),
+									  'entity'    => $entity,
+									  'edit_form' => $editForm->createView(),
 								 ));
 	}
 
@@ -180,33 +174,21 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	 * Deletes a MysqlDatabase entity.
 	 *
 	 * @Route("/{id}/delete", name="config_mysqldatabase_delete")
-	 * @Method("POST")
 	 */
-	public function deleteAction(Request $request, $id) {
-		$form = $this->createDeleteForm($id);
-		$form->bind($request);
+	public function deleteAction($id) {
+		$em = $this->getDoctrine()->getManager();
 
-		if($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
+		/** @var $entity MysqlDatabase */
+		$entity = $this->_getRepository()->find($id);
 
-			/** @var $entity MysqlDatabase */
-			$entity = $this->_getRepository()->find($id);
-
-			if(!$entity) {
-				throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
-			}
-
-			$em->remove($entity);
-			$em->flush();
+		if(!$entity) {
+			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
 		}
 
-		return $this->redirect($this->generateUrl('config_mysqldatabase'));
-	}
+		$em->remove($entity);
+		$em->flush();
 
-	private function createDeleteForm($id) {
-		return $this->createFormBuilder(array('id' => $id))
-			->add('id', 'hidden')
-			->getForm();
+		return $this->redirect($this->generateUrl('config_mysqldatabase'));
 	}
 
 	/**
