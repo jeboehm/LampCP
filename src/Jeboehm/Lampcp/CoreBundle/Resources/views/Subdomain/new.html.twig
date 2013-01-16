@@ -14,12 +14,7 @@
 
     <form action="{{ path('config_subdomain_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
-        <p>
-            <button class="btn btn-primary" type="submit">{{ "button.create"|trans() }}</button>
-        </p>
-    </form>
 
-    <a class="btn" href="{{ path('config_subdomain') }}">
-        {{ "button.back"|trans() }}
-    </a>
+        {{ macros.formbuttongrp(0) }}
+    </form>
 {% endblock %}

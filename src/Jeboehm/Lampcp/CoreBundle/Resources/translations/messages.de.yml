@@ -60,6 +60,7 @@ create.page.ipaddress: IP-Adresse anlegen
 create.page.certificate: Zertifikat anlegen
 
 # Buttons
+button.save: Speichern
 button.edit: Bearbeiten
 button.delete: Löschen
 button.delete.confirm: Wirklich löschen?

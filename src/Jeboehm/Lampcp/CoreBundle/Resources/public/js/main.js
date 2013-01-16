@@ -29,7 +29,11 @@ $(document).ready(function () {
         click:function (e) {
             e.preventDefault();
 
-            location.href = '../';
+            if(getControllerAction() != 'show') {
+                location.href = location.href.substr(0, location.href.lastIndexOf('/'));
+            } else {
+                location.href = '../';
+            }
         }
     });
 });
