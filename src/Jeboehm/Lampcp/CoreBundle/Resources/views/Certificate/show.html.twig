@@ -58,19 +58,5 @@
         </tbody>
     </table>
 
-    <div class="btn-group">
-        <form action="{{ path('config_certificate_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-
-            <a class="btn" href="{{ path('config_certificate') }}">
-                {{ "button.back"|trans() }}
-            </a>
-
-            <a class="btn btn-warning" href="{{ path('config_certificate_edit', { 'id': entity.id }) }}">
-                {{ "button.edit"|trans() }}
-            </a>
-
-            <button class="btn btn-danger" type="submit">{{ "button.delete"|trans() }}</button>
-        </form>
-    </div>
+    {{ macros.showbuttongrp() }}
 {% endblock %}

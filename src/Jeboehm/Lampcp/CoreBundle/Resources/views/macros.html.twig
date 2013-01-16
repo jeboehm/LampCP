@@ -39,3 +39,26 @@
         {% endif %}
     </div>
 {% endmacro %}
+
+{% macro showbuttongrp(delete = 1, edit = 1, back = 1) %}
+    <div class="btn-group">
+        {% if edit == 1 %}
+            <button class="btn btn-warning editbutton" type="submit">
+                {{ "button.edit"|trans() }}
+            </button>
+        {% endif %}
+
+        {% if delete == 1 %}
+            <button prototype-confirm="{{ "button.delete.confirm"|trans() }}"
+                    class="btn btn-danger deletebutton">
+                {{ "button.delete"|trans() }}
+            </button>
+        {% endif %}
+
+        {% if back == 1 %}
+            <button class="btn backbutton">
+                {{ "button.back"|trans() }}
+            </button>
+        {% endif %}
+    </div>
+{% endmacro %}

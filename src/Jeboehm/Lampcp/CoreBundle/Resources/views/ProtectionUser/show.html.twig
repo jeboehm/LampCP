@@ -25,19 +25,5 @@
         </tbody>
     </table>
 
-    <div class="btn-group">
-        <form action="{{ path('config_protectionuser_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-
-            <a class="btn" href="{{ path('config_protectionuser', { 'protectionid': entity.protection.id }) }}">
-                {{ "button.back"|trans() }}
-            </a>
-
-            <a class="btn btn-warning" href="{{ path('config_protectionuser_edit', { 'id': entity.id }) }}">
-                {{ "button.edit"|trans() }}
-            </a>
-
-            <button class="btn btn-danger" type="submit">{{ "button.delete"|trans() }}</button>
-        </form>
-    </div>
+    {{ macros.showbuttongrp() }}
 {% endblock %}

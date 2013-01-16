@@ -25,11 +25,19 @@ $(document).ready(function () {
         }
     });
 
+    $('.editbutton').on({
+        click:function (e) {
+            e.preventDefault();
+
+            location.href = 'edit';
+        }
+    });
+
     $('.backbutton').on({
         click:function (e) {
             e.preventDefault();
 
-            if(getControllerAction() != 'show') {
+            if (getControllerAction() == 'new') {
                 location.href = location.href.substr(0, location.href.lastIndexOf('/'));
             } else {
                 location.href = '../';
