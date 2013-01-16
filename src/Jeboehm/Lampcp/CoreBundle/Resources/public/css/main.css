@@ -15,3 +15,9 @@ body {
 .sidebar-nav {
     padding: 9px 0;
 }
+
+.mailforward {
+    list-style-type: none;
+    padding: 0;
+    margin-left: 0;
+}
