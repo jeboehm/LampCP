@@ -26,6 +26,9 @@
           method="post" {{ form_enctype(edit_form) }}>
         {{ form_row(edit_form.address) }}
 
+        <h2>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailaccount"|trans }}</h2>
+        {{ form_widget(edit_form.mailaccount) }}
+
         <h2>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailforward"|trans }}</h2>
         <ul class="mailforward" data-prototype="{{ form_widget(edit_form.mailforward.vars.prototype)|e }}">
             {% for forward in edit_form.mailforward %}

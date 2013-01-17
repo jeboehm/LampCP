@@ -47,6 +47,12 @@ class MailAccount {
 	private $mailaddress;
 
 	/**
+	 * @var boolean
+	 * @ORM\Column(name="enabled", type="boolean")
+	 */
+	private $enabled;
+
+	/**
 	 * @var string
 	 * @ORM\Column(name="password", type="string", length=255)
 	 * @Assert\MinLength(6)
@@ -66,6 +72,9 @@ class MailAccount {
 	public function __construct(Domain $domain, MailAddress $address) {
 		$this->domain      = $domain;
 		$this->mailaddress = $address;
+		$this->quota       = 102400; // 100 MiB
+		$this->password    = '';
+		$this->enabled     = false;
 	}
 
 	/**
@@ -87,6 +96,28 @@ class MailAccount {
 	}
 
 	/**
+	 * Set enabled
+	 *
+	 * @param boolean $enabled
+	 *
+	 * @return MailAccount
+	 */
+	public function setEnabled($enabled) {
+		$this->enabled = $enabled;
+
+		return $this;
+	}
+
+	/**
+	 * Get enabled
+	 *
+	 * @return boolean
+	 */
+	public function getEnabled() {
+		return $this->enabled;
+	}
+
+	/**
 	 * Set password
 	 *
 	 * @param string $password
@@ -94,7 +125,7 @@ class MailAccount {
 	 * @return MailAccount
 	 */
 	public function setPassword($password) {
-		$this->password = $password;
+		$this->password = strval($password);
 
 		return $this;
 	}

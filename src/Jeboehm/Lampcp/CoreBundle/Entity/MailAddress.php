@@ -53,7 +53,7 @@ class MailAddress {
 
 	/**
 	 * @var MailAccount
-	 * @OneToOne(targetEntity="MailAccount", mappedBy="mailaddress", cascade={"remove"})
+	 * @OneToOne(targetEntity="MailAccount", mappedBy="mailaddress", cascade={"persist","remove"})
 	 */
 	private $mailaccount;
 

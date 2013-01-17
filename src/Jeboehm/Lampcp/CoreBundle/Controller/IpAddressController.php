@@ -180,10 +180,4 @@ class IpAddressController extends AbstractController implements ICrudController 
 
 		return $this->redirect($this->generateUrl('config_ipaddress'));
 	}
-
-	private function createDeleteForm($id) {
-		return $this->createFormBuilder(array('id' => $id))
-			->add('id', 'hidden')
-			->getForm();
-	}
 }

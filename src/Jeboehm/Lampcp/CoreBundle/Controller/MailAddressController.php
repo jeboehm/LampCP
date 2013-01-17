@@ -90,8 +90,11 @@ class MailAddressController extends AbstractController implements ICrudControlle
 	 * @Template("JeboehmLampcpCoreBundle:MailAddress:new.html.twig")
 	 */
 	public function createAction(Request $request) {
-		$entity = new MailAddress($this->_getSelectedDomain());
-		$form   = $this->createForm(new MailAddressType(), $entity);
+		$entity      = new MailAddress($this->_getSelectedDomain());
+		$mailaccount = new MailAccount($entity->getDomain(), $entity);
+		$entity->setMailaccount($mailaccount);
+
+		$form = $this->createForm(new MailAddressType(), $entity);
 		$form->bind($request);
 
 		if($form->isValid()) {
@@ -149,19 +152,22 @@ class MailAddressController extends AbstractController implements ICrudControlle
 			throw $this->createNotFoundException('Unable to find MailAddress entity.');
 		}
 
-
-		$oldForwards = $entity->getMailforward();
-		$deleteForm  = $this->createDeleteForm($id);
-		$editForm    = $this->createForm(new MailAddressType(true), $entity);
+		$oldAccountPassword = $entity->getMailaccount()->getPassword();
+		$oldForwards        = $entity->getMailforward();
+		$editForm           = $this->createForm(new MailAddressType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
 			$newForwards = $entity->getMailforward();
 
+			if(!$entity->getMailaccount()->getPassword()) {
+				$entity->getMailaccount()->setPassword($oldAccountPassword);
+			}
+
 			/*
 			 * Prüfen, ob MailForward gelöscht wurde
 			 */
-			foreach($oldForwards as $key => $oldForward) {
+			foreach($oldForwards as $oldForward) {
 				/** @var $oldForward MailForward */
 				$delete = true;
 
@@ -209,18 +215,5 @@ class MailAddressController extends AbstractController implements ICrudControlle
 		$em->flush();
 
 		return $this->redirect($this->generateUrl('config_mailaddress'));
-	}
-
-	/**
-	 * Get delete form
-	 *
-	 * @param int $id
-	 *
-	 * @return \Symfony\Component\Form\Form
-	 */
-	private function createDeleteForm($id) {
-		return $this->createFormBuilder(array('id' => $id))
-			->add('id', 'hidden')
-			->getForm();
 	}
 }

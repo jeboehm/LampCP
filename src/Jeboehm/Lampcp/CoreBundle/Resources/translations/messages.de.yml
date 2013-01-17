@@ -124,7 +124,11 @@ jeboehm.lampcp.corebundle.protectionusertype.password.second: Passwort wiederhol
 
 jeboehm.lampcp.corebundle.mailaddresstype.address: Adresse
 jeboehm.lampcp.corebundle.mailaddresstype.mailforward: Weiterleitungen
-jeboehm.lampcp.corebundle.mailaddresstype.mailaccount: E-Mailaccounts
+jeboehm.lampcp.corebundle.mailaddresstype.mailaccount: E-Mailaccount
+jeboehm.lampcp.corebundle.mailaddresstype.mailaccount.enabled: Aktiviert
+jeboehm.lampcp.corebundle.mailaddresstype.mailaccount.password.first: Passwort
+jeboehm.lampcp.corebundle.mailaddresstype.mailaccount.password.second: Eingabe wiederholen
+jeboehm.lampcp.corebundle.mailaddresstype.mailaccount.quota: Speicherplatz
 
 jeboehm.lampcp.corebundle.logtype.time: Zeit
 jeboehm.lampcp.corebundle.logtype.message: Nachricht
