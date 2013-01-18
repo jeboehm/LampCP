@@ -162,6 +162,8 @@ class MailAddressController extends AbstractController implements ICrudControlle
 
 			if(!$entity->getMailaccount()->getPassword()) {
 				$entity->getMailaccount()->setPassword($oldAccountPassword);
+			} else {
+				$entity->getMailaccount()->setPassword(md5($entity->getMailaccount()->getPassword()));
 			}
 
 			/*
