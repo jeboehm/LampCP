@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\PostfixBundle\Command;
 
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,6 +28,34 @@ class GenerateViewCommand extends AbstractCommand {
 	}
 
 	/**
+	 * Get sql files for method
+	 *
+	 * @param string $method
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	protected function _getSqlFiles($method) {
+		$fs   = new Filesystem();
+		$sql  = array();
+		$path = realpath(__DIR__ . '/../Resources/sql/' . strtolower($method));
+
+		if(!$fs->exists($path)) {
+			throw new \Exception('Cant find sql files for method!');
+		}
+
+		foreach(glob($path . '/*.sql') as $file) {
+			$content = file_get_contents($file);
+
+			if(!empty($content)) {
+				$sql[] = $content;
+			}
+		}
+
+		return $sql;
+	}
+
+	/**
 	 * Execute command
 	 *
 	 * @param \Symfony\Component\Console\Input\InputInterface   $input
@@ -37,11 +66,7 @@ class GenerateViewCommand extends AbstractCommand {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		if($input->getOption('create')) {
-			$sql = array(
-				'CREATE VIEW postfix_virtual_aliases AS select concat(MailAddress.address,"@",Domain.domain) AS source,MailAccount.username AS destination from MailAddress,MailAccount,Domain where MailAccount.id = MailAddress.mailaccount_id and Domain.id = MailAccount.domain_id',
-				'CREATE VIEW postfix_virtual_domains AS select Domain.domain AS domain from Domain,MailAccount where Domain.id = MailAccount.domain_id group by Domain.id',
-				'CREATE VIEW postfix_virtual_users AS select concat(MailAddress.address,"@",Domain.domain) AS email, MailAccount.username, MailAccount.password from MailAddress,MailAccount,Domain where MailAccount.id = MailAddress.mailaccount_id and Domain.id = MailAccount.domain_id and MailAccount.enabled = 1',
-			);
+			$sql = $this->_getSqlFiles('create');
 
 			foreach($sql as $statement) {
 				$this->_getDoctrine()->getConnection()->exec($statement);
@@ -51,11 +76,7 @@ class GenerateViewCommand extends AbstractCommand {
 			$this->_getLogger()->alert('(GenerateViewsCommand) Created Postfix views');
 
 		} elseif($input->getOption('drop')) {
-			$sql = array(
-				'DROP VIEW postfix_virtual_aliases',
-				'DROP VIEW postfix_virtual_domains',
-				'DROP VIEW postfix_virtual_users',
-			);
+			$sql = $sql = $this->_getSqlFiles('drop');
 
 			foreach($sql as $statement) {
 				$this->_getDoctrine()->getConnection()->exec($statement);
