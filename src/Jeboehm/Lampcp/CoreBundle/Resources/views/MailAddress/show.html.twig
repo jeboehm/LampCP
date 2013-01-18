@@ -36,6 +36,22 @@
                 {% endif %}
             </td>
         </tr>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailaccount"|trans() }}</th>
+            <td>
+                {{ entity.mailaccount.enabled }}
+            </td>
+        </tr>
+
+        {% if entity.mailaccount.enabled %}
+            <tr>
+                <th>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailaccount.quota"|trans() }}</th>
+                <td>
+                    {{ entity.mailaccount.quotahumanreadable }}
+                </td>
+            </tr>
+        {% endif %}
+
         </tbody>
     </table>
 
