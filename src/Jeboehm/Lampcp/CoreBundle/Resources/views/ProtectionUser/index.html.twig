@@ -41,4 +41,7 @@
     <a class="btn btn-primary" href="{{ path('config_protectionuser_new', { 'protectionid': protection.id }) }}">
         {{ "button.create"|trans() }}
     </a>
+
+    <a class="btn"
+       href="{{ path('config_protection_show', { 'id': protection.id }) }}">{{ "show.page.protection"|trans() }}</a>
 {% endblock %}
