@@ -10,7 +10,6 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Listener;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Jeboehm\Lampcp\CoreBundle\Entity\BuilderChange;
 
