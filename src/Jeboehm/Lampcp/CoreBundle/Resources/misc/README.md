@@ -3,10 +3,12 @@ LampCP - A Linux Apache MySQL PHP5 Control Panel
 
 Browse the code on [github](https://github.com/jeboehm/LampCP).
 
+Warning : Early beta state!
+
 Requirements
 ------------
 
-* You will need [git](http://git-scm.com/download) to get the project
+* You will need [git](http://git-scm.com/download) to get the code
 * Check [Symfony2 requirements](http://symfony.com/doc/2.0/reference/requirements.html)
 * LampCP supports Debian Squeeze, Debian Wheezy and Ubuntu > 12.04
 
