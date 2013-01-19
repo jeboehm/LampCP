@@ -18,18 +18,16 @@ class MailAddressType extends AbstractType {
 		$mailForwardType = new MailForwardType();
 		$mailAccountType = new MailAccountType();
 
-		$builder->add('address');
+		$builder
+			->add('address')
+			->add('mailforward', 'collection', array(
+													'type'         => $mailForwardType,
+													'allow_add'    => true,
+													'allow_delete' => true,
+													'by_reference' => false,
+											   ))
+			->add('mailaccount', $mailAccountType);
 
-		if($this->_getIsEditMode()) {
-			$builder->add('mailforward', 'collection', array(
-															'type'         => $mailForwardType,
-															'allow_add'    => true,
-															'allow_delete' => true,
-															'by_reference' => false,
-													   ));
-
-			$builder->add('mailaccount', $mailAccountType);
-		}
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

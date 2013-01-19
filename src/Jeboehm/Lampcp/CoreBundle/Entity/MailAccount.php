@@ -11,8 +11,6 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 use Jeboehm\Lampcp\CoreBundle\Utilities\FilesizeUtility;
 
@@ -35,14 +33,14 @@ class MailAccount {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain", inversedBy="mailaccount")
+	 * @ORM\ManyToOne(targetEntity="Domain", inversedBy="mailaccount")
 	 */
 	private $domain;
 
 	/**
 	 * @var MailAddress
 	 * @Assert\NotNull()
-	 * @OneToOne(targetEntity="MailAddress", inversedBy="mailaccount")
+	 * @ORM\OneToOne(targetEntity="MailAddress", inversedBy="mailaccount")
 	 */
 	private $mailaddress;
 
@@ -125,7 +123,9 @@ class MailAccount {
 	 * @return MailAccount
 	 */
 	public function setPassword($password) {
-		$this->password = strval($password);
+		if(!empty($password)) {
+			$this->password = md5(strval($password));
+		}
 
 		return $this;
 	}

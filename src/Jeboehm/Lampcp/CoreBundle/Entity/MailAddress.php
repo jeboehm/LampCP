@@ -13,9 +13,6 @@ namespace Jeboehm\Lampcp\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToOne;
-use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -39,7 +36,7 @@ class MailAddress {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain", inversedBy="mailaddress")
+	 * @ORM\ManyToOne(targetEntity="Domain", inversedBy="mailaddress")
 	 */
 	private $domain;
 
@@ -53,13 +50,13 @@ class MailAddress {
 
 	/**
 	 * @var MailAccount
-	 * @OneToOne(targetEntity="MailAccount", mappedBy="mailaddress", cascade={"persist","remove"})
+	 * @ORM\OneToOne(targetEntity="MailAccount", mappedBy="mailaddress", cascade={"persist","remove"})
 	 */
 	private $mailaccount;
 
 	/**
 	 * @var Collection
-	 * @OneToMany(targetEntity="MailForward", mappedBy="mailaddress", cascade={"persist","remove"})
+	 * @ORM\OneToMany(targetEntity="MailForward", mappedBy="mailaddress", cascade={"persist","remove"})
 	 */
 	private $mailforward;
 
@@ -71,6 +68,7 @@ class MailAddress {
 	public function __construct(Domain $domain) {
 		$this->domain      = $domain;
 		$this->mailforward = new ArrayCollection();
+		$this->mailaccount = new MailAccount($domain, $this);
 	}
 
 	/**

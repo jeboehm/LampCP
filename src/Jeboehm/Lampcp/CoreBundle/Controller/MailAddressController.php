@@ -16,7 +16,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\MailAddress;
 use Jeboehm\Lampcp\CoreBundle\Entity\MailForward;
-use Jeboehm\Lampcp\CoreBundle\Entity\MailAccount;
 use Jeboehm\Lampcp\CoreBundle\Form\MailAddressType;
 
 /**
@@ -90,11 +89,8 @@ class MailAddressController extends AbstractController implements ICrudControlle
 	 * @Template("JeboehmLampcpCoreBundle:MailAddress:new.html.twig")
 	 */
 	public function createAction(Request $request) {
-		$entity      = new MailAddress($this->_getSelectedDomain());
-		$mailaccount = new MailAccount($entity->getDomain(), $entity);
-		$entity->setMailaccount($mailaccount);
-
-		$form = $this->createForm(new MailAddressType(), $entity);
+		$entity = new MailAddress($this->_getSelectedDomain());
+		$form   = $this->createForm(new MailAddressType(), $entity);
 		$form->bind($request);
 
 		if($form->isValid()) {
@@ -152,19 +148,12 @@ class MailAddressController extends AbstractController implements ICrudControlle
 			throw $this->createNotFoundException('Unable to find MailAddress entity.');
 		}
 
-		$oldAccountPassword = $entity->getMailaccount()->getPassword();
-		$oldForwards        = $entity->getMailforward();
-		$editForm           = $this->createForm(new MailAddressType(true), $entity);
+		$oldForwards = $entity->getMailforward();
+		$editForm    = $this->createForm(new MailAddressType(true), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
 			$newForwards = $entity->getMailforward();
-
-			if(!$entity->getMailaccount()->getPassword()) {
-				$entity->getMailaccount()->setPassword($oldAccountPassword);
-			} else {
-				$entity->getMailaccount()->setPassword(md5($entity->getMailaccount()->getPassword()));
-			}
 
 			/*
 			 * Prüfen, ob MailForward gelöscht wurde
@@ -211,6 +200,12 @@ class MailAddressController extends AbstractController implements ICrudControlle
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find MailAddress entity.');
+		}
+
+		$em->remove($entity->getMailaccount());
+
+		foreach($entity->getMailforward() as $forward) {
+			$em->remove($forward);
 		}
 
 		$em->remove($entity);

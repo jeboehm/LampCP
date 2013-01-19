@@ -11,8 +11,6 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -36,14 +34,14 @@ class MailForward {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain", inversedBy="mailforward")
+	 * @ORM\ManyToOne(targetEntity="Domain", inversedBy="mailforward")
 	 */
 	private $domain;
 
 	/**
 	 * @var MailAddress
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="MailAddress", inversedBy="mailforward")
+	 * @ORM\ManyToOne(targetEntity="MailAddress", inversedBy="mailforward")
 	 */
 	private $mailaddress;
 
