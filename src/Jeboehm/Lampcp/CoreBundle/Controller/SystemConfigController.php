@@ -39,7 +39,7 @@ class SystemConfigController extends AbstractController {
 	/**
 	 * Shows all Config entities in edit form.
 	 *
-	 * @Route("/edit/0", name="systemconfig_edit")
+	 * @Route("/edit", name="systemconfig_edit")
 	 * @Template()
 	 */
 	public function editAction() {

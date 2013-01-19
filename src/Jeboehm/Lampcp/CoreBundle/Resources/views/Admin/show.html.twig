@@ -33,5 +33,5 @@
         </tbody>
     </table>
 
-    {{ macros.showbuttongrp() }}
+    {{ macros.showbuttongrp(path("config_admin"), path("config_admin_edit", { id : entity.id }), path("config_admin_delete", { id : entity.id })) }}
 {% endblock %}

@@ -25,5 +25,5 @@
         </tbody>
     </table>
 
-    {{ macros.showbuttongrp() }}
+    {{ macros.showbuttongrp(path("config_protectionuser", { protectionid : entity.protection.id }), path("config_protectionuser_edit", { id : entity.id }), path("config_protectionuser_delete", { id : entity.id })) }}
 {% endblock %}

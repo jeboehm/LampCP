@@ -33,7 +33,7 @@
         </tbody>
     </table>
 
-    {{ macros.showbuttongrp() }}
+    {{ macros.showbuttongrp(path("config_protection"), path("config_protection_edit", { id : entity.id }), path("config_protection_delete", { id : entity.id })) }}
     <a class="btn"
        href="{{ path('config_protectionuser', { 'protectionid': entity.id }) }}">{{ "title.page.protectionuser"|trans() }}</a>
 {% endblock %}

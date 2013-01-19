@@ -29,5 +29,5 @@
         </tbody>
     </table>
 
-    {{ macros.showbuttongrp() }}
+    {{ macros.showbuttongrp(path("config_mysqldatabase"), path("config_mysqldatabase_edit", { id : entity.id }), path("config_mysqldatabase_delete", { id : entity.id })) }}
 {% endblock %}

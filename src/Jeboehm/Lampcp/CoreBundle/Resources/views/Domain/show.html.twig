@@ -79,5 +79,5 @@
         </tbody>
     </table>
 
-    {{ macros.showbuttongrp() }}
+    {{ macros.showbuttongrp(path("config_domain"), path("config_domain_edit", { id : entity.id }), path("config_domain_delete", { id : entity.id })) }}
 {% endblock %}

@@ -8,40 +8,25 @@
  */
 
 $(document).ready(function () {
-    // Domainselector
-    $('#jeboehm_lampcp_corebundle_domainselectortype_domain').bind({
-        change:function () {
-            $(this.form).submit();
-        }
-    });
+	// Domainselector
+	$('#jeboehm_lampcp_corebundle_domainselectortype_domain').bind({
+																	   change:function () {
+																		   $(this.form).submit();
+																	   }
+																   });
 
-    $('.deletebutton').on({
-        click:function (e) {
-            e.preventDefault();
+	$('.btn').on({
+					 click:function (e) {
+						 if($(this).attr('prototype-confirm')) {
+							 if(!confirm($(this).attr('prototype-confirm'))) {
+								 return false;
+							 }
+						 }
 
-            if (confirm($(this).attr('prototype-confirm'))) {
-                location.href = 'delete';
-            }
-        }
-    });
-
-    $('.editbutton').on({
-        click:function (e) {
-            e.preventDefault();
-
-            location.href = 'edit';
-        }
-    });
-
-    $('.backbutton').on({
-        click:function (e) {
-            e.preventDefault();
-
-            if (getControllerAction() == 'new') {
-                location.href = location.href.substr(0, location.href.lastIndexOf('/'));
-            } else {
-                location.href = '../';
-            }
-        }
-    });
+						 if($(this).attr('prototype-target')) {
+							 e.preventDefault();
+							 location.href = $(this).attr('prototype-target');
+						 }
+					 }
+				 });
 });

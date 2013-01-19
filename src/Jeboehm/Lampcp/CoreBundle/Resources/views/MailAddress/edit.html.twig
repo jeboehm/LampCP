@@ -43,6 +43,6 @@
             {{ form_rest(edit_form) }}
         </div>
 
-        {{ macros.formbuttongrp() }}
+        {{ macros.formbuttongrp(path('config_mailaddress'), path('config_mailaddress_delete', { 'id': entity.id })) }}
     </form>
 {% endblock %}

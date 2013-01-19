@@ -15,6 +15,6 @@
     <form action="{{ path('config_ipaddress_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
 
-        {{ macros.formbuttongrp(0) }}
+        {{ macros.formbuttongrp(path('config_ipaddress')) }}
     </form>
 {% endblock %}
