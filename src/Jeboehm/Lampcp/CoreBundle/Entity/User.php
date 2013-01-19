@@ -11,7 +11,6 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -61,7 +60,7 @@ class User {
 
 	/**
 	 * @var Collection
-	 * @OneToMany(targetEntity="Domain", mappedBy="user")
+	 * @ORM\OneToMany(targetEntity="Domain", mappedBy="user")
 	 */
 	private $domain;
 

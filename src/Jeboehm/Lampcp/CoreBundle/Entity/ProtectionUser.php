@@ -11,7 +11,6 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -35,14 +34,14 @@ class ProtectionUser {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain", inversedBy="protectionuser")
+	 * @ORM\ManyToOne(targetEntity="Domain", inversedBy="protectionuser")
 	 */
 	private $domain;
 
 	/**
 	 * @var Protection
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Protection", inversedBy="protectionuser")
+	 * @ORM\ManyToOne(targetEntity="Protection", inversedBy="protectionuser")
 	 */
 	private $protection;
 

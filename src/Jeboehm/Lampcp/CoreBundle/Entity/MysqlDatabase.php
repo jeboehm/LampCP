@@ -11,7 +11,6 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -35,7 +34,7 @@ class MysqlDatabase {
 	/**
 	 * @var string
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain", inversedBy="mysqldatabase")
+	 * @ORM\ManyToOne(targetEntity="Domain", inversedBy="mysqldatabase")
 	 */
 	private $domain;
 

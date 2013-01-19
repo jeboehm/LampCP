@@ -11,8 +11,6 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\Collection;
@@ -38,13 +36,13 @@ class Protection {
 	/**
 	 * @var Domain
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="Domain", inversedBy="protection")
+	 * @ORM\ManyToOne(targetEntity="Domain", inversedBy="protection")
 	 */
 	private $domain;
 
 	/**
 	 * @var Collection
-	 * @OneToMany(targetEntity="ProtectionUser", mappedBy="protection", cascade={"remove"})
+	 * @ORM\OneToMany(targetEntity="ProtectionUser", mappedBy="protection", cascade={"remove"})
 	 */
 	private $protectionuser;
 

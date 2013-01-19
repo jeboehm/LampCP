@@ -13,9 +13,6 @@ namespace Jeboehm\Lampcp\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\ManyToMany;
-use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -46,7 +43,7 @@ class Domain {
 
 	/**
 	 * @var Certificate
-	 * @ManyToOne(targetEntity="Certificate", inversedBy="domain")
+	 * @ORM\ManyToOne(targetEntity="Certificate", inversedBy="domain")
 	 */
 	private $certificate;
 
@@ -67,13 +64,13 @@ class Domain {
 	/**
 	 * @var User
 	 * @Assert\NotNull()
-	 * @ManyToOne(targetEntity="User", inversedBy="domain")
+	 * @ORM\ManyToOne(targetEntity="User", inversedBy="domain")
 	 */
 	private $user;
 
 	/**
 	 * @var Collection
-	 * @ManyToMany(targetEntity="IpAddress", inversedBy="domain")
+	 * @ORM\ManyToMany(targetEntity="IpAddress", inversedBy="domain")
 	 */
 	private $ipaddress;
 
@@ -85,49 +82,49 @@ class Domain {
 
 	/**
 	 * @var Collection
-	 * @OneToMany(targetEntity="MailAccount", mappedBy="domain", cascade={"remove"})
+	 * @ORM\OneToMany(targetEntity="MailAccount", mappedBy="domain", cascade={"remove"})
 	 */
 	private $mailaccount;
 
 	/**
 	 * @var Collection
-	 * @OneToMany(targetEntity="MailAddress", mappedBy="domain", cascade={"remove"})
+	 * @ORM\OneToMany(targetEntity="MailAddress", mappedBy="domain", cascade={"remove"})
 	 */
 	private $mailaddress;
 
 	/**
 	 * @var Collection
-	 * @OneToMany(targetEntity="MailForward", mappedBy="domain", cascade={"remove"})
+	 * @ORM\OneToMany(targetEntity="MailForward", mappedBy="domain", cascade={"remove"})
 	 */
 	private $mailforward;
 
 	/**
 	 * @var Collection
-	 * @OneToMany(targetEntity="MysqlDatabase", mappedBy="domain", cascade={"remove"})
+	 * @ORM\OneToMany(targetEntity="MysqlDatabase", mappedBy="domain", cascade={"remove"})
 	 */
 	private $mysqldatabase;
 
 	/**
 	 * @var Collection
-	 * @OneToMany(targetEntity="PathOption", mappedBy="domain", cascade={"remove"})
+	 * @ORM\OneToMany(targetEntity="PathOption", mappedBy="domain", cascade={"remove"})
 	 */
 	private $pathoption;
 
 	/**
 	 * @var Collection
-	 * @OneToMany(targetEntity="Protection", mappedBy="domain", cascade={"remove"})
+	 * @ORM\OneToMany(targetEntity="Protection", mappedBy="domain", cascade={"remove"})
 	 */
 	private $protection;
 
 	/**
 	 * @var Collection
-	 * @OneToMany(targetEntity="ProtectionUser", mappedBy="domain", cascade={"remove"})
+	 * @ORM\OneToMany(targetEntity="ProtectionUser", mappedBy="domain", cascade={"remove"})
 	 */
 	private $protectionuser;
 
 	/**
 	 * @var Collection
-	 * @OneToMany(targetEntity="Subdomain", mappedBy="domain", cascade={"remove"})
+	 * @ORM\OneToMany(targetEntity="Subdomain", mappedBy="domain", cascade={"remove"})
 	 */
 	private $subdomain;
 

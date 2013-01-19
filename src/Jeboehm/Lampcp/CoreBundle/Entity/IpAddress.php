@@ -11,7 +11,6 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -34,7 +33,7 @@ class IpAddress {
 
 	/**
 	 * @var Collection
-	 * @ManyToMany(targetEntity="Domain", mappedBy="ipaddress")
+	 * @ORM\ManyToMany(targetEntity="Domain", mappedBy="ipaddress")
 	 */
 	private $domain;
 
