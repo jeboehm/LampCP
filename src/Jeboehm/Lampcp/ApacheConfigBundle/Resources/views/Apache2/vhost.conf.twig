@@ -72,17 +72,16 @@
             </Directory>
 
             <Directory "{{ vhost.docroot }}">
-            Options Indexes MultiViews FollowSymLinks +ExecCGI
+            Options FollowSymLinks +ExecCGI
             FCGIWrapper {{ vhost.fcgiwrapper }} .php
             Order allow,deny
             Allow from all
-            AllowOverride all
+            AllowOverride FileInfo Indexes Limit AuthConfig
             </Directory>
 
             ErrorLog {{ vhost.errorlog }}
             LogLevel warn
             CustomLog {{ vhost.customlog }} combined
-            ServerSignature On
             </VirtualHost>
         {% endif %}
     {% endfor %}

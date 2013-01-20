@@ -18,6 +18,7 @@
             <th>{{ "all.column.id"|trans() }}</th>
             <th>{{ "jeboehm.lampcp.corebundle.domaintype.domain"|trans() }}</th>
             <th>{{ "jeboehm.lampcp.corebundle.domaintype.path"|trans() }}</th>
+            <th>{{ "jeboehm.lampcp.corebundle.domaintype.webroot"|trans() }}</th>
             <th>{{ "all.column.actions"|trans() }}</th>
         </tr>
         </thead>
@@ -27,6 +28,7 @@
                 <td><a href="{{ path('config_domain_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.domain }}</td>
                 <td>{{ entity.path }}</td>
+                <td>{{ entity.webroot }}</td>
                 <td>
                     <div class="btn-group">
                         <a class="btn btn-info btn-mini"
