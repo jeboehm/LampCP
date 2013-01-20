@@ -12,4 +12,5 @@ CREATE VIEW postfix_virtual_aliases AS
   WHERE MailAddress.domain_id = Domain.id
     AND MailAccount.mailaddress_id = MailAddress.id
     AND MailAccount.enabled = 1
+    AND MailAccount.password != ''
 )
