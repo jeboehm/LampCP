@@ -99,12 +99,14 @@ jeboehm.lampcp.corebundle.domaintype.user: Besitzer
 jeboehm.lampcp.corebundle.domaintype.ipaddress: IP-Adresse
 jeboehm.lampcp.corebundle.domaintype.certificate: Zertifikat
 jeboehm.lampcp.corebundle.domaintype.parsePhp: PHP aktivieren
+jeboehm.lampcp.corebundle.domaintype.isWildcard: Wildcard
 
 jeboehm.lampcp.corebundle.subdomaintype.subdomain: Subdomain
 jeboehm.lampcp.corebundle.subdomaintype.path: Pfad
 jeboehm.lampcp.corebundle.subdomaintype.customconfig: Benutzerdef. Konfiguration
 jeboehm.lampcp.corebundle.subdomaintype.certificate: Zertifikat
 jeboehm.lampcp.corebundle.subdomaintype.parsePhp: PHP aktivieren
+jeboehm.lampcp.corebundle.subdomaintype.isWildcard: Wildcard
 
 jeboehm.lampcp.corebundle.mysqldatabasetype.name: Datenbankname
 jeboehm.lampcp.corebundle.mysqldatabasetype.comment: Kommentar

@@ -23,6 +23,9 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	const _twigVhost         = 'JeboehmLampcpApacheConfigBundle:Apache2:vhost.conf.twig';
 	const _twigFcgiStarter   = 'JeboehmLampcpApacheConfigBundle:PHP:php-fcgi-starter.sh.twig';
 	const _twigPhpIni        = 'JeboehmLampcpApacheConfigBundle:PHP:php.ini.twig';
+	const _fcgiStarter       = '/php-fcgi/php-fcgi-starter.sh';
+	const _errorLog          = '/logs/error.log';
+	const _accessLog         = '/logs/access.log';
 	const _domainFileName    = '20_vhost.conf';
 	const _domainAliasPrefix = 'www.';
 
@@ -42,9 +45,9 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			->setDocroot($domain->getFullWebrootPath())
 			->setSuexecuser($domain->getUser()->getName())
 			->setSuexecgroup($domain->getUser()->getGroupname())
-			->setFcgiwrapper($domain->getPath() . '/php-fcgi/php-fcgi-starter.sh')
-			->setCustomlog($domain->getPath() . '/logs/access.log')
-			->setErrorlog($domain->getPath() . '/logs/error.log')
+			->setFcgiwrapper($domain->getPath() . self::_fcgiStarter)
+			->setCustomlog($domain->getPath() . self::_accessLog)
+			->setErrorlog($domain->getPath() . self::_errorLog)
 			->setCustom($domain->getCustomconfig())
 			->setIpaddress($domain->getIpaddress())
 			->setCertificate($domain->getCertificate())
@@ -57,6 +60,10 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 				->setPort(80);
 
 			$model->setIpaddress(array($ip));
+		}
+
+		if($domain->getIsWildcard()) {
+			$model->setServeralias('*.' . $domain->getDomain());
 		}
 
 		return $model;
@@ -79,6 +86,10 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			->setCustom($subdomain->getCustomconfig())
 			->setCertificate($subdomain->getCertificate())
 			->setParsePhp($subdomain->getParsePhp());
+
+		if($subdomain->getIsWildcard()) {
+			$model->setServeralias('*.' . $subdomain->getFullDomain());
+		}
 
 		return $model;
 	}
