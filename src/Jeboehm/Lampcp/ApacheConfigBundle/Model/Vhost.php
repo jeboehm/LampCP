@@ -56,6 +56,9 @@ class Vhost {
 	/** @var Certificate */
 	private $certificate;
 
+	/** @var boolean */
+	private $parsePhp;
+
 	/**
 	 * Konstruktor
 	 */
@@ -314,5 +317,23 @@ class Vhost {
 	 */
 	public function getCertificate() {
 		return $this->certificate;
+	}
+
+	/**
+	 * @param boolean $parsePhp
+	 *
+	 * @return Vhost
+	 */
+	public function setParsePhp($parsePhp) {
+		$this->parsePhp = $parsePhp;
+
+		return $this;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getParsePhp() {
+		return $this->parsePhp;
 	}
 }
