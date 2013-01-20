@@ -23,6 +23,7 @@ class SubdomainType extends AbstractType {
 												'required' => false,
 										   ))
 			->add('path', null, array('required' => false))
+			->add('parsePhp', null, array('required' => false))
 			->add('customconfig', null, array('required' => false));
 	}
 

@@ -44,6 +44,9 @@ class DomainType extends AbstractType {
 											  'multiple' => true,
 											  'required' => false,
 										 ))
+			->add('parsePhp', null, array(
+										 'required' => false,
+									))
 			->add('customconfig', null, array('required' => false));
 	}
 
