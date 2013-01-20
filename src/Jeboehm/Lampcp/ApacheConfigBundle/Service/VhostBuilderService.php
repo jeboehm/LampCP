@@ -47,7 +47,8 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			->setErrorlog($domain->getPath() . '/logs/error.log')
 			->setCustom($domain->getCustomconfig())
 			->setIpaddress($domain->getIpaddress())
-			->setCertificate($domain->getCertificate());
+			->setCertificate($domain->getCertificate())
+			->setParsePhp($domain->getParsePhp());
 
 		if(count($domain->getIpaddress()) < 1) {
 			$ip = new IpAddress();
@@ -76,7 +77,8 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			->setServeralias(self::_domainAliasPrefix . $subdomain->getFullDomain())
 			->setDocroot($subdomain->getFullPath())
 			->setCustom($subdomain->getCustomconfig())
-			->setCertificate($subdomain->getCertificate());
+			->setCertificate($subdomain->getCertificate())
+			->setParsePhp($subdomain->getParsePhp());
 
 		return $model;
 	}

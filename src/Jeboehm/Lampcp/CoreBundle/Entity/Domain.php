@@ -75,6 +75,12 @@ class Domain {
 	private $ipaddress;
 
 	/**
+	 * @var boolean
+	 * @ORM\Column(name="parsePhp", type="boolean")
+	 */
+	private $parsePhp;
+
+	/**
 	 * @var string
 	 * @ORM\Column(name="customconfig", type="text")
 	 */
@@ -134,6 +140,7 @@ class Domain {
 	public function __construct() {
 		$this->customconfig   = '';
 		$this->webroot        = 'htdocs';
+		$this->parsePhp       = true;
 		$this->subdomain      = new ArrayCollection();
 		$this->protection     = new ArrayCollection();
 		$this->protectionuser = new ArrayCollection();
@@ -240,6 +247,28 @@ class Domain {
 	 */
 	public function getWebroot() {
 		return $this->webroot;
+	}
+
+	/**
+	 * Set parse php
+	 *
+	 * @param boolean $parsePhp
+	 *
+	 * @return Domain
+	 */
+	public function setParsePhp($parsePhp) {
+		$this->parsePhp = $parsePhp;
+
+		return $this;
+	}
+
+	/**
+	 * Get parse php
+	 *
+	 * @return boolean
+	 */
+	public function getParsePhp() {
+		return $this->parsePhp;
 	}
 
 	/**
