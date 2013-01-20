@@ -37,7 +37,9 @@
             ServerAlias {{ vhost.serveralias }}
             SuexecUserGroup {{ vhost.suexecuser }} {{ vhost.suexecgroup }}
 
-            {% if vhost.parsePhp %}AddHandler fcgid-script .php{% endif %}
+            {% if vhost.parsePhp %}
+                AddHandler fcgid-script .php
+            {% endif %}
 
             DocumentRoot "{{ vhost.docroot }}"
             DirectoryIndex {{ vhost.directoryindex }}
@@ -77,7 +79,11 @@
 
             <Directory "{{ vhost.docroot }}">
             Options FollowSymLinks +ExecCGI
-            {% if vhost.parsePhp %}FCGIWrapper {{ vhost.fcgiwrapper }} .php{% endif %}
+
+            {% if vhost.parsePhp %}
+                FCGIWrapper {{ vhost.fcgiwrapper }} .php
+            {% endif %}
+
             Order allow,deny
             Allow from all
             AllowOverride FileInfo Indexes Limit AuthConfig
