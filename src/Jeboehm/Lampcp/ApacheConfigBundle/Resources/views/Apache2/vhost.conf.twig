@@ -64,6 +64,8 @@
                 SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown
             {% endif %}
 
+            {{ vhost.custom }}
+
             <Directory "/">
             Options FollowSymLinks
             AllowOverride None
