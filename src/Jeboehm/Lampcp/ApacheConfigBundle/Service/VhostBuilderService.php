@@ -182,7 +182,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 					/** @var $ipaddress IpAddress */
 					$vhost = new Vhost();
 					$vhost
-						->setDomain($domain)
+						->setDomain($subdomain->getDomain())
 						->setSubdomain($subdomain)
 						->setIpaddress($ipaddress);
 					$models[] = $vhost;
@@ -190,7 +190,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			} else {
 				$vhost = new Vhost();
 				$vhost
-					->setDomain($domain)
+					->setDomain($subdomain->getDomain())
 					->setSubdomain($subdomain);
 				$models[] = $vhost;
 			}
