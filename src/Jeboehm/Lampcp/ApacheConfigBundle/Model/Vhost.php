@@ -248,9 +248,7 @@ class Vhost {
 				continue;
 			}
 
-			if(substr($protection->getFullPath(), 0, strlen($docroot)) == $docroot) {
-				$protections[] = $protection;
-			}
+			$protections[] = $protection;
 		}
 
 		return $protections;
@@ -271,9 +269,7 @@ class Vhost {
 				continue;
 			}
 
-			if(substr($pathoption->getFullPath(), 0, strlen($docroot)) == $docroot) {
-				$pathoptions[] = $pathoption;
-			}
+			$pathoptions[] = $pathoption;
 		}
 
 		return $pathoptions;
