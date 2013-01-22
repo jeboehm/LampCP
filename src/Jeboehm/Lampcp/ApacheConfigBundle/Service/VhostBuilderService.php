@@ -196,11 +196,35 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			}
 		}
 
+		$models  = $this->_orderVhosts($models);
 		$content = $this->_renderTemplate(self::_twigVhost, array(
 																 'vhosts' => $models,
 																 'ips'    => $this->_getAllIpAddresses(),
 															));
 
 		$this->_saveVhostConfig($content);
+	}
+
+	/**
+	 * Order vhost models by wildcard
+	 *
+	 * @param array $vhosts
+	 *
+	 * @return array
+	 */
+	protected function _orderVhosts(array $vhosts) {
+		$nonWc = array();
+		$wc    = array();
+
+		foreach($vhosts as $vhost) {
+			/** @var $vhost Vhost */
+			if($vhost->getIsWildcard()) {
+				$wc[] = $vhost;
+			} else {
+				$nonWc[] = $vhost;
+			}
+		}
+
+		return array_merge($nonWc, $wc);
 	}
 }

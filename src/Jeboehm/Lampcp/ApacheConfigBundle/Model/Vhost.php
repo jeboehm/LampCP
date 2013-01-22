@@ -66,19 +66,34 @@ class Vhost {
 	}
 
 	/**
+	 * Is wildcard domain?
+	 *
+	 * @return bool
+	 */
+	public function getIsWildcard() {
+		if($this->isSubDomain) {
+			$wildcard = $this->subdomain->getIsWildcard();
+		} else {
+			$wildcard = $this->domain->getIsWildcard();
+		}
+
+		return $wildcard;
+	}
+
+	/**
 	 * ServerAlias
 	 *
 	 * @return array
 	 */
 	public function getServerAlias() {
 		if($this->isSubDomain) {
-			if($this->subdomain->getIsWildcard()) {
+			if($this->getIsWildcard()) {
 				$serveralias = self::_serveralias_prefix_wildcard . $this->subdomain->getFullDomain();
 			} else {
 				$serveralias = self::_serveralias_prefix_normal . $this->domain->getDomain();
 			}
 		} else {
-			if($this->domain->getIsWildcard()) {
+			if($this->getIsWildcard()) {
 				$serveralias = self::_serveralias_prefix_wildcard;
 			} else {
 				$serveralias = self::_serveralias_prefix_normal;
