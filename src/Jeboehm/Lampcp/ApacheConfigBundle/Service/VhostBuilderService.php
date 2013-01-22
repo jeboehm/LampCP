@@ -26,12 +26,14 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	const _domainFileName  = '20_vhost.conf';
 
 	/**
-	 * @param \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost $model
+	 * Render php.ini
 	 *
-	 * @return string
+	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+	 *
 	 * @throws \Exception
+	 * @return string
 	 */
-	protected function _renderPhpIni(Vhost $model) {
+	protected function _renderPhpIni(Domain $domain) {
 		$phpIniPath   = $this
 			->_getConfigService()
 			->getParameter('apache.pathphpini');
@@ -46,7 +48,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 		}
 
 		return $this->_renderTemplate(self::_twigPhpIni, array(
-															  'vhost'  => $model,
+															  'domain' => $domain,
 															  'global' => $globalConfig,
 														 ));
 	}
@@ -98,7 +100,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 
 		if(!file_exists($filename)) {
 			$this->_getLogger()->info('(VhostBuilderService) Generating php.ini:' . $filename);
-			file_put_contents($filename, $this->_renderPhpIni($this->_getVhostModelForDomain($domain)));
+			file_put_contents($filename, $this->_renderPhpIni($domain));
 		}
 
 		// Change rights

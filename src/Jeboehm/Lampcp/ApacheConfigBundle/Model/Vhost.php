@@ -290,11 +290,13 @@ class Vhost {
 		foreach($this->_getPathOption() as $pathoption) {
 			$path = $pathoption->getFullPath();
 
-			if(!is_array($options[$path])) {
-				$options[$path] = array(
-					'pathoption' => null,
-					'protection' => null,
-				);
+			if(isset($options[$path])) {
+				if(!is_array($options[$path])) {
+					$options[$path] = array(
+						'pathoption' => null,
+						'protection' => null,
+					);
+				}
 			}
 
 			$options[$path]['pathoption'] = $pathoption;
