@@ -164,7 +164,10 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 					$vhost
 						->setDomain($domain)
 						->setIpaddress($ipaddress);
-					$models[] = $vhost;
+
+					if($vhost->getSSLEnabled() || !$ipaddress->getHasSsl()) {
+						$models[] = $vhost;
+					}
 				}
 			} else {
 				$vhost = new Vhost();
@@ -185,7 +188,10 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 						->setDomain($subdomain->getDomain())
 						->setSubdomain($subdomain)
 						->setIpaddress($ipaddress);
-					$models[] = $vhost;
+
+					if($vhost->getSSLEnabled() || !$ipaddress->getHasSsl()) {
+						$models[] = $vhost;
+					}
 				}
 			} else {
 				$vhost = new Vhost();
