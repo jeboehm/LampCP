@@ -112,7 +112,7 @@ class Vhost {
 		if($this->isSubDomain) {
 			$root = $this->subdomain->getFullPath();
 		} else {
-			$root = $this->domain->getWebroot();
+			$root = $this->domain->getFullWebrootPath();
 		}
 
 		return $root;
