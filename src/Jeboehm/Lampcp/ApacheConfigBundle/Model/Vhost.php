@@ -282,17 +282,16 @@ class Vhost {
 	 */
 	public function getDirectoryOptions() {
 		$options = array();
+		$ordered = array();
 
 		foreach($this->_getPathOption() as $pathoption) {
 			$path = $pathoption->getFullPath();
 
-			if(isset($options[$path])) {
-				if(!is_array($options[$path])) {
-					$options[$path] = array(
-						'pathoption' => null,
-						'protection' => null,
-					);
-				}
+			if(!isset($options[$path])) {
+				$options[$path] = array(
+					'pathoption' => null,
+					'protection' => null,
+				);
 			}
 
 			$options[$path]['pathoption'] = $pathoption;
@@ -301,19 +300,26 @@ class Vhost {
 		foreach($this->_getProtection() as $protection) {
 			$path = $protection->getFullPath();
 
-			if(isset($options[$path])) {
-				if(!is_array($options[$path])) {
-					$options[$path] = array(
-						'pathoption' => null,
-						'protection' => null,
-					);
-				}
+			if(!isset($options[$path])) {
+				$options[$path] = array(
+					'pathoption' => null,
+					'protection' => null,
+				);
 			}
 
 			$options[$path]['protection'] = $protection;
 		}
 
-		return $options;
+
+		foreach($options as $path => $option) {
+			$ordered[] = array(
+				'path'       => $path,
+				'pathoption' => $option['pathoption'],
+				'protection' => $option['protection'],
+			);
+		}
+
+		return $ordered;
 	}
 
 	/**

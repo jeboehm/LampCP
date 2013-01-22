@@ -96,14 +96,14 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
         {% endif %}
     </Directory>
 
-    {% for dir, diropt in vhost.DirectoryOptions %}
-        <Directory "{{ dir }}">
-            {% if diropt.pathoption is defined %}
-                {{ macros.pathoption(diropt.pathoption) }}
+    {% for coll in vhost.DirectoryOptions %}
+        <Directory "{{ coll.path }}">
+            {% if coll.pathoption is not null %}
+                {{ macros.pathoption(coll.pathoption) }}
             {% endif %}
 
-            {% if diropt.protection is defined %}
-                {{ macros.protection(diropt.protection) }}
+            {% if coll.protection is not null %}
+                {{ macros.protection(coll.protection) }}
             {% endif %}
         </Directory>
     {% endfor %}
