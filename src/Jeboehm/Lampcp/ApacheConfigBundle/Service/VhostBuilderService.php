@@ -20,79 +20,10 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
 use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
 
 class VhostBuilderService extends AbstractBuilderService implements BuilderServiceInterface {
-	const _twigVhost         = 'JeboehmLampcpApacheConfigBundle:Apache2:vhost.conf.twig';
-	const _twigFcgiStarter   = 'JeboehmLampcpApacheConfigBundle:PHP:php-fcgi-starter.sh.twig';
-	const _twigPhpIni        = 'JeboehmLampcpApacheConfigBundle:PHP:php.ini.twig';
-	const _fcgiStarter       = '/php-fcgi/php-fcgi-starter.sh';
-	const _errorLog          = '/logs/error.log';
-	const _accessLog         = '/logs/access.log';
-	const _domainFileName    = '20_vhost.conf';
-	const _domainAliasPrefix = 'www.';
-
-	/**
-	 * Get vhost model for domain
-	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
-	 *
-	 * @return Vhost
-	 */
-	protected function _getVhostModelForDomain(Domain $domain) {
-		$model = new Vhost();
-		$model
-			->setServername($domain->getDomain())
-			->setServeralias(self::_domainAliasPrefix . $domain->getDomain())
-			->setRoot($domain->getPath())
-			->setDocroot($domain->getFullWebrootPath())
-			->setSuexecuser($domain->getUser()->getName())
-			->setSuexecgroup($domain->getUser()->getGroupname())
-			->setFcgiwrapper($domain->getPath() . self::_fcgiStarter)
-			->setCustomlog($domain->getPath() . self::_accessLog)
-			->setErrorlog($domain->getPath() . self::_errorLog)
-			->setCustom($domain->getCustomconfig())
-			->setIpaddress($domain->getIpaddress())
-			->setCertificate($domain->getCertificate())
-			->setParsePhp($domain->getParsePhp());
-
-		if(count($domain->getIpaddress()) < 1) {
-			$ip = new IpAddress();
-			$ip
-				->setIp('*')
-				->setPort(80);
-
-			$model->setIpaddress(array($ip));
-		}
-
-		if($domain->getIsWildcard()) {
-			$model->setServeralias('*.' . $domain->getDomain());
-		}
-
-		return $model;
-	}
-
-	/**
-	 * Get vhost model for subdomain
-	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain $subdomain
-	 *
-	 * @return \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost
-	 */
-	protected function _getVhostModelForSubdomain(Subdomain $subdomain) {
-		$model = $this->_getVhostModelForDomain($subdomain->getDomain());
-
-		$model
-			->setServername($subdomain->getFullDomain())
-			->setServeralias(self::_domainAliasPrefix . $subdomain->getFullDomain())
-			->setDocroot($subdomain->getFullPath())
-			->setCustom($subdomain->getCustomconfig())
-			->setCertificate($subdomain->getCertificate())
-			->setParsePhp($subdomain->getParsePhp());
-
-		if($subdomain->getIsWildcard()) {
-			$model->setServeralias('*.' . $subdomain->getFullDomain());
-		}
-
-		return $model;
-	}
+	const _twigVhost       = 'JeboehmLampcpApacheConfigBundle:Apache2:vhost.conf.twig';
+	const _twigFcgiStarter = 'JeboehmLampcpApacheConfigBundle:PHP:php-fcgi-starter.sh.twig';
+	const _twigPhpIni      = 'JeboehmLampcpApacheConfigBundle:PHP:php.ini.twig';
+	const _domainFileName  = '20_vhost.conf';
 
 	/**
 	 * @param \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost $model
@@ -221,23 +152,52 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	 * Build all configurations
 	 */
 	public function buildAll() {
-		$domainModels    = array();
-		$subdomainModels = array();
+		/** @var $models Vhost[] */
+		$models = array();
 
 		foreach($this->_getAllDomains() as $domain) {
-			$domainModels[] = $this->_getVhostModelForDomain($domain);
+			if($domain->getIpaddress()->count() > 0) {
+				foreach($domain->getIpaddress() as $ipaddress) {
+					/** @var $ipaddress IpAddress */
+					$vhost = new Vhost();
+					$vhost
+						->setDomain($domain)
+						->setIpaddress($ipaddress);
+					$models[] = $vhost;
+				}
+			} else {
+				$vhost = new Vhost();
+				$vhost->setDomain($domain);
+				$models[] = $vhost;
+			}
+
 			$this->_generatePhpIniForDomain($domain);
 			$this->_generateFcgiStarterForDomain($domain);
 		}
 
 		foreach($this->_getAllSubdomains() as $subdomain) {
-			$subdomainModels[] = $this->_getVhostModelForSubdomain($subdomain);
+			if($subdomain->getDomain()->getIpaddress()->count() > 0) {
+				foreach($subdomain->getDomain()->getIpaddress() as $ipaddress) {
+					/** @var $ipaddress IpAddress */
+					$vhost = new Vhost();
+					$vhost
+						->setDomain($domain)
+						->setSubdomain($subdomain)
+						->setIpaddress($ipaddress);
+					$models[] = $vhost;
+				}
+			} else {
+				$vhost = new Vhost();
+				$vhost
+					->setDomain($domain)
+					->setSubdomain($subdomain);
+				$models[] = $vhost;
+			}
 		}
 
 		$content = $this->_renderTemplate(self::_twigVhost, array(
-																 'domains' => array_merge($domainModels,
-																	 $subdomainModels),
-																 'ips'     => $this->_getAllIpAddresses(),
+																 'vhosts' => $models,
+																 'ips'    => $this->_getAllIpAddresses(),
 															));
 
 		$this->_saveVhostConfig($content);

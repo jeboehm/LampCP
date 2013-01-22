@@ -10,330 +10,406 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Model;
 
+use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
 use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
-use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
+use Jeboehm\Lampcp\CoreBundle\Entity\PathOption;
+use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
 
 class Vhost {
-	/** @var string */
-	private $serveradmin;
+	const _serveralias_prefix_normal   = 'www.';
+	const _serveralias_prefix_wildcard = '*.';
+	const _php_fcgi_wrapper            = '/php-fcgi/php-fcgi-starter.sh';
+	const _log_access                  = '/logs/access.log';
+	const _log_error                   = '/logs/error.log';
 
-	/** @var string */
-	private $servername;
+	/** @var Domain */
+	protected $domain;
 
-	/** @var string */
-	private $serveralias;
+	/** @var Subdomain */
+	protected $subdomain;
 
-	/** @var string */
-	private $suexecuser;
-
-	/** @var string */
-	private $suexecgroup;
-
-	/** @var string */
-	private $root;
-
-	/** @var string */
-	private $docroot;
-
-	/** @var string */
-	private $directoryindex;
-
-	/** @var string */
-	private $fcgiwrapper;
-
-	/** @var string */
-	private $errorlog;
-
-	/** @var string */
-	private $customlog;
-
-	/** @var string */
-	private $custom;
-
-	/** @var IpAddress[] */
-	private $ipaddress;
-
-	/** @var Certificate */
-	private $certificate;
+	/** @var IpAddress */
+	protected $ipaddress;
 
 	/** @var boolean */
-	private $parsePhp;
+	protected $isSubDomain;
 
 	/**
-	 * Konstruktor
-	 */
-	public function __construct() {
-		$this->serveradmin    = 'none@example.com';
-		$this->directoryindex = 'index.html index.htm index.php';
-	}
-
-	/**
-	 * @param string $customlog
+	 * VirtualHost
 	 *
-	 * @return Vhost
-	 */
-	public function setCustomlog($customlog) {
-		$this->customlog = $customlog;
-
-		return $this;
-	}
-
-	/**
 	 * @return string
 	 */
-	public function getCustomlog() {
-		return $this->customlog;
+	public function getVhostAddress() {
+		if($this->getIpaddress()->isIpv6()) {
+			$address = sprintf('[%s]:%s', $this->getIpaddress()->getIp(), $this->getIpaddress()->getPort());
+		} else {
+			$address = sprintf('%s:%s', $this->getIpaddress()->getIp(), $this->getIpaddress()->getPort());
+		}
+
+		return $address;
 	}
 
 	/**
-	 * @param string $directoryindex
+	 * ServerName
 	 *
-	 * @return Vhost
-	 */
-	public function setDirectoryindex($directoryindex) {
-		$this->directoryindex = $directoryindex;
-
-		return $this;
-	}
-
-	/**
 	 * @return string
 	 */
-	public function getDirectoryindex() {
-		return $this->directoryindex;
+	public function getServerName() {
+		if($this->isSubDomain) {
+			$servername = $this->subdomain->getFullDomain();
+		} else {
+			$servername = $this->domain->getDomain();
+		}
+
+		return $servername;
 	}
 
 	/**
-	 * @param string $root
+	 * ServerAlias
 	 *
-	 * @return Vhost
+	 * @return array
 	 */
-	public function setRoot($root) {
-		$this->root = $root;
+	public function getServerAlias() {
+		if($this->isSubDomain) {
+			if($this->subdomain->getIsWildcard()) {
+				$serveralias = self::_serveralias_prefix_wildcard . $this->subdomain->getFullDomain();
+			} else {
+				$serveralias = self::_serveralias_prefix_normal . $this->domain->getDomain();
+			}
+		} else {
+			if($this->domain->getIsWildcard()) {
+				$serveralias = self::_serveralias_prefix_wildcard;
+			} else {
+				$serveralias = self::_serveralias_prefix_normal;
+			}
 
-		return $this;
+			$serveralias .= $this->domain->getDomain();
+		}
+
+		return array($serveralias);
 	}
 
 	/**
+	 * SuexecUserGroup
+	 *
 	 * @return string
 	 */
-	public function getRoot() {
-		return $this->root;
+	public function getSuexecUserGroup() {
+		return sprintf(
+			'%s %s',
+			$this->domain->getUser()->getName(),
+			$this->domain->getUser()->getGroupname()
+		);
 	}
 
 	/**
-	 * @param string $docroot
+	 * DocumentRoot
 	 *
-	 * @return Vhost
-	 */
-	public function setDocroot($docroot) {
-		$this->docroot = $docroot;
-
-		return $this;
-	}
-
-	/**
 	 * @return string
 	 */
-	public function getDocroot() {
-		return $this->docroot;
+	public function getDocumentRoot() {
+		if($this->isSubDomain) {
+			$root = $this->subdomain->getFullPath();
+		} else {
+			$root = $this->domain->getWebroot();
+		}
+
+		return $root;
 	}
 
 	/**
-	 * @param string $errorlog
+	 * Is PHP enabled?
 	 *
-	 * @return Vhost
+	 * @return bool
 	 */
-	public function setErrorlog($errorlog) {
-		$this->errorlog = $errorlog;
+	public function getPHPEnabled() {
+		if($this->isSubDomain) {
+			$enabled = $this->subdomain->getParsePhp();
+		} else {
+			$enabled = $this->domain->getParsePhp();
+		}
 
-		return $this;
+		return $enabled;
 	}
 
 	/**
+	 * True, if all ssl requirements met
+	 *
+	 * @return bool
+	 */
+	public function getSSLEnabled() {
+		if($this->isSubDomain) {
+			$certificate = $this->subdomain->getCertificate();
+		} else {
+			$certificate = $this->domain->getCertificate();
+		}
+
+		return $this->getIpaddress()->getHasSsl() && $certificate;
+	}
+
+	/**
+	 * Get Certificate
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Certificate
+	 */
+	public function getCertificate() {
+		$certificate = null;
+
+		if($this->getSSLEnabled()) {
+			if($this->isSubDomain) {
+				$certificate = $this->subdomain->getCertificate();
+			} else {
+				$certificate = $this->domain->getCertificate();
+			}
+		}
+
+		return $certificate;
+	}
+
+	/**
+	 * CustomConfig
+	 *
 	 * @return string
 	 */
-	public function getErrorlog() {
-		return $this->errorlog;
+	public function getCustomConfig() {
+		if($this->isSubDomain) {
+			$custom = $this->subdomain->getCustomconfig();
+		} else {
+			$custom = $this->domain->getCustomconfig();
+		}
+
+		return $custom;
 	}
 
 	/**
-	 * @param string $fcgiwrapper
+	 * FcgiWrapper
 	 *
-	 * @return Vhost
-	 */
-	public function setFcgiwrapper($fcgiwrapper) {
-		$this->fcgiwrapper = $fcgiwrapper;
-
-		return $this;
-	}
-
-	/**
 	 * @return string
 	 */
-	public function getFcgiwrapper() {
-		return $this->fcgiwrapper;
+	public function getFcgiWrapper() {
+		$wrapper = '';
+
+		if($this->getPHPEnabled()) {
+			$wrapper = $this->domain->getPath() . self::_php_fcgi_wrapper;
+		}
+
+		return $wrapper;
 	}
 
 	/**
-	 * @param string $serveradmin
+	 * Pathoption for document root
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\PathOption|null
+	 */
+	public function getPathOptionForDocumentRoot() {
+		$docroot          = $this->getDocumentRoot();
+		$returnPathOption = null;
+		foreach($this->getDomain()->getPathoption() as $pathoption) {
+			/** @var $pathoption PathOption */
+			if($pathoption->getFullPath() == $docroot) {
+				$returnPathOption = $pathoption;
+			}
+		}
+
+		return $returnPathOption;
+	}
+
+	/**
+	 * Protection for document root
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Protection|null
+	 */
+	public function getProtectionForDocumentRoot() {
+		$docroot          = $this->getDocumentRoot();
+		$returnProtection = null;
+		foreach($this->getDomain()->getProtection() as $protection) {
+			/** @var $protection Protection */
+			if($protection->getFullPath() == $docroot) {
+				$returnProtection = $protection;
+			}
+		}
+
+		return $returnProtection;
+	}
+
+	/**
+	 * Get relevant protections
+	 *
+	 * @return Protection[]
+	 */
+	protected function _getProtection() {
+		$protections = array();
+		$docroot     = $this->getDocumentRoot();
+
+		foreach($this->domain->getProtection() as $protection) {
+			/** @var $protection Protection */
+			if($protection->getFullPath() == $docroot) {
+				continue;
+			}
+
+			if(substr($protection->getFullPath(), 0, strlen($docroot)) == $docroot) {
+				$protections[] = $protection;
+			}
+		}
+
+		return $protections;
+	}
+
+	/**
+	 * Get relevant pathoptions
+	 *
+	 * @return PathOption[]
+	 */
+	protected function _getPathOption() {
+		$pathoptions = array();
+		$docroot     = $this->getDocumentRoot();
+
+		foreach($this->domain->getPathoption() as $pathoption) {
+			/** @var $pathoption PathOption */
+			if($pathoption->getFullPath() == $docroot) {
+				continue;
+			}
+
+			if(substr($pathoption->getFullPath(), 0, strlen($docroot)) == $docroot) {
+				$pathoptions[] = $pathoption;
+			}
+		}
+
+		return $pathoptions;
+	}
+
+	/**
+	 * Get Directory Options
+	 *
+	 * @return array
+	 */
+	public function getDirectoryOptions() {
+		$options = array();
+
+		foreach($this->_getPathOption() as $pathoption) {
+			$path = $pathoption->getFullPath();
+
+			if(!is_array($options[$path])) {
+				$options[$path] = array(
+					'pathoption' => null,
+					'protection' => null,
+				);
+			}
+
+			$options[$path]['pathoption'] = $pathoption;
+		}
+
+		foreach($this->_getProtection() as $protection) {
+			$path = $protection->getFullPath();
+
+			if(isset($options[$path])) {
+				if(!is_array($options[$path])) {
+					$options[$path] = array(
+						'pathoption' => null,
+						'protection' => null,
+					);
+				}
+			}
+
+			$options[$path]['protection'] = $protection;
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Get IP Address
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\IpAddress
+	 */
+	public function getIpaddress() {
+		if($this->ipaddress) {
+			$ipaddress = $this->ipaddress;
+		} else {
+			$ipaddress = new IpAddress();
+			$ipaddress
+				->setIp('*')
+				->setPort(80)
+				->setHasSsl(false);
+		}
+
+		return $ipaddress;
+	}
+
+	/**
+	 * Set IP Address
+	 *
+	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\IpAddress $ipaddress
 	 *
 	 * @return Vhost
 	 */
-	public function setServeradmin($serveradmin) {
-		$this->serveradmin = $serveradmin;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getServeradmin() {
-		return $this->serveradmin;
-	}
-
-	/**
-	 * @param string $serveralias
-	 *
-	 * @return Vhost
-	 */
-	public function setServeralias($serveralias) {
-		$this->serveralias = $serveralias;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getServeralias() {
-		return $this->serveralias;
-	}
-
-	/**
-	 * @param string $servername
-	 *
-	 * @return Vhost
-	 */
-	public function setServername($servername) {
-		$this->servername = $servername;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getServername() {
-		return $this->servername;
-	}
-
-	/**
-	 * @param string $suexecgroup
-	 *
-	 * @return Vhost
-	 */
-	public function setSuexecgroup($suexecgroup) {
-		$this->suexecgroup = $suexecgroup;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSuexecgroup() {
-		return $this->suexecgroup;
-	}
-
-	/**
-	 * @param string $suexecuser
-	 *
-	 * @return Vhost
-	 */
-	public function setSuexecuser($suexecuser) {
-		$this->suexecuser = $suexecuser;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSuexecuser() {
-		return $this->suexecuser;
-	}
-
-	/**
-	 * @param string $custom
-	 *
-	 * @return Vhost
-	 */
-	public function setCustom($custom) {
-		$this->custom = $custom;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getCustom() {
-		return $this->custom;
-	}
-
-	/**
-	 * @param array $ipaddress
-	 *
-	 * @return Vhost
-	 */
-	public function setIpaddress($ipaddress) {
+	public function setIpaddress(IpAddress $ipaddress) {
 		$this->ipaddress = $ipaddress;
 
 		return $this;
 	}
 
 	/**
-	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\IpAddress[]
+	 * AccessLog
+	 *
+	 * @return string
 	 */
-	public function getIpaddress() {
-		return $this->ipaddress;
+	public function getAccessLog() {
+		return $this->domain->getPath() . self::_log_access;
 	}
 
 	/**
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Certificate $certificate
+	 * ErrorLog
+	 *
+	 * @return string
+	 */
+	public function getErrorLog() {
+		return $this->domain->getPath() . self::_log_error;
+	}
+
+	/**
+	 * Set domain
+	 *
+	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
 	 *
 	 * @return Vhost
 	 */
-	public function setCertificate($certificate) {
-		$this->certificate = $certificate;
+	public function setDomain($domain) {
+		$this->domain = $domain;
 
 		return $this;
 	}
 
 	/**
-	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Certificate
+	 * Get domain
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain
 	 */
-	public function getCertificate() {
-		return $this->certificate;
+	public function getDomain() {
+		return $this->domain;
 	}
 
 	/**
-	 * @param boolean $parsePhp
+	 * Set subdomain
+	 *
+	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain $subdomain
 	 *
 	 * @return Vhost
 	 */
-	public function setParsePhp($parsePhp) {
-		$this->parsePhp = $parsePhp;
+	public function setSubdomain($subdomain) {
+		$this->subdomain   = $subdomain;
+		$this->isSubDomain = true;
 
 		return $this;
 	}
 
 	/**
-	 * @return boolean
+	 * Get subdomain
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain
 	 */
-	public function getParsePhp() {
-		return $this->parsePhp;
+	public function getSubdomain() {
+		return $this->subdomain;
 	}
 }

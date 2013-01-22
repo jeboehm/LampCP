@@ -13,86 +13,99 @@
 #
 ##
 
+{% import "JeboehmLampcpApacheConfigBundle:Apache2:vhost.macro.twig" as macros %}
+
 {% for ip in ips %}
-    {% if ip.ip != "*" and ip.domain|length > 0 %}
-        {% if ip.ipv6 %}
-            NameVirtualHost [{{ ip.ip }}]:{{ ip.port }}
-        {% else %}
-            NameVirtualHost {{ ip.ip }}:{{ ip.port }}
-        {% endif %}
-    {% endif %}
+{% if ip.ip != "*" and ip.domain|length > 0 %}
+{% if ip.ipv6 %}
+NameVirtualHost [{{ ip.ip }}]:{{ ip.port }}
+{% else %}
+NameVirtualHost {{ ip.ip }}:{{ ip.port }}
+{% endif %}
+{% endif %}
 {% endfor %}
 
-{% for vhost in domains %}
-    {% for ip in vhost.ipaddress %}
-        {% if ip.hasSsl and vhost.certificate is not null or not ip.hasSsl %}
-            {% if ip.ipv6 %}
-                <VirtualHost [{{ ip.ip }}]:{{ ip.port }}>
-            {% else %}
-                <VirtualHost {{ ip.ip }}:{{ ip.port }}>
-            {% endif %}
+{% for vhost in vhosts %}
+<VirtualHost {{ vhost.VhostAddress }}>
+    ServerAdmin none@example.com
+    ServerName {{ vhost.ServerName }}
+    DocumentRoot {{ vhost.DocumentRoot }}
 
-            ServerAdmin {{ vhost.serveradmin }}
-            ServerName {{ vhost.servername }}
-            ServerAlias {{ vhost.serveralias }}
-            SuexecUserGroup {{ vhost.suexecuser }} {{ vhost.suexecgroup }}
+    DirectoryIndex index.html index.php
+    ErrorLog {{ vhost.ErrorLog }}
+    LogLevel warn
+    CustomLog {{ vhost.AccessLog }} combined
 
-            {% if vhost.parsePhp %}
-                AddHandler fcgid-script .php
-            {% endif %}
-
-            DocumentRoot "{{ vhost.docroot }}"
-            DirectoryIndex {{ vhost.directoryindex }}
-
-            {% if ip.hasSsl and vhost.certificate is not null %}
-                SSLEngine on
-                SSLProtocol all -SSLv2
-                SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM
-
-                {% if vhost.certificate.CertificateFilePath != "" %}
-                    SSLCertificateFile {{ vhost.certificate.CertificateFilePath }}
-                {% endif %}
-
-                {% if vhost.certificate.CertificateKeyFilePath != "" %}
-                    SSLCertificateKeyFile {{ vhost.certificate.CertificateKeyFilePath }}
-                {% endif %}
-
-                {% if vhost.certificate.CertificateChainFilePath != "" %}
-                    SSLCertificateChainFile {{ vhost.certificate.CertificateChainFilePath }}
-                {% endif %}
-
-                {% if vhost.certificate.CACertificateFilePath != "" %}
-                    SSLCACertificateFile {{ vhost.certificate.CACertificateFilePath }}
-                {% endif %}
-
-                SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown
-            {% endif %}
-
-            {{ vhost.custom }}
-
-            <Directory "/">
-            Options FollowSymLinks
-            AllowOverride None
-            Order allow,deny
-            Deny from all
-            </Directory>
-
-            <Directory "{{ vhost.docroot }}">
-            Options FollowSymLinks +ExecCGI
-
-            {% if vhost.parsePhp %}
-                FCGIWrapper {{ vhost.fcgiwrapper }} .php
-            {% endif %}
-
-            Order allow,deny
-            Allow from all
-            AllowOverride FileInfo Indexes Limit AuthConfig
-            </Directory>
-
-            ErrorLog {{ vhost.errorlog }}
-            LogLevel warn
-            CustomLog {{ vhost.customlog }} combined
-            </VirtualHost>
-        {% endif %}
+    {% for alias in vhost.ServerAlias %}
+    ServerAlias {{ alias }}
     {% endfor %}
+
+    {% if vhost.PHPEnabled %}
+    SuexecUserGroup {{ vhost.SuexecUserGroup }}
+    AddHandler fcgid-script .php
+    {% endif %}
+
+    <Directory "/">
+        Options FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        Deny from all
+    </Directory>
+
+    {% if vhost.SSLEnabled %}
+    SSLEngine On
+    SSLProtocol all -SSLv2
+    SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM
+    SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown
+
+    {% if vhost.Certificate.CertificateFilePath != "" %}
+    SSLCertificateFile {{ vhost.Certificate.CertificateFilePath }}
+    {% endif %}
+
+    {% if vhost.Certificate.CertificateKeyFilePath != "" %}
+    SSLCertificateKeyFile {{ vhost.Certificate.CertificateKeyFilePath }}
+    {% endif %}
+
+    {% if vhost.Certificate.CertificateChainFilePath != "" %}
+    SSLCertificateChainFile {{ vhost.Certificate.CertificateChainFilePath }}
+    {% endif %}
+
+    {% if vhost.Certificate.CACertificateFilePath != "" %}
+    SSLCACertificateFile {{ vhost.Certificate.CACertificateFilePath }}
+    {% endif %}
+    {% endif %}
+
+    ## Custom
+    {{ vhost.CustomConfig }}
+    ## EndCustom
+
+    <Directory "{{ vhost.DocumentRoot }}">
+        Options FollowSymLinks +ExecCGI
+        AllowOverride FileInfo Indexes Limit AuthConfig
+        Order Allow,Deny
+        Allow From All
+
+        {% if vhost.PHPEnabled %}FCGIWrapper {{ vhost.FcgiWrapper }}{% endif %}
+
+        {% if vhost.PathOptionForDocumentRoot is not null %}
+            {{ macros.pathoption(vhost.PathOptionForDocumentRoot) }}
+        {% endif %}
+
+        {% if vhost.ProtectionForDocumentRoot is not null %}
+            {{ macros.protection(vhost.ProtectionForDocumentRoot) }}
+        {% endif %}
+    </Directory>
+
+    {% for dir, diropt in vhost.DirectoryOptions %}
+        <Directory "{{ dir }}">
+            {% if diropt.pathoption is defined %}
+                {{ macros.pathoption(diropt.pathoption) }}
+            {% endif %}
+
+            {% if diropt.protection is defined %}
+                {{ macros.protection(diropt.protection) }}
+            {% endif %}
+        </Directory>
+    {% endfor %}
+</VirtualHost>
 {% endfor %}

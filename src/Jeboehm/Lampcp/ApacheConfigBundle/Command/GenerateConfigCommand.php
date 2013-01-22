@@ -64,13 +64,6 @@ class GenerateConfigCommand extends AbstractCommand {
 	}
 
 	/**
-	 * @return PathOptionBuilderService
-	 */
-	protected function _getPathOptionBuilderService() {
-		return $this->getContainer()->get('jeboehm_lampcp_apache_config_pathoptionbuilder');
-	}
-
-	/**
 	 * @return CertificateBuilderService
 	 */
 	protected function _getCertificateBuilderService() {
@@ -121,9 +114,6 @@ class GenerateConfigCommand extends AbstractCommand {
 
 				$protection = $this->_getProtectionBuilderService();
 				$protection->buildAll();
-
-				$pathoption = $this->_getPathOptionBuilderService();
-				$pathoption->buildAll();
 
 				$this->_restartApache();
 			} catch(\Exception $e) {
