@@ -14,80 +14,25 @@ use Symfony\Component\Filesystem\Filesystem;
 
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
-use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
 use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
 use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
 
 class VhostBuilderService extends AbstractBuilderService implements BuilderServiceInterface {
-	const _twigVhost         = 'JeboehmLampcpApacheConfigBundle:Apache2:vhost.conf.twig';
-	const _twigFcgiStarter   = 'JeboehmLampcpApacheConfigBundle:PHP:php-fcgi-starter.sh.twig';
-	const _twigPhpIni        = 'JeboehmLampcpApacheConfigBundle:PHP:php.ini.twig';
-	const _domainFileName    = '20_vhost.conf';
-	const _domainAliasPrefix = 'www.';
+	const _twigVhost       = 'JeboehmLampcpApacheConfigBundle:Apache2:vhost.conf.twig';
+	const _twigFcgiStarter = 'JeboehmLampcpApacheConfigBundle:PHP:php-fcgi-starter.sh.twig';
+	const _twigPhpIni      = 'JeboehmLampcpApacheConfigBundle:PHP:php.ini.twig';
+	const _domainFileName  = '20_vhost.conf';
 
 	/**
-	 * Get vhost model for domain
+	 * Render php.ini
 	 *
 	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
 	 *
-	 * @return Vhost
-	 */
-	protected function _getVhostModelForDomain(Domain $domain) {
-		$model = new Vhost();
-		$model
-			->setServername($domain->getDomain())
-			->setServeralias(self::_domainAliasPrefix . $domain->getDomain())
-			->setRoot($domain->getPath())
-			->setDocroot($domain->getFullWebrootPath())
-			->setSuexecuser($domain->getUser()->getName())
-			->setSuexecgroup($domain->getUser()->getGroupname())
-			->setFcgiwrapper($domain->getPath() . '/php-fcgi/php-fcgi-starter.sh')
-			->setCustomlog($domain->getPath() . '/logs/access.log')
-			->setErrorlog($domain->getPath() . '/logs/error.log')
-			->setCustom($domain->getCustomconfig())
-			->setIpaddress($domain->getIpaddress())
-			->setCertificate($domain->getCertificate());
-
-		if(count($domain->getIpaddress()) < 1) {
-			$ip = new IpAddress();
-			$ip
-				->setIp('*')
-				->setPort(80);
-
-			$model->setIpaddress(array($ip));
-		}
-
-		return $model;
-	}
-
-	/**
-	 * Get vhost model for subdomain
-	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain $subdomain
-	 *
-	 * @return \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost
-	 */
-	protected function _getVhostModelForSubdomain(Subdomain $subdomain) {
-		$model = $this->_getVhostModelForDomain($subdomain->getDomain());
-
-		$model
-			->setServername($subdomain->getFullDomain())
-			->setServeralias(self::_domainAliasPrefix . $subdomain->getFullDomain())
-			->setDocroot($subdomain->getFullPath())
-			->setCustom($subdomain->getCustomconfig())
-			->setCertificate($subdomain->getCertificate());
-
-		return $model;
-	}
-
-	/**
-	 * @param \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost $model
-	 *
-	 * @return string
 	 * @throws \Exception
+	 * @return string
 	 */
-	protected function _renderPhpIni(Vhost $model) {
+	protected function _renderPhpIni(Domain $domain) {
 		$phpIniPath   = $this
 			->_getConfigService()
 			->getParameter('apache.pathphpini');
@@ -102,7 +47,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 		}
 
 		return $this->_renderTemplate(self::_twigPhpIni, array(
-															  'vhost'  => $model,
+															  'domain' => $domain,
 															  'global' => $globalConfig,
 														 ));
 	}
@@ -154,7 +99,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 
 		if(!file_exists($filename)) {
 			$this->_getLogger()->info('(VhostBuilderService) Generating php.ini:' . $filename);
-			file_put_contents($filename, $this->_renderPhpIni($this->_getVhostModelForDomain($domain)));
+			file_put_contents($filename, $this->_renderPhpIni($domain));
 		}
 
 		// Change rights
@@ -208,25 +153,78 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	 * Build all configurations
 	 */
 	public function buildAll() {
-		$domainModels    = array();
-		$subdomainModels = array();
+		/** @var $models Vhost[] */
+		$models = array();
 
 		foreach($this->_getAllDomains() as $domain) {
-			$domainModels[] = $this->_getVhostModelForDomain($domain);
+			if($domain->getIpaddress()->count() > 0) {
+				foreach($domain->getIpaddress() as $ipaddress) {
+					/** @var $ipaddress IpAddress */
+					$vhost = new Vhost();
+					$vhost
+						->setDomain($domain)
+						->setIpaddress($ipaddress);
+					$models[] = $vhost;
+				}
+			} else {
+				$vhost = new Vhost();
+				$vhost->setDomain($domain);
+				$models[] = $vhost;
+			}
+
 			$this->_generatePhpIniForDomain($domain);
 			$this->_generateFcgiStarterForDomain($domain);
 		}
 
 		foreach($this->_getAllSubdomains() as $subdomain) {
-			$subdomainModels[] = $this->_getVhostModelForSubdomain($subdomain);
+			if($subdomain->getDomain()->getIpaddress()->count() > 0) {
+				foreach($subdomain->getDomain()->getIpaddress() as $ipaddress) {
+					/** @var $ipaddress IpAddress */
+					$vhost = new Vhost();
+					$vhost
+						->setDomain($subdomain->getDomain())
+						->setSubdomain($subdomain)
+						->setIpaddress($ipaddress);
+					$models[] = $vhost;
+				}
+			} else {
+				$vhost = new Vhost();
+				$vhost
+					->setDomain($subdomain->getDomain())
+					->setSubdomain($subdomain);
+				$models[] = $vhost;
+			}
 		}
 
+		$models  = $this->_orderVhosts($models);
 		$content = $this->_renderTemplate(self::_twigVhost, array(
-																 'domains' => array_merge($domainModels,
-																	 $subdomainModels),
-																 'ips'     => $this->_getAllIpAddresses(),
+																 'vhosts' => $models,
+																 'ips'    => $this->_getAllIpAddresses(),
 															));
 
 		$this->_saveVhostConfig($content);
+	}
+
+	/**
+	 * Order vhost models by wildcard
+	 *
+	 * @param array $vhosts
+	 *
+	 * @return array
+	 */
+	protected function _orderVhosts(array $vhosts) {
+		$nonWc = array();
+		$wc    = array();
+
+		foreach($vhosts as $vhost) {
+			/** @var $vhost Vhost */
+			if($vhost->getIsWildcard()) {
+				$wc[] = $vhost;
+			} else {
+				$nonWc[] = $vhost;
+			}
+		}
+
+		return array_merge($nonWc, $wc);
 	}
 }

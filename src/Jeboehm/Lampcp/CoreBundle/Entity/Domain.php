@@ -75,6 +75,18 @@ class Domain {
 	private $ipaddress;
 
 	/**
+	 * @var boolean
+	 * @ORM\Column(name="isWildcard", type="boolean")
+	 */
+	private $isWildcard;
+
+	/**
+	 * @var boolean
+	 * @ORM\Column(name="parsePhp", type="boolean")
+	 */
+	private $parsePhp;
+
+	/**
 	 * @var string
 	 * @ORM\Column(name="customconfig", type="text")
 	 */
@@ -134,6 +146,8 @@ class Domain {
 	public function __construct() {
 		$this->customconfig   = '';
 		$this->webroot        = 'htdocs';
+		$this->parsePhp       = true;
+		$this->isWildcard     = false;
 		$this->subdomain      = new ArrayCollection();
 		$this->protection     = new ArrayCollection();
 		$this->protectionuser = new ArrayCollection();
@@ -240,6 +254,50 @@ class Domain {
 	 */
 	public function getWebroot() {
 		return $this->webroot;
+	}
+
+	/**
+	 * Get set wildcard
+	 *
+	 * @param boolean $isWildcard
+	 *
+	 * @return Domain
+	 */
+	public function setIsWildcard($isWildcard) {
+		$this->isWildcard = $isWildcard;
+
+		return $this;
+	}
+
+	/**
+	 * Get is wildcard
+	 *
+	 * @return boolean
+	 */
+	public function getIsWildcard() {
+		return $this->isWildcard;
+	}
+
+	/**
+	 * Set parse php
+	 *
+	 * @param boolean $parsePhp
+	 *
+	 * @return Domain
+	 */
+	public function setParsePhp($parsePhp) {
+		$this->parsePhp = $parsePhp;
+
+		return $this;
+	}
+
+	/**
+	 * Get parse php
+	 *
+	 * @return boolean
+	 */
+	public function getParsePhp() {
+		return $this->parsePhp;
 	}
 
 	/**

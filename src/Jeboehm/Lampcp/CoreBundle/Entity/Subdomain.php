@@ -59,6 +59,18 @@ class Subdomain {
 	private $path;
 
 	/**
+	 * @var boolean
+	 * @ORM\Column(name="isWildcard", type="boolean")
+	 */
+	private $isWildcard;
+
+	/**
+	 * @var boolean
+	 * @ORM\Column(name="parsePhp", type="boolean")
+	 */
+	private $parsePhp;
+
+	/**
 	 * @var string
 	 * @ORM\Column(name="customconfig", type="text")
 	 */
@@ -81,6 +93,8 @@ class Subdomain {
 	public function __construct(Domain $domain) {
 		$this->domain       = $domain;
 		$this->path         = '';
+		$this->parsePhp     = true;
+		$this->isWildcard   = false;
 		$this->customconfig = '';
 	}
 
@@ -181,6 +195,50 @@ class Subdomain {
 		}
 
 		return $path;
+	}
+
+	/**
+	 * Get set wildcard
+	 *
+	 * @param boolean $isWildcard
+	 *
+	 * @return Domain
+	 */
+	public function setIsWildcard($isWildcard) {
+		$this->isWildcard = $isWildcard;
+
+		return $this;
+	}
+
+	/**
+	 * Get is wildcard
+	 *
+	 * @return boolean
+	 */
+	public function getIsWildcard() {
+		return $this->isWildcard;
+	}
+
+	/**
+	 * Set parse php
+	 *
+	 * @param boolean $parsePhp
+	 *
+	 * @return Subdomain
+	 */
+	public function setParsePhp($parsePhp) {
+		$this->parsePhp = $parsePhp;
+
+		return $this;
+	}
+
+	/**
+	 * Get parse php
+	 *
+	 * @return boolean
+	 */
+	public function getParsePhp() {
+		return $this->parsePhp;
 	}
 
 	/**

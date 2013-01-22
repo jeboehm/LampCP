@@ -19,15 +19,13 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 
 class ProtectionBuilderService extends AbstractBuilderService implements BuilderServiceInterface {
 	const _twigAuthUserFile         = 'JeboehmLampcpApacheConfigBundle:Apache2:AuthUserFile.conf.twig';
-	const _twigApacheProtectionConf = 'JeboehmLampcpApacheConfigBundle:Apache2:protections.conf.twig';
-	const _protectionFileName       = '40_directory_protections.conf';
 
 	/**
 	 * Get protection model array
 	 *
 	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Protection $protection
 	 *
-	 * @return \Jeboehm\Lampcp\ApacheConfigBundle\Model\Protection[]
+	 * @return ProtectionConfigModel[]
 	 */
 	protected function _getProtectionModelArray(ProtectionEntity $protection) {
 		$models = array();
@@ -79,43 +77,15 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
 	}
 
 	/**
-	 * Generate Apache's Protection config
-	 */
-	protected function _generateApacheProtectionConfig() {
-		/** @var $protections ProtectionEntity[] */
-		$apacheConfigDir = $this->_getConfigService()->getParameter('apache.pathapache2conf');
-		$configFilePath  = $apacheConfigDir . '/' . self::_protectionFileName;
-		$protections     = $this->_getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Protection')->findAll();
-		$content         = $this->_renderTemplate(self::_twigApacheProtectionConf, array(
-																						'protections' => $protections,
-																				   ));
-
-		$this->_getLogger()->info('(ProtectionBuilderService) Generating Protection Config:' . $configFilePath);
-		file_put_contents($configFilePath, $content);
-	}
-
-	/**
-	 * Build domain's protections configuration
-	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
-	 *
-	 * @return void
-	 */
-	protected function _buildDomain(Domain $domain) {
-		foreach($domain->getProtection() as $protection) {
-			$this->_generateAuthUserFile($protection);
-		}
-	}
-
-	/**
 	 * Build all configurations
 	 */
 	public function buildAll() {
 		foreach($this->_getAllDomains() as $domain) {
-			$this->_buildDomain($domain);
+			foreach($domain->getProtection() as $protection) {
+				$this->_generateAuthUserFile($protection);
+			}
 		}
 
-		$this->_generateApacheProtectionConfig();
 		$this->_cleanConfDirectory();
 	}
 

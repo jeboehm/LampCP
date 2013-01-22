@@ -15,6 +15,6 @@
 
 {{ global|raw }}
 
-open_basedir = {{ vhost.root }}/htdocs/:{{ vhost.root }}/tmp/
-upload_tmp_dir = {{ vhost.root }}/tmp
-session.save_path = {{ vhost.root }}/tmp
+open_basedir = {{ domain.path }}/htdocs/:{{ domain.path }}/tmp/
+upload_tmp_dir = {{ domain.path }}/tmp
+session.save_path = {{ domain.path }}/tmp
