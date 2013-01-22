@@ -58,19 +58,11 @@ class MailAccount {
 	private $password;
 
 	/**
-	 * @var integer
-	 * @Assert\Min(limit = "1024")
-	 * @ORM\Column(name="quota", type="integer")
-	 */
-	private $quota;
-
-	/**
 	 * Konstruktor
 	 */
 	public function __construct(Domain $domain, MailAddress $address) {
 		$this->domain      = $domain;
 		$this->mailaddress = $address;
-		$this->quota       = 102400; // 100 MiB
 		$this->password    = '';
 		$this->enabled     = false;
 	}
@@ -137,37 +129,6 @@ class MailAccount {
 	 */
 	public function getPassword() {
 		return $this->password;
-	}
-
-	/**
-	 * Set quota
-	 *
-	 * @param integer $quota
-	 *
-	 * @return MailAccount
-	 */
-	public function setQuota($quota) {
-		$this->quota = $quota;
-
-		return $this;
-	}
-
-	/**
-	 * Get quota
-	 *
-	 * @return integer
-	 */
-	public function getQuota() {
-		return $this->quota;
-	}
-
-	/**
-	 * Get quota in a human readable format
-	 *
-	 * @return string
-	 */
-	public function getQuotaHumanReadable() {
-		return FilesizeUtility::size_readable($this->quota);
 	}
 
 	/**

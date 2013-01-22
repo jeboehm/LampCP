@@ -22,10 +22,7 @@ class MailAccountType extends AbstractType {
 			->add('password', 'repeated', array(
 											   'type'     => 'password',
 											   'required' => false,
-										  ))
-			->add('quota', null, array(
-									  'required' => false,
-								 ));
+										  ));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
