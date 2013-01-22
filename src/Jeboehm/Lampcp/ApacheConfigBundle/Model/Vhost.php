@@ -88,10 +88,12 @@ class Vhost {
 	public function getServerAlias() {
 		if($this->isSubDomain) {
 			if($this->getIsWildcard()) {
-				$serveralias = self::_serveralias_prefix_wildcard . $this->subdomain->getFullDomain();
+				$serveralias = self::_serveralias_prefix_wildcard;
 			} else {
-				$serveralias = self::_serveralias_prefix_normal . $this->domain->getDomain();
+				$serveralias = self::_serveralias_prefix_normal;
 			}
+
+			$serveralias .= $this->subdomain->getFullDomain();
 		} else {
 			if($this->getIsWildcard()) {
 				$serveralias = self::_serveralias_prefix_wildcard;
