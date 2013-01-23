@@ -166,12 +166,14 @@ class Vhost {
 	 */
 	public function getForceSSL() {
 		if($this->isSubDomain) {
-			$force = $this->subdomain->getForceSsl();
+			$force       = $this->subdomain->getForceSsl();
+			$certificate = $this->subdomain->getCertificate();
 		} else {
-			$force = $this->domain->getForceSsl();
+			$force       = $this->domain->getForceSsl();
+			$certificate = $this->domain->getCertificate();
 		}
 
-		if($this->getCertificate() && !$this->getIpaddress()->getHasSsl()) {
+		if($certificate && !$this->getIpaddress()->getHasSsl()) {
 			return $force;
 		} else {
 			return false;
