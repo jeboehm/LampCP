@@ -171,7 +171,11 @@ class Vhost {
 			$force = $this->domain->getForceSsl();
 		}
 
-		return $this->getSSLEnabled() && $force;
+		if($this->getCertificate() && !$this->getIpaddress()->getHasSsl()) {
+			return $force;
+		} else {
+			return false;
+		}
 	}
 
 	/**

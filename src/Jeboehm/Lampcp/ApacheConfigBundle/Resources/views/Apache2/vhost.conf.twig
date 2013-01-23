@@ -82,8 +82,8 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     {% if vhost.ForceSSL %}
     ## Force SSL
     RewriteEngine On
-    RewriteCond %{HTTPS} off
-    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
     ## End Force SSL
     {% endif %}
 
