@@ -160,6 +160,21 @@ class Vhost {
 	}
 
 	/**
+	 * Force SSL
+	 *
+	 * @return bool
+	 */
+	public function getForceSSL() {
+		if($this->isSubDomain) {
+			$force = $this->subdomain->getForceSsl();
+		} else {
+			$force = $this->domain->getForceSsl();
+		}
+
+		return $this->getSSLEnabled() && $force;
+	}
+
+	/**
 	 * Get Certificate
 	 *
 	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Certificate

@@ -48,6 +48,12 @@ class Domain {
 	private $certificate;
 
 	/**
+	 * @var boolean
+	 * @ORM\Column(name="forceSsl", type="boolean")
+	 */
+	private $forceSsl;
+
+	/**
 	 * @var string
 	 * @Assert\NotBlank()
 	 * @ORM\Column(name="path", type="string", length=255)
@@ -148,6 +154,7 @@ class Domain {
 		$this->webroot        = 'htdocs';
 		$this->parsePhp       = true;
 		$this->isWildcard     = false;
+		$this->forceSsl       = false;
 		$this->subdomain      = new ArrayCollection();
 		$this->protection     = new ArrayCollection();
 		$this->protectionuser = new ArrayCollection();
@@ -200,6 +207,10 @@ class Domain {
 	public function setCertificate($certificate) {
 		$this->certificate = $certificate;
 
+		if(!$certificate) {
+			$this->setForceSsl(false);
+		}
+
 		return $this;
 	}
 
@@ -210,6 +221,32 @@ class Domain {
 	 */
 	public function getCertificate() {
 		return $this->certificate;
+	}
+
+	/**
+	 * Set force ssl
+	 *
+	 * @param boolean $forceSsl
+	 *
+	 * @return Domain
+	 */
+	public function setForceSsl($forceSsl) {
+		if($this->certificate) {
+			$this->forceSsl = $forceSsl;
+		} else {
+			$this->forceSsl = false;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Get force ssl
+	 *
+	 * @return boolean
+	 */
+	public function getForceSsl() {
+		return $this->forceSsl;
 	}
 
 	/**

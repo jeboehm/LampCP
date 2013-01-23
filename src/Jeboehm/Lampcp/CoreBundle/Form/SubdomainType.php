@@ -22,6 +22,7 @@ class SubdomainType extends AbstractType {
 												'property' => 'name',
 												'required' => false,
 										   ))
+			->add('forceSsl', null, array('required' => false))
 			->add('path', null, array('required' => false))
 			->add('isWildcard', null, array('required' => false))
 			->add('parsePhp', null, array('required' => false))

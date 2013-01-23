@@ -34,6 +34,7 @@ class DomainType extends AbstractType {
 												'property' => 'name',
 												'required' => false,
 										   ))
+			->add('forceSsl', null, array('required' => false))
 			->add('user', 'entity', array(
 										 'class'    => 'JeboehmLampcpCoreBundle:User',
 										 'property' => 'name',
