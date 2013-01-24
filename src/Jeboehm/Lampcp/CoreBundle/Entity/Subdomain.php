@@ -98,7 +98,7 @@ class Subdomain {
 	 */
 	public function __construct(Domain $domain) {
 		$this->domain       = $domain;
-		$this->path         = '';
+		$this->path         = 'htdocs';
 		$this->parsePhp     = true;
 		$this->isWildcard   = false;
 		$this->forceSsl     = false;

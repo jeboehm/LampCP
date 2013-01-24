@@ -257,7 +257,7 @@ class Domain {
 	 * @return Domain
 	 */
 	public function setPath($path) {
-		$this->path = $path;
+		$this->path = strval($path);
 
 		return $this;
 	}
@@ -279,7 +279,7 @@ class Domain {
 	 * @return Domain
 	 */
 	public function setWebroot($webroot) {
-		$this->webroot = $webroot;
+		$this->webroot = strval($webroot);
 
 		return $this;
 	}
