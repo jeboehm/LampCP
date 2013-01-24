@@ -21,7 +21,6 @@ title.page.subdomain: Subdomains
 title.page.systemconfig: Systemkonfiguration
 title.page.ipaddress: IP-Adressen
 title.page.certificate: Zertifikate
-title.page.log: Logbuch
 title.page.login: LogIn
 title.page.logout: LogOut
 
@@ -134,10 +133,6 @@ jeboehm.lampcp.corebundle.mailaddresstype.mailaccount: E-Mailaccount
 jeboehm.lampcp.corebundle.mailaddresstype.mailaccount.enabled: Aktiviert
 jeboehm.lampcp.corebundle.mailaddresstype.mailaccount.password.first: Passwort
 jeboehm.lampcp.corebundle.mailaddresstype.mailaccount.password.second: Eingabe wiederholen
-
-jeboehm.lampcp.corebundle.logtype.time: Zeit
-jeboehm.lampcp.corebundle.logtype.message: Nachricht
-jeboehm.lampcp.corebundle.logtype.type: Art
 
 jeboehm.lampcp.corebundle.ipaddresstype.alias: Name
 jeboehm.lampcp.corebundle.ipaddresstype.ip: IP-Adresse
