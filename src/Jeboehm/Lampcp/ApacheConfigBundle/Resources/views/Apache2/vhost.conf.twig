@@ -45,13 +45,6 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     AddHandler fcgid-script .php
     {% endif %}
 
-    <Directory "/">
-        Options FollowSymLinks
-        AllowOverride None
-        Order allow,deny
-        Deny from all
-    </Directory>
-
     {% if vhost.SSLEnabled %}
     SSLEngine On
     SSLProtocol all -SSLv2
@@ -75,10 +68,6 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     {% endif %}
     {% endif %}
 
-    ## Custom
-    {{ vhost.CustomConfig }}
-    ## End Custom
-
     {% if vhost.ForceSSL %}
     ## Force SSL
     RewriteEngine On
@@ -86,6 +75,13 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
     ## End Force SSL
     {% endif %}
+
+    <Directory "/">
+        Options FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        Deny from all
+    </Directory>
 
     <Directory "{{ vhost.DocumentRoot }}">
         Options FollowSymLinks +ExecCGI
@@ -117,5 +113,9 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
         {% endif %}
     </Directory>
     {% endfor %}
+
+    ## Custom
+    {{ vhost.CustomConfig }}
+    ## End Custom
 </VirtualHost>
 {% endfor %}
