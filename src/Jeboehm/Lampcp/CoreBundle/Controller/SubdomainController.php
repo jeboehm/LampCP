@@ -32,7 +32,10 @@ class SubdomainController extends AbstractController implements ICrudController 
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:Subdomain')->findByDomain($this->_getSelectedDomain());
+		/** @var $entities Subdomain[] */
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:Subdomain')
+			->findByDomain($this->_getSelectedDomain(), array('subdomain' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

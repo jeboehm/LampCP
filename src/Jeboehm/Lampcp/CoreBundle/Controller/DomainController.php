@@ -32,7 +32,10 @@ class DomainController extends AbstractController implements ICrudController {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:Domain')->findAll();
+		/** @var $entities Domain[] */
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:Domain')
+			->findBy(array(), array('domain' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

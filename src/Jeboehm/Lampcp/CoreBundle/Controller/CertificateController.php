@@ -33,7 +33,9 @@ class CertificateController extends AbstractController implements ICrudControlle
 		$em = $this->getDoctrine()->getManager();
 
 		/** @var $entities Certificate[] */
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:Certificate')->findAll();
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:Certificate')
+			->findBy(array(), array('name' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

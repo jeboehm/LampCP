@@ -110,7 +110,10 @@ abstract class AbstractController extends Controller {
 	 */
 	private function _getDomainsForDomainselector() {
 		/** @var $domains Domain[] */
-		$domains = $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Domain')->findAll();
+		$domains = $this
+			->getDoctrine()
+			->getRepository('JeboehmLampcpCoreBundle:Domain')
+			->findBy(array(), array('domain' => 'asc'));
 
 		return $domains;
 	}

@@ -32,7 +32,9 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	 */
 	public function indexAction() {
 		/** @var $entities MysqlDatabase[] */
-		$entities = $this->_getRepository()->findByDomain($this->_getSelectedDomain());
+		$entities = $this
+			->_getRepository()
+			->findByDomain($this->_getSelectedDomain(), array('name' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

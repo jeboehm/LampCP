@@ -36,7 +36,7 @@ class MailAddressController extends AbstractController implements ICrudControlle
 		/** @var $entities MailAddress[] */
 		$entities = $em
 			->getRepository('JeboehmLampcpCoreBundle:MailAddress')
-			->findByDomain($this->_getSelectedDomain());
+			->findByDomain($this->_getSelectedDomain(), array('address' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

@@ -55,9 +55,10 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 		$protection = $this->_getProtection($protectionid);
 		$em         = $this->getDoctrine()->getManager();
 
+		/** @var $entities ProtectionUser[] */
 		$entities = $em
 			->getRepository('JeboehmLampcpCoreBundle:ProtectionUser')
-			->findBy(array('protection' => $protection));
+			->findBy(array('protection' => $protection), array('username' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities'   => $entities,

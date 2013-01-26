@@ -33,7 +33,9 @@ class ProtectionController extends AbstractController implements ICrudController
 		$em = $this->getDoctrine()->getManager();
 
 		/** @var $entities Protection[] */
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:Protection')->findByDomain($this->_getSelectedDomain());
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:Protection')
+			->findByDomain($this->_getSelectedDomain(), array('path' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

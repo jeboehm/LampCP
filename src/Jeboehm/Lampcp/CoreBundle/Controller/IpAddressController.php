@@ -32,7 +32,10 @@ class IpAddressController extends AbstractController implements ICrudController 
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:IpAddress')->findAll();
+		/** @var $entities IpAddress[] */
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:IpAddress')
+			->findBy(array(), array('alias' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

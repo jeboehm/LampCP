@@ -32,7 +32,10 @@ class PathOptionController extends AbstractController implements ICrudController
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:PathOption')->findByDomain($this->_getSelectedDomain());
+		/** @var $entities PathOption[] */
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:PathOption')
+			->findByDomain($this->_getSelectedDomain(), array('path' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

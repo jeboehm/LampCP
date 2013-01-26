@@ -48,7 +48,10 @@ class AdminController extends AbstractController implements ICrudController {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:Admin')->findAll();
+		/** @var $entities Admin[] */
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:Admin')
+			->findBy(array(), array('email' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,
