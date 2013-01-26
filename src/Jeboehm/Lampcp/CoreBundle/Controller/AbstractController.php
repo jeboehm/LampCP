@@ -87,7 +87,7 @@ abstract class AbstractController extends Controller {
 	 */
 	protected function _getReturn(array $arrReturn) {
 		$arrGlob = array(
-			'domainselector_domains' => $this->_getDomains(),
+			'domainselector_domains' => $this->_getDomainsForDomainselector(),
 			'selecteddomain'         => $this->_getSelectedDomain(),
 		);
 
@@ -108,7 +108,7 @@ abstract class AbstractController extends Controller {
 	 *
 	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain[]
 	 */
-	private function _getDomains() {
+	private function _getDomainsForDomainselector() {
 		/** @var $domains Domain[] */
 		$domains = $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Domain')->findAll();
 
