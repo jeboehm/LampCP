@@ -146,8 +146,6 @@ jeboehm.lampcp.corebundle.certificatetype.CertificateKeyFile: CertifikateKeyFile
 jeboehm.lampcp.corebundle.certificatetype.CertificateChainFile: CertificateChainFile
 jeboehm.lampcp.corebundle.certificatetype.CACertificateFile: CACertificateFile
 
-jeboehm.lampcp.corebundle.domainselectortype.domain: Domain auswählen
-
 # Systemconfig
 apache.pathwww: Apache2 Webseitenverzeichnis
 apache.pathapache2conf: Apache2 Konfigurationsverzeichnis

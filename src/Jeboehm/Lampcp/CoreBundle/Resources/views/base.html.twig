@@ -52,14 +52,8 @@
 
                 <a class="brand" href="{{ path("default") }}">{{ "title.head"|trans() }}</a>
 
-                <div class="nav-collapse collapse">
-                    <p class="navbar-text pull-right">
-                        {% block topnavright %}
-                        {% endblock %}
-                    </p>
-                    {% block topnav %}
-                    {% endblock %}
-                </div>
+                {% block topnav %}
+                {% endblock %}
             </div>
         </div>
     </div>
@@ -73,12 +67,7 @@
                         {% endblock %}
                     </div>
 
-                    <div class="well sidebar-nav">
-                        {% block domainselector %}
-                        {% endblock %}
-                    </div>
-
-                    {% if selecteddomain is defined and selecteddomain is not null %}
+                    {% if selecteddomain %}
                         <div class="well sidebar-nav">
                             {% block leftnavdom %}
                             {% endblock %}

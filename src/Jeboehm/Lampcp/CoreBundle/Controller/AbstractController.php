@@ -11,10 +11,6 @@
 namespace Jeboehm\Lampcp\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Jeboehm\Lampcp\CoreBundle\Form\DomainSelectorType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bridge\Monolog\Logger;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
@@ -83,17 +79,6 @@ abstract class AbstractController extends Controller {
 	}
 
 	/**
-	 * Erzeugt das Domainselector Formular
-	 *
-	 * @return \Symfony\Component\Form\Form
-	 */
-	protected function _createDomainselectorForm() {
-		$form = $this->createForm(new DomainSelectorType(), array('domain' => $this->_getSelectedDomain()));
-
-		return $form;
-	}
-
-	/**
 	 * Return Funktion, die für alle Controller verwendet werden sollte
 	 *
 	 * @param array $arrReturn
@@ -102,8 +87,8 @@ abstract class AbstractController extends Controller {
 	 */
 	protected function _getReturn(array $arrReturn) {
 		$arrGlob = array(
-			'domainselector_form' => $this->_createDomainselectorForm()->createView(),
-			'selecteddomain'      => $this->_getSelectedDomain(),
+			'domainselector_domains' => $this->_getDomains(),
+			'selecteddomain'         => $this->_getSelectedDomain(),
 		);
 
 		return array_merge($arrGlob, $arrReturn);
@@ -116,5 +101,17 @@ abstract class AbstractController extends Controller {
 	 */
 	protected function _getCryptService() {
 		return $this->get('jeboehm_lampcp_core.cryptservice');
+	}
+
+	/**
+	 * Get all domains
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain[]
+	 */
+	private function _getDomains() {
+		/** @var $domains Domain[] */
+		$domains = $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Domain')->findAll();
+
+		return $domains;
 	}
 }
