@@ -10,21 +10,21 @@
 {% import "JeboehmLampcpCoreBundle::macros.html.twig" as macros %}
 {% extends '::base.html.twig' %}
 
-{% block title %}{% spaceless %}{{ "title.head"|trans() }}{% endspaceless %}{% endblock %}
+{% block title %}
+    {% spaceless %}
+        {{ "title.head"|trans() }}
+    {% endspaceless %}
+{% endblock %}
 
 {% block meta %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0" xmlns="http://www.w3.org/1999/html"/>
     <meta name="description" content=""/>
-    <meta name="author" content=""/>
+    <meta name="author" content="Jeffrey Böhm"/>
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-
     {% stylesheets
-    'bundles/jeboehmlampcpcore/bootstrap/css/bootstrap.css'
-    'bundles/jeboehmlampcpcore/bootstrap/css/bootstrap-responsive.css'
-    'bundles/jeboehmlampcpcore/css/main.css'
+    '@JeboehmLampcpCoreBundle/Resources/public/css/main.css'
     filter='cssrewrite' %}
 
     <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
@@ -32,11 +32,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-
     {% javascripts
-    '@SonatajQueryBundle/Resources/public/jquery-1.8.0.js'
-    '@JeboehmLampcpCoreBundle/Resources/public/bootstrap/js/bootstrap.js'
     '@JeboehmLampcpCoreBundle/Resources/public/js/main.js'
     '@JeboehmLampcpCoreBundle/Resources/public/js/functions.js' %}
 
@@ -47,27 +43,23 @@
 {% block body %}
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
-            <div class="container-fluid">
+            <div class="container">
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
+
                 <a class="brand" href="{{ path("default") }}">{{ "title.head"|trans() }}</a>
 
                 <div class="nav-collapse collapse">
                     <p class="navbar-text pull-right">
-                        {% block topnavright %}{% spaceless %}{% endspaceless %}{% endblock %}
+                        {% block topnavright %}
+                        {% endblock %}
                     </p>
                     {% block topnav %}
-                        <ul class="nav">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                        </ul>
                     {% endblock %}
                 </div>
-                <!--/.nav-collapse -->
             </div>
         </div>
     </div>
@@ -78,35 +70,19 @@
                 <div class="span3">
                     <div class="well sidebar-nav">
                         {% block leftnavall %}
-                            <ul class="nav nav-list">
-                                <li class="nav-header">Sidebar</li>
-                                <li class="active"><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
-                                <li><a href="#">Link</a></li>
-                            </ul>
                         {% endblock %}
                     </div>
-                    <!--/.well -->
 
                     <div class="well sidebar-nav">
-                        {% block domainselector %}{% endblock %}
+                        {% block domainselector %}
+                        {% endblock %}
                     </div>
-                    <!--/.well -->
 
                     {% if selecteddomain is defined and selecteddomain is not null %}
                         <div class="well sidebar-nav">
                             {% block leftnavdom %}
-                                <ul class="nav nav-list">
-                                    <li class="nav-header">Sidebar</li>
-                                    <li class="active"><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
                             {% endblock %}
                         </div>
-                        <!--/.well -->
                     {% endif %}
                 </div>
             {% endblock %}
@@ -116,31 +92,18 @@
                     {% block contentdiv %}
                         <div class="span12">
                             {% block content %}
-                                <h2>Heading</h2>
-
-                                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus
-                                    commodo,
-                                    tortor
-                                    mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem
-                                    malesuada
-                                    magna mollis euismod. Donec sed odio dui. </p>
-
-                                <p><a class="btn" href="#">View details &raquo;</a></p>
                             {% endblock %}
                         </div>
-                        <!--/span-->
                     {% endblock %}
                 </div>
-                <!--/row-->
             </div>
-            <!--/span-->
         </div>
-        <!--/row-->
 
         <hr>
 
         <footer>
-            {% block footer %}<p>Lorem Ipsum</p>{% endblock %}
+            {% block footer %}
+            {% endblock %}
         </footer>
-    </div><!--/.fluid-container-->
+    </div>
 {% endblock %}

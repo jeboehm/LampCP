@@ -1,0 +1,30 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends "BraincraftedBootstrapBundle:Form:form_div_layout.html.twig" %}
+
+{% block widget_attributes %}
+    {{ parent() }}
+    autocomplete="off"
+{% endblock %}
+
+{% block form_label %}
+    {% set label = id|replace({'_':'.'})|trans() %}
+    {{ parent() }}
+{% endblock %}
+
+{% block checkbox_label %}
+    {% set label = id|replace({'_':'.'})|trans() %}
+    {{ parent() }}
+{% endblock %}
+
+{% block radio_label %}
+    {% set label = id|replace({'_':'.'})|trans() %}
+    {{ parent() }}
+{% endblock %}

@@ -4,10 +4,14 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        {% include 'BraincraftedBootstrapBundle::_stylesheets.html.twig' %}
+        {% include 'BraincraftedBootstrapBundle::_html5shiv.html.twig' %}
     </head>
     <body>
         {% block body %}{% endblock %}
+
+        {% include 'BraincraftedBootstrapBundle::_javascripts.html.twig' %}
         {% block javascripts %}{% endblock %}
     </body>
 </html>

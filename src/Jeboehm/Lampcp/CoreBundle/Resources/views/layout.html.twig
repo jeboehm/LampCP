@@ -58,7 +58,7 @@
         <li class="nav-header">{{ "leftnav.select.domain"|trans() }}</li>
 
         <li>
-            <form action="{{ path('set_domain') }}" method="post">
+            <form action="{{ path('set_domain') }}" method="post" {{ form_enctype(domainselector_form) }}>
                 {{ form_widget(domainselector_form.domain) }}
                 {{ form_rest(domainselector_form) }}
             </form>
