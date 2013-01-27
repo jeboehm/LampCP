@@ -319,6 +319,10 @@ class Vhost {
 		foreach($this->_getPathOption() as $pathoption) {
 			$path = $pathoption->getFullPath();
 
+			if(!$this->_isFolderRootOrChild($this->getDocumentRoot(), $path)) {
+				continue;
+			}
+
 			if(!isset($options[$path])) {
 				$options[$path] = array(
 					'pathoption' => null,
@@ -331,6 +335,10 @@ class Vhost {
 
 		foreach($this->_getProtection() as $protection) {
 			$path = $protection->getFullPath();
+
+			if(!$this->_isFolderRootOrChild($this->getDocumentRoot(), $path)) {
+				continue;
+			}
 
 			if(!isset($options[$path])) {
 				$options[$path] = array(
@@ -447,5 +455,34 @@ class Vhost {
 	 */
 	public function getSubdomain() {
 		return $this->subdomain;
+	}
+
+	/**
+	 * Checks, if $needle is in $haystack or $needle is the same as $haystack
+	 *
+	 * Eg.:
+	 *     ("/home/j/john", "/home/j/john/pictures")   == true
+	 *     ("/home/j/john", "/bin")                    == false
+	 *     ("/home/j/john", "/home/j/john")            == true
+	 *
+	 * @param string $haystack
+	 * @param string $needle
+	 *
+	 * @return bool
+	 */
+	protected function _isFolderRootOrChild($haystack, $needle) {
+		$result = false;
+
+		if($haystack === $needle) {
+			$result = true;
+		} else {
+			if(strlen($needle) > strlen($haystack)) {
+				if(substr($needle, 0, strlen($haystack)) === $haystack) {
+					$result = true;
+				}
+			}
+		}
+
+		return $result;
 	}
 }
