@@ -63,16 +63,19 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	protected function _generateFcgiStarterForDomain(Domain $domain) {
 		$fs       = new Filesystem();
 		$filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
-		$content  = $this->_renderTemplate(self::_twigFcgiStarter, array(
-																		'domain' => $domain,
-																   ));
 
 		if(!is_writable(dirname($filename))) {
 			throw new CouldNotWriteFileException();
 		}
 
-		$this->_getLogger()->info('(VhostBuilderService) Generating FCGI-Starter: ' . $filename);
-		file_put_contents($filename, $content);
+		if(!$fs->exists($filename)) {
+			$content = $this->_renderTemplate(self::_twigFcgiStarter, array(
+																		   'domain' => $domain,
+																	  ));
+
+			$this->_getLogger()->info('(VhostBuilderService) Generating FCGI-Starter: ' . $filename);
+			file_put_contents($filename, $content);
+		}
 
 		// Change rights
 		$fs->chmod($filename, 0755);
@@ -97,7 +100,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			throw new CouldNotWriteFileException();
 		}
 
-		if(!file_exists($filename)) {
+		if(!$fs->exists($filename)) {
 			$this->_getLogger()->info('(VhostBuilderService) Generating php.ini:' . $filename);
 			file_put_contents($filename, $this->_renderPhpIni($domain));
 		}
