@@ -21,7 +21,7 @@
         "jms/di-extra-bundle": "1.1.*",
         "phpunit/phpunit":"3.7.*",
         "jboehm/passwd-bundle": "dev-master",
-        "braincrafted/bootstrap-bundle": "dev-master"
+        "braincrafted/bootstrap-bundle": "dev-develop"
     },
     "scripts": {
         "post-install-cmd": [
