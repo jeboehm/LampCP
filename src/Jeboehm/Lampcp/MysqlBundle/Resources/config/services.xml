@@ -32,18 +32,4 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             <argument type="service" id="jeboehm_lampcp_core.cryptservice" />
         </service>
     </services>
-
-    <!--
-    <parameters>
-        <parameter key="jeboehm_lampcp_mysql.example.class">Jeboehm\Lampcp\MysqlBundle\Example</parameter>
-    </parameters>
-
-    <services>
-        <service id="jeboehm_lampcp_mysql.example" class="%jeboehm_lampcp_mysql.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
-        </service>
-    </services>
-    -->
 </container>

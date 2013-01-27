@@ -31,19 +31,4 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             <argument>%crypt%</argument>
         </service>
     </services>
-
-
-    <!--
-    <parameters>
-        <parameter key="jeboehm_lampcp_core.example.class">Jeboehm\Lampcp\CoreBundle\Example</parameter>
-    </parameters>
-
-    <services>
-        <service id="jeboehm_lampcp_core.example" class="%jeboehm_lampcp_core.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
-        </service>
-    </services>
-    -->
 </container>
