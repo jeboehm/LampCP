@@ -1,0 +1,38 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% macro pathoption(pathoption) %}
+    {% if pathoption.hasdirectorylisting %}
+        dir-listing.activate = "enable"
+    {% endif %}
+
+    {% if pathoption.error404 != "" %}
+        server.error-handler-404 = "{{ pathoption.error404 }}"
+    {% endif %}
+
+    {% if pathoption.error403 != "" %}
+        server.error-handler-403 = "{{ pathoption.error403 }}"
+    {% endif %}
+
+    {% if pathoption.error500 != "" %}
+        server.error-handler-500 = "{{ pathoption.error500 }}"
+    {% endif %}
+{% endmacro %}
+
+{% macro protection(protection) %}
+    auth.backend = "htpasswd"
+    auth.backend.htpasswd.userfile = "{{ protection.domain.path }}/conf/authuser_{{ protection.id }}.passwd"
+    auth.require = (
+        "" => (
+            "method"  => "basic",
+            "realm"   => "{{ protection.realm }}",
+            "require" => "valid-user"
+        )
+    )
+{% endmacro %}
