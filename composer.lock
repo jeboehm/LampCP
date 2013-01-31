@@ -997,22 +997,22 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "dev-master",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/php-timer.git",
-                "reference": "6d28a5483f2b824a5bcc39c3761eb2cb9a0dd0a0"
+                "reference": "ecf7920b27003a9412b07dad79dbb5ad1249e6c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-timer/archive/6d28a5483f2b824a5bcc39c3761eb2cb9a0dd0a0.zip",
-                "reference": "6d28a5483f2b824a5bcc39c3761eb2cb9a0dd0a0",
+                "url": "https://github.com/sebastianbergmann/php-timer/archive/ecf7920b27003a9412b07dad79dbb5ad1249e6c3.zip",
+                "reference": "ecf7920b27003a9412b07dad79dbb5ad1249e6c3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-01-07 10:52:28",
+            "time": "2013-01-30 06:08:51",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -1092,12 +1092,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/sebastianbergmann/phpunit.git",
-                "reference": "0a9b42c743066b45e3f7b923153e0c0111d1e3d4"
+                "reference": "6937c46a4bb8b0ee6dc05e8d35b0c5bf6cbb7cfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/phpunit/archive/0a9b42c743066b45e3f7b923153e0c0111d1e3d4.zip",
-                "reference": "0a9b42c743066b45e3f7b923153e0c0111d1e3d4",
+                "url": "https://github.com/sebastianbergmann/phpunit/archive/6937c46a4bb8b0ee6dc05e8d35b0c5bf6cbb7cfc.zip",
+                "reference": "6937c46a4bb8b0ee6dc05e8d35b0c5bf6cbb7cfc",
                 "shasum": ""
             },
             "require": {
@@ -1109,17 +1109,17 @@
                 "phpunit/php-file-iterator": ">=1.3.1",
                 "phpunit/php-text-template": ">=1.1.1",
                 "phpunit/php-code-coverage": ">=1.2.1",
-                "phpunit/php-timer": ">=1.0.2",
                 "phpunit/phpunit-mock-objects": ">=1.2.0,<1.3.0",
-                "symfony/yaml": ">=2.1.0,<2.2.0"
+                "symfony/yaml": ">=2.1.0,<2.2.0",
+                "phpunit/php-timer": ">=1.0.2,<1.1.0"
             },
             "suggest": {
                 "ext-json": "*",
                 "ext-simplexml": "*",
                 "ext-tokenizer": "*",
-                "phpunit/php-invoker": ">=1.1.0"
+                "phpunit/php-invoker": ">=1.1.0,<1.2.0"
             },
-            "time": "2013-01-15 08:15:29",
+            "time": "2013-01-30 06:34:58",
             "bin": [
                 "composer/bin/phpunit"
             ],
@@ -1472,26 +1472,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/MonologBundle",
-                "reference": "v2.1.7"
+                "reference": "253fcda1128a0301aa68d040302cade65095f2c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/MonologBundle/archive/v2.1.7.zip",
-                "reference": "v2.1.7",
+                "url": "https://github.com/symfony/MonologBundle/archive/253fcda1128a0301aa68d040302cade65095f2c6.zip",
+                "reference": "253fcda1128a0301aa68d040302cade65095f2c6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
-                "symfony/monolog-bridge": ">=2.1.0,<2.3-dev",
                 "symfony/dependency-injection": ">=2.1.0,<2.3-dev",
                 "symfony/config": ">=2.1.0,<2.3-dev",
-                "monolog/monolog": ">=1.0,<1.3-dev"
+                "monolog/monolog": ">=1.0,<1.3-dev",
+                "symfony/monolog-bridge": "2.1.*"
             },
             "require-dev": {
                 "symfony/yaml": ">=2.1.0,<2.3-dev",
                 "symfony/config": ">=2.1.0,<2.3-dev"
             },
-            "time": "2013-01-07 10:57:41",
+            "time": "2013-01-28 10:06:42",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1587,12 +1587,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "f0fefeb13956e36a2a4e44a7180a9b138247ee13"
+                "reference": "6f7194802359559a6b37e1d2fe940ac902cf26cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/archive/f0fefeb13956e36a2a4e44a7180a9b138247ee13.zip",
-                "reference": "f0fefeb13956e36a2a4e44a7180a9b138247ee13",
+                "url": "https://github.com/symfony/symfony/archive/6f7194802359559a6b37e1d2fe940ac902cf26cf.zip",
+                "reference": "6f7194802359559a6b37e1d2fe940ac902cf26cf",
                 "shasum": ""
             },
             "require": {
@@ -1641,7 +1641,7 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": ">=1.0,<1.3-dev"
             },
-            "time": "2013-01-26 07:21:53",
+            "time": "2013-01-27 16:12:43",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -1724,18 +1724,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "5218db779633b2292102863da464896deee0c8cb"
+                "reference": "eaadcca54b888db779a355e449a16dd8c7760e11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/archive/5218db779633b2292102863da464896deee0c8cb.zip",
-                "reference": "5218db779633b2292102863da464896deee0c8cb",
+                "url": "https://github.com/fabpot/Twig/archive/eaadcca54b888db779a355e449a16dd8c7760e11.zip",
+                "reference": "eaadcca54b888db779a355e449a16dd8c7760e11",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2013-01-26 15:09:24",
+            "time": "2013-01-27 16:32:04",
             "type": "library",
             "extra": {
                 "branch-alias": {
