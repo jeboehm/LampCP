@@ -8,43 +8,22 @@
  *
  */
 
-namespace Jeboehm\Lampcp\CoreBundle\Form;
+namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class DomainType extends AbstractType {
+class SubdomainType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		if($this->_getIsEditMode()) {
-			$builder->add('domain', null, array(
-											   'read_only' => true
-										  ));
-		} else {
-			$builder->add('domain', null, array(
-											   'read_only' => false
-										  ));
-		}
-
-
 		$builder
-			->add('path', null, array('read_only' => true))
-			->add('webroot')
+			->add('subdomain')
 			->add('certificate', 'entity', array(
 												'class'    => 'JeboehmLampcpCoreBundle:Certificate',
 												'property' => 'name',
 												'required' => false,
 										   ))
 			->add('forceSsl', null, array('required' => false))
-			->add('user', 'entity', array(
-										 'class'    => 'JeboehmLampcpCoreBundle:User',
-										 'property' => 'name',
-									))
-			->add('ipaddress', 'entity', array(
-											  'class'    => 'JeboehmLampcpCoreBundle:IpAddress',
-											  'property' => 'alias',
-											  'multiple' => true,
-											  'required' => false,
-										 ))
+			->add('path', null, array('required' => false))
 			->add('isWildcard', null, array('required' => false))
 			->add('parsePhp', null, array('required' => false))
 			->add('customconfig', null, array('required' => false));
@@ -52,11 +31,11 @@ class DomainType extends AbstractType {
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\Domain'
+									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\Subdomain'
 							   ));
 	}
 
 	public function getName() {
-		return 'jeboehm_lampcp_corebundle_domaintype';
+		return 'jeboehm_lampcp_corebundle_subdomaintype';
 	}
 }

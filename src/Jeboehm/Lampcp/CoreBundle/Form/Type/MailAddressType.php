@@ -8,7 +8,7 @@
  *
  */
 
-namespace Jeboehm\Lampcp\CoreBundle\Form;
+namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;

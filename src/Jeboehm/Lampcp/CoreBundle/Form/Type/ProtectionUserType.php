@@ -8,17 +8,17 @@
  *
  */
 
-namespace Jeboehm\Lampcp\CoreBundle\Form;
+namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class AdminType extends AbstractType {
+class ProtectionUserType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('email');
+			->add('username');
 
-		if($this->_getIsEditMode()) {
+		if($this->_isEditMode) {
 			$builder->add('password', 'repeated', array(
 													   'type'     => 'password',
 													   'required' => false,
@@ -33,11 +33,11 @@ class AdminType extends AbstractType {
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\Admin'
+									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\ProtectionUser'
 							   ));
 	}
 
 	public function getName() {
-		return 'jeboehm_lampcp_corebundle_admintype';
+		return 'jeboehm_lampcp_corebundle_protectionusertype';
 	}
 }

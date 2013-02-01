@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\MailAddress;
 use Jeboehm\Lampcp\CoreBundle\Entity\MailForward;
-use Jeboehm\Lampcp\CoreBundle\Form\MailAddressType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\MailAddressType;
 
 /**
  * MailAddress controller.

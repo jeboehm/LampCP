@@ -8,17 +8,20 @@
  *
  */
 
-namespace Jeboehm\Lampcp\CoreBundle\Form;
+namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ProtectionUserType extends AbstractType {
+class MysqlDatabaseType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('username');
+			->add('name', null, array(
+									 'read_only' => true,
+								))
+			->add('comment');
 
-		if($this->_isEditMode) {
+		if($this->_getIsEditMode()) {
 			$builder->add('password', 'repeated', array(
 													   'type'     => 'password',
 													   'required' => false,
@@ -33,11 +36,11 @@ class ProtectionUserType extends AbstractType {
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\ProtectionUser'
+									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabase'
 							   ));
 	}
 
 	public function getName() {
-		return 'jeboehm_lampcp_corebundle_protectionusertype';
+		return 'jeboehm_lampcp_corebundle_mysqldatabasetype';
 	}
 }

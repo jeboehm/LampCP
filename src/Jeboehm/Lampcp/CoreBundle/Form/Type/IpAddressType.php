@@ -8,25 +8,27 @@
  *
  */
 
-namespace Jeboehm\Lampcp\CoreBundle\Form;
+namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class MailForwardType extends AbstractType {
+class IpAddressType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add('target', null, array(
-										   'label' => '',
-									  ));
+		$builder
+			->add('alias')
+			->add('ip')
+			->add('port')
+			->add('hasSsl', null, array('required' => false));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailForward'
+									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\IpAddress'
 							   ));
 	}
 
 	public function getName() {
-		return 'jeboehm_lampcp_corebundle_mailforwardtype';
+		return 'jeboehm_lampcp_corebundle_ipaddresstype';
 	}
 }

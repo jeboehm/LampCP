@@ -8,30 +8,25 @@
  *
  */
 
-namespace Jeboehm\Lampcp\CoreBundle\Form;
+namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class MailAccountType extends AbstractType {
+class ProtectionType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('enabled', null, array(
-										'required' => false,
-								   ))
-			->add('password', 'repeated', array(
-											   'type'     => 'password',
-											   'required' => false,
-										  ));
+			->add('path', null, array('required' => false))
+			->add('realm');
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailAccount'
+									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\Protection'
 							   ));
 	}
 
 	public function getName() {
-		return 'jeboehm_lampcp_corebundle_mailaccounttype';
+		return 'jeboehm_lampcp_corebundle_protectiontype';
 	}
 }

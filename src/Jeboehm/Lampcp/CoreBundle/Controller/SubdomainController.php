@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
-use Jeboehm\Lampcp\CoreBundle\Form\SubdomainType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\SubdomainType;
 
 /**
  * Subdomain controller.

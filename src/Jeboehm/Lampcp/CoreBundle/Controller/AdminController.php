@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\Admin;
-use Jeboehm\Lampcp\CoreBundle\Form\AdminType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\AdminType;
 
 /**
  * Admin controller.

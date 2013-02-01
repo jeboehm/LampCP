@@ -8,18 +8,15 @@
  *
  */
 
-namespace Jeboehm\Lampcp\CoreBundle\Form;
+namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class MysqlDatabaseType extends AbstractType {
+class AdminType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('name', null, array(
-									 'read_only' => true,
-								))
-			->add('comment');
+			->add('email');
 
 		if($this->_getIsEditMode()) {
 			$builder->add('password', 'repeated', array(
@@ -36,11 +33,11 @@ class MysqlDatabaseType extends AbstractType {
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabase'
+									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\Admin'
 							   ));
 	}
 
 	public function getName() {
-		return 'jeboehm_lampcp_corebundle_mysqldatabasetype';
+		return 'jeboehm_lampcp_corebundle_admintype';
 	}
 }

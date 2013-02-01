@@ -8,27 +8,28 @@
  *
  */
 
-namespace Jeboehm\Lampcp\CoreBundle\Form;
+namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class IpAddressType extends AbstractType {
+class PathOptionType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('alias')
-			->add('ip')
-			->add('port')
-			->add('hasSsl', null, array('required' => false));
+			->add('path', null, array('required' => false))
+			->add('hasDirectoryListing', null, array('required' => false))
+			->add('error404', null, array('required' => false))
+			->add('error403', null, array('required' => false))
+			->add('error500', null, array('required' => false));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\IpAddress'
+									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\PathOption'
 							   ));
 	}
 
 	public function getName() {
-		return 'jeboehm_lampcp_corebundle_ipaddresstype';
+		return 'jeboehm_lampcp_corebundle_pathoptiontype';
 	}
 }

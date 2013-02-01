@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
-use Jeboehm\Lampcp\CoreBundle\Form\CertificateType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\CertificateType;
 
 /**
  * Certificate controller.

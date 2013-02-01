@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
 use Jeboehm\Lampcp\CoreBundle\Entity\ProtectionUser;
-use Jeboehm\Lampcp\CoreBundle\Form\ProtectionUserType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\ProtectionUserType;
 
 /**
  * ProtectionUser controller.

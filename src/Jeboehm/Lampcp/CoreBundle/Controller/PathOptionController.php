@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\PathOption;
-use Jeboehm\Lampcp\CoreBundle\Form\PathOptionType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\PathOptionType;
 
 /**
  * PathOption controller.

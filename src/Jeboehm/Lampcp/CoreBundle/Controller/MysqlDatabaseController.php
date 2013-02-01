@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
 use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
-use Jeboehm\Lampcp\CoreBundle\Form\MysqlDatabaseType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\MysqlDatabaseType;
 
 /**
  * MysqlDatabase controller.

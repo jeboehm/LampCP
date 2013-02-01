@@ -8,25 +8,25 @@
  *
  */
 
-namespace Jeboehm\Lampcp\CoreBundle\Form;
+namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ProtectionType extends AbstractType {
+class MailForwardType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder
-			->add('path', null, array('required' => false))
-			->add('realm');
+		$builder->add('target', null, array(
+										   'label' => '',
+									  ));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\Protection'
+									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailForward'
 							   ));
 	}
 
 	public function getName() {
-		return 'jeboehm_lampcp_corebundle_protectiontype';
+		return 'jeboehm_lampcp_corebundle_mailforwardtype';
 	}
 }
