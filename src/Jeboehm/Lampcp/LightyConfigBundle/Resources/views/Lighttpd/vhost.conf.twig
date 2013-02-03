@@ -36,7 +36,7 @@ server.modules += ( "mod_fastcgi", "mod_accesslog", "mod_setenv", "mod_auth", "m
     {% if not vhost.BoundToAllIps %}
     $SERVER["socket"] == "{{ vhost.VhostAddress }}" {
     {% endif %}
-        $HTTP["host"] =~ "(^|\.){{ vhost.ServerName }}$" {
+        $HTTP["host"] =~ "{{ vhost.ServerNameRegex }}" {
             server.document-root = "{{ vhost.DocumentRoot }}"
             accesslog.filename = "{{ vhost.AccessLog }}"
             server.follow-symlink = "enable"

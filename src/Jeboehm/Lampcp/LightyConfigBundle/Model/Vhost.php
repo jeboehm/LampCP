@@ -85,4 +85,22 @@ class Vhost extends ParentVhost {
 
 		return $options;
 	}
+
+	/**
+	 * Get ServerName
+	 *
+	 * @return string
+	 */
+	public function getServerNameRegex() {
+		$servername = $this->getServerName();
+		$servername = str_replace('.', '\\.', $servername);
+
+		if(!$this->getIsWildcard()) {
+			$servername = sprintf('^(www\.)?%s$', $servername);
+		} else {
+			$servername = sprintf('(^|\.)%s$', $servername);
+		}
+
+		return $servername;
+	}
 }
