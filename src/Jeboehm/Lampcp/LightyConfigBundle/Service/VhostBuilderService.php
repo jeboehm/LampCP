@@ -164,4 +164,27 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
 
 		return null;
 	}
+
+	/**
+	 * Order vhost models by wildcard
+	 *
+	 * @param array $vhosts
+	 *
+	 * @return array
+	 */
+	protected function _orderVhosts(array $vhosts) {
+		$nonWc = array();
+		$wc    = array();
+
+		foreach($vhosts as $vhost) {
+			/** @var $vhost Vhost */
+			if($vhost->getIsWildcard()) {
+				$wc[] = $vhost;
+			} else {
+				$nonWc[] = $vhost;
+			}
+		}
+
+		return array_merge($wc, $nonWc);
+	}
 }
