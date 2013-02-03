@@ -74,8 +74,8 @@ server.modules += ( "mod_fastcgi", "mod_accesslog", "mod_setenv", "mod_auth", "m
             {% if vhost.ForceSSL %}
                 ## Force SSL
                 $HTTP["scheme"] == "http" {
-                    $HTTP["host"] =~ ".*" {
-                        url.redirect = (".*" => "https://%0$0")
+                    $HTTP["host"] =~ "{{ vhost.ServerNameRegex }}" {
+                        url.redirect = ("^/(.*)" => "https://{{ vhost.ServerName }}/$1")
                     }
                 }
                 ## End Force SSL
