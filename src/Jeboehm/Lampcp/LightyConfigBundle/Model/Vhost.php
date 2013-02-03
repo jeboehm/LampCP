@@ -94,12 +94,7 @@ class Vhost extends ParentVhost {
 	public function getServerNameRegex() {
 		$servername = $this->getServerName();
 		$servername = str_replace('.', '\\.', $servername);
-
-		if(!$this->getIsWildcard()) {
-			$servername = sprintf('^(www\.)?%s$', $servername);
-		} else {
-			$servername = sprintf('(^|\.)%s$', $servername);
-		}
+		$servername = sprintf('^(www\.)?%s$', $servername);
 
 		return $servername;
 	}

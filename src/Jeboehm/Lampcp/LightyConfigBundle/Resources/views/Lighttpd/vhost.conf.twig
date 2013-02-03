@@ -37,6 +37,11 @@ server.modules += ( "mod_fastcgi", "mod_accesslog", "mod_setenv", "mod_auth", "m
     $SERVER["socket"] == "{{ vhost.VhostAddress }}" {
     {% endif %}
         $HTTP["host"] =~ "{{ vhost.ServerNameRegex }}" {
+        {% if vhost.ForceSSL %}
+            ## Force SSL
+            url.redirect = ("^/(.*)" => "https://{{ vhost.ServerName }}/$1")
+            ## End Force SSL
+        {% else %}
             server.document-root = "{{ vhost.DocumentRoot }}"
             accesslog.filename = "{{ vhost.AccessLog }}"
             server.follow-symlink = "enable"
@@ -71,16 +76,6 @@ server.modules += ( "mod_fastcgi", "mod_accesslog", "mod_setenv", "mod_auth", "m
                 {% endif %}
             {% endif %}
 
-            {% if vhost.ForceSSL %}
-                ## Force SSL
-                $HTTP["scheme"] == "http" {
-                    $HTTP["host"] =~ "{{ vhost.ServerNameRegex }}" {
-                        url.redirect = ("^/(.*)" => "https://{{ vhost.ServerName }}/$1")
-                    }
-                }
-                ## End Force SSL
-            {% endif %}
-
             {% for coll in vhost.DirectoryOptions %}
                 $HTTP["url"] =~ "^{{ coll.path }}" {
                     {% if coll.pathoption is not null %}
@@ -96,6 +91,7 @@ server.modules += ( "mod_fastcgi", "mod_accesslog", "mod_setenv", "mod_auth", "m
             ## Custom
             {{ vhost.CustomConfig|raw }}
             ## End Custom
+        {% endif %}
         }
     {% if not vhost.BoundToAllIps %}
     }
