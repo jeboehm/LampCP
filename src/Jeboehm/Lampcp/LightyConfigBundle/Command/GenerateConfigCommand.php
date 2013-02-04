@@ -17,6 +17,7 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Command\GenerateConfigCommand as ParentCon
 use Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\CertificateBuilderService;
+use Jeboehm\Lampcp\LightyConfigBundle\Service\FcgiStarterService;
 use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 
 class GenerateConfigCommand extends ParentConfigCommand {
@@ -46,6 +47,13 @@ class GenerateConfigCommand extends ParentConfigCommand {
 	 */
 	protected function _getCertificateBuilderService() {
 		return $this->getContainer()->get('jeboehm_lampcp_lighty_config_certificatebuilder');
+	}
+
+	/**
+	 * @return FcgiStarterService
+	 */
+	protected function _getFcgiStarterService() {
+		return $this->getContainer()->get('jeboehm_lampcp_lighty_config_fcgistarterservice');
 	}
 
 	/**
@@ -80,5 +88,17 @@ class GenerateConfigCommand extends ParentConfigCommand {
 				$this->_getLogger()->err($exec->getOutput());
 			}
 		}
+	}
+
+	/**
+	 * @param \Symfony\Component\Console\Input\InputInterface   $input
+	 * @param \Symfony\Component\Console\Output\OutputInterface $output
+	 *
+	 * @return int|null|void
+	 */
+	public function execute(InputInterface $input, OutputInterface $output) {
+		parent::execute($input, $output);
+
+		$this->_getFcgiStarterService()->buildAll();
 	}
 }
