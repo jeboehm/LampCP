@@ -15,16 +15,25 @@
 {% endblock %}
 
 {% block form_label %}
-    {% set label = id|replace({'_':'.'})|trans() %}
+    {% if labelnoset is not defined %}
+        {% set label = id|replace({'_':'.'})|trans() %}
+    {% endif %}
+
     {{ parent() }}
 {% endblock %}
 
 {% block checkbox_label %}
-    {% set label = id|replace({'_':'.'})|trans() %}
+    {% if labelnoset is not defined %}
+        {% set label = id|replace({'_':'.'})|trans() %}
+    {% endif %}
+
     {{ parent() }}
 {% endblock %}
 
 {% block radio_label %}
-    {% set label = id|replace({'_':'.'})|trans() %}
+    {% if labelnoset is not defined %}
+        {% set label = id|replace({'_':'.'})|trans() %}
+    {% endif %}
+
     {{ parent() }}
 {% endblock %}
