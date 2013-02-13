@@ -3,7 +3,6 @@ imports:
     - { resource: security.yml }
 
 framework:
-    #esi:             ~
     translator:      { fallback: "%locale%" }
     secret:          "shungorev7yaiCh"
     router:
@@ -12,9 +11,9 @@ framework:
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
-    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
+    templating:      { engines: ['twig'] }
     default_locale:  "%locale%"
-    trust_proxy_headers: false # Whether or not the Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
+    trust_proxy_headers: false
     session:         ~
 
 # Twig Configuration
@@ -23,7 +22,7 @@ twig:
     strict_variables: "%kernel.debug%"
     form:
         resources:
-            - 'JeboehmLampcpCoreBundle::form.html.twig'
+            - "JeboehmLampcpCoreBundle:Form:form_div_layout.html.twig"
     globals:
         env:          "%kernel.environment%"
 

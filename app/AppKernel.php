@@ -15,7 +15,7 @@ class AppKernel extends Kernel {
 			new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
 			new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
 			new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-			new Sonata\jQueryBundle\SonatajQueryBundle(),
+			new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle(),
 			new Jboehm\Bundle\PasswdBundle\JboehmPasswdBundle(),
 			new Jeboehm\Lampcp\CoreBundle\JeboehmLampcpCoreBundle(),
             new Jeboehm\Lampcp\UserLoaderBundle\JeboehmLampcpUserLoaderBundle(),
@@ -23,6 +23,8 @@ class AppKernel extends Kernel {
             new Jeboehm\Lampcp\MysqlBundle\JeboehmLampcpMysqlBundle(),
             new Jeboehm\Lampcp\ConfigBundle\JeboehmLampcpConfigBundle(),
             new Jeboehm\Lampcp\PostfixBundle\JeboehmLampcpPostfixBundle(),
+            new Jeboehm\Lampcp\LightyConfigBundle\JeboehmLampcpLightyConfigBundle(),
+            new Jeboehm\Lampcp\BootstrapBundle\JeboehmLampcpBootstrapBundle(),
 		);
 
 		if(in_array($this->getEnvironment(), array('dev', 'test'))) {

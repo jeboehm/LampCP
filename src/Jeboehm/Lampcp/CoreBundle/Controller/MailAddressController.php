@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\MailAddress;
 use Jeboehm\Lampcp\CoreBundle\Entity\MailForward;
-use Jeboehm\Lampcp\CoreBundle\Form\MailAddressType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\MailAddressType;
 
 /**
  * MailAddress controller.
@@ -36,7 +36,7 @@ class MailAddressController extends AbstractController implements ICrudControlle
 		/** @var $entities MailAddress[] */
 		$entities = $em
 			->getRepository('JeboehmLampcpCoreBundle:MailAddress')
-			->findByDomain($this->_getSelectedDomain());
+			->findByDomain($this->_getSelectedDomain(), array('address' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

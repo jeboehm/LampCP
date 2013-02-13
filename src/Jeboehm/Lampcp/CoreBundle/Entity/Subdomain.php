@@ -45,6 +45,12 @@ class Subdomain {
 	private $certificate;
 
 	/**
+	 * @var boolean
+	 * @ORM\Column(name="forceSsl", type="boolean")
+	 */
+	private $forceSsl;
+
+	/**
 	 * @var string
 	 * @Assert\NotBlank()
 	 * @Assert\Regex("/^[a-z\d-.]{1,255}$/i")
@@ -92,9 +98,10 @@ class Subdomain {
 	 */
 	public function __construct(Domain $domain) {
 		$this->domain       = $domain;
-		$this->path         = '';
+		$this->path         = 'htdocs';
 		$this->parsePhp     = true;
 		$this->isWildcard   = false;
+		$this->forceSsl     = false;
 		$this->customconfig = '';
 	}
 
@@ -139,6 +146,10 @@ class Subdomain {
 	public function setCertificate($certificate) {
 		$this->certificate = $certificate;
 
+		if(!$certificate) {
+			$this->forceSsl = false;
+		}
+
 		return $this;
 	}
 
@@ -149,6 +160,32 @@ class Subdomain {
 	 */
 	public function getCertificate() {
 		return $this->certificate;
+	}
+
+	/**
+	 * Set force ssl
+	 *
+	 * @param boolean $forceSsl
+	 *
+	 * @return Subdomain
+	 */
+	public function setForceSsl($forceSsl) {
+		if($this->certificate) {
+			$this->forceSsl = $forceSsl;
+		} else {
+			$this->forceSsl = false;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Get force ssl
+	 *
+	 * @return boolean
+	 */
+	public function getForceSsl() {
+		return $this->forceSsl;
 	}
 
 	/**

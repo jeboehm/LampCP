@@ -16,6 +16,6 @@
           method="post" {{ form_enctype(edit_form) }}>
         {{ form_widget(edit_form) }}
 
-        {{ macros.formbuttongrp(path('config_certificate'), path('config_certificate', { 'id': entity.id })) }}
+        {{ macros.formbuttongrp(path('config_certificate'), path('config_certificate_delete', { 'id': entity.id })) }}
     </form>
 {% endblock %}

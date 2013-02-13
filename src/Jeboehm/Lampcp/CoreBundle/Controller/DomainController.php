@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Form\DomainType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\DomainType;
 
 /**
  * Domain controller.
@@ -32,7 +32,10 @@ class DomainController extends AbstractController implements ICrudController {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:Domain')->findAll();
+		/** @var $entities Domain[] */
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:Domain')
+			->findBy(array(), array('domain' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

@@ -45,13 +45,6 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     AddHandler fcgid-script .php
     {% endif %}
 
-    <Directory "/">
-        Options FollowSymLinks
-        AllowOverride None
-        Order allow,deny
-        Deny from all
-    </Directory>
-
     {% if vhost.SSLEnabled %}
     SSLEngine On
     SSLProtocol all -SSLv2
@@ -75,9 +68,20 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     {% endif %}
     {% endif %}
 
-    ## Custom
-    {{ vhost.CustomConfig }}
-    ## EndCustom
+    {% if vhost.ForceSSL %}
+    ## Force SSL
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+    ## End Force SSL
+    {% endif %}
+
+    <Directory "/">
+        Options FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        Deny from all
+    </Directory>
 
     <Directory "{{ vhost.DocumentRoot }}">
         Options FollowSymLinks +ExecCGI
@@ -85,27 +89,33 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
         Order Allow,Deny
         Allow From All
 
-        {% if vhost.PHPEnabled %}FCGIWrapper {{ vhost.FcgiWrapper }}{% endif %}
+        {% if vhost.PHPEnabled %}
+        FCGIWrapper {{ vhost.FcgiWrapper }}
+        {% endif %}
 
         {% if vhost.PathOptionForDocumentRoot is not null %}
-            {{ macros.pathoption(vhost.PathOptionForDocumentRoot) }}
+        {{ macros.pathoption(vhost.PathOptionForDocumentRoot) }}
         {% endif %}
 
         {% if vhost.ProtectionForDocumentRoot is not null %}
-            {{ macros.protection(vhost.ProtectionForDocumentRoot) }}
+        {{ macros.protection(vhost.ProtectionForDocumentRoot) }}
         {% endif %}
     </Directory>
 
     {% for coll in vhost.DirectoryOptions %}
-        <Directory "{{ coll.path }}">
-            {% if coll.pathoption is not null %}
-                {{ macros.pathoption(coll.pathoption) }}
-            {% endif %}
+    <Directory "{{ coll.path }}">
+        {% if coll.pathoption is not null %}
+        {{ macros.pathoption(coll.pathoption) }}
+        {% endif %}
 
-            {% if coll.protection is not null %}
-                {{ macros.protection(coll.protection) }}
-            {% endif %}
-        </Directory>
+        {% if coll.protection is not null %}
+        {{ macros.protection(coll.protection) }}
+        {% endif %}
+    </Directory>
     {% endfor %}
+
+    ## Custom
+    {{ vhost.CustomConfig }}
+    ## End Custom
 </VirtualHost>
 {% endfor %}

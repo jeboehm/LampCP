@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
-use Jeboehm\Lampcp\CoreBundle\Form\SubdomainType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\SubdomainType;
 
 /**
  * Subdomain controller.
@@ -32,7 +32,10 @@ class SubdomainController extends AbstractController implements ICrudController 
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:Subdomain')->findByDomain($this->_getSelectedDomain());
+		/** @var $entities Subdomain[] */
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:Subdomain')
+			->findByDomain($this->_getSelectedDomain(), array('subdomain' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

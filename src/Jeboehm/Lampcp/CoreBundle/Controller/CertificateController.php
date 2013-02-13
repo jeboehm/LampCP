@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
-use Jeboehm\Lampcp\CoreBundle\Form\CertificateType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\CertificateType;
 
 /**
  * Certificate controller.
@@ -33,7 +33,9 @@ class CertificateController extends AbstractController implements ICrudControlle
 		$em = $this->getDoctrine()->getManager();
 
 		/** @var $entities Certificate[] */
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:Certificate')->findAll();
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:Certificate')
+			->findBy(array(), array('name' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

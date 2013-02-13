@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
-use Jeboehm\Lampcp\CoreBundle\Form\ProtectionType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\ProtectionType;
 
 /**
  * Protection controller.
@@ -33,7 +33,9 @@ class ProtectionController extends AbstractController implements ICrudController
 		$em = $this->getDoctrine()->getManager();
 
 		/** @var $entities Protection[] */
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:Protection')->findByDomain($this->_getSelectedDomain());
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:Protection')
+			->findByDomain($this->_getSelectedDomain(), array('path' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,

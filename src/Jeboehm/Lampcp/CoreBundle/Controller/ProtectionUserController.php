@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
 use Jeboehm\Lampcp\CoreBundle\Entity\ProtectionUser;
-use Jeboehm\Lampcp\CoreBundle\Form\ProtectionUserType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\ProtectionUserType;
 
 /**
  * ProtectionUser controller.
@@ -55,9 +55,10 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 		$protection = $this->_getProtection($protectionid);
 		$em         = $this->getDoctrine()->getManager();
 
+		/** @var $entities ProtectionUser[] */
 		$entities = $em
 			->getRepository('JeboehmLampcpCoreBundle:ProtectionUser')
-			->findBy(array('protection' => $protection));
+			->findBy(array('protection' => $protection), array('username' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities'   => $entities,

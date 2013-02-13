@@ -46,21 +46,19 @@ class StatusController extends AbstractController {
 	/**
 	 * Saves the domain to session
 	 *
-	 * @Method("POST")
-	 * @Route("/setdomain", name="set_domain")
+	 * @Route("/setdomain/{id}", name="set_domain")
 	 *
-	 * @param \Symfony\Component\HttpFoundation\Request $request
+	 * @param int $id
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
-	 * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 	 */
-	public function setDomainAction(Request $request) {
-		$form = $this->_createDomainselectorForm();
-		$form->bind($request);
-
-		if($form->isValid()) {
-			$data    = $form->getData();
-			$domain  = $data['domain'];
+	public function setDomainAction($id) {
+		if(is_numeric($id)) {
+			/** @var $domain Domain */
+			$domain  = $this
+				->getDoctrine()
+				->getRepository('JeboehmLampcpCoreBundle:Domain')
+				->findOneBy(array('id' => $id));
 			$session = $this->_getSession();
 
 			if(!$domain) {

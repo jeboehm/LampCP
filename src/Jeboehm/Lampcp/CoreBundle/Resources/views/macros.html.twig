@@ -18,45 +18,49 @@
 {% macro formbuttongrp(pathBack, pathDelete) %}
     <hr>
 
-    <div class="btn-group">
-        <button class="btn btn-warning" type="submit">
-            {{ "button.save"|trans() }}
-        </button>
-
-        {% if pathDelete != "" %}
-            <button prototype-target="{{ pathDelete }}" prototype-confirm="{{ "button.delete.confirm"|trans() }}"
-                    class="btn btn-danger">
-                {{ "button.delete"|trans() }}
+    <div class="control-group">
+        <div class="controls btn-group">
+            <button class="btn btn-warning" type="submit">
+                {{ "button.save"|trans() }}
             </button>
-        {% endif %}
 
-        {% if pathBack != "" %}
-            <button prototype-target="{{ pathBack }}" class="btn">
-                {{ "button.back"|trans() }}
-            </button>
-        {% endif %}
+            {% if pathDelete != "" %}
+                <button prototype-target="{{ pathDelete }}" prototype-confirm="{{ "button.delete.confirm"|trans() }}"
+                        class="btn btn-danger">
+                    {{ "button.delete"|trans() }}
+                </button>
+            {% endif %}
+
+            {% if pathBack != "" %}
+                <button prototype-target="{{ pathBack }}" class="btn">
+                    {{ "button.back"|trans() }}
+                </button>
+            {% endif %}
+        </div>
     </div>
 {% endmacro %}
 
 {% macro showbuttongrp(pathBack, pathEdit, pathDelete) %}
-    <div class="btn-group">
-        {% if pathEdit != "" %}
-            <button prototype-target="{{ pathEdit }}" class="btn btn-warning">
-                {{ "button.edit"|trans() }}
-            </button>
-        {% endif %}
+    <div class="control-group">
+        <div class="controls btn-group">
+            {% if pathEdit != "" %}
+                <button prototype-target="{{ pathEdit }}" class="btn btn-warning">
+                    {{ "button.edit"|trans() }}
+                </button>
+            {% endif %}
 
-        {% if pathDelete != "" %}
-            <button prototype-target="{{ pathDelete }}" prototype-confirm="{{ "button.delete.confirm"|trans() }}"
-                    class="btn btn-danger">
-                {{ "button.delete"|trans() }}
-            </button>
-        {% endif %}
+            {% if pathDelete != "" %}
+                <button prototype-target="{{ pathDelete }}" prototype-confirm="{{ "button.delete.confirm"|trans() }}"
+                        class="btn btn-danger">
+                    {{ "button.delete"|trans() }}
+                </button>
+            {% endif %}
 
-        {% if pathBack != "" %}
-            <button prototype-target="{{ pathBack }}" class="btn">
-                {{ "button.back"|trans() }}
-            </button>
-        {% endif %}
+            {% if pathBack != "" %}
+                <button prototype-target="{{ pathBack }}" class="btn">
+                    {{ "button.back"|trans() }}
+                </button>
+            {% endif %}
+        </div>
     </div>
 {% endmacro %}

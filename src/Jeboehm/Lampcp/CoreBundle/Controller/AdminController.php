@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\Admin;
-use Jeboehm\Lampcp\CoreBundle\Form\AdminType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\AdminType;
 
 /**
  * Admin controller.
@@ -48,7 +48,10 @@ class AdminController extends AbstractController implements ICrudController {
 	public function indexAction() {
 		$em = $this->getDoctrine()->getManager();
 
-		$entities = $em->getRepository('JeboehmLampcpCoreBundle:Admin')->findAll();
+		/** @var $entities Admin[] */
+		$entities = $em
+			->getRepository('JeboehmLampcpCoreBundle:Admin')
+			->findBy(array(), array('email' => 'asc'));
 
 		return $this->_getReturn(array(
 									  'entities' => $entities,
