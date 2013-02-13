@@ -79,42 +79,11 @@ abstract class AbstractController extends Controller {
 	}
 
 	/**
-	 * Return Funktion, die für alle Controller verwendet werden sollte
-	 *
-	 * @param array $arrReturn
-	 *
-	 * @return array
-	 */
-	protected function _getReturn(array $arrReturn) {
-		$arrGlob = array(
-			'domainselector_domains' => $this->_getDomainsForDomainselector(),
-			'selecteddomain'         => $this->_getSelectedDomain(),
-		);
-
-		return array_merge($arrGlob, $arrReturn);
-	}
-
-	/**
 	 * Get CryptService
 	 *
 	 * @return CryptService
 	 */
 	protected function _getCryptService() {
 		return $this->get('jeboehm_lampcp_core.cryptservice');
-	}
-
-	/**
-	 * Get all domains
-	 *
-	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain[]
-	 */
-	private function _getDomainsForDomainselector() {
-		/** @var $domains Domain[] */
-		$domains = $this
-			->getDoctrine()
-			->getRepository('JeboehmLampcpCoreBundle:Domain')
-			->findBy(array(), array('domain' => 'asc'));
-
-		return $domains;
 	}
 }

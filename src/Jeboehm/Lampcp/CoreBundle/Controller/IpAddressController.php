@@ -37,9 +37,9 @@ class IpAddressController extends AbstractController implements ICrudController 
 			->getRepository('JeboehmLampcpCoreBundle:IpAddress')
 			->findBy(array(), array('alias' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -59,9 +59,9 @@ class IpAddressController extends AbstractController implements ICrudController 
 		}
 
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -74,10 +74,10 @@ class IpAddressController extends AbstractController implements ICrudController 
 		$entity = new IpAddress($this->_getSelectedDomain());
 		$form   = $this->createForm(new IpAddressType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -100,10 +100,10 @@ class IpAddressController extends AbstractController implements ICrudController 
 			return $this->redirect($this->generateUrl('config_ipaddress_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -124,10 +124,10 @@ class IpAddressController extends AbstractController implements ICrudController 
 
 		$editForm = $this->createForm(new IpAddressType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -157,10 +157,10 @@ class IpAddressController extends AbstractController implements ICrudController 
 			return $this->redirect($this->generateUrl('config_ipaddress_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**

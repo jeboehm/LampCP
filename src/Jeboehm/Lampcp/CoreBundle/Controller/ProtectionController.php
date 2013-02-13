@@ -37,9 +37,9 @@ class ProtectionController extends AbstractController implements ICrudController
 			->getRepository('JeboehmLampcpCoreBundle:Protection')
 			->findByDomain($this->_getSelectedDomain(), array('path' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -59,9 +59,9 @@ class ProtectionController extends AbstractController implements ICrudController
 		}
 
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -74,10 +74,10 @@ class ProtectionController extends AbstractController implements ICrudController
 		$entity = new Protection($this->_getSelectedDomain());
 		$form   = $this->createForm(new ProtectionType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -100,10 +100,10 @@ class ProtectionController extends AbstractController implements ICrudController
 			return $this->redirect($this->generateUrl('config_protection_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -124,10 +124,10 @@ class ProtectionController extends AbstractController implements ICrudController
 
 		$editForm = $this->createForm(new ProtectionType(true), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -157,10 +157,10 @@ class ProtectionController extends AbstractController implements ICrudController
 			return $this->redirect($this->generateUrl('config_protection_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**

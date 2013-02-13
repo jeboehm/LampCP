@@ -37,10 +37,10 @@ class StatusController extends AbstractController {
 		$uname = new ExecUtility();
 		$uname->exec('uname -a');
 
-		return $this->_getReturn(array(
-									  'uptime' => $uptime->getOutput(),
-									  'uname'  => $uname->getOutput(),
-								 ));
+		return array(
+			'uptime' => $uptime->getOutput(),
+			'uname'  => $uname->getOutput(),
+		);
 	}
 
 	/**

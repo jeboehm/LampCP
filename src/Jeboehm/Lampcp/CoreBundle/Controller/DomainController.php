@@ -37,9 +37,9 @@ class DomainController extends AbstractController implements ICrudController {
 			->getRepository('JeboehmLampcpCoreBundle:Domain')
 			->findBy(array(), array('domain' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -59,9 +59,9 @@ class DomainController extends AbstractController implements ICrudController {
 		}
 
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -76,10 +76,10 @@ class DomainController extends AbstractController implements ICrudController {
 		$form = $this->createForm(new DomainType(), $entity);
 
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -103,10 +103,10 @@ class DomainController extends AbstractController implements ICrudController {
 			return $this->redirect($this->generateUrl('config_domain_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -126,10 +126,10 @@ class DomainController extends AbstractController implements ICrudController {
 
 		$editForm = $this->createForm(new DomainType(true), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -158,10 +158,10 @@ class DomainController extends AbstractController implements ICrudController {
 			return $this->redirect($this->generateUrl('config_domain_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**

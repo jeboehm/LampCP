@@ -53,9 +53,9 @@ class AdminController extends AbstractController implements ICrudController {
 			->getRepository('JeboehmLampcpCoreBundle:Admin')
 			->findBy(array(), array('email' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -74,9 +74,9 @@ class AdminController extends AbstractController implements ICrudController {
 			throw $this->createNotFoundException('Unable to find Admin entity.');
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -89,10 +89,10 @@ class AdminController extends AbstractController implements ICrudController {
 		$entity = new Admin();
 		$form   = $this->createForm(new AdminType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -118,10 +118,10 @@ class AdminController extends AbstractController implements ICrudController {
 			return $this->redirect($this->generateUrl('config_admin_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -142,10 +142,10 @@ class AdminController extends AbstractController implements ICrudController {
 
 		$editForm = $this->createForm(new AdminType(true), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -183,10 +183,10 @@ class AdminController extends AbstractController implements ICrudController {
 			return $this->redirect($this->generateUrl('config_admin_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**

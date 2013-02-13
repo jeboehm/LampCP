@@ -37,9 +37,9 @@ class PathOptionController extends AbstractController implements ICrudController
 			->getRepository('JeboehmLampcpCoreBundle:PathOption')
 			->findByDomain($this->_getSelectedDomain(), array('path' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -59,9 +59,9 @@ class PathOptionController extends AbstractController implements ICrudController
 		}
 
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -74,10 +74,10 @@ class PathOptionController extends AbstractController implements ICrudController
 		$entity = new PathOption($this->_getSelectedDomain());
 		$form   = $this->createForm(new PathOptionType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -100,10 +100,10 @@ class PathOptionController extends AbstractController implements ICrudController
 			return $this->redirect($this->generateUrl('config_pathoption_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -124,10 +124,10 @@ class PathOptionController extends AbstractController implements ICrudController
 
 		$editForm = $this->createForm(new PathOptionType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -157,10 +157,10 @@ class PathOptionController extends AbstractController implements ICrudController
 			return $this->redirect($this->generateUrl('config_pathoption_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**

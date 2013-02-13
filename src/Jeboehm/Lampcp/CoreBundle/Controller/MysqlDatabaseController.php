@@ -36,9 +36,9 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 			->_getRepository()
 			->findByDomain($this->_getSelectedDomain(), array('name' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -56,9 +56,9 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 		}
 
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -73,10 +73,10 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 
 		$form = $this->createForm(new MysqlDatabaseType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -103,10 +103,10 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 			return $this->redirect($this->generateUrl('config_mysqldatabase_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -125,10 +125,10 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 
 		$editForm = $this->createForm(new MysqlDatabaseType(true), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -166,10 +166,10 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 			return $this->redirect($this->generateUrl('config_mysqldatabase_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**

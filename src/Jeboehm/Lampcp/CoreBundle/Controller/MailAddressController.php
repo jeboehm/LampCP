@@ -38,9 +38,9 @@ class MailAddressController extends AbstractController implements ICrudControlle
 			->getRepository('JeboehmLampcpCoreBundle:MailAddress')
 			->findByDomain($this->_getSelectedDomain(), array('address' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -60,9 +60,9 @@ class MailAddressController extends AbstractController implements ICrudControlle
 		}
 
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -75,10 +75,10 @@ class MailAddressController extends AbstractController implements ICrudControlle
 		$entity = new MailAddress($this->_getSelectedDomain());
 		$form   = $this->createForm(new MailAddressType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -101,10 +101,10 @@ class MailAddressController extends AbstractController implements ICrudControlle
 			return $this->redirect($this->generateUrl('config_mailaddress_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -125,10 +125,10 @@ class MailAddressController extends AbstractController implements ICrudControlle
 
 		$editForm = $this->createForm(new MailAddressType(true), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -181,10 +181,10 @@ class MailAddressController extends AbstractController implements ICrudControlle
 			return $this->redirect($this->generateUrl('config_mailaddress_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**

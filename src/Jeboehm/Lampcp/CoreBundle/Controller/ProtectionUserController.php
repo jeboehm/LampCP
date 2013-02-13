@@ -60,10 +60,10 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 			->getRepository('JeboehmLampcpCoreBundle:ProtectionUser')
 			->findBy(array('protection' => $protection), array('username' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities'   => $entities,
-									  'protection' => $protection,
-								 ));
+		return array(
+			'entities'   => $entities,
+			'protection' => $protection,
+		);
 	}
 
 	/**
@@ -83,9 +83,9 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 		}
 
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -100,11 +100,11 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 		$entity     = new ProtectionUser($this->_getSelectedDomain(), $protection);
 		$form       = $this->createForm(new ProtectionUserType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'     => $entity,
-									  'form'       => $form->createView(),
-									  'protection' => $protection,
-								 ));
+		return array(
+			'entity'     => $entity,
+			'form'       => $form->createView(),
+			'protection' => $protection,
+		);
 	}
 
 	/**
@@ -131,11 +131,11 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 			return $this->redirect($this->generateUrl('config_protectionuser_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'     => $entity,
-									  'form'       => $form->createView(),
-									  'protection' => $protection,
-								 ));
+		return array(
+			'entity'     => $entity,
+			'form'       => $form->createView(),
+			'protection' => $protection,
+		);
 	}
 
 	/**
@@ -156,10 +156,10 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 
 		$editForm = $this->createForm(new ProtectionUserType(true), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -197,10 +197,10 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 			return $this->redirect($this->generateUrl('config_protectionuser_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**

@@ -37,9 +37,9 @@ class CertificateController extends AbstractController implements ICrudControlle
 			->getRepository('JeboehmLampcpCoreBundle:Certificate')
 			->findBy(array(), array('name' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -69,9 +69,9 @@ class CertificateController extends AbstractController implements ICrudControlle
 		}
 
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -84,10 +84,10 @@ class CertificateController extends AbstractController implements ICrudControlle
 		$entity = new Certificate();
 		$form   = $this->createForm(new CertificateType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -116,10 +116,10 @@ class CertificateController extends AbstractController implements ICrudControlle
 			return $this->redirect($this->generateUrl('config_certificate_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -150,10 +150,10 @@ class CertificateController extends AbstractController implements ICrudControlle
 
 		$editForm = $this->createForm(new CertificateType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -186,10 +186,10 @@ class CertificateController extends AbstractController implements ICrudControlle
 			return $this->redirect($this->generateUrl('config_certificate_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
