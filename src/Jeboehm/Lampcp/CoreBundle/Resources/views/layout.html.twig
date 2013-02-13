@@ -13,15 +13,15 @@
     <ul class="nav">
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                {% if selecteddomain %}
-                    {{ selecteddomain.domain }}
+                {% if domainselector_selected() %}
+                    {{ domainselector_selected().domain }}
                 {% else %}
                     {{ "default.topmenu.no.domain"|trans }}
                 {% endif %}
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                {% for domain in domainselector_domains %}
+                {% for domain in domainselector_domains() %}
                     <li>
                         <a href="{{ path("set_domain", { id: domain.id }) }}">
                             {{ domain.domain }}
@@ -50,7 +50,7 @@
 
 {% block leftnavdom %}
     <ul class="nav nav-list">
-        <li class="nav-header">{{ selecteddomain.domain }}</li>
+        <li class="nav-header">{{ domainselector_selected().domain }}</li>
         <li><a href="{{ path('config_subdomain') }}">{{ "title.page.subdomain"|trans() }}</a></li>
         <li><a href="{{ path('config_mailaddress') }}">{{ "title.page.mailaddress"|trans() }}</a></li>
         <li><a href="{{ path('config_mysqldatabase') }}">{{ "title.page.mysqldatabase"|trans() }}</a></li>
