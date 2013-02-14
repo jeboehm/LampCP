@@ -21,7 +21,7 @@ mkdir -p /var/www/lampcp
 cd /var/www/lampcp
 
 if ! [ -r "htdocs/app/console" ]; then
-    git clone git@ares:lampcp.git htdocs
+    git clone git://github.com/jeboehm/LampCP.git htdocs
 fi
 
 cd htdocs
