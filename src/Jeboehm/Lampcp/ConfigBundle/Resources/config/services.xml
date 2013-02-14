@@ -18,6 +18,8 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <parameter key="jeboehm_lampcp_config.configservice.class">Jeboehm\Lampcp\ConfigBundle\Service\ConfigService</parameter>
         <parameter key="jeboehm_lampcp_config.configformtype.class">Jeboehm\Lampcp\ConfigBundle\Form\ConfigType</parameter>
         <parameter key="jeboehm_lampcp_config.config.controller">Jeboehm\Lampcp\ConfigBundle\Controller\ConfigController</parameter>
+        <parameter key="jeboehm_lampcp_config.abstractconfigprovider.class">Jeboehm\Lampcp\ConfigBundle\Service\AbstractConfigProvider</parameter>
+        <parameter key="jeboehm_lampcp_config.configprovidercollector.class">Jeboehm\Lampcp\ConfigBundle\Service\ConfigProviderCollector</parameter>
     </parameters>
 
     <services>
@@ -28,12 +30,19 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             <argument type="service" id="form.factory" />
         </service>
 
-        <service id="config" alias="jeboehm_lampcp_config_configservice" />
-
         <service id="jeboehm_lampcp_config_configcontroller" class="%jeboehm_lampcp_config.config.controller%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="jeboehm_lampcp_config_configservice" />
             <argument type="service" id="router" />
         </service>
+
+        <service id="jeboehm_lampcp_config_abstractconfigprovider" class="%jeboehm_lampcp_config.abstractconfigprovider.class%" abstract="true">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="jeboehm_lampcp_config_configservice" />
+        </service>
+
+        <service id="jeboehm_lampcp_config_configprovidercollector" class="%jeboehm_lampcp_config.configprovidercollector.class%" />
+
+        <service id="config" alias="jeboehm_lampcp_config_configservice" />
     </services>
 </container>

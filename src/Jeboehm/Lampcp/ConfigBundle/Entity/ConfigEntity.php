@@ -104,7 +104,7 @@ class ConfigEntity {
 	 * @return ConfigEntity
 	 */
 	public function setName($name) {
-		$this->name = $name;
+		$this->name = strtolower($name);
 
 		return $this;
 	}

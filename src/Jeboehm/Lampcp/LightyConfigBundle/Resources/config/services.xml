@@ -28,5 +28,9 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <service id="jeboehm_lampcp_lighty_config_protectionbuilder" class="%jeboehm_lampcp_lighty_config.protectionbuilderservice.class%" parent="jeboehm_lampcp_apache_config_protectionbuilder" />
         <service id="jeboehm_lampcp_lighty_config_certificatebuilder" class="%jeboehm_lampcp_lighty_config.certificatebuilderservice.class%" parent="jeboehm_lampcp_apache_config_certificatebuilder" />
         <service id="jeboehm_lampcp_lighty_config_fcgistarterservice" class="%jeboehm_lampcp_lighty_config.fcgistarterservice.class%" parent="jeboehm_lampcp_apache_config_certificatebuilder" />
+
+        <service id="jeboehm_lampcp_lighty_config_configprovider" class="Jeboehm\Lampcp\LightyConfigBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
+            <tag name="config.provider" />
+        </service>
     </services>
 </container>
