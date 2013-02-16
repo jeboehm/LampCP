@@ -130,11 +130,30 @@ class Vhost {
 	}
 
 	/**
+	 * RedirectUrl
+	 *
+	 * @return string
+	 */
+	public function getRedirectUrl() {
+		if($this->isSubDomain) {
+			$url = $this->subdomain->getRedirectUrl();
+		} else {
+			$url = $this->domain->getRedirectUrl();
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Is PHP enabled?
 	 *
 	 * @return bool
 	 */
 	public function getPHPEnabled() {
+		if($this->getRedirectUrl() != '') {
+			return false;
+		}
+
 		if($this->isSubDomain) {
 			$enabled = $this->subdomain->getParsePhp();
 		} else {
@@ -173,7 +192,10 @@ class Vhost {
 			$certificate = $this->domain->getCertificate();
 		}
 
-		if($certificate && !$this->getIpaddress()->getHasSsl()) {
+		if($certificate
+			&& !$this->getIpaddress()->getHasSsl()
+			&& $this->getRedirectUrl() == ''
+		) {
 			return $force;
 		} else {
 			return false;

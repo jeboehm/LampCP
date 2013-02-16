@@ -88,6 +88,12 @@ server.modules += ( "mod_fastcgi", "mod_accesslog", "mod_setenv", "mod_auth", "m
                 }
             {% endfor %}
 
+            {% if vhost.RedirectUrl != '' %}
+                url.redirect = (
+                    ".*" => "{{ vhost.RedirectUrl }}",
+                )
+            {% endif %}
+
             ## Custom
             {{ vhost.CustomConfig|raw }}
             ## End Custom
