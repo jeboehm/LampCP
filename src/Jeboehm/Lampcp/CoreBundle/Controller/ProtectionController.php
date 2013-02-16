@@ -122,7 +122,7 @@ class ProtectionController extends AbstractController implements ICrudController
 			throw $this->createNotFoundException('Unable to find Protection entity.');
 		}
 
-		$editForm = $this->createForm(new ProtectionType(true), $entity);
+		$editForm = $this->createForm(new ProtectionType(), $entity);
 
 		return array(
 			'entity'    => $entity,
@@ -147,7 +147,7 @@ class ProtectionController extends AbstractController implements ICrudController
 			throw $this->createNotFoundException('Unable to find Protection entity.');
 		}
 
-		$editForm = $this->createForm(new ProtectionType(true), $entity);
+		$editForm = $this->createForm(new ProtectionType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {

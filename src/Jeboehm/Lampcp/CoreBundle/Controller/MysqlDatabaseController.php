@@ -123,7 +123,7 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
 		}
 
-		$editForm = $this->createForm(new MysqlDatabaseType(true), $entity);
+		$editForm = $this->createForm(new MysqlDatabaseType(), $entity);
 
 		return array(
 			'entity'    => $entity,
@@ -150,7 +150,7 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 
 		$oldPassword = $entity->getPassword();
 
-		$editForm = $this->createForm(new MysqlDatabaseType(true), $entity);
+		$editForm = $this->createForm(new MysqlDatabaseType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {

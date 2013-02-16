@@ -21,7 +21,7 @@ class MysqlDatabaseType extends AbstractType {
 								))
 			->add('comment');
 
-		if($this->_getIsEditMode()) {
+		if($this->_getIsEditMode($builder)) {
 			$builder->add('password', 'repeated', array(
 													   'type'     => 'password',
 													   'required' => false,

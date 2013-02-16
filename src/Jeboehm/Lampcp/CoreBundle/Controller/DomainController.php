@@ -124,7 +124,7 @@ class DomainController extends AbstractController implements ICrudController {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
 		}
 
-		$editForm = $this->createForm(new DomainType(true), $entity);
+		$editForm = $this->createForm(new DomainType(), $entity);
 
 		return array(
 			'entity'    => $entity,
@@ -148,7 +148,7 @@ class DomainController extends AbstractController implements ICrudController {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
 		}
 
-		$editForm = $this->createForm(new DomainType(true), $entity);
+		$editForm = $this->createForm(new DomainType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {

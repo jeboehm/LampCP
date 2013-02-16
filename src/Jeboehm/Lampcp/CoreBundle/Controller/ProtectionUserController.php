@@ -154,7 +154,7 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
 		}
 
-		$editForm = $this->createForm(new ProtectionUserType(true), $entity);
+		$editForm = $this->createForm(new ProtectionUserType(), $entity);
 
 		return array(
 			'entity'    => $entity,
@@ -181,7 +181,7 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 
 		$oldPassword = $entity->getPassword();
 
-		$editForm = $this->createForm(new ProtectionUserType(true), $entity);
+		$editForm = $this->createForm(new ProtectionUserType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {

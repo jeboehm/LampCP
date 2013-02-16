@@ -123,7 +123,7 @@ class MailAddressController extends AbstractController implements ICrudControlle
 			throw $this->createNotFoundException('Unable to find MailAddress entity.');
 		}
 
-		$editForm = $this->createForm(new MailAddressType(true), $entity);
+		$editForm = $this->createForm(new MailAddressType(), $entity);
 
 		return array(
 			'entity'    => $entity,
@@ -149,7 +149,7 @@ class MailAddressController extends AbstractController implements ICrudControlle
 		}
 
 		$oldForwards = $entity->getMailforward();
-		$editForm    = $this->createForm(new MailAddressType(true), $entity);
+		$editForm    = $this->createForm(new MailAddressType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {

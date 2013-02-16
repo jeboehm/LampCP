@@ -140,7 +140,7 @@ class AdminController extends AbstractController implements ICrudController {
 			throw $this->createNotFoundException('Unable to find Admin entity.');
 		}
 
-		$editForm = $this->createForm(new AdminType(true), $entity);
+		$editForm = $this->createForm(new AdminType(), $entity);
 
 		return array(
 			'entity'    => $entity,
@@ -167,7 +167,7 @@ class AdminController extends AbstractController implements ICrudController {
 
 		$oldPassword = $entity->getPassword();
 
-		$editForm = $this->createForm(new AdminType(true), $entity);
+		$editForm = $this->createForm(new AdminType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {

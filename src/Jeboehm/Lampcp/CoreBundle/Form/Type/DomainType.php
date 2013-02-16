@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class DomainType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		if($this->_getIsEditMode()) {
+		if($this->_getIsEditMode($builder)) {
 			$builder->add('domain', null, array(
 											   'read_only' => true
 										  ));
