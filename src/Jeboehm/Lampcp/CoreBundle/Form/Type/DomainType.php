@@ -15,18 +15,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class DomainType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		if($this->_getIsEditMode($builder)) {
-			$builder->add('domain', null, array(
-											   'read_only' => true
-										  ));
-		} else {
-			$builder->add('domain', null, array(
-											   'read_only' => false
-										  ));
-		}
-
-
 		$builder
+			->add('domain', null, array(
+									   'read_only' => $this->_getIsEditMode($builder)
+								  ))
 			->add('path', null, array('read_only' => true))
 			->add('webroot')
 			->add('certificate', 'entity', array(

@@ -16,19 +16,11 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class AdminType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('email');
-
-		if($this->_getIsEditMode($builder)) {
-			$builder->add('password', 'repeated', array(
-													   'type'     => 'password',
-													   'required' => false,
-												  ));
-		} else {
-			$builder->add('password', 'repeated', array(
-													   'type'     => 'password',
-													   'required' => true,
-												  ));
-		}
+			->add('email')
+			->add('password', 'repeated', array(
+											   'type'     => 'password',
+											   'required' => !$this->_getIsEditMode($builder),
+										  ));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
