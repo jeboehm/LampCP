@@ -17,13 +17,13 @@ class SubdomainType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('subdomain')
+			->add('path', null, array('required' => false))
 			->add('certificate', 'entity', array(
 												'class'    => 'JeboehmLampcpCoreBundle:Certificate',
 												'property' => 'name',
 												'required' => false,
 										   ))
 			->add('forceSsl', null, array('required' => false))
-			->add('path', null, array('required' => false))
 			->add('isWildcard', null, array('required' => false))
 			->add('parsePhp', null, array('required' => false))
 			->add('customconfig', null, array('required' => false));
