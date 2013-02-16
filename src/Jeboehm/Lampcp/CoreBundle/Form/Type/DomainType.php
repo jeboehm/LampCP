@@ -21,12 +21,7 @@ class DomainType extends AbstractType {
 								  ))
 			->add('path', null, array('read_only' => true))
 			->add('webroot')
-			->add('certificate', 'entity', array(
-												'class'    => 'JeboehmLampcpCoreBundle:Certificate',
-												'property' => 'name',
-												'required' => false,
-										   ))
-			->add('forceSsl', null, array('required' => false))
+			->add('redirectUrl', null, array('required' => false))
 			->add('user', 'entity', array(
 										 'class'    => 'JeboehmLampcpCoreBundle:User',
 										 'property' => 'name',
@@ -37,6 +32,12 @@ class DomainType extends AbstractType {
 											  'multiple' => true,
 											  'required' => false,
 										 ))
+			->add('certificate', 'entity', array(
+												'class'    => 'JeboehmLampcpCoreBundle:Certificate',
+												'property' => 'name',
+												'required' => false,
+										   ))
+			->add('forceSsl', null, array('required' => false))
 			->add('isWildcard', null, array('required' => false))
 			->add('parsePhp', null, array('required' => false))
 			->add('customconfig', null, array('required' => false));

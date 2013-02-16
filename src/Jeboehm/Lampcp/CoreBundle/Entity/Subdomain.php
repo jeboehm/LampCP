@@ -65,6 +65,13 @@ class Subdomain {
 	private $path;
 
 	/**
+	 * @var string
+	 * @Assert\Url()
+	 * @ORM\Column(name="redirectUrl", type="string", length=255)
+	 */
+	private $redirectUrl;
+
+	/**
 	 * @var boolean
 	 * @ORM\Column(name="isWildcard", type="boolean")
 	 */
@@ -99,6 +106,7 @@ class Subdomain {
 	public function __construct(Domain $domain) {
 		$this->domain       = $domain;
 		$this->path         = 'htdocs';
+		$this->redirectUrl  = '';
 		$this->parsePhp     = true;
 		$this->isWildcard   = false;
 		$this->forceSsl     = false;
@@ -208,6 +216,28 @@ class Subdomain {
 	 */
 	public function getPath() {
 		return $this->path;
+	}
+
+	/**
+	 * Set redirect url
+	 *
+	 * @param string $redirectUrl
+	 *
+	 * @return Subdomain
+	 */
+	public function setRedirectUrl($redirectUrl) {
+		$this->redirectUrl = strval($redirectUrl);
+
+		return $this;
+	}
+
+	/**
+	 * Get redirect url
+	 *
+	 * @return string
+	 */
+	public function getRedirectUrl() {
+		return $this->redirectUrl;
 	}
 
 	/**

@@ -93,6 +93,7 @@ jeboehm.lampcp.corebundle.admintype.password.second: Passwort wiederholen
 jeboehm.lampcp.corebundle.domaintype.domain: Domain
 jeboehm.lampcp.corebundle.domaintype.path: Pfad
 jeboehm.lampcp.corebundle.domaintype.webroot: Web-Pfad
+jeboehm.lampcp.corebundle.domaintype.redirectUrl: URL-Umleitung
 jeboehm.lampcp.corebundle.domaintype.customconfig: Benutzerdef. Konfiguration
 jeboehm.lampcp.corebundle.domaintype.user: Besitzer
 jeboehm.lampcp.corebundle.domaintype.ipaddress: IP-Adresse
@@ -103,6 +104,7 @@ jeboehm.lampcp.corebundle.domaintype.isWildcard: Wildcard
 
 jeboehm.lampcp.corebundle.subdomaintype.subdomain: Subdomain
 jeboehm.lampcp.corebundle.subdomaintype.path: Pfad
+jeboehm.lampcp.corebundle.subdomaintype.redirectUrl: URL-Umleitung
 jeboehm.lampcp.corebundle.subdomaintype.customconfig: Benutzerdef. Konfiguration
 jeboehm.lampcp.corebundle.subdomaintype.certificate: Zertifikat
 jeboehm.lampcp.corebundle.subdomaintype.forceSsl: SSL erzwingen

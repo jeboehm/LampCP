@@ -18,6 +18,7 @@ class SubdomainType extends AbstractType {
 		$builder
 			->add('subdomain')
 			->add('path', null, array('required' => false))
+			->add('redirectUrl', null, array('required' => false))
 			->add('certificate', 'entity', array(
 												'class'    => 'JeboehmLampcpCoreBundle:Certificate',
 												'property' => 'name',
