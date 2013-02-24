@@ -45,7 +45,13 @@ class DomainType extends AbstractType {
 			->add('forceSsl', null, array('required' => false))
 			->add('isWildcard', null, array('required' => false))
 			->add('parsePhp', null, array('required' => false))
-			->add('customconfig', null, array('required' => false));
+			->add('customconfig', null, array(
+											 'required' => false,
+											 'attr'     => array(
+												 'class' => 'input-xxlarge',
+												 'rows'  => 7
+											 )
+										));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
