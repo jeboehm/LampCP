@@ -16,8 +16,9 @@ title.page.mailaddress: E-Mailadressen
 title.page.mysqldatabase: Datenbanken
 title.page.pathoption: Pfadoptionen
 title.page.protection: Beschränkungen
-title.page.protectionuser: Beschränkungsaccounts
+title.page.protectionuser: Zugänge
 title.page.subdomain: Subdomains
+title.page.dns: DNS Zonen
 title.page.systemconfig: Systemkonfiguration
 title.page.ipaddress: IP-Adressen
 title.page.certificate: Zertifikate
@@ -30,8 +31,9 @@ edit.page.mailaddress: E-Mailadresse bearbeiten
 edit.page.mysqldatabase: Datenbank bearbeiten
 edit.page.pathoption: Pfadoption bearbeiten
 edit.page.protection: Beschränkung bearbeiten
-edit.page.protectionuser: Beschränkungsaccount bearbeiten
+edit.page.protectionuser: Zugang bearbeiten
 edit.page.subdomain: Subdomain bearbeiten
+edit.page.dns: DNS Zone bearbeiten
 edit.page.systemconfig: Systemkonfiguration bearbeiten
 edit.page.ipaddress: IP-Adressen bearbeiten
 edit.page.certificate: Zertifikate bearbeiten
@@ -42,8 +44,9 @@ show.page.mailaddress: E-Mailadresse anzeigen
 show.page.mysqldatabase: Datenbank anzeigen
 show.page.pathoption: Pfadoption anzeigen
 show.page.protection: Beschränkung anzeigen
-show.page.protectionuser: Beschränkungsaccount anzeigen
+show.page.protectionuser: Zugang anzeigen
 show.page.subdomain: Subdomain anzeigen
+show.page.dns: DNS Zone anzeigen
 show.page.ipaddress: IP-Adresse anzeigen
 show.page.certificate: Zertifikat anzeigen
 
@@ -53,8 +56,9 @@ create.page.mailaddress: E-Mailadresse anlegen
 create.page.mysqldatabase: Datenbank anlegen
 create.page.pathoption: Pfadoption anlegen
 create.page.protection: Beschränkung anlegen
-create.page.protectionuser: Beschränkungsaccount anlegen
+create.page.protectionuser: Zugang anlegen
 create.page.subdomain: Subdomain anlegen
+create.page.dns: DNS Zone anlegen
 create.page.ipaddress: IP-Adresse anlegen
 create.page.certificate: Zertifikat anlegen
 
@@ -94,6 +98,7 @@ jeboehm.lampcp.corebundle.domaintype.domain: Domain
 jeboehm.lampcp.corebundle.domaintype.path: Pfad
 jeboehm.lampcp.corebundle.domaintype.webroot: Web-Pfad
 jeboehm.lampcp.corebundle.domaintype.redirectUrl: URL-Umleitung
+jeboehm.lampcp.corebundle.domaintype.redirectUrl.help: Anfragen an diese Adresse umleiten.
 jeboehm.lampcp.corebundle.domaintype.customconfig: Benutzerdef. Konfiguration
 jeboehm.lampcp.corebundle.domaintype.user: Besitzer
 jeboehm.lampcp.corebundle.domaintype.ipaddress: IP-Adresse
@@ -105,6 +110,7 @@ jeboehm.lampcp.corebundle.domaintype.isWildcard: Wildcard
 jeboehm.lampcp.corebundle.subdomaintype.subdomain: Subdomain
 jeboehm.lampcp.corebundle.subdomaintype.path: Pfad
 jeboehm.lampcp.corebundle.subdomaintype.redirectUrl: URL-Umleitung
+jeboehm.lampcp.corebundle.subdomaintype.redirectUrl.help: Anfragen an diese Adresse umleiten.
 jeboehm.lampcp.corebundle.subdomaintype.customconfig: Benutzerdef. Konfiguration
 jeboehm.lampcp.corebundle.subdomaintype.certificate: Zertifikat
 jeboehm.lampcp.corebundle.subdomaintype.forceSsl: SSL erzwingen
@@ -147,6 +153,9 @@ jeboehm.lampcp.corebundle.certificatetype.CertificateFile: CertificateFile
 jeboehm.lampcp.corebundle.certificatetype.CertificateKeyFile: CertifikateKeyFile
 jeboehm.lampcp.corebundle.certificatetype.CertificateChainFile: CertificateChainFile
 jeboehm.lampcp.corebundle.certificatetype.CACertificateFile: CACertificateFile
+
+jeboehm.lampcp.corebundle.dnstype.origin: Name der Zone
+jeboehm.lampcp.corebundle.dnstype.origin.help: Meist die Domain, z.B. lampcp.de
 
 # Systemconfig
 apache.pathwww: Apache2 Webseitenverzeichnis

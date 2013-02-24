@@ -28,8 +28,7 @@
             {% endif %}
 
             {{ form_row(entity.value, {
-            'label' : (entity.vars.value.configgroup.name ~ "." ~ entity.vars.value.name)|trans(),
-            'labelnoset' : 1
+            'label' : (entity.vars.value.configgroup.name ~ "." ~ entity.vars.value.name)|trans()
             }) }}
 
             {% set i = i + 1 %}

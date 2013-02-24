@@ -16,19 +16,11 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ProtectionUserType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('username');
-
-		if($this->_isEditMode) {
-			$builder->add('password', 'repeated', array(
-													   'type'     => 'password',
-													   'required' => false,
-												  ));
-		} else {
-			$builder->add('password', 'repeated', array(
-													   'type'     => 'password',
-													   'required' => true,
-												  ));
-		}
+			->add('username')
+			->add('password', 'repeated', array(
+											   'type'     => 'password',
+											   'required' => !$this->_getIsEditMode($builder),
+										  ));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

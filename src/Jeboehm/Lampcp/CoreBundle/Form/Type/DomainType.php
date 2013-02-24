@@ -21,7 +21,12 @@ class DomainType extends AbstractType {
 								  ))
 			->add('path', null, array('read_only' => true))
 			->add('webroot')
-			->add('redirectUrl', null, array('required' => false))
+			->add('redirectUrl', null, array(
+											'required' => false,
+											'attr'     => array(
+												'help_block' => 'jeboehm.lampcp.corebundle.domaintype.redirectUrl.help',
+											)
+									   ))
 			->add('user', 'entity', array(
 										 'class'    => 'JeboehmLampcpCoreBundle:User',
 										 'property' => 'name',
