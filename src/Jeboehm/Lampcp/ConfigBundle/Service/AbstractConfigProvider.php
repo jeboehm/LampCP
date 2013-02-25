@@ -85,6 +85,7 @@ abstract class AbstractConfigProvider {
 			$group->setName($name);
 
 			$this->_getDoctrine()->persist($group);
+			$this->_getDoctrine()->flush();
 		}
 
 		$this->_lastGroup = $group;
@@ -126,15 +127,9 @@ abstract class AbstractConfigProvider {
 				->setValue($default);
 
 			$this->_getDoctrine()->persist($entity);
+			$this->_getDoctrine()->flush();
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Destruktor
-	 */
-	public function __destruct() {
-		$this->_getDoctrine()->flush();
 	}
 }
