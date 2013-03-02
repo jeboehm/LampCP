@@ -10,7 +10,6 @@
 # Seitentitel
 title.head: LampCP
 title.page.status: Status
-title.page.admin: Administratoren
 title.page.domain: Domains
 title.page.mailaddress: E-Mailadressen
 title.page.mysqldatabase: Datenbanken
@@ -22,10 +21,9 @@ title.page.dns: DNS Zonen
 title.page.systemconfig: Systemkonfiguration
 title.page.ipaddress: IP-Adressen
 title.page.certificate: Zertifikate
-title.page.login: LogIn
-title.page.logout: LogOut
+title.page.login: LampCP Anmeldung
+title.page.logout: Logout
 
-edit.page.admin: Administrator bearbeiten
 edit.page.domain: Domain bearbeiten
 edit.page.mailaddress: E-Mailadresse bearbeiten
 edit.page.mysqldatabase: Datenbank bearbeiten
@@ -38,7 +36,6 @@ edit.page.systemconfig: Systemkonfiguration bearbeiten
 edit.page.ipaddress: IP-Adressen bearbeiten
 edit.page.certificate: Zertifikate bearbeiten
 
-show.page.admin: Administrator anzeigen
 show.page.domain: Domain anzeigen
 show.page.mailaddress: E-Mailadresse anzeigen
 show.page.mysqldatabase: Datenbank anzeigen
@@ -50,7 +47,6 @@ show.page.dns: DNS Zone anzeigen
 show.page.ipaddress: IP-Adresse anzeigen
 show.page.certificate: Zertifikat anzeigen
 
-create.page.admin: Administrator anlegen
 create.page.domain: Domain anlegen
 create.page.mailaddress: E-Mailadresse anlegen
 create.page.mysqldatabase: Datenbank anlegen
@@ -78,22 +74,11 @@ status.headline.uname: Hostname / Kernel-Version
 leftnavall.general: Allgemein
 leftnav.select.domain: Domain auswählen
 
-# Auth
-page.login.form.username: Benutzername
-page.login.form.password: Passwort
-page.login.form.submit: LogIn
-
 # Tabellenspalten / Attribute
 all.column.actions: Aktionen
 all.column.id: Nr.
 
 # Formularlabels
-jeboehm.lampcp.corebundle.admintype.email: E-Mailadresse
-jeboehm.lampcp.corebundle.admintype.lastseen: Zuletzt gesehen
-jeboehm.lampcp.corebundle.admintype.registered: Registriert
-jeboehm.lampcp.corebundle.admintype.password.first: Passwort
-jeboehm.lampcp.corebundle.admintype.password.second: Passwort wiederholen
-
 jeboehm.lampcp.corebundle.domaintype.domain: Domain
 jeboehm.lampcp.corebundle.domaintype.path: Pfad
 jeboehm.lampcp.corebundle.domaintype.webroot: Web-Pfad

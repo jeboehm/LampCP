@@ -1,0 +1,39 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    {% if error %}
+        <div class="alert">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+
+            {{ error|trans({}, 'FOSUserBundle') }}
+        </div>{% endif %}
+
+    <form class="form-signin" action="{{ path("fos_user_security_check") }}" method="post">
+        <h2 class="form-signin-heading">{{ "title.page.login"|trans }}</h2>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+
+        <input class="input-block-level" type="text" id="username" name="_username" value="{{ last_username }}"
+               required="required" placeholder="{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}"/>
+
+        <input class="input-block-level" type="password" id="password" name="_password" required="required"
+               placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}"/>
+
+        <label class="checkbox">
+            <input type="checkbox" id="remember_me" name="_remember_me"
+                   value="on"/> {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+        </label>
+
+        <button class="btn btn-large btn-primary"
+                type="submit">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
+    </form>
+{% endblock fos_user_content %}

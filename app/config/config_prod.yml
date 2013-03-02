@@ -1,11 +1,15 @@
+##########################################
+#
+# LampCP
+# https://github.com/jeboehm/LampCP
+#
+# Licensed under the GPL Version 2 license
+# http://www.gnu.org/licenses/gpl-2.0.txt
+#
+##########################################
+
 imports:
     - { resource: config.yml }
-
-#doctrine:
-#    orm:
-#        metadata_cache_driver: apc
-#        result_cache_driver: apc
-#        query_cache_driver: apc
 
 monolog:
     handlers:

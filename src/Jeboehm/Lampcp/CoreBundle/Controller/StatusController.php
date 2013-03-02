@@ -10,28 +10,17 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Request;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Entity\Admin;
 use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 
 /**
  * Status controller.
  */
 class StatusController extends AbstractController {
-	protected function _updateLastLogin() {
-		/** @var $security SecurityContext */
-		/** @var $user Admin */
-		$security = $this->get('security.context');
-		$user     = $security->getToken()->getUser();
-		$user->setLastseen(new \DateTime());
-		$this->getDoctrine()->getManager()->flush();
-	}
-
 	/**
 	 * Shows status page.
 	 *
@@ -41,8 +30,6 @@ class StatusController extends AbstractController {
 	 * @return array
 	 */
 	public function indexAction() {
-		$this->_updateLastLogin();
-
 		$uptime = new ExecUtility();
 		$uptime->exec('uptime');
 

@@ -21,7 +21,8 @@
         "jms/di-extra-bundle": "1.1.*",
         "phpunit/phpunit":"3.7.*",
         "jboehm/passwd-bundle": "dev-master",
-        "braincrafted/bootstrap-bundle": "dev-develop"
+        "braincrafted/bootstrap-bundle": "dev-develop",
+		"friendsofsymfony/user-bundle": "2.0.*@dev"
     },
     "scripts": {
         "post-install-cmd": [

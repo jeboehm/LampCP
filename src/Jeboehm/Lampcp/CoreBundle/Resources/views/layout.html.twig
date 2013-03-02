@@ -31,7 +31,7 @@
             </ul>
         </li>
 
-        <li><a href="{{ path('auth_logout') }}">{{ "title.page.logout"|trans() }}</a></li>
+        <li><a href="{{ path('fos_user_security_logout') }}">{{ "title.page.logout"|trans() }}</a></li>
     </ul>
 {% endblock %}
 
@@ -39,7 +39,6 @@
     <ul class="nav nav-list">
         <li class="nav-header">{{ "leftnavall.general"|trans() }}</li>
         <li><a href="{{ path('systemconfig') }}">{{ "title.page.systemconfig"|trans() }}</a></li>
-        <li><a href="{{ path('config_admin') }}">{{ "title.page.admin"|trans() }}</a></li>
         <li><a href="{{ path('config_ipaddress') }}">{{ "title.page.ipaddress"|trans() }}</a></li>
         <li><a href="{{ path('config_certificate') }}">{{ "title.page.certificate"|trans() }}</a></li>
         <li><a href="{{ path('config_domain') }}">{{ "title.page.domain"|trans() }}</a></li>

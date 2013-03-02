@@ -1,10 +1,20 @@
+##########################################
+#
+# LampCP
+# https://github.com/jeboehm/LampCP
+#
+# Licensed under the GPL Version 2 license
+# http://www.gnu.org/licenses/gpl-2.0.txt
+#
+##########################################
+
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 
 framework:
     translator:      { fallback: "%locale%" }
-    secret:          "shungorev7yaiCh"
+    secret:          "ooxuukoo6Cai7Dei0aihai9ookoa"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: "%kernel.debug%"
@@ -55,3 +65,8 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Jeboehm\Lampcp\CoreBundle\Entity\Admin

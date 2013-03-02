@@ -10,14 +10,13 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Command;
 
-use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService;
-use Jeboehm\Lampcp\ApacheConfigBundle\Service\PathOptionBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService;
 use Jeboehm\Lampcp\CoreBundle\Entity\BuilderChangeRepository;
 use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
