@@ -36,13 +36,6 @@ twig:
     globals:
         env:          "%kernel.environment%"
 
-# Assetic Configuration
-assetic:
-    debug:          "%kernel.debug%"
-    use_controller: true
-    filters:
-        cssrewrite: ~
-
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -70,3 +63,7 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Jeboehm\Lampcp\CoreBundle\Entity\Admin
+
+knp_menu:
+   twig:
+       template: "JeboehmLampcpCoreBundle:Base:menu.html.twig"

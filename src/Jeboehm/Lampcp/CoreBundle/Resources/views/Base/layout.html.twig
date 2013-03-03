@@ -1,0 +1,92 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends '::base.html.twig' %}
+{% import "JeboehmLampcpCoreBundle:Base:macros.html.twig" as macros %}
+
+{% block title %}
+    {% spaceless %}
+        {{ "title.head"|trans() }}
+    {% endspaceless %}
+{% endblock %}
+
+{% block meta %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" xmlns="http://www.w3.org/1999/html"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Jeffrey Böhm"/>
+{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets
+    '@JeboehmLampcpCoreBundle/Resources/public/css/main.css' %}
+
+    <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts
+    '@JeboehmLampcpCoreBundle/Resources/public/js/main.js'
+    '@JeboehmLampcpCoreBundle/Resources/public/js/functions.js' %}
+
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block body %}
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <a class="brand" href="{{ path("default") }}">{{ "title.head"|trans() }}</a>
+
+                {{ knp_menu_render('JeboehmLampcpCoreBundle:TopMenuBuilder:getMenu', {'nav_type': 'navbar'}) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+
+                <div class="sidebar-nav">
+                    {{ knp_menu_render('JeboehmLampcpCoreBundle:GeneralMenuBuilder:getMenu',
+                    {'nav_type': 'stacked_pills'}) }}
+                </div>
+
+                {% if knp_menu_get('JeboehmLampcpCoreBundle:DomainMenuBuilder:getMenu')|length > 0 %}
+                    <div class="sidebar-nav">
+                        {{ knp_menu_render('JeboehmLampcpCoreBundle:DomainMenuBuilder:getMenu',
+                        {'nav_type': 'stacked_pills'}) }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="span9">
+                <div class="row-fluid">
+                    <div class="span12">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <footer>
+            <p class="muted">Powered by <a href="http://www.lampcp.de/">LampCP</a></p>
+        </footer>
+    </div>
+{% endblock %}
