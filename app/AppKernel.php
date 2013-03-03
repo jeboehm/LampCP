@@ -25,6 +25,7 @@ class AppKernel extends Kernel {
 			new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 			new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle(),
 			new FOS\UserBundle\FOSUserBundle(),
+			new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 			new Jboehm\Bundle\PasswdBundle\JboehmPasswdBundle(),
 			new Jeboehm\Lampcp\CoreBundle\JeboehmLampcpCoreBundle(),
 			new Jeboehm\Lampcp\UserLoaderBundle\JeboehmLampcpUserLoaderBundle(),

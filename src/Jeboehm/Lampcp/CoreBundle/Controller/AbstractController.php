@@ -16,7 +16,7 @@ use Symfony\Bridge\Monolog\Logger;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
-use Jeboehm\Lampcp\CoreBundle\Twig\DomainselectorExtension;
+use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 
 /**
  * Abstract controller.
@@ -62,7 +62,7 @@ abstract class AbstractController extends Controller {
 	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain|null
 	 */
 	protected function _getSelectedDomain() {
-		/** @var $domainselector DomainselectorExtension */
+		/** @var $domainselector DomainselectorService */
 		$domainselector = $this->get('jeboehm_lampcp_core.domainselector');
 
 		return $domainselector->getSelected();

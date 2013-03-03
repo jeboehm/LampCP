@@ -8,44 +8,29 @@
  *
  */
 
-namespace Jeboehm\Lampcp\CoreBundle\Twig;
+namespace Jeboehm\Lampcp\CoreBundle\Service;
 
-use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\Collection;
+use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 
-class DomainselectorExtension extends \Twig_Extension {
+class DomainselectorService {
 	/** @var \Doctrine\ORM\EntityManager */
 	private $_em;
 
 	/** @var \Symfony\Component\HttpFoundation\Session\Session */
 	private $_session;
 
+	/**
+	 * Konstruktor
+	 *
+	 * @param \Doctrine\ORM\EntityManager                       $em
+	 * @param \Symfony\Component\HttpFoundation\Session\Session $session
+	 */
 	public function __construct(EntityManager $em, Session $session) {
 		$this->_em      = $em;
 		$this->_session = $session;
-	}
-
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName() {
-		return 'domainselector_extension';
-	}
-
-	/**
-	 * Get function list
-	 *
-	 * @return array
-	 */
-	public function getFunctions() {
-		return array(
-			'domainselector_selected' => new \Twig_Function_Method($this, 'getSelected'),
-			'domainselector_domains'  => new \Twig_Function_Method($this, 'getDomains'),
-		);
 	}
 
 	/**
