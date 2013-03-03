@@ -21,14 +21,14 @@
 
             {% if i > 0 %}
                 {% if entity.vars.value.configgroup.name != form.configentity[prev].vars.value.configgroup.name %}
-                    <h2>{{ entity.vars.value.configgroup.name|trans() }}</h2>
+                    <h2>{{ ("config.title." ~ entity.vars.value.configgroup.name)|trans() }}</h2>
                 {% endif %}
             {% else %}
-                <h2>{{ entity.vars.value.configgroup.name|trans() }}</h2>
+                <h2>{{ ("config.title." ~ entity.vars.value.configgroup.name)|trans() }}</h2>
             {% endif %}
 
             {{ form_row(entity.value, {
-            'label' : (entity.vars.value.configgroup.name ~ "." ~ entity.vars.value.name)|trans()
+            'label' : ("config." ~ entity.vars.value.configgroup.name ~ "." ~ entity.vars.value.name)|trans()
             }) }}
 
             {% set i = i + 1 %}

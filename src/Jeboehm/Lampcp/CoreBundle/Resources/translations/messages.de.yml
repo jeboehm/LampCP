@@ -8,64 +8,76 @@
 ##
 
 # Seitentitel
-title.head: LampCP
-title.page.status: Status
-title.page.domain: Domains
-title.page.mailaddress: E-Mailadressen
-title.page.mysqldatabase: Datenbanken
-title.page.pathoption: Pfadoptionen
-title.page.protection: Beschränkungen
-title.page.protectionuser: Zugänge
-title.page.subdomain: Subdomains
-title.page.dns: DNS Zonen
-title.page.systemconfig: Systemkonfiguration
-title.page.ipaddress: IP-Adressen
-title.page.certificate: Zertifikate
-title.page.login: LampCP Anmeldung
-title.page.logout: Logout
+title:
+    head: LampCP
+    page:
+        status: Status
+        domain: Domains
+        mailaddress: E-Mailadressen
+        mysqldatabase: Datenbanken
+        pathoption: Pfadoptionen
+        protection: Beschränkungen
+        protectionuser: Zugänge
+        subdomain: Subdomains
+        dns: DNS Zonen
+        systemconfig: Systemkonfiguration
+        ipaddress: IP-Adressen
+        certificate: Zertifikate
+        login: LampCP Anmeldung
+        logout: Logout
 
-edit.page.domain: Domain bearbeiten
-edit.page.mailaddress: E-Mailadresse bearbeiten
-edit.page.mysqldatabase: Datenbank bearbeiten
-edit.page.pathoption: Pfadoption bearbeiten
-edit.page.protection: Beschränkung bearbeiten
-edit.page.protectionuser: Zugang bearbeiten
-edit.page.subdomain: Subdomain bearbeiten
-edit.page.dns: DNS Zone bearbeiten
-edit.page.systemconfig: Systemkonfiguration bearbeiten
-edit.page.ipaddress: IP-Adressen bearbeiten
-edit.page.certificate: Zertifikate bearbeiten
+# Seitentitel bearbeiten
+edit:
+    page:
+        domain: Domain bearbeiten
+        mailaddress: E-Mailadresse bearbeiten
+        mysqldatabase: Datenbank bearbeiten
+        pathoption: Pfadoption bearbeiten
+        protection: Beschränkung bearbeiten
+        protectionuser: Zugang bearbeiten
+        subdomain: Subdomain bearbeiten
+        dns: DNS Zone bearbeiten
+        systemconfig: Systemkonfiguration bearbeiten
+        ipaddress: IP-Adressen bearbeiten
+        certificate: Zertifikate bearbeiten
 
-show.page.domain: Domain anzeigen
-show.page.mailaddress: E-Mailadresse anzeigen
-show.page.mysqldatabase: Datenbank anzeigen
-show.page.pathoption: Pfadoption anzeigen
-show.page.protection: Beschränkung anzeigen
-show.page.protectionuser: Zugang anzeigen
-show.page.subdomain: Subdomain anzeigen
-show.page.dns: DNS Zone anzeigen
-show.page.ipaddress: IP-Adresse anzeigen
-show.page.certificate: Zertifikat anzeigen
+# Seitentitel anzeigen
+show:
+    page:
+        domain: Domain anzeigen
+        mailaddress: E-Mailadresse anzeigen
+        mysqldatabase: Datenbank anzeigen
+        pathoption: Pfadoption anzeigen
+        protection: Beschränkung anzeigen
+        protectionuser: Zugang anzeigen
+        subdomain: Subdomain anzeigen
+        dns: DNS Zone anzeigen
+        ipaddress: IP-Adresse anzeigen
+        certificate: Zertifikat anzeigen
 
-create.page.domain: Domain anlegen
-create.page.mailaddress: E-Mailadresse anlegen
-create.page.mysqldatabase: Datenbank anlegen
-create.page.pathoption: Pfadoption anlegen
-create.page.protection: Beschränkung anlegen
-create.page.protectionuser: Zugang anlegen
-create.page.subdomain: Subdomain anlegen
-create.page.dns: DNS Zone anlegen
-create.page.ipaddress: IP-Adresse anlegen
-create.page.certificate: Zertifikat anlegen
+# Seitentitel anlegen
+create:
+    page:
+        domain: Domain anlegen
+        mailaddress: E-Mailadresse anlegen
+        mysqldatabase: Datenbank anlegen
+        pathoption: Pfadoption anlegen
+        protection: Beschränkung anlegen
+        protectionuser: Zugang anlegen
+        subdomain: Subdomain anlegen
+        dns: DNS Zone anlegen
+        ipaddress: IP-Adresse anlegen
+        certificate: Zertifikat anlegen
 
 # Buttons
-button.save: Speichern
-button.edit: Bearbeiten
-button.delete: Löschen
-button.delete.confirm: Wirklich löschen?
-button.back: Zurück zur Liste
-button.create: Neuen Eintrag anlegen
-button.show: Anzeigen
+button:
+    create: Neuen Eintrag anlegen
+    save: Speichern
+    edit: Bearbeiten
+    delete: Löschen
+    delete.confirm: Wirklich löschen?
+    back: Zurück zur Liste
+    show: Anzeigen
 
 # Seiteninhalte
 default.topmenu.no.domain: Keine Domain ausgewählt
@@ -75,85 +87,114 @@ leftnavall.general: Allgemein
 leftnav.select.domain: Domain auswählen
 
 # Tabellenspalten / Attribute
-all.column.actions: Aktionen
-all.column.id: Nr.
+all:
+    column:
+        actions: Aktionen
+        id: Nr.
 
 # Formularlabels
-jeboehm.lampcp.corebundle.domaintype.domain: Domain
-jeboehm.lampcp.corebundle.domaintype.path: Pfad
-jeboehm.lampcp.corebundle.domaintype.webroot: Web-Pfad
-jeboehm.lampcp.corebundle.domaintype.redirectUrl: URL-Umleitung
-jeboehm.lampcp.corebundle.domaintype.redirectUrl.help: Anfragen an diese Adresse umleiten.
-jeboehm.lampcp.corebundle.domaintype.customconfig: Benutzerdef. Konfiguration
-jeboehm.lampcp.corebundle.domaintype.user: Besitzer
-jeboehm.lampcp.corebundle.domaintype.ipaddress: IP-Adresse
-jeboehm.lampcp.corebundle.domaintype.certificate: Zertifikat
-jeboehm.lampcp.corebundle.domaintype.forceSsl: SSL erzwingen
-jeboehm.lampcp.corebundle.domaintype.parsePhp: PHP aktivieren
-jeboehm.lampcp.corebundle.domaintype.isWildcard: Wildcard
+jeboehm.lampcp.corebundle:
+    domaintype:
+        domain: Domain
+        path: Pfad
+        webroot: Web-Pfad
+        redirectUrl: URL-Umleitung
+        redirectUrl.help: Anfragen an diese Adresse umleiten.
+        customconfig: Benutzerdef. Konfiguration
+        user: Besitzer
+        ipaddress: IP-Adresse
+        certificate: Zertifikat
+        forceSsl: SSL erzwingen
+        parsePhp: PHP aktivieren
+        isWildcard: Wildcard
 
-jeboehm.lampcp.corebundle.subdomaintype.subdomain: Subdomain
-jeboehm.lampcp.corebundle.subdomaintype.path: Pfad
-jeboehm.lampcp.corebundle.subdomaintype.redirectUrl: URL-Umleitung
-jeboehm.lampcp.corebundle.subdomaintype.redirectUrl.help: Anfragen an diese Adresse umleiten.
-jeboehm.lampcp.corebundle.subdomaintype.customconfig: Benutzerdef. Konfiguration
-jeboehm.lampcp.corebundle.subdomaintype.certificate: Zertifikat
-jeboehm.lampcp.corebundle.subdomaintype.forceSsl: SSL erzwingen
-jeboehm.lampcp.corebundle.subdomaintype.parsePhp: PHP aktivieren
-jeboehm.lampcp.corebundle.subdomaintype.isWildcard: Wildcard
+    subdomaintype:
+        subdomain: Subdomain
+        path: Pfad
+        redirectUrl: URL-Umleitung
+        redirectUrl.help: Anfragen an diese Adresse umleiten.
+        customconfig: Benutzerdef. Konfiguration
+        certificate: Zertifikat
+        forceSsl: SSL erzwingen
+        parsePhp: PHP aktivieren
+        isWildcard: Wildcard
 
-jeboehm.lampcp.corebundle.mysqldatabasetype.name: Datenbankname
-jeboehm.lampcp.corebundle.mysqldatabasetype.comment: Kommentar
-jeboehm.lampcp.corebundle.mysqldatabasetype.password.first: Passwort
-jeboehm.lampcp.corebundle.mysqldatabasetype.password.second: Passwort wiederholen
+    mysqldatabasetype:
+        name: Datenbankname
+        comment: Kommentar
+        password.first: Passwort
+        password.second: Passwort wiederholen
 
-jeboehm.lampcp.corebundle.pathoptiontype.path: Pfad
-jeboehm.lampcp.corebundle.pathoptiontype.hasDirectoryListing: Verzeichnisinhalt anzeigen
-jeboehm.lampcp.corebundle.pathoptiontype.error404: 404-Fehlerseite
-jeboehm.lampcp.corebundle.pathoptiontype.error403: 403-Fehlerseite
-jeboehm.lampcp.corebundle.pathoptiontype.error500: 500-Fehlerseite
+    pathoptiontype:
+        path: Pfad
+        hasDirectoryListing: Verzeichnisinhalt anzeigen
+        error404: 404-Fehlerseite
+        error403: 403-Fehlerseite
+        error500: 500-Fehlerseite
 
-jeboehm.lampcp.corebundle.protectiontype.path: Pfad
-jeboehm.lampcp.corebundle.protectiontype.realm: Name
+    protectiontype:
+        path: Pfad
+        realm: Name
 
-jeboehm.lampcp.corebundle.protectionusertype.username: Benutzername
-jeboehm.lampcp.corebundle.protectionusertype.password.first: Passwort
-jeboehm.lampcp.corebundle.protectionusertype.password.second: Passwort wiederholen
+    protectionusertype:
+        username: Benutzername
+        password.first: Passwort
+        password.second: Passwort wiederholen
 
-jeboehm.lampcp.corebundle.mailaddresstype.address: Adresse
-jeboehm.lampcp.corebundle.mailaddresstype.mailforward: Weiterleitungen
-jeboehm.lampcp.corebundle.mailaddresstype.mailaccount: E-Mailaccount
-jeboehm.lampcp.corebundle.mailaddresstype.mailaccount.enabled: Aktiviert
-jeboehm.lampcp.corebundle.mailaddresstype.mailaccount.password.first: Passwort
-jeboehm.lampcp.corebundle.mailaddresstype.mailaccount.password.second: Eingabe wiederholen
+    mailaddresstype:
+        address: Adresse
+        mailforward: Weiterleitungen
+        mailaccount: E-Mailaccount
+        mailaccount.enabled: Aktiviert
+        mailaccount.password.first: Passwort
+        mailaccount.password.second: Eingabe wiederholen
 
-jeboehm.lampcp.corebundle.ipaddresstype.alias: Name
-jeboehm.lampcp.corebundle.ipaddresstype.ip: IP-Adresse
-jeboehm.lampcp.corebundle.ipaddresstype.port: Port
-jeboehm.lampcp.corebundle.ipaddresstype.hasSsl: SSL
-jeboehm.lampcp.corebundle.ipaddresstype.ipv6: Ist IPv6
+    ipaddresstype:
+        alias: Name
+        ip: IP-Adresse
+        port: Port
+        hasSsl: SSL
+        ipv6: Ist IPv6
 
-jeboehm.lampcp.corebundle.certificatetype.name: Name
-jeboehm.lampcp.corebundle.certificatetype.CertificateFile: CertificateFile
-jeboehm.lampcp.corebundle.certificatetype.CertificateKeyFile: CertifikateKeyFile
-jeboehm.lampcp.corebundle.certificatetype.CertificateChainFile: CertificateChainFile
-jeboehm.lampcp.corebundle.certificatetype.CACertificateFile: CACertificateFile
-
-jeboehm.lampcp.corebundle.dnstype.origin: Name der Zone
-jeboehm.lampcp.corebundle.dnstype.origin.help: Meist die Domain, z.B. lampcp.de
+    certificatetype:
+        name: Name
+        CertificateFile: CertificateFile
+        CertificateKeyFile: CertifikateKeyFile
+        CertificateChainFile: CertificateChainFile
+        CACertificateFile: CACertificateFile
 
 # Systemconfig
-apache.pathwww: Apache2 Webseitenverzeichnis
-apache.pathapache2conf: Apache2 Konfigurationsverzeichnis
-apache.pathphpini: PHP5 Standardkonfiguration
-apache.cmdapache2restart: Apache2 Neustartbefehl
-apache.pathcertificate: Verzeichnis für Zertifikate
+config:
+    apache:
+        pathwww: Webseitenverzeichnis
+        pathapache2conf: Konfigurationsverzeichnis
+        pathphpini: PHP5 Standardkonfiguration
+        cmdapache2restart: Neustartbefehl
+        pathcertificate: Verzeichnis für Zertifikate
 
-mysql.rootuser: MySQL Administrator
-mysql.rootpassword: MySQL Administratorpasswort
-mysql.dbprefix: MySQL Datenbankprefix
+    mysql:
+        rootuser: MySQL Administrator
+        rootpassword: MySQL Administratorpasswort
+        dbprefix: MySQL Datenbankprefix
 
-unix.passwdfile: Unix Benutzerdatei
-unix.groupfile: Unix Gruppendatei
+    unix:
+        passwdfile: Unix Benutzerdatei
+        groupfile: Unix Gruppendatei
 
-config.password: (Passwort)
+    lighttpd:
+        pathlighttpdconf: Konfigurationsverzeichnis
+        cmdlighttpdrestart: Neustartbefehl
+
+    dns:
+        default.ns: Standardnameserver für neue Zonen
+        config.zonedir: Zonenverzeichnis
+        config.zonedef: Konfigurationsdatei für Zonendefinitionen
+        cmd.reload: Neustartbefehl
+
+    title:
+        apache: Apache2
+        mysql: MySQL
+        unix: Unix
+        lighttpd: Lighttpd
+        password: (Passwort)
+        dns: Bind9
