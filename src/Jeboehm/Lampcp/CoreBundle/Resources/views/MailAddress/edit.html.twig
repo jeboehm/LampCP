@@ -12,11 +12,7 @@
 {% block javascripts %}
     {{ parent() }}
 
-    {% javascripts
-    '@JeboehmLampcpCoreBundle/Resources/public/js/mailaddress.js' %}
-
-    <script src="{{ asset_url }}" type="text/javascript"></script>
-    {% endjavascripts %}
+    <script src="{{ asset("bundles/jeboehmlampcpcore/js/mailaddress.js") }}" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
