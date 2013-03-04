@@ -24,7 +24,7 @@ cd /var/www/lampcp/htdocs
 git pull
 rm -rf app/cache/*
 rm app/logs/*
-./composer.phar install
+composer install
 chown -R lampcp:lampcp .
 
 cd $pwd
