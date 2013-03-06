@@ -27,8 +27,8 @@
             <td>{{ entity.path }}</td>
         </tr>
         <tr>
-        <th>{{ "jeboehm.lampcp.corebundle.domaintype.webroot"|trans() }}</th>
-        <td>{{ entity.webroot }}</td>
+            <th>{{ "jeboehm.lampcp.corebundle.domaintype.webroot"|trans() }}</th>
+            <td>{{ entity.webroot }}</td>
         </tr>
         <tr>
             <th>{{ "jeboehm.lampcp.corebundle.domaintype.redirectUrl"|trans() }}</th>
@@ -37,6 +37,18 @@
         <tr>
             <th>{{ "jeboehm.lampcp.corebundle.domaintype.user"|trans() }}</th>
             <td>{{ entity.user.name }}</td>
+        </tr>
+        <tr>
+            <th>{{ "title.page.ipaddress"|trans() }}</th>
+            <td>
+                <ul>
+                    {% for ip in entity.ipaddress %}
+                        <li>
+                            {{ ip.alias }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
         </tr>
         <tr>
             <th>{{ "jeboehm.lampcp.corebundle.domaintype.certificate"|trans() }}</th>
@@ -61,7 +73,8 @@
         <tr>
             <th>{{ "jeboehm.lampcp.corebundle.domaintype.customconfig"|trans() }}</th>
             <td>
-                {% if entity.customconfig != "" %}<pre>{{ entity.customconfig }}</pre>{% endif %}
+                {% if entity.customconfig != "" %}
+                    <pre>{{ entity.customconfig }}</pre>{% endif %}
             </td>
         </tr>
         <tr>
