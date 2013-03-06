@@ -41,4 +41,23 @@ class GenerateLampcpConfigCommand extends BaseGenerateLampcpConfigCommand {
 	protected function _getDirectoryBuilderService() {
 		return $this->getContainer()->get('jeboehm_lampcp_lighty_config_directorybuilder');
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function _getLampcpDomain($servername, $username, $dir) {
+		$domain       = parent::_getLampcpDomain($servername, $username, $dir);
+		$customconfig = <<< EOT
+url.rewrite-if-not-file = (
+    "(.+)" => "/app.php$1"
+)
+
+EOT;
+
+		$domain->setCustomconfig($customconfig);
+		$this->_getDoctrine()->persist($domain);
+		$this->_getDoctrine()->flush();
+
+		return $domain;
+	}
 }
