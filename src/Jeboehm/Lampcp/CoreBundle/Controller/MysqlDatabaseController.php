@@ -34,7 +34,7 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 		/** @var $entities MysqlDatabase[] */
 		$entities = $this
 			->_getRepository()
-			->findByDomain($this->_getSelectedDomain(), array('name' => 'asc'));
+			->findBy(array('domain' => $this->_getSelectedDomain()), array('name' => 'asc'));
 
 		return array(
 			'entities' => $entities,
@@ -54,7 +54,6 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
 		}
-
 
 		return array(
 			'entity' => $entity,
@@ -139,9 +138,8 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	 * @Template("JeboehmLampcpCoreBundle:MysqlDatabase:edit.html.twig")
 	 */
 	public function updateAction(Request $request, $id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity MysqlDatabase */
+		$em     = $this->getDoctrine()->getManager();
 		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
@@ -149,8 +147,7 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 		}
 
 		$oldPassword = $entity->getPassword();
-
-		$editForm = $this->createForm(new MysqlDatabaseType(), $entity);
+		$editForm    = $this->createForm(new MysqlDatabaseType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
@@ -178,9 +175,8 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	 * @Route("/{id}/delete", name="config_mysqldatabase_delete")
 	 */
 	public function deleteAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity MysqlDatabase */
+		$em     = $this->getDoctrine()->getManager();
 		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {

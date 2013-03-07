@@ -30,12 +30,8 @@ class DomainController extends AbstractController implements ICrudController {
 	 * @Template()
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entities Domain[] */
-		$entities = $em
-			->getRepository('JeboehmLampcpCoreBundle:Domain')
-			->findBy(array(), array('domain' => 'asc'));
+		$entities = $this->_getRepository()->findBy(array(), array('domain' => 'asc'));
 
 		return array(
 			'entities' => $entities,
@@ -49,15 +45,12 @@ class DomainController extends AbstractController implements ICrudController {
 	 * @Template()
 	 */
 	public function showAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Domain */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Domain')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
 		}
-
 
 		return array(
 			'entity' => $entity,
@@ -74,7 +67,6 @@ class DomainController extends AbstractController implements ICrudController {
 		$entity = new Domain();
 		$entity->setPath('(auto)');
 		$form = $this->createForm(new DomainType(), $entity);
-
 
 		return array(
 			'entity' => $entity,
@@ -116,9 +108,8 @@ class DomainController extends AbstractController implements ICrudController {
 	 * @Template()
 	 */
 	public function editAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Domain')->find($id);
+		/** @var $entity Domain */
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
@@ -140,9 +131,9 @@ class DomainController extends AbstractController implements ICrudController {
 	 * @Template("JeboehmLampcpCoreBundle:Domain:edit.html.twig")
 	 */
 	public function updateAction(Request $request, $id) {
-		$em = $this->getDoctrine()->getManager();
-
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Domain')->find($id);
+		/** @var $entity Domain */
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
@@ -170,8 +161,9 @@ class DomainController extends AbstractController implements ICrudController {
 	 * @Route("/{id}/delete", name="config_domain_delete")
 	 */
 	public function deleteAction($id) {
+		/** @var $entity Domain */
 		$em     = $this->getDoctrine()->getManager();
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Domain')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Domain entity.');
@@ -190,5 +182,14 @@ class DomainController extends AbstractController implements ICrudController {
 	 */
 	protected function _getSystemWebPath() {
 		return $this->_getConfigService()->getParameter('apache.pathwww');
+	}
+
+	/**
+	 * Get repository
+	 *
+	 * @return \Doctrine\Common\Persistence\ObjectRepository
+	 */
+	protected function _getRepository() {
+		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Domain');
 	}
 }

@@ -30,12 +30,8 @@ class IpAddressController extends AbstractController implements ICrudController 
 	 * @Template()
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entities IpAddress[] */
-		$entities = $em
-			->getRepository('JeboehmLampcpCoreBundle:IpAddress')
-			->findBy(array(), array('alias' => 'asc'));
+		$entities = $this->_getRepository()->findBy(array(), array('alias' => 'asc'));
 
 		return array(
 			'entities' => $entities,
@@ -49,15 +45,12 @@ class IpAddressController extends AbstractController implements ICrudController 
 	 * @Template()
 	 */
 	public function showAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity IpAddress */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:IpAddress')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find IpAddress entity.');
 		}
-
 
 		return array(
 			'entity' => $entity,
@@ -113,10 +106,8 @@ class IpAddressController extends AbstractController implements ICrudController 
 	 * @Template()
 	 */
 	public function editAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity IpAddress */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:IpAddress')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find IpAddress entity.');
@@ -138,10 +129,9 @@ class IpAddressController extends AbstractController implements ICrudController 
 	 * @Template("JeboehmLampcpCoreBundle:IpAddress:edit.html.twig")
 	 */
 	public function updateAction(Request $request, $id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity IpAddress */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:IpAddress')->find($id);
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find IpAddress entity.');
@@ -169,10 +159,9 @@ class IpAddressController extends AbstractController implements ICrudController 
 	 * @Route("/{id}/delete", name="config_ipaddress_delete")
 	 */
 	public function deleteAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity IpAddress */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:IpAddress')->find($id);
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find IpAddress entity.');
@@ -182,5 +171,14 @@ class IpAddressController extends AbstractController implements ICrudController 
 		$em->flush();
 
 		return $this->redirect($this->generateUrl('config_ipaddress'));
+	}
+
+	/**
+	 * Get repository
+	 *
+	 * @return \Doctrine\Common\Persistence\ObjectRepository
+	 */
+	protected function _getRepository() {
+		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:IpAddress');
 	}
 }

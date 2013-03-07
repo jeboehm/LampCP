@@ -30,12 +30,8 @@ class ProtectionController extends AbstractController implements ICrudController
 	 * @Template()
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entities Protection[] */
-		$entities = $em
-			->getRepository('JeboehmLampcpCoreBundle:Protection')
-			->findByDomain($this->_getSelectedDomain(), array('path' => 'asc'));
+		$entities = $this->_getRepository()->findBy(array('domain' => $this->_getSelectedDomain()), array('path' => 'asc'));
 
 		return array(
 			'entities' => $entities,
@@ -49,15 +45,12 @@ class ProtectionController extends AbstractController implements ICrudController
 	 * @Template()
 	 */
 	public function showAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Protection */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Protection')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Protection entity.');
 		}
-
 
 		return array(
 			'entity' => $entity,
@@ -113,10 +106,8 @@ class ProtectionController extends AbstractController implements ICrudController
 	 * @Template()
 	 */
 	public function editAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Protection */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Protection')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Protection entity.');
@@ -138,10 +129,9 @@ class ProtectionController extends AbstractController implements ICrudController
 	 * @Template("JeboehmLampcpCoreBundle:Protection:edit.html.twig")
 	 */
 	public function updateAction(Request $request, $id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Protection */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Protection')->find($id);
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Protection entity.');
@@ -169,10 +159,9 @@ class ProtectionController extends AbstractController implements ICrudController
 	 * @Route("/{id}/delete", name="config_protection_delete")
 	 */
 	public function deleteAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Protection */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Protection')->find($id);
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Protection entity.');
@@ -182,5 +171,14 @@ class ProtectionController extends AbstractController implements ICrudController
 		$em->flush();
 
 		return $this->redirect($this->generateUrl('config_protection'));
+	}
+
+	/**
+	 * Get repository
+	 *
+	 * @return \Doctrine\Common\Persistence\ObjectRepository
+	 */
+	protected function _getRepository() {
+		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Protection');
 	}
 }
