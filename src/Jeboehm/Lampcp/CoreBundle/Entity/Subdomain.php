@@ -11,8 +11,10 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Subdomain
@@ -90,6 +92,18 @@ class Subdomain {
 	private $customconfig;
 
 	/**
+	 * @var Subdomain
+	 * @ORM\ManyToOne(targetEntity="Subdomain", inversedBy="children")
+	 */
+	private $parent;
+
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Subdomain", mappedBy="parent")
+	 */
+	private $children;
+
+	/**
 	 * Get id
 	 *
 	 * @return integer
@@ -111,6 +125,7 @@ class Subdomain {
 		$this->isWildcard   = false;
 		$this->forceSsl     = false;
 		$this->customconfig = '';
+		$this->children     = new ArrayCollection();
 	}
 
 	/**
@@ -309,6 +324,8 @@ class Subdomain {
 	}
 
 	/**
+	 * Set customconfig
+	 *
 	 * @param string $customconfig
 	 *
 	 * @return Subdomain
@@ -320,9 +337,55 @@ class Subdomain {
 	}
 
 	/**
+	 * Get customconfig
+	 *
 	 * @return string
 	 */
 	public function getCustomconfig() {
 		return $this->customconfig;
+	}
+
+	/**
+	 * Set children
+	 *
+	 * @param \Doctrine\Common\Collections\Collection $children
+	 *
+	 * @return Subdomain
+	 */
+	public function setChildren($children) {
+		$this->children = $children;
+
+		return $this;
+	}
+
+	/**
+	 * Get children
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getChildren() {
+		return $this->children;
+	}
+
+	/**
+	 * Set parent subdomain
+	 *
+	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain $parent
+	 *
+	 * @return Subdomain
+	 */
+	public function setParent($parent) {
+		$this->parent = $parent;
+
+		return $this;
+	}
+
+	/**
+	 * Get parent subdomain
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain
+	 */
+	public function getParent() {
+		return $this->parent;
 	}
 }

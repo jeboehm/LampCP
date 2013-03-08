@@ -24,6 +24,11 @@ class SubdomainType extends AbstractType {
 											  'append_input' => '.' . $domain->getDomain()
 										  )
 									 ))
+			->add('parent', 'entity', array(
+										   'class'    => 'JeboehmLampcpCoreBundle:Subdomain',
+										   'property' => 'fullDomain',
+										   'required' => false,
+									  ))
 			->add('path', null, array('required' => false))
 			->add('redirectUrl', null, array(
 											'required' => false,
@@ -39,13 +44,7 @@ class SubdomainType extends AbstractType {
 			->add('forceSsl', null, array('required' => false))
 			->add('isWildcard', null, array('required' => false))
 			->add('parsePhp', null, array('required' => false))
-			->add('customconfig', null, array(
-											 'required' => false,
-											 'attr'     => array(
-												 'class' => 'input-xxlarge',
-												 'rows'  => 7
-											 )
-										));
+			->add('customconfig', null, array('required' => false));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

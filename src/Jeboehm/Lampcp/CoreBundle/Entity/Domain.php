@@ -154,6 +154,18 @@ class Domain {
 	private $subdomain;
 
 	/**
+	 * @var Domain
+	 * @ORM\ManyToOne(targetEntity="Domain", inversedBy="children")
+	 */
+	private $parent;
+
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Domain", mappedBy="parent")
+	 */
+	private $children;
+
+	/**
 	 * Konstruktor
 	 */
 	public function __construct() {
@@ -172,6 +184,7 @@ class Domain {
 		$this->mailaddress    = new ArrayCollection();
 		$this->mysqldatabase  = new ArrayCollection();
 		$this->ipaddress      = new ArrayCollection();
+		$this->children       = new ArrayCollection();
 	}
 
 	/**
@@ -512,5 +525,49 @@ class Domain {
 	 */
 	public function getSubdomain() {
 		return $this->subdomain;
+	}
+
+	/**
+	 * Set children
+	 *
+	 * @param \Doctrine\Common\Collections\Collection $children
+	 *
+	 * @return Domain
+	 */
+	public function setChildren($children) {
+		$this->children = $children;
+
+		return $this;
+	}
+
+	/**
+	 * Get children
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getChildren() {
+		return $this->children;
+	}
+
+	/**
+	 * Set parent domain
+	 *
+	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $parent
+	 *
+	 * @return Domain
+	 */
+	public function setParent($parent) {
+		$this->parent = $parent;
+
+		return $this;
+	}
+
+	/**
+	 * Get parent domain
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain
+	 */
+	public function getParent() {
+		return $this->parent;
 	}
 }

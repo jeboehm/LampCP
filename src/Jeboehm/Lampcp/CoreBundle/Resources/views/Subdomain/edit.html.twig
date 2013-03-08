@@ -14,7 +14,33 @@
 
     <form action="{{ path('config_subdomain_update', { 'id': entity.id }) }}"
           method="post" {{ form_enctype(edit_form) }}>
-        {{ form_widget(edit_form) }}
+
+        {{ form_row(edit_form.subdomain) }}
+        {{ form_row(edit_form.parent) }}
+
+        {% if edit_form.parent.vars.data != null %}
+        <div class="hidden">{% endif %}
+
+            {{ form_row(edit_form.path) }}
+            {{ form_row(edit_form.redirectUrl) }}
+
+            {% if edit_form.parent.vars.data != null %}
+        </div>{% endif %}
+
+        {{ form_row(edit_form.certificate) }}
+
+        {% if edit_form.parent.vars.data != null %}
+        <div class="hidden">{% endif %}
+
+            {{ form_row(edit_form.forceSsl) }}
+            {{ form_row(edit_form.isWildcard) }}
+            {{ form_row(edit_form.parsePhp) }}
+            {{ form_row(edit_form.customconfig, {'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+
+            {% if edit_form.parent.vars.data != null %}
+        </div>{% endif %}
+
+        {{ form_rest(edit_form) }}
 
         {{ macros.formbuttongrp(path('config_subdomain'), path('config_subdomain_delete', { 'id': entity.id })) }}
     </form>
