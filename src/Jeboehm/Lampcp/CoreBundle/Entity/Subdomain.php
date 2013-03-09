@@ -138,6 +138,19 @@ class Subdomain {
 	}
 
 	/**
+	 * Set domain
+	 *
+	 * @param Domain $domain
+	 *
+	 * @return Subdomain
+	 */
+	public function setDomain(Domain $domain) {
+		$this->domain = $domain;
+
+		return $this;
+	}
+
+	/**
 	 * Set subdomain
 	 *
 	 * @param string $subdomain
