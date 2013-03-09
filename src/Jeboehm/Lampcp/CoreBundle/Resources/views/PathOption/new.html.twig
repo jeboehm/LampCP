@@ -12,8 +12,16 @@
 {% block content %}
     <h1>{{ "create.page.pathoption"|trans() }}</h1>
 
-    <form action="{{ path('config_pathoption_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
+    <form action="{{ path('config_pathoption_create') }}" class="form-horizontal"
+          method="post" {{ form_enctype(form) }}>
+
+        {{ form_row(form.path, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.hasDirectoryListing, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.error404, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.error403, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.error500, {'form_type': 'horizontal'}) }}
+
+        {{ form_rest(form) }}
 
         {{ macros.formbuttongrp(path('config_pathoption')) }}
     </form>
