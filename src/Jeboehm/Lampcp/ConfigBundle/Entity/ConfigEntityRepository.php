@@ -27,7 +27,7 @@ class ConfigEntityRepository extends EntityRepository {
 	public function findOneByNameAndGroup($name, $group) {
 		$qb = $this->createQueryBuilder('e');
 		$qb
-			->from('\Jeboehm\Lampcp\ConfigBundle\Entity\ConfigGroup', 'g')
+			->leftJoin('e.configgroup', 'g')
 			->where('e.name = ?1')
 			->andWhere('g.name = ?2')
 			->setParameter(1, $name)

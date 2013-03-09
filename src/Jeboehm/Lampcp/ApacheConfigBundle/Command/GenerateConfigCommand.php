@@ -88,6 +88,12 @@ class GenerateConfigCommand extends AbstractCommand {
 	 * @return int|null|void
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		if(!$this->_isEnabled()) {
+			$this->_getLogger()->err('(ApacheConfigBundle) Command not enabled!');
+
+			return;
+		}
+
 		$run = false;
 
 		if($input->getOption('force') || $this->_isChanged()) {
@@ -173,5 +179,15 @@ class GenerateConfigCommand extends AbstractCommand {
 				$this->_getLogger()->err($exec->getOutput());
 			}
 		}
+	}
+
+
+	/**
+	 * Get "enabled" from config service
+	 *
+	 * @return string
+	 */
+	protected function _isEnabled() {
+		return $this->_getConfigService()->getParameter('apache.enabled');
 	}
 }
