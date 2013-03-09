@@ -18,7 +18,7 @@ PHPRC="{{ domain.path }}/conf/"
 
 ## number of PHP childs to spawn in addition to the default. Minimum of 2.
 ## Actual childs = PHP_FCGI_CHILDREN + 1
-PHP_FCGI_CHILDREN=5
+PHP_FCGI_CHILDREN=1
 
 ## number of request server by a single php-process until is will be restarted
 PHP_FCGI_MAX_REQUESTS=1000
@@ -27,14 +27,14 @@ PHP_FCGI_MAX_REQUESTS=1000
 FCGI_WEB_SERVER_ADDRS="127.0.0.1"
 
 ALLOWED_ENV="PATH USER"
-USERID={{ domain.user.name }}
-GROUPID={{ domain.user.groupname }}
+USERID="{{ domain.user.name }}"
+GROUPID="{{ domain.user.groupname }}"
 
 ##############################################################################
 ##############################################################################
 
 if test x$PHP_FCGI_CHILDREN = x; then
-    PHP_FCGI_CHILDREN=5
+    PHP_FCGI_CHILDREN=1
 fi
 
 export PHP_FCGI_MAX_REQUESTS

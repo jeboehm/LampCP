@@ -11,14 +11,14 @@
 namespace Jeboehm\Lampcp\ConfigBundle\Service;
 
 use Symfony\Bridge\Monolog\Logger;
-use Exception;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactory;
+use Doctrine\ORM\EntityManager;
 use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
 use Jeboehm\Lampcp\ConfigBundle\Form\ConfigType;
 use Jeboehm\Lampcp\ConfigBundle\Entity\ConfigEntityRepository;
 use Jeboehm\Lampcp\ConfigBundle\Exception\ConfigEntityNotFoundException;
 use Jeboehm\Lampcp\ConfigBundle\Entity\ConfigEntity;
+use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
 
 class ConfigService {
 	/** @var \Doctrine\ORM\EntityManager */
@@ -104,7 +104,7 @@ class ConfigService {
 
 		if(!empty($entval)) {
 			switch($entity->getType()) {
-				case $entity::TYPE_PASSWORD:
+				case ConfigTypes::TYPE_PASSWORD:
 					try {
 						$retval = $this->_cs->decrypt($entval);
 					} catch(\Exception $e) {
@@ -131,13 +131,13 @@ class ConfigService {
 		$newval = '';
 
 		switch($entity->getType()) {
-			case $entity::TYPE_PASSWORD:
+			case ConfigTypes::TYPE_PASSWORD:
 				if(!empty($value)) {
 					$newval = $this->_cs->encrypt($value);
 				}
 				break;
 
-			case $entity::TYPE_BOOL:
+			case ConfigTypes::TYPE_BOOL:
 				$newval = strval((bool)$value);
 				break;
 
@@ -145,9 +145,11 @@ class ConfigService {
 				$newval = $value;
 		}
 
-		$entity->setValue($newval);
-		$this->_em->persist($entity);
-		$this->_em->flush();
+		if($newval != $entity->getValue()) {
+			$entity->setValue($newval);
+			$this->_em->persist($entity);
+			$this->_em->flush();
+		}
 	}
 
 	/**
@@ -157,9 +159,18 @@ class ConfigService {
 	 */
 	public function getForm() {
 		/** @var $entities ConfigEntity[] */
-		$entities = $this->_getConfigEntityRepository()->findAll();
+		$qb       = $this
+			->_getConfigEntityRepository()
+			->createQueryBuilder('c');
+		$entities = $qb
+			->leftJoin('c.configgroup', 'g')
+			->orderBy('g.name', 'asc')
+			->addOrderBy('c.id', 'asc')
+			->getQuery()
+			->execute();
 
 		foreach($entities as $entity) {
+			$this->_em->getUnitOfWork()->detach($entity);
 			$name = $entity->getConfiggroup()->getName() . '.' . $entity->getName();
 			$entity->setValue($this->getParameter($name));
 		}

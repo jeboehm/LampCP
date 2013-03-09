@@ -7,7 +7,7 @@
  #
  #}
 
-{% extends 'JeboehmLampcpCoreBundle::layout.html.twig' %}
+{% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
     <h1>{{ "show.page.ipaddress"|trans() }}</h1>
@@ -37,6 +37,18 @@
         <tr>
             <th>{{ "jeboehm.lampcp.corebundle.ipaddresstype.ipv6"|trans() }}</th>
             <td>{{ entity.ipv6 }}</td>
+        </tr>
+        <tr>
+            <th>{{ "title.page.domain"|trans() }}</th>
+            <td>
+                <ul>
+                    {% for domain in entity.domain %}
+                        <li>
+                            {{ domain.domain }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
         </tr>
         </tbody>
     </table>

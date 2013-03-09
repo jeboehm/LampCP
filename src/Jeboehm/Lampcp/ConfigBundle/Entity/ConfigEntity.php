@@ -21,11 +21,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields = {"name", "configgroup"})
  */
 class ConfigEntity {
-	const TYPE_INTEGER  = 0;
-	const TYPE_STRING   = 1;
-	const TYPE_PASSWORD = 2;
-	const TYPE_BOOL     = 3;
-
 	/**
 	 * @var integer
 	 *
@@ -104,7 +99,7 @@ class ConfigEntity {
 	 * @return ConfigEntity
 	 */
 	public function setName($name) {
-		$this->name = $name;
+		$this->name = strtolower($name);
 
 		return $this;
 	}

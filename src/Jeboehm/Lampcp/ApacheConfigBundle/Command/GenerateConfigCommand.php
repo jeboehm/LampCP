@@ -10,14 +10,13 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Command;
 
-use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService;
-use Jeboehm\Lampcp\ApacheConfigBundle\Service\PathOptionBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService;
 use Jeboehm\Lampcp\CoreBundle\Entity\BuilderChangeRepository;
 use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
@@ -89,6 +88,12 @@ class GenerateConfigCommand extends AbstractCommand {
 	 * @return int|null|void
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		if(!$this->_isEnabled()) {
+			$this->_getLogger()->err('(ApacheConfigBundle) Command not enabled!');
+
+			return;
+		}
+
 		$run = false;
 
 		if($input->getOption('force') || $this->_isChanged()) {
@@ -174,5 +179,15 @@ class GenerateConfigCommand extends AbstractCommand {
 				$this->_getLogger()->err($exec->getOutput());
 			}
 		}
+	}
+
+
+	/**
+	 * Get "enabled" from config service
+	 *
+	 * @return string
+	 */
+	protected function _isEnabled() {
+		return $this->_getConfigService()->getParameter('apache.enabled');
 	}
 }

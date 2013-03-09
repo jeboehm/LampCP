@@ -1,0 +1,29 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {% spaceless %}
+        {{ "title.head"|trans() }}
+    {% endspaceless %}
+{% endblock %}
+
+{% block body %}
+    <div>
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('bundles/jeboehmlampcpauth/css/login.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}

@@ -30,16 +30,12 @@ class CertificateController extends AbstractController implements ICrudControlle
 	 * @Template()
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entities Certificate[] */
-		$entities = $em
-			->getRepository('JeboehmLampcpCoreBundle:Certificate')
-			->findBy(array(), array('name' => 'asc'));
+		$entities = $this->_getRepository()->findBy(array(), array('name' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -49,10 +45,8 @@ class CertificateController extends AbstractController implements ICrudControlle
 	 * @Template()
 	 */
 	public function showAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Certificate */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Certificate')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Certificate entity.');
@@ -69,9 +63,9 @@ class CertificateController extends AbstractController implements ICrudControlle
 		}
 
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -84,10 +78,10 @@ class CertificateController extends AbstractController implements ICrudControlle
 		$entity = new Certificate();
 		$form   = $this->createForm(new CertificateType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -116,10 +110,10 @@ class CertificateController extends AbstractController implements ICrudControlle
 			return $this->redirect($this->generateUrl('config_certificate_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -129,10 +123,8 @@ class CertificateController extends AbstractController implements ICrudControlle
 	 * @Template()
 	 */
 	public function editAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Certificate */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Certificate')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Certificate entity.');
@@ -150,10 +142,10 @@ class CertificateController extends AbstractController implements ICrudControlle
 
 		$editForm = $this->createForm(new CertificateType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -164,10 +156,9 @@ class CertificateController extends AbstractController implements ICrudControlle
 	 * @Template("JeboehmLampcpCoreBundle:Certificate:edit.html.twig")
 	 */
 	public function updateAction(Request $request, $id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Certificate */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Certificate')->find($id);
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Certificate entity.');
@@ -186,10 +177,10 @@ class CertificateController extends AbstractController implements ICrudControlle
 			return $this->redirect($this->generateUrl('config_certificate_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -198,10 +189,9 @@ class CertificateController extends AbstractController implements ICrudControlle
 	 * @Route("/{id}/delete", name="config_certificate_delete")
 	 */
 	public function deleteAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Certificate */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Certificate')->find($id);
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Certificate entity.');
@@ -211,5 +201,14 @@ class CertificateController extends AbstractController implements ICrudControlle
 		$em->flush();
 
 		return $this->redirect($this->generateUrl('config_certificate'));
+	}
+
+	/**
+	 * Get repository
+	 *
+	 * @return \Doctrine\Common\Persistence\ObjectRepository
+	 */
+	protected function _getRepository() {
+		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Certificate');
 	}
 }

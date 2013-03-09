@@ -1,0 +1,203 @@
+##
+# LampCP
+# https://github.com/jeboehm/LampCP
+#
+# Licensed under the GPL Version 2 license
+# http://www.gnu.org/licenses/gpl-2.0.txt
+#
+##
+
+# Seitentitel
+title:
+    head: LampCP
+    page:
+        status: Status
+        domain: Domains
+        mailaddress: Email addresses
+        mysqldatabase: Databases
+        pathoption: Pathoptions
+        protection: Restrictions
+        protectionuser: Accounts
+        subdomain: Subdomains
+        dns: DNS zones
+        systemconfig: Systemconfiguration
+        ipaddress: IP-Addresses
+        certificate: Certificates
+        login: LampCP Login
+        logout: Logout
+
+# Seitentitel bearbeiten
+edit:
+    page:
+        domain: Edit domain
+        mailaddress: Edit email address
+        mysqldatabase: Edit database
+        pathoption: Edit pathoption
+        protection: Edit restriction
+        protectionuser: Edit account
+        subdomain: Edit subdomain
+        dns: Edit DNS zone
+        systemconfig: Edit systemconfiguration
+        ipaddress: Edit IP-address
+        certificate: Edit certificate
+
+# Seitentitel anzeigen
+show:
+    page:
+        domain: Show domain
+        mailaddress: Show email address
+        mysqldatabase: Show database
+        pathoption: Show pathoption
+        protection: Show restriction
+        protectionuser: Show account
+        subdomain: Show subdomain
+        dns: Show DNS zone
+        ipaddress: Show IP address
+        certificate: Show certificate
+
+# Seitentitel anlegen
+create:
+    page:
+        domain: Create domain
+        mailaddress: Create email address
+        mysqldatabase: Create database
+        pathoption: Create pathoption
+        protection: Create restriction
+        protectionuser: Create account
+        subdomain: Create subdomain
+        dns: Create DNS zone
+        ipaddress: Create IP address
+        certificate: Create certificate
+
+# Buttons
+button:
+    create: Create new entry
+    save: Save
+    edit: Edit
+    delete: Delete
+    delete.confirm: Are you sure?
+    back: Back to the list
+    show: Show
+
+# Seiteninhalte
+default.topmenu.no.domain: No domain chosen
+status.headline.uptime: uptime / logged in / load
+status.headline.uname: hostname / kernel version
+leftnavall.general: General
+leftnav.select.domain: Choose domain
+
+# Tabellenspalten / Attribute
+all:
+    column:
+        actions: Actions
+        id: No.
+
+# Formularlabels
+jeboehm.lampcp.corebundle:
+    domaintype:
+        domain: Domain
+        path: Path
+        webroot: Web path
+        redirectUrl: Uri redirect
+        redirectUrl.help: Redirect requests to this address
+        customconfig: Custom configuration
+        user: Owner
+        ipaddress: IP address
+        certificate: Certificate
+        forceSsl: Force SSL
+        parsePhp: Enable PHP
+        isWildcard: Wildcard
+
+    subdomaintype:
+        subdomain: Subdomain
+        path: Path
+        redirectUrl: Uri redirect
+        redirectUrl.help: Redirect requests to this address
+        customconfig: Custom configuration
+        certificate: Certificate
+        forceSsl: Force SSL
+        parsePhp: Enable PHP
+        isWildcard: Wildcard
+
+    mysqldatabasetype:
+        name: Databasename
+        comment: Comment
+        password.first: Password
+        password.second: Password again
+
+    pathoptiontype:
+        path: Path
+        hasDirectoryListing: Show directory content
+        error404: 404 page
+        error403: 403 page
+        error500: 500 page
+
+    protectiontype:
+        path: Path
+        realm: Name
+
+    protectionusertype:
+        username: Username
+        password.first: Password
+        password.second: Password again
+
+    mailaddresstype:
+        address: Address
+        mailforward: Redirects
+        mailaccount: Account
+        mailaccount.enabled: Enabled
+        mailaccount.password.first: Password
+        mailaccount.password.second: Password again
+
+    ipaddresstype:
+        alias: Name
+        ip: IP address
+        port: Port
+        hasSsl: SSL
+        ipv6: Is IPv6
+
+    certificatetype:
+        name: Name
+        CertificateFile: CertificateFile
+        CertificateKeyFile: CertifikateKeyFile
+        CertificateChainFile: CertificateChainFile
+        CACertificateFile: CACertificateFile
+
+# Systemconfig
+config:
+    apache:
+        enabled: Enabled
+        pathwww: Webfolder
+        pathapache2conf: Configdirectory
+        pathphpini: PHP5 default configuration
+        cmdapache2restart: Restart command
+        pathcertificate: Folder for certificates
+
+    mysql:
+        enabled: Enabled
+        rootuser: MySQL root
+        rootpassword: MySQL root password
+        dbprefix: MySQL database prefix
+
+    unix:
+        passwdfile: Unix userfile
+        groupfile: Unix groupfile
+
+    lighttpd:
+        enabled: Enabled
+        pathlighttpdconf: Configdirectory
+        cmdlighttpdrestart: Restart command
+
+    dns:
+        default.ns: Default nameserver for new zones
+        config.zonedir: Zonedirectory
+        config.zonedef: Configfile for zone definitions
+        cmd.reload: Restart command
+
+    title:
+        apache: Apache2
+        mysql: MySQL
+        unix: Unix
+        lighttpd: Lighttpd
+        password: (password)
+        dns: Bind9

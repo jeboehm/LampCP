@@ -1,3 +1,13 @@
+##########################################
+#
+# LampCP
+# https://github.com/jeboehm/LampCP
+#
+# Licensed under the GPL Version 2 license
+# http://www.gnu.org/licenses/gpl-2.0.txt
+#
+##########################################
+
 _wdt:
     resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
     prefix:   /_wdt

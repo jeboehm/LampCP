@@ -68,6 +68,13 @@ class Domain {
 	private $webroot;
 
 	/**
+	 * @var string
+	 * @Assert\Url()
+	 * @ORM\Column(name="redirectUrl", type="string", length=255)
+	 */
+	private $redirectUrl;
+
+	/**
 	 * @var User
 	 * @Assert\NotNull()
 	 * @ORM\ManyToOne(targetEntity="User", inversedBy="domain")
@@ -152,6 +159,7 @@ class Domain {
 	public function __construct() {
 		$this->customconfig   = '';
 		$this->webroot        = 'htdocs';
+		$this->redirectUrl    = '';
 		$this->parsePhp       = true;
 		$this->isWildcard     = false;
 		$this->forceSsl       = false;
@@ -291,6 +299,28 @@ class Domain {
 	 */
 	public function getWebroot() {
 		return $this->webroot;
+	}
+
+	/**
+	 * Set redirect url
+	 *
+	 * @param string $redirectUrl
+	 *
+	 * @return Domain
+	 */
+	public function setRedirectUrl($redirectUrl) {
+		$this->redirectUrl = strval($redirectUrl);
+
+		return $this;
+	}
+
+	/**
+	 * Get redirect url
+	 *
+	 * @return string
+	 */
+	public function getRedirectUrl() {
+		return $this->redirectUrl;
 	}
 
 	/**

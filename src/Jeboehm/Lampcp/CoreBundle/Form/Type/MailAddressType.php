@@ -15,11 +15,17 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class MailAddressType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
+		/** @var $domain \Jeboehm\Lampcp\CoreBundle\Entity\Domain */
 		$mailForwardType = new MailForwardType();
 		$mailAccountType = new MailAccountType();
+		$domain          = $builder->getData()->getDomain();
 
 		$builder
-			->add('address')
+			->add('address', null, array(
+										'attr' => array(
+											'append_input' => '@' . $domain->getDomain()
+										)
+								   ))
 			->add('mailforward', 'collection', array(
 													'type'         => $mailForwardType,
 													'allow_add'    => true,

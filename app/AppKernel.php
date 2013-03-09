@@ -1,4 +1,12 @@
 <?php
+/**
+ * LampCP
+ * https://github.com/jeboehm/LampCP
+ *
+ * Licensed under the GPL Version 2 license
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ *
+ */
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -10,21 +18,23 @@ class AppKernel extends Kernel {
 			new Symfony\Bundle\SecurityBundle\SecurityBundle(),
 			new Symfony\Bundle\TwigBundle\TwigBundle(),
 			new Symfony\Bundle\MonologBundle\MonologBundle(),
-			new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
 			new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 			new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
 			new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
 			new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 			new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle(),
+			new FOS\UserBundle\FOSUserBundle(),
+			new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 			new Jboehm\Bundle\PasswdBundle\JboehmPasswdBundle(),
 			new Jeboehm\Lampcp\CoreBundle\JeboehmLampcpCoreBundle(),
-            new Jeboehm\Lampcp\UserLoaderBundle\JeboehmLampcpUserLoaderBundle(),
-            new Jeboehm\Lampcp\ApacheConfigBundle\JeboehmLampcpApacheConfigBundle(),
-            new Jeboehm\Lampcp\MysqlBundle\JeboehmLampcpMysqlBundle(),
-            new Jeboehm\Lampcp\ConfigBundle\JeboehmLampcpConfigBundle(),
-            new Jeboehm\Lampcp\PostfixBundle\JeboehmLampcpPostfixBundle(),
-            new Jeboehm\Lampcp\LightyConfigBundle\JeboehmLampcpLightyConfigBundle(),
-            new Jeboehm\Lampcp\BootstrapBundle\JeboehmLampcpBootstrapBundle(),
+			new Jeboehm\Lampcp\UserLoaderBundle\JeboehmLampcpUserLoaderBundle(),
+			new Jeboehm\Lampcp\ApacheConfigBundle\JeboehmLampcpApacheConfigBundle(),
+			new Jeboehm\Lampcp\MysqlBundle\JeboehmLampcpMysqlBundle(),
+			new Jeboehm\Lampcp\ConfigBundle\JeboehmLampcpConfigBundle(),
+			new Jeboehm\Lampcp\PostfixBundle\JeboehmLampcpPostfixBundle(),
+			new Jeboehm\Lampcp\LightyConfigBundle\JeboehmLampcpLightyConfigBundle(),
+			new Jeboehm\Lampcp\BootstrapBundle\JeboehmLampcpBootstrapBundle(),
+            new Jeboehm\Lampcp\AuthBundle\JeboehmLampcpAuthBundle(),
 		);
 
 		if(in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,3 +1,13 @@
+##########################################
+#
+# LampCP
+# https://github.com/jeboehm/LampCP
+#
+# Licensed under the GPL Version 2 license
+# http://www.gnu.org/licenses/gpl-2.0.txt
+#
+##########################################
+
 imports:
     - { resource: config_dev.yml }
 
@@ -9,6 +19,3 @@ framework:
 web_profiler:
     toolbar: false
     intercept_redirects: false
-
-swiftmailer:
-    disable_delivery: true

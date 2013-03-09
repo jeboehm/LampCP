@@ -30,16 +30,12 @@ class PathOptionController extends AbstractController implements ICrudController
 	 * @Template()
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entities PathOption[] */
-		$entities = $em
-			->getRepository('JeboehmLampcpCoreBundle:PathOption')
-			->findByDomain($this->_getSelectedDomain(), array('path' => 'asc'));
+		$entities = $this->_getRepository()->findBy(array('domain' => $this->_getSelectedDomain()), array('path' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -49,19 +45,16 @@ class PathOptionController extends AbstractController implements ICrudController
 	 * @Template()
 	 */
 	public function showAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity PathOption */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:PathOption')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find PathOption entity.');
 		}
 
-
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -74,10 +67,10 @@ class PathOptionController extends AbstractController implements ICrudController
 		$entity = new PathOption($this->_getSelectedDomain());
 		$form   = $this->createForm(new PathOptionType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -100,10 +93,10 @@ class PathOptionController extends AbstractController implements ICrudController
 			return $this->redirect($this->generateUrl('config_pathoption_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -113,10 +106,8 @@ class PathOptionController extends AbstractController implements ICrudController
 	 * @Template()
 	 */
 	public function editAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity PathOption */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:PathOption')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find PathOption entity.');
@@ -124,10 +115,10 @@ class PathOptionController extends AbstractController implements ICrudController
 
 		$editForm = $this->createForm(new PathOptionType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -138,10 +129,9 @@ class PathOptionController extends AbstractController implements ICrudController
 	 * @Template("JeboehmLampcpCoreBundle:PathOption:edit.html.twig")
 	 */
 	public function updateAction(Request $request, $id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity PathOption */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:PathOption')->find($id);
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find PathOption entity.');
@@ -157,10 +147,10 @@ class PathOptionController extends AbstractController implements ICrudController
 			return $this->redirect($this->generateUrl('config_pathoption_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -169,10 +159,9 @@ class PathOptionController extends AbstractController implements ICrudController
 	 * @Route("/{id}/delete", name="config_pathoption_delete")
 	 */
 	public function deleteAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity PathOption */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:PathOption')->find($id);
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find PathOption entity.');
@@ -182,5 +171,14 @@ class PathOptionController extends AbstractController implements ICrudController
 		$em->flush();
 
 		return $this->redirect($this->generateUrl('config_pathoption'));
+	}
+
+	/**
+	 * Get repository
+	 *
+	 * @return \Doctrine\Common\Persistence\ObjectRepository
+	 */
+	protected function _getRepository() {
+		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:PathOption');
 	}
 }

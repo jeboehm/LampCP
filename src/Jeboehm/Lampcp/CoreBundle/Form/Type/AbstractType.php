@@ -11,23 +11,21 @@
 namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType as ParentClassType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 abstract class AbstractType extends ParentClassType {
-	protected $_isEditMode = false;
-
 	/**
-	 * Konstruktor
+	 * Determine, if form is in editing mode
 	 *
-	 * @param bool $edit
-	 */
-	public function __construct($edit = false) {
-		$this->_isEditMode = (bool)$edit;
-	}
-
-	/**
+	 * @param \Symfony\Component\Form\FormBuilderInterface $builder
+	 *
 	 * @return bool
 	 */
-	protected function _getIsEditMode() {
-		return $this->_isEditMode;
+	protected function _getIsEditMode(FormBuilderInterface $builder) {
+		if(!$builder->getData()->getId()) {
+			return false;
+		}
+
+		return true;
 	}
 }

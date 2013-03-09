@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block form_label %}
-    {% if labelnoset is not defined %}
+    {% if label is null %}
         {% set label = id|replace({'_':'.'})|trans() %}
     {% endif %}
 
@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block checkbox_label %}
-    {% if labelnoset is not defined %}
+    {% if label is null %}
         {% set label = id|replace({'_':'.'})|trans() %}
     {% endif %}
 
@@ -31,7 +31,7 @@
 {% endblock %}
 
 {% block radio_label %}
-    {% if labelnoset is not defined %}
+    {% if label is null %}
         {% set label = id|replace({'_':'.'})|trans() %}
     {% endif %}
 

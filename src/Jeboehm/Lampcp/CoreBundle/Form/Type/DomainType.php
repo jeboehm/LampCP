@@ -15,26 +15,18 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class DomainType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		if($this->_getIsEditMode()) {
-			$builder->add('domain', null, array(
-											   'read_only' => true
-										  ));
-		} else {
-			$builder->add('domain', null, array(
-											   'read_only' => false
-										  ));
-		}
-
-
 		$builder
+			->add('domain', null, array(
+									   'read_only' => $this->_getIsEditMode($builder)
+								  ))
 			->add('path', null, array('read_only' => true))
 			->add('webroot')
-			->add('certificate', 'entity', array(
-												'class'    => 'JeboehmLampcpCoreBundle:Certificate',
-												'property' => 'name',
-												'required' => false,
-										   ))
-			->add('forceSsl', null, array('required' => false))
+			->add('redirectUrl', null, array(
+											'required' => false,
+											'attr'     => array(
+												'help_block' => 'jeboehm.lampcp.corebundle.domaintype.redirectUrl.help',
+											)
+									   ))
 			->add('user', 'entity', array(
 										 'class'    => 'JeboehmLampcpCoreBundle:User',
 										 'property' => 'name',
@@ -45,9 +37,21 @@ class DomainType extends AbstractType {
 											  'multiple' => true,
 											  'required' => false,
 										 ))
+			->add('certificate', 'entity', array(
+												'class'    => 'JeboehmLampcpCoreBundle:Certificate',
+												'property' => 'name',
+												'required' => false,
+										   ))
+			->add('forceSsl', null, array('required' => false))
 			->add('isWildcard', null, array('required' => false))
 			->add('parsePhp', null, array('required' => false))
-			->add('customconfig', null, array('required' => false));
+			->add('customconfig', null, array(
+											 'required' => false,
+											 'attr'     => array(
+												 'class' => 'input-xxlarge',
+												 'rows'  => 7
+											 )
+										));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

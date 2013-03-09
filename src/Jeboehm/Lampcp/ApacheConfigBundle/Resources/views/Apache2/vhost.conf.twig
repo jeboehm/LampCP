@@ -114,6 +114,10 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     </Directory>
     {% endfor %}
 
+    {% if vhost.RedirectUrl != '' %}
+        Redirect / {{ vhost.RedirectUrl }}
+    {% endif %}
+
     ## Custom
     {{ vhost.CustomConfig }}
     ## End Custom

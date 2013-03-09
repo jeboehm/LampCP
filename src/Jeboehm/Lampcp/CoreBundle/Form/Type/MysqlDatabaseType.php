@@ -19,19 +19,11 @@ class MysqlDatabaseType extends AbstractType {
 			->add('name', null, array(
 									 'read_only' => true,
 								))
-			->add('comment');
-
-		if($this->_getIsEditMode()) {
-			$builder->add('password', 'repeated', array(
-													   'type'     => 'password',
-													   'required' => false,
-												  ));
-		} else {
-			$builder->add('password', 'repeated', array(
-													   'type'     => 'password',
-													   'required' => true,
-												  ));
-		}
+			->add('comment')
+			->add('password', 'repeated', array(
+											   'type'     => 'password',
+											   'required' => !$this->_getIsEditMode($builder),
+										  ));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

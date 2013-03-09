@@ -30,16 +30,12 @@ class SubdomainController extends AbstractController implements ICrudController 
 	 * @Template()
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entities Subdomain[] */
-		$entities = $em
-			->getRepository('JeboehmLampcpCoreBundle:Subdomain')
-			->findByDomain($this->_getSelectedDomain(), array('subdomain' => 'asc'));
+		$entities = $this->_getRepository()->findBy(array('domain' => $this->_getSelectedDomain()), array('subdomain' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -49,19 +45,16 @@ class SubdomainController extends AbstractController implements ICrudController 
 	 * @Template()
 	 */
 	public function showAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Subdomain */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Subdomain')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Subdomain entity.');
 		}
 
-
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -74,10 +67,10 @@ class SubdomainController extends AbstractController implements ICrudController 
 		$entity = new Subdomain($this->_getSelectedDomain());
 		$form   = $this->createForm(new SubdomainType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -100,10 +93,10 @@ class SubdomainController extends AbstractController implements ICrudController 
 			return $this->redirect($this->generateUrl('config_subdomain_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -113,10 +106,8 @@ class SubdomainController extends AbstractController implements ICrudController 
 	 * @Template()
 	 */
 	public function editAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Subdomain */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Subdomain')->find($id);
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Subdomain entity.');
@@ -124,10 +115,10 @@ class SubdomainController extends AbstractController implements ICrudController 
 
 		$editForm = $this->createForm(new SubdomainType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -138,10 +129,9 @@ class SubdomainController extends AbstractController implements ICrudController 
 	 * @Template("JeboehmLampcpCoreBundle:Subdomain:edit.html.twig")
 	 */
 	public function updateAction(Request $request, $id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Subdomain */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Subdomain')->find($id);
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Subdomain entity.');
@@ -157,10 +147,10 @@ class SubdomainController extends AbstractController implements ICrudController 
 			return $this->redirect($this->generateUrl('config_subdomain_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -169,10 +159,9 @@ class SubdomainController extends AbstractController implements ICrudController 
 	 * @Route("/{id}/delete", name="config_subdomain_delete")
 	 */
 	public function deleteAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity Subdomain */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:Subdomain')->find($id);
+		$em     = $this->getDoctrine()->getManager();
+		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
 			throw $this->createNotFoundException('Unable to find Subdomain entity.');
@@ -182,5 +171,14 @@ class SubdomainController extends AbstractController implements ICrudController 
 		$em->flush();
 
 		return $this->redirect($this->generateUrl('config_subdomain'));
+	}
+
+	/**
+	 * Get repository
+	 *
+	 * @return \Doctrine\Common\Persistence\ObjectRepository
+	 */
+	protected function _getRepository() {
+		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Subdomain');
 	}
 }

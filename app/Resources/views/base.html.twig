@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% include 'BraincraftedBootstrapBundle::_stylesheets.html.twig' %}
+    {% include 'BraincraftedBootstrapBundle::_html5shiv.html.twig' %}
 
-        {% include 'BraincraftedBootstrapBundle::_stylesheets.html.twig' %}
-        {% include 'BraincraftedBootstrapBundle::_html5shiv.html.twig' %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
 
-        {% include 'BraincraftedBootstrapBundle::_javascripts.html.twig' %}
-        {% block javascripts %}{% endblock %}
-    </body>
+{% include 'BraincraftedBootstrapBundle::_javascripts.html.twig' %}
+{% block javascripts %}{% endblock %}
+</body>
 </html>

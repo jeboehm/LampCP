@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Jeboehm\Lampcp\MysqlBundle\Service\MysqlAdminService;
 use Jeboehm\Lampcp\MysqlBundle\Service\MysqlSynchronizerService;
+use Jeboehm\Lampcp\CoreBundle\Entity\BuilderChangeRepository;
 
 class GenerateDatabasesCommand extends AbstractCommand {
 	/** @var MysqlAdminService */
@@ -97,6 +98,12 @@ class GenerateDatabasesCommand extends AbstractCommand {
 	 * @return int|null|void
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		if(!$this->_isEnabled()) {
+			$this->_getLogger()->err('(MysqlBundle) Command not enabled!');
+
+			return;
+		}
+
 		$run = false;
 
 		if($input->getOption('force') || $this->_isChanged()) {
@@ -142,5 +149,14 @@ class GenerateDatabasesCommand extends AbstractCommand {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get "enabled" from config service
+	 *
+	 * @return string
+	 */
+	protected function _isEnabled() {
+		return $this->_getConfigService()->getParameter('mysql.enabled');
 	}
 }

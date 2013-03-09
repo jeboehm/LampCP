@@ -15,18 +15,37 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SubdomainType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
+		/** @var $domain \Jeboehm\Lampcp\CoreBundle\Entity\Domain */
+		$domain = $builder->getData()->getDomain();
+
 		$builder
-			->add('subdomain')
+			->add('subdomain', null, array(
+										  'attr' => array(
+											  'append_input' => '.' . $domain->getDomain()
+										  )
+									 ))
+			->add('path', null, array('required' => false))
+			->add('redirectUrl', null, array(
+											'required' => false,
+											'attr'     => array(
+												'help_block' => 'jeboehm.lampcp.corebundle.subdomaintype.redirectUrl.help',
+											)
+									   ))
 			->add('certificate', 'entity', array(
 												'class'    => 'JeboehmLampcpCoreBundle:Certificate',
 												'property' => 'name',
 												'required' => false,
 										   ))
 			->add('forceSsl', null, array('required' => false))
-			->add('path', null, array('required' => false))
 			->add('isWildcard', null, array('required' => false))
 			->add('parsePhp', null, array('required' => false))
-			->add('customconfig', null, array('required' => false));
+			->add('customconfig', null, array(
+											 'required' => false,
+											 'attr'     => array(
+												 'class' => 'input-xxlarge',
+												 'rows'  => 7
+											 )
+										));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

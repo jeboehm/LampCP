@@ -16,6 +16,7 @@ use Symfony\Bridge\Monolog\Logger;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
+use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 
 /**
  * Abstract controller.
@@ -56,42 +57,15 @@ abstract class AbstractController extends Controller {
 	}
 
 	/**
-	 * Get the selected domain
+	 * Get selected domain
 	 *
-	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain|bool
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain|null
 	 */
 	protected function _getSelectedDomain() {
-		/** @var $domain Domain */
-		$domain   = null;
-		$domainId = $this->_getSession()->get('domain');
+		/** @var $domainselector DomainselectorService */
+		$domainselector = $this->get('jeboehm_lampcp_core.domainselector');
 
-		if(is_numeric($domainId) && $domainId > 0) {
-			$repo   = $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Domain');
-			$domain = $repo->findOneById($domainId);
-
-			if(!$domain) {
-				$session = $this->_getSession();
-				$session->set('domain', 0);
-			}
-		}
-
-		return $domain;
-	}
-
-	/**
-	 * Return Funktion, die für alle Controller verwendet werden sollte
-	 *
-	 * @param array $arrReturn
-	 *
-	 * @return array
-	 */
-	protected function _getReturn(array $arrReturn) {
-		$arrGlob = array(
-			'domainselector_domains' => $this->_getDomainsForDomainselector(),
-			'selecteddomain'         => $this->_getSelectedDomain(),
-		);
-
-		return array_merge($arrGlob, $arrReturn);
+		return $domainselector->getSelected();
 	}
 
 	/**
@@ -101,20 +75,5 @@ abstract class AbstractController extends Controller {
 	 */
 	protected function _getCryptService() {
 		return $this->get('jeboehm_lampcp_core.cryptservice');
-	}
-
-	/**
-	 * Get all domains
-	 *
-	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain[]
-	 */
-	private function _getDomainsForDomainselector() {
-		/** @var $domains Domain[] */
-		$domains = $this
-			->getDoctrine()
-			->getRepository('JeboehmLampcpCoreBundle:Domain')
-			->findBy(array(), array('domain' => 'asc'));
-
-		return $domains;
 	}
 }

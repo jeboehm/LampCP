@@ -34,11 +34,11 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 		/** @var $entities MysqlDatabase[] */
 		$entities = $this
 			->_getRepository()
-			->findByDomain($this->_getSelectedDomain(), array('name' => 'asc'));
+			->findBy(array('domain' => $this->_getSelectedDomain()), array('name' => 'asc'));
 
-		return $this->_getReturn(array(
-									  'entities' => $entities,
-								 ));
+		return array(
+			'entities' => $entities,
+		);
 	}
 
 	/**
@@ -55,10 +55,9 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
 		}
 
-
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-								 ));
+		return array(
+			'entity' => $entity,
+		);
 	}
 
 	/**
@@ -73,10 +72,10 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 
 		$form = $this->createForm(new MysqlDatabaseType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -103,10 +102,10 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 			return $this->redirect($this->generateUrl('config_mysqldatabase_show', array('id' => $entity->getId())));
 		}
 
-		return $this->_getReturn(array(
-									  'entity' => $entity,
-									  'form'   => $form->createView(),
-								 ));
+		return array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		);
 	}
 
 	/**
@@ -123,12 +122,12 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
 		}
 
-		$editForm = $this->createForm(new MysqlDatabaseType(true), $entity);
+		$editForm = $this->createForm(new MysqlDatabaseType(), $entity);
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -139,9 +138,8 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	 * @Template("JeboehmLampcpCoreBundle:MysqlDatabase:edit.html.twig")
 	 */
 	public function updateAction(Request $request, $id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity MysqlDatabase */
+		$em     = $this->getDoctrine()->getManager();
 		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {
@@ -149,8 +147,7 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 		}
 
 		$oldPassword = $entity->getPassword();
-
-		$editForm = $this->createForm(new MysqlDatabaseType(true), $entity);
+		$editForm    = $this->createForm(new MysqlDatabaseType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
@@ -166,10 +163,10 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 			return $this->redirect($this->generateUrl('config_mysqldatabase_edit', array('id' => $id)));
 		}
 
-		return $this->_getReturn(array(
-									  'entity'    => $entity,
-									  'edit_form' => $editForm->createView(),
-								 ));
+		return array(
+			'entity'    => $entity,
+			'edit_form' => $editForm->createView(),
+		);
 	}
 
 	/**
@@ -178,9 +175,8 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	 * @Route("/{id}/delete", name="config_mysqldatabase_delete")
 	 */
 	public function deleteAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
 		/** @var $entity MysqlDatabase */
+		$em     = $this->getDoctrine()->getManager();
 		$entity = $this->_getRepository()->find($id);
 
 		if(!$entity) {

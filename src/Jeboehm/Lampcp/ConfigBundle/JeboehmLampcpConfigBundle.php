@@ -11,6 +11,18 @@
 namespace Jeboehm\Lampcp\ConfigBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Jeboehm\Lampcp\ConfigBundle\DependencyInjection\ConfigProviderCompilerPass;
 
 class JeboehmLampcpConfigBundle extends Bundle {
+	/**
+	 * Add compiler pass
+	 *
+	 * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+	 */
+	public function build(ContainerBuilder $container) {
+		parent::build($container);
+
+		$container->addCompilerPass(new ConfigProviderCompilerPass());
+	}
 }

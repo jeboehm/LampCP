@@ -7,7 +7,7 @@
  #
  #}
 
-{% extends 'JeboehmLampcpCoreBundle::layout.html.twig' %}
+{% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
     <h1>{{ "show.page.domain"|trans() }}</h1>
@@ -23,6 +23,34 @@
             <td>{{ entity.domain }}</td>
         </tr>
         <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.domaintype.path"|trans() }}</th>
+            <td>{{ entity.path }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.domaintype.webroot"|trans() }}</th>
+            <td>{{ entity.webroot }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.domaintype.redirectUrl"|trans() }}</th>
+            <td>{{ entity.redirectUrl }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.domaintype.user"|trans() }}</th>
+            <td>{{ entity.user.name }}</td>
+        </tr>
+        <tr>
+            <th>{{ "title.page.ipaddress"|trans() }}</th>
+            <td>
+                <ul>
+                    {% for ip in entity.ipaddress %}
+                        <li>
+                            {{ ip.alias }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
             <th>{{ "jeboehm.lampcp.corebundle.domaintype.certificate"|trans() }}</th>
             {% if entity.certificate is not null %}
                 <td>{{ entity.certificate.name }}</td>
@@ -35,18 +63,6 @@
             <td>{{ entity.forceSsl }}</td>
         </tr>
         <tr>
-            <th>{{ "jeboehm.lampcp.corebundle.domaintype.path"|trans() }}</th>
-            <td>{{ entity.path }}</td>
-        </tr>
-        <tr>
-            <th>{{ "jeboehm.lampcp.corebundle.domaintype.webroot"|trans() }}</th>
-            <td>{{ entity.webroot }}</td>
-        </tr>
-        <tr>
-            <th>{{ "jeboehm.lampcp.corebundle.domaintype.user"|trans() }}</th>
-            <td>{{ entity.user.name }}</td>
-        </tr>
-        <tr>
             <th>{{ "jeboehm.lampcp.corebundle.domaintype.isWildcard"|trans() }}</th>
             <td>{{ entity.isWildcard }}</td>
         </tr>
@@ -57,7 +73,8 @@
         <tr>
             <th>{{ "jeboehm.lampcp.corebundle.domaintype.customconfig"|trans() }}</th>
             <td>
-                <pre>{{ entity.customconfig }}</pre>
+                {% if entity.customconfig != "" %}
+                    <pre>{{ entity.customconfig }}</pre>{% endif %}
             </td>
         </tr>
         <tr>

@@ -1,40 +1,39 @@
+##########################################
+#
+# LampCP
+# https://github.com/jeboehm/LampCP
+#
+# Licensed under the GPL Version 2 license
+# http://www.gnu.org/licenses/gpl-2.0.txt
+#
+##########################################
+
 security:
     encoders:
-        Jeboehm\Lampcp\CoreBundle\Entity\Admin:
-          algorithm:         sha1
+        FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
-        administrators:
-            entity: { class: JeboehmLampcpCoreBundle:Admin, property: email }
+        fos_userbundle:
+            id: fos_user.user_provider.username
 
     firewalls:
-        dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        login:
-            pattern:    ^/login$
-            anonymous:  ~
-
-        lampcp:
-            pattern:    ^/
+        main:
+            pattern: ^/
             form_login:
-                check_path: /login_check
-                login_path: /login
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
                 always_use_default_target_path: true
-                default_target_path:            /
+                default_target_path: /
+            logout:       true
+            anonymous:    true
 
-                username_parameter: _username
-                password_parameter: _password
-
-            logout:
-                path:   /logout
-                target: /
-                invalidate_session: false
 
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_ADMIN }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, role: ROLE_USER }
