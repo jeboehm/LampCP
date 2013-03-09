@@ -96,6 +96,7 @@ all:
 jeboehm.lampcp.corebundle:
     domaintype:
         domain: Domain
+        parent: Alias-Domain
         path: Pfad
         webroot: Web-Pfad
         redirectUrl: URL-Umleitung
@@ -110,6 +111,7 @@ jeboehm.lampcp.corebundle:
 
     subdomaintype:
         subdomain: Subdomain
+        parent: Alias-Subdomain
         path: Pfad
         redirectUrl: URL-Umleitung
         redirectUrl.help: Anfragen an diese Adresse umleiten.

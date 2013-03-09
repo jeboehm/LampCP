@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
 
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
@@ -153,17 +154,26 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	}
 
 	/**
-	 * Build all configurations
+	 * Get Vhost Models
+	 *
+	 * @return \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost[]
 	 */
-	public function buildAll() {
+	protected function _getVhostModels() {
 		/** @var $models Vhost[] */
 		$models = array();
 
 		foreach($this->_getAllDomains() as $domain) {
+			/**
+			 * Get alias
+			 */
+			if($domain->getParent() !== null) {
+				$domain = $this->_getAliasDomain($domain);
+			}
+
 			if($domain->getIpaddress()->count() > 0) {
 				foreach($domain->getIpaddress() as $ipaddress) {
 					/** @var $ipaddress IpAddress */
-					$vhost = new Vhost();
+					$vhost = $this->_getVhost();
 					$vhost
 						->setDomain($domain)
 						->setIpaddress($ipaddress);
@@ -173,7 +183,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 					}
 				}
 			} else {
-				$vhost = new Vhost();
+				$vhost = $this->_getVhost();
 				$vhost->setDomain($domain);
 				$models[] = $vhost;
 			}
@@ -183,10 +193,17 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 		}
 
 		foreach($this->_getAllSubdomains() as $subdomain) {
+			/**
+			 * Get alias
+			 */
+			if($subdomain->getParent() !== null) {
+				$subdomain = $this->_getAliasSubdomain($subdomain);
+			}
+
 			if($subdomain->getDomain()->getIpaddress()->count() > 0) {
 				foreach($subdomain->getDomain()->getIpaddress() as $ipaddress) {
 					/** @var $ipaddress IpAddress */
-					$vhost = new Vhost();
+					$vhost = $this->_getVhost();
 					$vhost
 						->setDomain($subdomain->getDomain())
 						->setSubdomain($subdomain)
@@ -197,7 +214,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 					}
 				}
 			} else {
-				$vhost = new Vhost();
+				$vhost = $this->_getVhost();
 				$vhost
 					->setDomain($subdomain->getDomain())
 					->setSubdomain($subdomain);
@@ -205,9 +222,17 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			}
 		}
 
-		$models  = $this->_orderVhosts($models);
+		$models = $this->_orderVhosts($models);
+
+		return $models;
+	}
+
+	/**
+	 * Build all configurations
+	 */
+	public function buildAll() {
 		$content = $this->_renderTemplate(self::_twigVhost, array(
-																 'vhosts' => $models,
+																 'vhosts' => $this->_getVhostModels(),
 																 'ips'    => $this->_getAllIpAddresses(),
 															));
 
@@ -235,5 +260,57 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 		}
 
 		return array_merge($nonWc, $wc);
+	}
+
+	/**
+	 * Get Vhost Model
+	 *
+	 * @return \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost
+	 */
+	protected function _getVhost() {
+		return new Vhost();
+	}
+
+	/**
+	 * Get parent domain and set some properties from alias-domain
+	 *
+	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain
+	 */
+	protected function _getAliasDomain(Domain $domain) {
+		$parent = clone $domain->getParent();
+		$parent
+			->setDomain($domain->getDomain())
+			->setIpaddress($domain->getIpaddress())
+			->setCertificate($domain->getCertificate());
+
+		return $parent;
+	}
+
+	/**
+	 * Get parent subdomain and set some properties from alias-subdomain
+	 *
+	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain $subdomain
+	 *
+	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain
+	 */
+	protected function _getAliasSubdomain(Subdomain $subdomain) {
+		$domain = clone $subdomain
+			->getParent()
+			->getDomain();
+
+		$domain
+			->setDomain($subdomain->getDomain()->getDomain())
+			->setIpaddress($subdomain->getDomain()->getIpaddress())
+			->setCertificate($subdomain->getDomain()->getCertificate());
+
+		$parent = clone $subdomain->getParent();
+		$parent
+			->setDomain($domain)
+			->setSubdomain($subdomain->getSubdomain())
+			->setCertificate($subdomain->getCertificate());
+
+		return $parent;
 	}
 }

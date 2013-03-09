@@ -13,7 +13,17 @@
     <h1>{{ "create.page.subdomain"|trans() }}</h1>
 
     <form action="{{ path('config_subdomain_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
+        {{ form_row(form.subdomain) }}
+        {{ form_row(form.parent) }}
+        {{ form_row(form.path) }}
+        {{ form_row(form.redirectUrl) }}
+        {{ form_row(form.certificate) }}
+        {{ form_row(form.forceSsl) }}
+        {{ form_row(form.isWildcard) }}
+        {{ form_row(form.parsePhp) }}
+        {{ form_row(form.customconfig, {'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+
+        {{ form_rest(form) }}
 
         {{ macros.formbuttongrp(path('config_subdomain')) }}
     </form>

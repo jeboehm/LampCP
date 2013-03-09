@@ -13,8 +13,21 @@
     <h1>{{ "create.page.domain"|trans() }}</h1>
 
     <form action="{{ path('config_domain_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
+        {{ form_row(form.domain) }}
+        {{ form_row(form.parent) }}
+        {{ form_row(form.path) }}
+        {{ form_row(form.webroot) }}
+        {{ form_row(form.redirectUrl) }}
+        {{ form_row(form.user) }}
+        {{ form_row(form.ipaddress) }}
+        {{ form_row(form.certificate) }}
+        {{ form_row(form.forceSsl) }}
+        {{ form_row(form.isWildcard) }}
+        {{ form_row(form.parsePhp) }}
+        {{ form_row(form.customconfig, {'attr' : {'class' : 'input-xxlarge', 'rows' : 7}}) }}
 
+        {{ form_rest(form) }}
+        
         {{ macros.formbuttongrp(path('config_domain')) }}
     </form>
 {% endblock %}
