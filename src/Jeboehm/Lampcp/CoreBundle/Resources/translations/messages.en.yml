@@ -80,6 +80,10 @@ button:
     show: Show
     add: Add
 
+label:
+    enabled: enabled
+    disabled: disabled
+
 # Seiteninhalte
 default.topmenu.no.domain: No domain chosen
 status.headline.uptime: uptime / logged in / load

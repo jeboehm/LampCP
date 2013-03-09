@@ -10,32 +10,34 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "title.page.systemconfig"|trans() }}</h1>
+<h1>{{ "title.page.systemconfig"|trans() }}</h1>
 
-    {% for group in groups %}
-        <h2>{{ ("config.title." ~ group.name)|trans() }}</h2>
+{% for group in groups %}
+<h2>{{ ("config.title." ~ group.name)|trans() }}</h2>
 
-        <table class="table table-striped table-bordered">
-            <tbody>
+<table class="table table-striped table-bordered">
+    <tbody>
 
-            {% for entity in group.configentity %}
-                <tr>
-                    <th>{{ ("config." ~ group.name ~ "." ~ entity.name)|trans() }}</th>
-                    <td>
-                        {% if entity.type != 2 %}
-                            {{ entity.value }}
-                        {% else %}
-                            {{ "config.title.password"|trans() }}
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-
-            </tbody>
-        </table>
+    {% for entity in group.configentity %}
+    <tr>
+        <th>{{ ("config." ~ group.name ~ "." ~ entity.name)|trans() }}</th>
+        <td>
+            {% if entity.type == 2 %}
+            {{ "config.title.password"|trans() }}
+            {% elseif entity.type == 3 %}
+                {{ macros.boollabel(entity.value) }}
+            {% else %}
+                {{ entity.value }}
+            {% endif %}
+        </td>
+    </tr>
     {% endfor %}
 
-    <a class="btn btn-info" href="{{ path('systemconfig_edit') }}">
-        {{ "button.edit"|trans() }}
-    </a>
+    </tbody>
+</table>
+{% endfor %}
+
+<a class="btn btn-info" href="{{ path('systemconfig_edit') }}">
+    {{ "button.edit"|trans() }}
+</a>
 {% endblock %}

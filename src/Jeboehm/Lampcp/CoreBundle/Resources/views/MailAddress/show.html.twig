@@ -39,7 +39,7 @@
         <tr>
             <th>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailaccount"|trans() }}</th>
             <td>
-                {{ entity.mailaccount.enabled }}
+                {{ macros.boollabel(entity.mailaccount.enabled) }}
             </td>
         </tr>
         </tbody>

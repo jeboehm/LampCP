@@ -42,7 +42,7 @@
         {% if entity.parent == null %}
             <tr>
                 <th>{{ "jeboehm.lampcp.corebundle.subdomaintype.forceSsl"|trans() }}</th>
-                <td>{{ entity.forceSsl }}</td>
+                <td>{{ macros.boollabel(entity.forceSsl) }}</td>
             </tr>
             <tr>
                 <th>{{ "jeboehm.lampcp.corebundle.subdomaintype.path"|trans() }}</th>
@@ -54,11 +54,11 @@
             </tr>
             <tr>
                 <th>{{ "jeboehm.lampcp.corebundle.subdomaintype.isWildcard"|trans() }}</th>
-                <td>{{ entity.isWildcard }}</td>
+                <td>{{ macros.boollabel(entity.isWildcard) }}</td>
             </tr>
             <tr>
                 <th>{{ "jeboehm.lampcp.corebundle.subdomaintype.parsePhp"|trans() }}</th>
-                <td>{{ entity.parsePhp }}</td>
+                <td>{{ macros.boollabel(entity.parsePhp) }}</td>
             </tr>
             <tr>
                 <th>{{ "jeboehm.lampcp.corebundle.subdomaintype.customconfig"|trans() }}</th>
