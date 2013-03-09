@@ -10,16 +10,17 @@
 
 namespace Jeboehm\Lampcp\ConfigBundle\Controller;
 
-use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Jeboehm\Lampcp\ConfigBundle\Entity\ConfigEntity;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
+use Jeboehm\Lampcp\ConfigBundle\Entity\ConfigEntity;
 
 /**
  * Config controller.
@@ -56,7 +57,7 @@ class ConfigController extends ContainerAware {
 	 * @Template()
 	 */
 	public function indexAction() {
-		$groups = $this->_em->getRepository('JeboehmLampcpConfigBundle:ConfigGroup')->findAll();
+		$groups = $this->_getRepository()->findAll();
 
 		return array(
 			'groups' => $groups,
@@ -95,5 +96,14 @@ class ConfigController extends ContainerAware {
 		}
 
 		return new RedirectResponse($this->_router->generate('systemconfig'));
+	}
+
+	/**
+	 * Get group repository
+	 *
+	 * @return \Doctrine\ORM\EntityRepository
+	 */
+	protected function _getRepository() {
+		return $this->_em->getRepository('JeboehmLampcpConfigBundle:ConfigGroup');
 	}
 }

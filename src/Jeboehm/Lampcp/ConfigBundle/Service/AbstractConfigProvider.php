@@ -15,11 +15,6 @@ use Jeboehm\Lampcp\ConfigBundle\Entity\ConfigGroup;
 use Jeboehm\Lampcp\ConfigBundle\Entity\ConfigEntity;
 
 abstract class AbstractConfigProvider {
-	const TYPE_INTEGER  = 0;
-	const TYPE_STRING   = 1;
-	const TYPE_PASSWORD = 2;
-	const TYPE_BOOL     = 3;
-
 	/** @var \Doctrine\ORM\EntityManager */
 	private $_em;
 
