@@ -145,9 +145,11 @@ class ConfigService {
 				$newval = $value;
 		}
 
-		$entity->setValue($newval);
-		$this->_em->persist($entity);
-		$this->_em->flush();
+		if($newval != $entity->getValue()) {
+			$entity->setValue($newval);
+			$this->_em->persist($entity);
+			$this->_em->flush();
+		}
 	}
 
 	/**
@@ -160,6 +162,7 @@ class ConfigService {
 		$entities = $this->_getConfigEntityRepository()->findAll();
 
 		foreach($entities as $entity) {
+			$this->_em->getUnitOfWork()->detach($entity);
 			$name = $entity->getConfiggroup()->getName() . '.' . $entity->getName();
 			$entity->setValue($this->getParameter($name));
 		}
