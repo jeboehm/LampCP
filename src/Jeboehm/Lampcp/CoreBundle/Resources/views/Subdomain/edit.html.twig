@@ -13,29 +13,30 @@
     <h1>{{ "edit.page.subdomain"|trans() }}</h1>
 
     <form action="{{ path('config_subdomain_update', { 'id': entity.id }) }}"
-          method="post" {{ form_enctype(edit_form) }}>
+          class="form-horizontal" method="post" {{ form_enctype(edit_form) }}>
 
-        {{ form_row(edit_form.subdomain) }}
-        {{ form_row(edit_form.parent) }}
+        {{ form_row(edit_form.subdomain, {'form_type': 'horizontal'}) }}
+        {{ form_row(edit_form.parent, {'form_type': 'horizontal'}) }}
 
         {% if edit_form.parent.vars.data != null %}
         <div class="hidden">{% endif %}
 
-            {{ form_row(edit_form.path) }}
-            {{ form_row(edit_form.redirectUrl) }}
+            {{ form_row(edit_form.path, {'form_type': 'horizontal'}) }}
+            {{ form_row(edit_form.redirectUrl, {'form_type': 'horizontal'}) }}
 
             {% if edit_form.parent.vars.data != null %}
         </div>{% endif %}
 
-        {{ form_row(edit_form.certificate) }}
+        {{ form_row(edit_form.certificate, {'form_type': 'horizontal'}) }}
 
         {% if edit_form.parent.vars.data != null %}
         <div class="hidden">{% endif %}
 
-            {{ form_row(edit_form.forceSsl) }}
-            {{ form_row(edit_form.isWildcard) }}
-            {{ form_row(edit_form.parsePhp) }}
-            {{ form_row(edit_form.customconfig, {'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+            {{ form_row(edit_form.forceSsl, {'form_type': 'horizontal'}) }}
+            {{ form_row(edit_form.isWildcard, {'form_type': 'horizontal'}) }}
+            {{ form_row(edit_form.parsePhp, {'form_type': 'horizontal'}) }}
+            {{ form_row(edit_form.customconfig,
+            {'form_type': 'horizontal', 'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
 
             {% if edit_form.parent.vars.data != null %}
         </div>{% endif %}

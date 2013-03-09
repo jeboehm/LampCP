@@ -12,8 +12,24 @@
 {% block content %}
     <h1>{{ "create.page.certificate"|trans() }}</h1>
 
-    <form action="{{ path('config_certificate_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
+    <form action="{{ path('config_certificate_create') }}" method="post"
+          class="form-horizontal" {{ form_enctype(form) }}>
+
+        {{ form_row(form.name, {'form_type': 'horizontal'}) }}
+
+        {{ form_row(form.CertificateFile,
+        {'form_type': 'horizontal', 'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+
+        {{ form_row(form.CertificateKeyFile,
+        {'form_type': 'horizontal', 'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+
+        {{ form_row(form.CertificateChainFile,
+        {'form_type': 'horizontal', 'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+
+        {{ form_row(form.CACertificateFile,
+        {'form_type': 'horizontal', 'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+
+        {{ form_rest(form, {'form_type': 'horizontal'}) }}
 
         {{ macros.formbuttongrp(path('config_certificate')) }}
     </form>

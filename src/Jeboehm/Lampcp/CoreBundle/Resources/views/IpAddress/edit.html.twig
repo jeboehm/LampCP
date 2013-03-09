@@ -13,8 +13,14 @@
     <h1>{{ "edit.page.ipaddress"|trans() }}</h1>
 
     <form action="{{ path('config_ipaddress_update', { 'id': entity.id }) }}"
-          method="post" {{ form_enctype(edit_form) }}>
-        {{ form_widget(edit_form) }}
+          class="form-horizontal" method="post" {{ form_enctype(edit_form) }}>
+
+        {{ form_row(edit_form.alias, {'form_type': 'horizontal'}) }}
+        {{ form_row(edit_form.ip, {'form_type': 'horizontal'}) }}
+        {{ form_row(edit_form.port, {'form_type': 'horizontal'}) }}
+        {{ form_row(edit_form.hasSsl, {'form_type': 'horizontal'}) }}
+
+        {{ form_rest(edit_form) }}
 
         {{ macros.formbuttongrp(path('config_ipaddress'), path('config_ipaddress_delete', { 'id': entity.id })) }}
     </form>

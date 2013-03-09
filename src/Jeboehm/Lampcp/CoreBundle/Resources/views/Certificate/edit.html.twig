@@ -13,8 +13,23 @@
     <h1>{{ "edit.page.certificate"|trans() }}</h1>
 
     <form action="{{ path('config_certificate_update', { 'id': entity.id }) }}"
-          method="post" {{ form_enctype(edit_form) }}>
-        {{ form_widget(edit_form) }}
+          method="post" class="form-horizontal" {{ form_enctype(edit_form) }}>
+
+        {{ form_row(edit_form.name, {'form_type': 'horizontal'}) }}
+
+        {{ form_row(edit_form.CertificateFile,
+        {'form_type': 'horizontal', 'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+
+        {{ form_row(edit_form.CertificateKeyFile,
+        {'form_type': 'horizontal', 'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+
+        {{ form_row(edit_form.CertificateChainFile,
+        {'form_type': 'horizontal', 'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+
+        {{ form_row(edit_form.CACertificateFile,
+        {'form_type': 'horizontal', 'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+
+        {{ form_rest(edit_form) }}
 
         {{ macros.formbuttongrp(path('config_certificate'), path('config_certificate_delete', { 'id': entity.id })) }}
     </form>

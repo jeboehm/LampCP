@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class MailForwardType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->add('target', null, array(
-										   'label' => ' ',
+										   'label' => 'jeboehm.lampcp.corebundle.mailaddresstype.mailforward',
 									  ));
 	}
 

@@ -78,6 +78,7 @@ button:
     delete.confirm: Are you sure?
     back: Back to the list
     show: Show
+    add: Add
 
 # Seiteninhalte
 default.topmenu.no.domain: No domain chosen

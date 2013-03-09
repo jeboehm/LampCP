@@ -23,20 +23,31 @@
     <h1>{{ "create.page.mailaddress"|trans() }}</h1>
 
     <form action="{{ path('config_mailaddress_create', { 'id': entity.id }) }}"
-          method="post" {{ form_enctype(form) }}>
-        {{ form_row(form.address) }}
+          class="form-horizontal" method="post" {{ form_enctype(form) }}>
+
+        {{ form_row(form.address, {'form_type': 'horizontal'}) }}
 
         <h2>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailaccount"|trans }}</h2>
-        {{ form_widget(form.mailaccount) }}
+
+        {{ form_row(form.mailaccount.enabled, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.mailaccount.password.first, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.mailaccount.password.second, {'form_type': 'horizontal'}) }}
 
         <h2>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailforward"|trans }}</h2>
-        <ul class="mailforward" data-prototype="{{ form_widget(form.mailforward.vars.prototype)|e }}">
+
+        <div class="mailforward"
+             data-prototype="{{ form_widget(form.mailforward.vars.prototype, {'form_type': 'horizontal'})|e }}">
+
             {% for forward in form.mailforward %}
-                <li>{{ form_row(forward.target) }}</li>
+                {{ form_row(forward.target, {'form_type': 'horizontal'}) }}
             {% endfor %}
 
-            <li><a href="#" class="btn mailforward-add">+</a></li>
-        </ul>
+            <div class="control-group">
+                <div class="controls" id="addbutton">
+                    <a href="#" class="btn mailforward-add">{{ "button.add"|trans() }}</a>
+                </div>
+            </div>
+        </div>
 
         {# TODO: Wenn das mal schön werden könnte.. #}
         <div style="display: none;">
