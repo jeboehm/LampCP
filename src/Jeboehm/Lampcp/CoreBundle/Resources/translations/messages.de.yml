@@ -80,6 +80,10 @@ button:
     show: Anzeigen
     add: Hinzufügen
 
+label:
+    enabled: Aktiviert
+    disabled: Deaktiviert
+
 # Seiteninhalte
 default.topmenu.no.domain: Keine Domain ausgewählt
 status.headline.uptime: Uptime / Angemeldete User / Load
