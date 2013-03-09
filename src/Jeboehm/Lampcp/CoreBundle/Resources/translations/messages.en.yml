@@ -166,6 +166,7 @@ jeboehm.lampcp.corebundle:
 # Systemconfig
 config:
     apache:
+        enabled: Enabled
         pathwww: Webfolder
         pathapache2conf: Configdirectory
         pathphpini: PHP5 default configuration
@@ -173,6 +174,7 @@ config:
         pathcertificate: Folder for certificates
 
     mysql:
+        enabled: Enabled
         rootuser: MySQL root
         rootpassword: MySQL root password
         dbprefix: MySQL database prefix
@@ -182,6 +184,7 @@ config:
         groupfile: Unix groupfile
 
     lighttpd:
+        enabled: Enabled
         pathlighttpdconf: Configdirectory
         cmdlighttpdrestart: Restart command
 

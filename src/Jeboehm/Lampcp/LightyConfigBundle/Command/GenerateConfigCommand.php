@@ -97,8 +97,24 @@ class GenerateConfigCommand extends ParentConfigCommand {
 	 * @return int|null|void
 	 */
 	public function execute(InputInterface $input, OutputInterface $output) {
+		if(!$this->_isEnabled()) {
+			$this->_getLogger()->err('(LightyConfigBundle) Command not enabled!');
+
+			return;
+		}
+
 		parent::execute($input, $output);
 
 		$this->_getFcgiStarterService()->buildAll();
+	}
+
+
+	/**
+	 * Get "enabled" from config service
+	 *
+	 * @return string
+	 */
+	protected function _isEnabled() {
+		return $this->_getConfigService()->getParameter('lighttpd.enabled');
 	}
 }
