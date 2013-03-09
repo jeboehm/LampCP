@@ -32,11 +32,11 @@
         </tr>
         <tr>
             <th>{{ "jeboehm.lampcp.corebundle.ipaddresstype.hasSsl"|trans() }}</th>
-            <td>{{ entity.hasSsl }}</td>
+            <td>{{ macros.boollabel(entity.hasSsl) }}</td>
         </tr>
         <tr>
             <th>{{ "jeboehm.lampcp.corebundle.ipaddresstype.ipv6"|trans() }}</th>
-            <td>{{ entity.ipv6 }}</td>
+            <td>{{ macros.boollabel(entity.ipv6) }}</td>
         </tr>
         <tr>
             <th>{{ "title.page.domain"|trans() }}</th>
