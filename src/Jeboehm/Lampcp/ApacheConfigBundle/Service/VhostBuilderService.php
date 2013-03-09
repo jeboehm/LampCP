@@ -153,9 +153,11 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 	}
 
 	/**
-	 * Build all configurations
+	 * Get Vhost Models
+	 *
+	 * @return \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost[]
 	 */
-	public function buildAll() {
+	protected function _getVhostModels() {
 		/** @var $models Vhost[] */
 		$models = array();
 
@@ -163,7 +165,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			if($domain->getIpaddress()->count() > 0) {
 				foreach($domain->getIpaddress() as $ipaddress) {
 					/** @var $ipaddress IpAddress */
-					$vhost = new Vhost();
+					$vhost = $this->_getVhost();
 					$vhost
 						->setDomain($domain)
 						->setIpaddress($ipaddress);
@@ -173,7 +175,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 					}
 				}
 			} else {
-				$vhost = new Vhost();
+				$vhost = $this->_getVhost();
 				$vhost->setDomain($domain);
 				$models[] = $vhost;
 			}
@@ -186,7 +188,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			if($subdomain->getDomain()->getIpaddress()->count() > 0) {
 				foreach($subdomain->getDomain()->getIpaddress() as $ipaddress) {
 					/** @var $ipaddress IpAddress */
-					$vhost = new Vhost();
+					$vhost = $this->_getVhost();
 					$vhost
 						->setDomain($subdomain->getDomain())
 						->setSubdomain($subdomain)
@@ -197,7 +199,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 					}
 				}
 			} else {
-				$vhost = new Vhost();
+				$vhost = $this->_getVhost();
 				$vhost
 					->setDomain($subdomain->getDomain())
 					->setSubdomain($subdomain);
@@ -205,9 +207,17 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			}
 		}
 
-		$models  = $this->_orderVhosts($models);
+		$models = $this->_orderVhosts($models);
+
+		return $models;
+	}
+
+	/**
+	 * Build all configurations
+	 */
+	public function buildAll() {
 		$content = $this->_renderTemplate(self::_twigVhost, array(
-																 'vhosts' => $models,
+																 'vhosts' => $this->_getVhostModels(),
 																 'ips'    => $this->_getAllIpAddresses(),
 															));
 
@@ -235,5 +245,14 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 		}
 
 		return array_merge($nonWc, $wc);
+	}
+
+	/**
+	 * Get Vhost Model
+	 *
+	 * @return \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost
+	 */
+	protected function _getVhost() {
+		return new Vhost();
 	}
 }
