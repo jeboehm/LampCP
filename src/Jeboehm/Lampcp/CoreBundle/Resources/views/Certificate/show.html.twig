@@ -25,11 +25,27 @@
         </tr>
         <tr>
             <th>{{ "title.page.domain"|trans() }}</th>
-            <td>{{ entity.domain|length }}</td>
+            <td>
+                <ul>
+                    {% for domain in entity.domain %}
+                        <li>
+                            {{ domain.domain }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
         </tr>
         <tr>
             <th>{{ "title.page.subdomain"|trans() }}</th>
-            <td>{{ entity.subdomain|length }}</td>
+            <td>
+                <ul>
+                    {% for subdomain in entity.subdomain %}
+                        <li>
+                            {{ subdomain.fulldomain }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
         </tr>
         <tr>
             <th>{{ "jeboehm.lampcp.corebundle.certificatetype.CertificateFile"|trans() }}</th>
