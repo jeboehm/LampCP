@@ -23,7 +23,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @UniqueEntity("path")
  */
-class Protection {
+class Protection extends AbstractEntity {
 	/**
 	 * @var integer
 	 *

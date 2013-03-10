@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity(fields = {"username", "protection"})
  */
-class ProtectionUser {
+class ProtectionUser extends AbstractEntity {
 	/**
 	 * @var integer
 	 *

@@ -14,13 +14,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Jeboehm\Lampcp\CoreBundle\Entity\AbstractEntity;
 
 /**
  * @ORM\Table()
  * @ORM\Entity
  * @UniqueEntity("name")
  */
-class ConfigGroup {
+class ConfigGroup extends AbstractEntity {
 	/**
 	 * @var integer
 	 *
@@ -44,6 +45,8 @@ class ConfigGroup {
 	private $configentity;
 
 	/**
+	 * Get ConfigEntity collection
+	 *
 	 * @return ConfigEntity[]
 	 */
 	public function getConfigentity() {
@@ -51,6 +54,8 @@ class ConfigGroup {
 	}
 
 	/**
+	 * Set id
+	 *
 	 * @param int $id
 	 *
 	 * @return ConfigGroup
@@ -62,6 +67,8 @@ class ConfigGroup {
 	}
 
 	/**
+	 * Get id
+	 *
 	 * @return int
 	 */
 	public function getId() {
@@ -69,6 +76,8 @@ class ConfigGroup {
 	}
 
 	/**
+	 * Set name
+	 *
 	 * @param string $name
 	 *
 	 * @return ConfigGroup
@@ -80,6 +89,8 @@ class ConfigGroup {
 	}
 
 	/**
+	 * Get name
+	 *
 	 * @return string
 	 */
 	public function getName() {

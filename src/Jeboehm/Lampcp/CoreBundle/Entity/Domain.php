@@ -23,7 +23,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity("domain")
  */
-class Domain {
+class Domain extends AbstractEntity {
 	/**
 	 * @var integer
 	 *

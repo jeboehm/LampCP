@@ -22,7 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @UniqueEntity("name")
  */
-class Certificate {
+class Certificate extends AbstractEntity {
 	/**
 	 * @var integer
 	 *
