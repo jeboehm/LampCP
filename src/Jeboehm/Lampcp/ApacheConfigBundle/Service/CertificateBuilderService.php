@@ -47,7 +47,7 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
 		$dir = $this->_getConfigService()->getParameter('apache.pathcertificate');
 
 		if(empty($dir)) {
-			$msg = '(CertificateBuilderService) Certificate Path config variable is empty!';
+			$msg = '(ApacheConfigBundle) Certificate Path config variable is empty!';
 			$this->_getLogger()->err($msg);
 			throw new \Exception($msg);
 		}
@@ -94,7 +94,7 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
 			$mSetPath = 'set' . $method . 'Path';
 
 			if($cert->$mGet()) {
-				$this->_getLogger()->info('(CertificateBuilderService) Generating Cert.: ' . $fullfilename);
+				$this->_getLogger()->info('(ApacheConfigBundle) Generating Cert.: ' . $fullfilename);
 
 				if($ext === self::_EXTENSION_PRIVATEKEY) {
 					$content = $this->_getCryptService()->decrypt($cert->$mGet());
@@ -113,7 +113,7 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
 				$cert->$mSetPath($fullfilename);
 			} else {
 				if($fs->exists($fullfilename)) {
-					$this->_getLogger()->info('(CertificateBuilderService) Deleting Cert.: ' . $fullfilename);
+					$this->_getLogger()->info('(ApacheConfigBundle) Deleting Cert.: ' . $fullfilename);
 
 					$fs->remove($fullfilename);
 				}
@@ -156,7 +156,7 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
 			$mSetPath = 'set' . $method . 'Path';
 
 			if($fs->exists($fullfilename)) {
-				$this->_getLogger()->info('(CertificateBuilderService) Deleting Cert.: ' . $fullfilename);
+				$this->_getLogger()->info('(ApacheConfigBundle) Deleting Cert.: ' . $fullfilename);
 
 				$fs->remove($fullfilename);
 				$cert->$mSetPath('');
@@ -192,7 +192,7 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
 			if($certificate) {
 				continue;
 			} else {
-				$this->_getLogger()->info('(CertificateBuilderService) Removing unused certfile: ' . $filename);
+				$this->_getLogger()->info('(ApacheConfigBundle) Removing unused certfile: ' . $filename);
 				$fs->remove($path);
 			}
 		}

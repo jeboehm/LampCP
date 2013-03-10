@@ -74,7 +74,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 																		   'domain' => $domain,
 																	  ));
 
-			$this->_getLogger()->info('(VhostBuilderService) Generating FCGI-Starter: ' . $filename);
+			$this->_getLogger()->info('(ApacheConfigBundle) Generating FCGI-Starter: ' . $filename);
 			file_put_contents($filename, $content);
 		}
 
@@ -102,7 +102,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 		}
 
 		if(!$fs->exists($filename)) {
-			$this->_getLogger()->info('(VhostBuilderService) Generating php.ini:' . $filename);
+			$this->_getLogger()->info('(ApacheConfigBundle) Generating php.ini:' . $filename);
 			file_put_contents($filename, $this->_renderPhpIni($domain));
 		}
 
@@ -134,7 +134,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
 			throw new CouldNotWriteFileException();
 		}
 
-		$this->_getLogger()->info('(VhostBuilderService) Creating new config: ' . $target);
+		$this->_getLogger()->info('(ApacheConfigBundle) Creating new config: ' . $target);
 		file_put_contents($target, $content);
 	}
 

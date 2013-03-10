@@ -75,7 +75,7 @@ class GenerateConfigCommand extends ParentConfigCommand {
 			->getParameter('lighttpd.cmdlighttpdrestart');
 
 		if(!empty($cmd)) {
-			$this->_getLogger()->info('(GenerateConfigCommand) Restarting Lighttpd...');
+			$this->_getLogger()->info('(LightyConfigBundle) Restarting Lighttpd...');
 
 			if(strpos($cmd, ' ') !== false) {
 				$cmdSplit = explode(' ', $cmd);

@@ -43,7 +43,7 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
 			throw new CouldNotWriteFileException();
 		}
 
-		$this->_getLogger()->info('(VhostBuilderService) Creating new config: ' . $target);
+		$this->_getLogger()->info('(LightyConfigBundle) Creating new config: ' . $target);
 		file_put_contents($target, $content);
 	}
 
@@ -68,7 +68,7 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
 																		   'domain' => $domain,
 																	  ));
 
-			$this->_getLogger()->info('(VhostBuilderService) Generating FCGI-Starter: ' . $filename);
+			$this->_getLogger()->info('(LightyConfigBundle) Generating FCGI-Starter: ' . $filename);
 			file_put_contents($filename, $content);
 		}
 

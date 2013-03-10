@@ -101,10 +101,10 @@ class GenerateConfigCommand extends AbstractCommand {
 		}
 
 		if($run) {
-			$this->_getLogger()->info('(GenerateConfigCommand) Executing...');
+			$this->_getLogger()->info('(ApacheConfigBundle) Executing...');
 
 			if($input->getOption('verbose')) {
-				$output->writeln('(GenerateConfigCommand) Executing...');
+				$output->writeln('(ApacheConfigBundle) Executing...');
 			}
 
 			try {
@@ -122,13 +122,13 @@ class GenerateConfigCommand extends AbstractCommand {
 
 				$this->_restartApache();
 			} catch(\Exception $e) {
-				$this->_getLogger()->err('(GenerateConfigCommand) Error: ' . $e->getMessage());
+				$this->_getLogger()->err('(ApacheConfigBundle) Error: ' . $e->getMessage());
 
 				throw $e;
 			}
 		} else {
 			if($input->getOption('verbose')) {
-				$output->writeln('(GenerateConfigCommand) No changes detected.');
+				$output->writeln('(ApacheConfigBundle) No changes detected.');
 			}
 		}
 	}
@@ -166,7 +166,7 @@ class GenerateConfigCommand extends AbstractCommand {
 			->getParameter('apache.cmdapache2restart');
 
 		if(!empty($cmd)) {
-			$this->_getLogger()->info('(GenerateConfigCommand) Restarting apache2...');
+			$this->_getLogger()->info('(ApacheConfigBundle) Restarting apache2...');
 
 			if(strpos($cmd, ' ') !== false) {
 				$cmdSplit = explode(' ', $cmd);

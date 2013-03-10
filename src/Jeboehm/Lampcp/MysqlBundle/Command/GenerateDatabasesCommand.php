@@ -111,10 +111,10 @@ class GenerateDatabasesCommand extends AbstractCommand {
 		}
 
 		if($run) {
-			$this->_getLogger()->info('(GenerateDatabasesCommand) Executing...');
+			$this->_getLogger()->info('(MysqlBundle) Executing...');
 
 			if($input->getOption('verbose')) {
-				$output->writeln('(GenerateDatabasesCommand) Executing...');
+				$output->writeln('(MysqlBundle) Executing...');
 			}
 
 			$this->_getMysqlSynchronizerService()->createDatabases();
@@ -123,7 +123,7 @@ class GenerateDatabasesCommand extends AbstractCommand {
 
 		} else {
 			if($input->getOption('verbose')) {
-				$output->writeln('(GenerateDatabasesCommand) No changes detected.');
+				$output->writeln('(MysqlBundle) No changes detected.');
 			}
 		}
 	}

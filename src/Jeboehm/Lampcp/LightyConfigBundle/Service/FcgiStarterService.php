@@ -79,11 +79,11 @@ class FcgiStarterService extends AbstractBuilderService implements BuilderServic
 				$cmd = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
 
 				if(!is_executable($cmd)) {
-					$this->_getLogger()->err('(FcgiStarterService) Could not execute ' . $cmd);
+					$this->_getLogger()->err('(LightyConfigBundle) Could not execute ' . $cmd);
 					continue;
 				} else {
 					if(!$this->_checkSocket($domain->getPath() . '/tmp/php.socket')) {
-						$this->_getLogger()->info('(FcgiStarterService) PHP-FCGI is not running! Starting...');
+						$this->_getLogger()->info('(LightyConfigBundle) PHP-FCGI is not running! Starting...');
 						$exec = new ExecUtility();
 						$exec->exec($cmd);
 					}

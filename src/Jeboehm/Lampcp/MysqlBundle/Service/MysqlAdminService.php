@@ -63,7 +63,7 @@ class MysqlAdminService {
 		$mysqli = new \mysqli($host, $user, $password, null, $port);
 
 		if($mysqli->connect_error) {
-			$msg = '(MysqlAdminService) Conn Error: ' . $mysqli->connect_error;
+			$msg = '(MysqlBundle) Conn Error: ' . $mysqli->connect_error;
 
 			$this->_logger->err($msg);
 			throw new \Exception($msg);
@@ -176,7 +176,7 @@ class MysqlAdminService {
 	 */
 	public function createDatabase(MysqlDatabaseModel $database) {
 		if($this->checkDatabaseExists($database)) {
-			$this->_logger->err('(MysqlAdminService) Database already exists: ' . $database->getName());
+			$this->_logger->err('(MysqlBundle) Database already exists: ' . $database->getName());
 			throw new DatabaseAlreadyExistsException();
 		}
 
@@ -184,7 +184,7 @@ class MysqlAdminService {
 		$result = $this->_mysqli->query($q);
 
 		if($result) {
-			$this->_logger->info('(MysqlAdminService) Created database: ' . $database->getName());
+			$this->_logger->info('(MysqlBundle) Created database: ' . $database->getName());
 
 			return true;
 		}
@@ -202,7 +202,7 @@ class MysqlAdminService {
 	 */
 	public function dropDatabase(MysqlDatabaseModel $database) {
 		if(!$this->checkDatabaseExists($database)) {
-			$this->_logger->err('(MysqlAdminService) Database not exists: ' . $database->getName());
+			$this->_logger->err('(MysqlBundle) Database not exists: ' . $database->getName());
 			throw new DatabaseNotExistsException();
 		}
 
@@ -210,7 +210,7 @@ class MysqlAdminService {
 		$result = $this->_mysqli->query($q);
 
 		if($result) {
-			$this->_logger->info('(MysqlAdminService) Deleted database: ' . $database->getName());
+			$this->_logger->info('(MysqlBundle) Deleted database: ' . $database->getName());
 
 			return true;
 		}
@@ -228,7 +228,7 @@ class MysqlAdminService {
 	 */
 	public function createUser(MysqlUserModel $user) {
 		if($this->checkUserExists($user)) {
-			$this->_logger->err('(MysqlAdminService) User already exists: ' . $user->getUsername());
+			$this->_logger->err('(MysqlBundle) User already exists: ' . $user->getUsername());
 			throw new UserAlreadyExistsException();
 		}
 
@@ -237,7 +237,7 @@ class MysqlAdminService {
 		$result = $this->_mysqli->query($q);
 
 		if($result) {
-			$this->_logger->info('(MysqlAdminService) Created user: ' . $user->getUsername());
+			$this->_logger->info('(MysqlBundle) Created user: ' . $user->getUsername());
 
 			return true;
 		}
@@ -255,7 +255,7 @@ class MysqlAdminService {
 	 */
 	public function dropUser(MysqlUserModel $user) {
 		if(!$this->checkUserExists($user)) {
-			$this->_logger->err('(MysqlAdminService) User not exists: ' . $user->getUsername());
+			$this->_logger->err('(MysqlBundle) User not exists: ' . $user->getUsername());
 			throw new UserNotExistsException();
 		}
 
@@ -264,7 +264,7 @@ class MysqlAdminService {
 		$result = $this->_mysqli->query($q);
 
 		if($result) {
-			$this->_logger->info('(MysqlAdminService) Deleted user: ' . $user->getUsername());
+			$this->_logger->info('(MysqlBundle) Deleted user: ' . $user->getUsername());
 
 			return true;
 		}
@@ -282,7 +282,7 @@ class MysqlAdminService {
 	 */
 	public function setUserPassword(MysqlUserModel $user) {
 		if(!$this->checkUserExists($user)) {
-			$this->_logger->err('(MysqlAdminService) User not exists: ' . $user->getUsername());
+			$this->_logger->err('(MysqlBundle) User not exists: ' . $user->getUsername());
 			throw new UserNotExistsException();
 		}
 
@@ -291,7 +291,7 @@ class MysqlAdminService {
 		$result = $this->_mysqli->query($q);
 
 		if($result) {
-			$this->_logger->info('(MysqlAdminService) Changed user password: ' . $user->getUsername());
+			$this->_logger->info('(MysqlBundle) Changed user password: ' . $user->getUsername());
 
 			return true;
 		}
@@ -309,7 +309,7 @@ class MysqlAdminService {
 	 */
 	public function grantPermissionsOnDatabase(MysqlDatabaseModel $database) {
 		if(!$this->checkDatabaseExists($database)) {
-			$this->_logger->err('(MysqlAdminService) Database not exists: ' . $database->getName());
+			$this->_logger->err('(MysqlBundle) Database not exists: ' . $database->getName());
 			throw new DatabaseNotExistsException();
 		}
 
@@ -320,11 +320,11 @@ class MysqlAdminService {
 			$result = $this->_mysqli->query($q);
 
 			if(!$result) {
-				$this->_logger->err('(MysqlAdminService) Could not grant permissions on database: ' . $database->getName());
+				$this->_logger->err('(MysqlBundle) Could not grant permissions on database: ' . $database->getName());
 			}
 		}
 
-		$this->_logger->info('(MysqlAdminService) Granted permissions on database: ' . $database->getName());
+		$this->_logger->info('(MysqlBundle) Granted permissions on database: ' . $database->getName());
 
 		return true;
 	}
