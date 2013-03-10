@@ -44,6 +44,15 @@ abstract class AbstractController extends Controller {
 	}
 
 	/**
+	 * Add message to flashbag
+	 *
+	 * @param string $message
+	 */
+	protected function _addFlash($message) {
+		$this->_getSession()->getFlashBag()->add('alert', $message);
+	}
+
+	/**
 	 * Get logger
 	 *
 	 * @return Logger
