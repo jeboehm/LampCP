@@ -20,7 +20,8 @@
         "jboehm/passwd-bundle": "dev-master",
         "braincrafted/bootstrap-bundle": "dev-develop",
 		"friendsofsymfony/user-bundle": "2.0.*@dev",
-        "knplabs/knp-menu-bundle": "2.0.*@dev"
+        "knplabs/knp-menu-bundle": "2.0.*@dev",
+        "stof/doctrine-extensions-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

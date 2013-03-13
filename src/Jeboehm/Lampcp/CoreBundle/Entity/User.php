@@ -20,7 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table()
  * @ORM\Entity
  */
-class User {
+class User extends AbstractEntity {
 	/**
 	 * @var integer
 	 *

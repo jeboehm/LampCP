@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity(fields = {"mailaddress", "target"})
  */
-class MailForward {
+class MailForward extends AbstractEntity {
 	/**
 	 * @var integer
 	 *

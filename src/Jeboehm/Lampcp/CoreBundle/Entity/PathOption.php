@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity(fields = {"path", "domain"})
  */
-class PathOption {
+class PathOption extends AbstractEntity {
 	/**
 	 * @var integer
 	 *

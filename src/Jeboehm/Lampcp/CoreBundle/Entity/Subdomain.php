@@ -23,7 +23,7 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Entity
  * @UniqueEntity(fields = {"subdomain", "domain"})
  */
-class Subdomain {
+class Subdomain extends AbstractEntity {
 	/**
 	 * @var integer
 	 *
