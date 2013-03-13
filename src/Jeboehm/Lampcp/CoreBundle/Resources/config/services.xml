@@ -18,6 +18,8 @@ http://www.gnu.org/licenses/gpl-2.0.txt
     <parameters>
         <parameter key="jeboehm_lampcp_core.domainselector.class">Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService</parameter>
         <parameter key="jeboehm_lampcp_core.cryptservice.class">Jeboehm\Lampcp\CoreBundle\Service\CryptService</parameter>
+        <parameter key="jeboehm_lampcp_core.changetrackingservice.class">Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService</parameter>
+        <parameter key="jeboehm_lampcp_core.cronservice.class">Jeboehm\Lampcp\CoreBundle\Service\CronService</parameter>
     </parameters>
 
     <services>
@@ -28,6 +30,14 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <service id="jeboehm_lampcp_core.domainselector" class="%jeboehm_lampcp_core.domainselector.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="session" />
+        </service>
+
+        <service id="jeboehm_lampcp_core.changetrackingservice" class="%jeboehm_lampcp_core.changetrackingservice.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="jeboehm_lampcp_core.cronservice" class="%jeboehm_lampcp_core.cronservice.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
     </services>
 </container>
