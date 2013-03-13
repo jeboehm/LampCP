@@ -23,21 +23,32 @@
             <td>{{ entity.domain }}</td>
         </tr>
         <tr>
-            <th>{{ "jeboehm.lampcp.corebundle.domaintype.path"|trans() }}</th>
-            <td>{{ entity.path }}</td>
+            <th>{{ "jeboehm.lampcp.corebundle.domaintype.parent"|trans() }}</th>
+            <td>
+                {% if entity.parent != null %}
+                    {{ entity.parent.domain }}
+                {% endif %}
+            </td>
         </tr>
-        <tr>
-            <th>{{ "jeboehm.lampcp.corebundle.domaintype.webroot"|trans() }}</th>
-            <td>{{ entity.webroot }}</td>
-        </tr>
-        <tr>
-            <th>{{ "jeboehm.lampcp.corebundle.domaintype.redirectUrl"|trans() }}</th>
-            <td>{{ entity.redirectUrl }}</td>
-        </tr>
-        <tr>
-            <th>{{ "jeboehm.lampcp.corebundle.domaintype.user"|trans() }}</th>
-            <td>{{ entity.user.name }}</td>
-        </tr>
+        {% if entity.parent == null %}
+            <tr>
+                <th>{{ "jeboehm.lampcp.corebundle.domaintype.path"|trans() }}</th>
+                <td>{{ entity.path }}</td>
+            </tr>
+            <tr>
+                <th>{{ "jeboehm.lampcp.corebundle.domaintype.webroot"|trans() }}</th>
+                <td>{{ entity.webroot }}</td>
+            </tr>
+            <tr>
+                <th>{{ "jeboehm.lampcp.corebundle.domaintype.redirectUrl"|trans() }}</th>
+                <td>{{ entity.redirectUrl }}</td>
+            </tr>
+            <tr>
+                <th>{{ "jeboehm.lampcp.corebundle.domaintype.user"|trans() }}</th>
+                <td>{{ entity.user.name }}</td>
+            </tr>
+        {% endif %}
+
         <tr>
             <th>{{ "title.page.ipaddress"|trans() }}</th>
             <td>
@@ -58,25 +69,28 @@
                 <td></td>
             {% endif %}
         </tr>
-        <tr>
-            <th>{{ "jeboehm.lampcp.corebundle.domaintype.forceSsl"|trans() }}</th>
-            <td>{{ entity.forceSsl }}</td>
-        </tr>
-        <tr>
-            <th>{{ "jeboehm.lampcp.corebundle.domaintype.isWildcard"|trans() }}</th>
-            <td>{{ entity.isWildcard }}</td>
-        </tr>
-        <tr>
-            <th>{{ "jeboehm.lampcp.corebundle.domaintype.parsePhp"|trans() }}</th>
-            <td>{{ entity.parsePhp }}</td>
-        </tr>
-        <tr>
-            <th>{{ "jeboehm.lampcp.corebundle.domaintype.customconfig"|trans() }}</th>
-            <td>
-                {% if entity.customconfig != "" %}
-                    <pre>{{ entity.customconfig }}</pre>{% endif %}
-            </td>
-        </tr>
+
+        {% if entity.parent == null %}
+            <tr>
+                <th>{{ "jeboehm.lampcp.corebundle.domaintype.forceSsl"|trans() }}</th>
+                <td>{{ macros.boollabel(entity.forceSsl) }}</td>
+            </tr>
+            <tr>
+                <th>{{ "jeboehm.lampcp.corebundle.domaintype.isWildcard"|trans() }}</th>
+                <td>{{ macros.boollabel(entity.isWildcard) }}</td>
+            </tr>
+            <tr>
+                <th>{{ "jeboehm.lampcp.corebundle.domaintype.parsePhp"|trans() }}</th>
+                <td>{{ macros.boollabel(entity.parsePhp) }}</td>
+            </tr>
+            <tr>
+                <th>{{ "jeboehm.lampcp.corebundle.domaintype.customconfig"|trans() }}</th>
+                <td>
+                    {% if entity.customconfig != "" %}
+                        <pre>{{ entity.customconfig }}</pre>{% endif %}
+                </td>
+            </tr>
+        {% endif %}
         <tr>
             <th>{{ "title.page.subdomain"|trans() }}</th>
             <td>{{ entity.subdomain|length }}</td>

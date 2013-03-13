@@ -78,6 +78,11 @@ button:
     delete.confirm: Are you sure?
     back: Back to the list
     show: Show
+    add: Add
+
+label:
+    enabled: enabled
+    disabled: disabled
 
 # Seiteninhalte
 default.topmenu.no.domain: No domain chosen
@@ -96,6 +101,7 @@ all:
 jeboehm.lampcp.corebundle:
     domaintype:
         domain: Domain
+        parent: Alias domain
         path: Path
         webroot: Web path
         redirectUrl: Uri redirect
@@ -110,6 +116,7 @@ jeboehm.lampcp.corebundle:
 
     subdomaintype:
         subdomain: Subdomain
+        parent: Alias subdomain
         path: Path
         redirectUrl: Uri redirect
         redirectUrl.help: Redirect requests to this address

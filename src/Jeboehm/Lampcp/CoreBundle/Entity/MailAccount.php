@@ -20,7 +20,7 @@ use Jeboehm\Lampcp\CoreBundle\Utilities\FilesizeUtility;
  * @ORM\Table()
  * @ORM\Entity
  */
-class MailAccount {
+class MailAccount extends AbstractEntity {
 	/**
 	 * @var integer
 	 *

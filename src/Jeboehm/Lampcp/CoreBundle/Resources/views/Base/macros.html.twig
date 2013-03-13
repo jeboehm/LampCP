@@ -15,6 +15,14 @@
 {% endif %}
 {% endmacro %}
 
+{% macro boollabel(value) %}
+    {% if value == "1" %}
+        {{ ("label.enabled"|trans())|label_success }}
+    {% else %}
+        {{ ("label.disabled"|trans())|label }}
+    {% endif %}
+{% endmacro %}
+
 {% macro formbuttongrp(pathBack, pathDelete) %}
     <hr>
 

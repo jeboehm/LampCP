@@ -19,6 +19,11 @@ class DomainType extends AbstractType {
 			->add('domain', null, array(
 									   'read_only' => $this->_getIsEditMode($builder)
 								  ))
+			->add('parent', 'entity', array(
+										   'class'    => 'JeboehmLampcpCoreBundle:Domain',
+										   'property' => 'domain',
+										   'required' => false,
+									  ))
 			->add('path', null, array('read_only' => true))
 			->add('webroot')
 			->add('redirectUrl', null, array(
@@ -45,13 +50,7 @@ class DomainType extends AbstractType {
 			->add('forceSsl', null, array('required' => false))
 			->add('isWildcard', null, array('required' => false))
 			->add('parsePhp', null, array('required' => false))
-			->add('customconfig', null, array(
-											 'required' => false,
-											 'attr'     => array(
-												 'class' => 'input-xxlarge',
-												 'rows'  => 7
-											 )
-										));
+			->add('customconfig', null, array('required' => false));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

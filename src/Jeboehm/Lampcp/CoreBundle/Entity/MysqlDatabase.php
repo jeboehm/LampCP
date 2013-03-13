@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository")
  * @UniqueEntity(fields = {"name"})
  */
-class MysqlDatabase {
+class MysqlDatabase extends AbstractEntity {
 	/**
 	 * @var integer
 	 *

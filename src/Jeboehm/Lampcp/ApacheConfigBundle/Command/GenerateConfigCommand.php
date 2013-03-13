@@ -14,12 +14,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
+use Jeboehm\Lampcp\CoreBundle\Service\CronService;
+use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService;
-use Jeboehm\Lampcp\CoreBundle\Entity\BuilderChangeRepository;
-use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 
 class GenerateConfigCommand extends AbstractCommand {
 	/**
@@ -29,13 +30,13 @@ class GenerateConfigCommand extends AbstractCommand {
 	 */
 	protected function _getEntitys() {
 		$entitys = array(
-			'Jeboehm\Lampcp\CoreBundle\Entity\Domain',
-			'Jeboehm\Lampcp\CoreBundle\Entity\Subdomain',
-			'Jeboehm\Lampcp\CoreBundle\Entity\PathOption',
-			'Jeboehm\Lampcp\CoreBundle\Entity\Protection',
-			'Jeboehm\Lampcp\CoreBundle\Entity\ProtectionUser',
-			'Jeboehm\Lampcp\CoreBundle\Entity\IpAddress',
-			'Jeboehm\Lampcp\CoreBundle\Entity\Certificate',
+			'JeboehmLampcpCoreBundle:Domain',
+			'JeboehmLampcpCoreBundle:Subdomain',
+			'JeboehmLampcpCoreBundle:PathOption',
+			'JeboehmLampcpCoreBundle:Protection',
+			'JeboehmLampcpCoreBundle:ProtectionUser',
+			'JeboehmLampcpCoreBundle:IpAddress',
+			'JeboehmLampcpCoreBundle:Certificate',
 		);
 
 		return $entitys;
@@ -101,10 +102,10 @@ class GenerateConfigCommand extends AbstractCommand {
 		}
 
 		if($run) {
-			$this->_getLogger()->info('(GenerateConfigCommand) Executing...');
+			$this->_getLogger()->info('(ApacheConfigBundle) Executing...');
 
 			if($input->getOption('verbose')) {
-				$output->writeln('(GenerateConfigCommand) Executing...');
+				$output->writeln('(ApacheConfigBundle) Executing...');
 			}
 
 			try {
@@ -121,14 +122,16 @@ class GenerateConfigCommand extends AbstractCommand {
 				$protection->buildAll();
 
 				$this->_restartApache();
+
+				$this->_getCronService()->updateLastRun($this->getName());
 			} catch(\Exception $e) {
-				$this->_getLogger()->err('(GenerateConfigCommand) Error: ' . $e->getMessage());
+				$this->_getLogger()->err('(ApacheConfigBundle) Error: ' . $e->getMessage());
 
 				throw $e;
 			}
 		} else {
 			if($input->getOption('verbose')) {
-				$output->writeln('(GenerateConfigCommand) No changes detected.');
+				$output->writeln('(ApacheConfigBundle) No changes detected.');
 			}
 		}
 	}
@@ -139,18 +142,24 @@ class GenerateConfigCommand extends AbstractCommand {
 	 * @return bool
 	 */
 	protected function _isChanged() {
-		/** @var $repo BuilderChangeRepository */
-		$repo = $this->_getDoctrine()->getRepository('JeboehmLampcpCoreBundle:BuilderChange');
-		$data = $repo->getByEntitynamesArray($this->_getEntitys());
+		$last = $this->_getCronService()->getLastRun($this->getName());
 
-		if(count($data) > 0) {
-			foreach($data as $entity) {
-				$this->_getDoctrine()->remove($entity);
-			}
-
-			$this->_getDoctrine()->flush();
-
+		/**
+		 * First run
+		 */
+		if(!$last) {
 			return true;
+		} else {
+			/**
+			 * Find entities newer than $last
+			 */
+			foreach($this->_getEntitys() as $entity) {
+				$result = $this->_getChangeTrackingService()->findNewer($entity, $last);
+
+				if(count($result) > 0) {
+					return true;
+				}
+			}
 		}
 
 		return false;
@@ -166,7 +175,7 @@ class GenerateConfigCommand extends AbstractCommand {
 			->getParameter('apache.cmdapache2restart');
 
 		if(!empty($cmd)) {
-			$this->_getLogger()->info('(GenerateConfigCommand) Restarting apache2...');
+			$this->_getLogger()->info('(ApacheConfigBundle) Restarting apache2...');
 
 			if(strpos($cmd, ' ') !== false) {
 				$cmdSplit = explode(' ', $cmd);
@@ -181,6 +190,23 @@ class GenerateConfigCommand extends AbstractCommand {
 		}
 	}
 
+	/**
+	 * Get cron service
+	 *
+	 * @return CronService
+	 */
+	protected function _getCronService() {
+		return $this->getContainer()->get('jeboehm_lampcp_core.cronservice');
+	}
+
+	/**
+	 * Get change tracking service
+	 *
+	 * @return ChangeTrackingService
+	 */
+	protected function _getChangeTrackingService() {
+		return $this->getContainer()->get('jeboehm_lampcp_core.changetrackingservice');
+	}
 
 	/**
 	 * Get "enabled" from config service

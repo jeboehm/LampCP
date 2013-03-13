@@ -19,7 +19,7 @@ class ConfigProvider extends AbstractConfigProvider {
 		$this
 			->_createEntity('enabled', ConfigTypes::TYPE_BOOL, $group, true)
 			->_createEntity('rootuser', ConfigTypes::TYPE_STRING, $group, 'root')
-			->_createEntity('rootpassword', ConfigTypes::TYPE_STRING, $group, '')
+			->_createEntity('rootpassword', ConfigTypes::TYPE_PASSWORD, $group, '')
 			->_createEntity('dbprefix', ConfigTypes::TYPE_STRING, $group, 'lampcpsql');
 	}
 }

@@ -39,14 +39,14 @@ class GenerateLampcpConfigCommand extends GenerateConfigCommand {
 	 * @return int|null|void
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$this->_getLogger()->info('(GenerateLampcpConfigCommand) Executing...');
+		$this->_getLogger()->info('(ApacheConfigBundle) Executing...');
 
 		$dir = $this
 			->_getConfigService()
 			->getParameter('apache.pathwww') . '/lampcp';
 
 		if(!is_dir($dir . '/htdocs/app')) {
-			$msg = '(GenerateLampcpConfigCommand) Could not generate config, because this is not a supported directory structure. Expecting LampCP in ' . $dir . '/htdocs';
+			$msg = '(ApacheConfigBundle) Could not generate config, because this is not a supported directory structure. Expecting LampCP in ' . $dir . '/htdocs';
 			$this->_getLogger()->err($msg);
 
 			throw new \Exception($msg);
@@ -93,7 +93,7 @@ class GenerateLampcpConfigCommand extends GenerateConfigCommand {
 						));
 
 		if(!$user) {
-			$msg = '(GenerateLampcpConfigCommand) Cannot find User ' . $username . '!';
+			$msg = '(ApacheConfigBundle) Cannot find User ' . $username . '!';
 			$this->_getLogger()->err($msg);
 
 			throw new \Exception($msg);

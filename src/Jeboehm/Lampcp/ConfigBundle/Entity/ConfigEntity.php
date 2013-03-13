@@ -14,13 +14,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Jeboehm\Lampcp\CoreBundle\Entity\AbstractEntity;
 
 /**
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Jeboehm\Lampcp\ConfigBundle\Entity\ConfigEntityRepository")
  * @UniqueEntity(fields = {"name", "configgroup"})
  */
-class ConfigEntity {
+class ConfigEntity extends AbstractEntity {
 	/**
 	 * @var integer
 	 *
@@ -58,6 +59,8 @@ class ConfigEntity {
 	private $value;
 
 	/**
+	 * Set ConfigGroup
+	 *
 	 * @param \Jeboehm\Lampcp\ConfigBundle\Entity\ConfigGroup $configgroup
 	 *
 	 * @return ConfigEntity
@@ -69,6 +72,8 @@ class ConfigEntity {
 	}
 
 	/**
+	 * Get ConfigGroup
+	 *
 	 * @return \Jeboehm\Lampcp\ConfigBundle\Entity\ConfigGroup
 	 */
 	public function getConfiggroup() {
@@ -76,6 +81,8 @@ class ConfigEntity {
 	}
 
 	/**
+	 * Set id
+	 *
 	 * @param int $id
 	 *
 	 * @return ConfigEntity
@@ -87,6 +94,8 @@ class ConfigEntity {
 	}
 
 	/**
+	 * Get id
+	 *
 	 * @return int
 	 */
 	public function getId() {
@@ -94,6 +103,8 @@ class ConfigEntity {
 	}
 
 	/**
+	 * Set name
+	 *
 	 * @param string $name
 	 *
 	 * @return ConfigEntity
@@ -105,6 +116,8 @@ class ConfigEntity {
 	}
 
 	/**
+	 * Get name
+	 *
 	 * @return string
 	 */
 	public function getName() {
@@ -112,6 +125,8 @@ class ConfigEntity {
 	}
 
 	/**
+	 * Set type
+	 *
 	 * @param int $type
 	 *
 	 * @return ConfigEntity
@@ -123,6 +138,8 @@ class ConfigEntity {
 	}
 
 	/**
+	 * Get type
+	 *
 	 * @return int
 	 */
 	public function getType() {
@@ -130,6 +147,8 @@ class ConfigEntity {
 	}
 
 	/**
+	 * Set value
+	 *
 	 * @param string $value
 	 *
 	 * @return ConfigEntity
@@ -141,6 +160,8 @@ class ConfigEntity {
 	}
 
 	/**
+	 * Get value
+	 *
 	 * @return string
 	 */
 	public function getValue() {

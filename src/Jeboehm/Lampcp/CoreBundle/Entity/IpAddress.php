@@ -21,7 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table()
  * @ORM\Entity
  */
-class IpAddress {
+class IpAddress extends AbstractEntity {
 	/**
 	 * @var integer
 	 *

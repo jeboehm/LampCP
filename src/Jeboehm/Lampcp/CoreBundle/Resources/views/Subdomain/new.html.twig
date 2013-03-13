@@ -12,8 +12,20 @@
 {% block content %}
     <h1>{{ "create.page.subdomain"|trans() }}</h1>
 
-    <form action="{{ path('config_subdomain_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
+    <form action="{{ path('config_subdomain_create') }}"
+          class="form-horizontal" method="post" {{ form_enctype(form) }}>
+        {{ form_row(form.subdomain, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.parent, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.path, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.redirectUrl, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.certificate, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.forceSsl, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.isWildcard, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.parsePhp, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.customconfig,
+        {'form_type': 'horizontal', 'attr' : {'class' : 'input-xxlarge', 'rows' : 7 }}) }}
+
+        {{ form_rest(form) }}
 
         {{ macros.formbuttongrp(path('config_subdomain')) }}
     </form>

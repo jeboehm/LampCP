@@ -65,7 +65,7 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
 			throw new CouldNotWriteFileException();
 		}
 
-		$this->_getLogger()->info('(ProtectionBuilderService) Generating AuthUserFile:' . $pathAuthUserFile);
+		$this->_getLogger()->info('(ApacheConfigBundle) Generating AuthUserFile:' . $pathAuthUserFile);
 		file_put_contents($pathAuthUserFile, $contents);
 
 		// Change rights
@@ -117,7 +117,7 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
 								));
 
 				if(!$protection) {
-					$this->_getLogger()->info('(ProtectionBuilderService) Deleting obsolete AuthUserFile: ' . $filepath);
+					$this->_getLogger()->info('(ApacheConfigBundle) Deleting obsolete AuthUserFile: ' . $filepath);
 					$fs->remove($filepath);
 				}
 			}

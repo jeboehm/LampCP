@@ -51,7 +51,7 @@ class CertificateBuilderService extends ParentCertificateBuilderService implemen
 			$mSetPath = 'set' . $method . 'Path';
 
 			if($cert->$mGet()) {
-				$this->_getLogger()->info('(CertificateBuilderService) Generating Cert.: ' . $fullfilename);
+				$this->_getLogger()->info('(LightyConfigBundle) Generating Cert.: ' . $fullfilename);
 
 				if($ext === self::_EXTENSION_PRIVATEKEY) {
 					$content = $this->_getCryptService()->decrypt($cert->$mGet());
@@ -91,7 +91,7 @@ class CertificateBuilderService extends ParentCertificateBuilderService implemen
 				}
 			} else {
 				if($fs->exists($fullfilename)) {
-					$this->_getLogger()->info('(CertificateBuilderService) Deleting Cert.: ' . $fullfilename);
+					$this->_getLogger()->info('(LightyConfigBundle) Deleting Cert.: ' . $fullfilename);
 
 					$fs->remove($fullfilename);
 				}

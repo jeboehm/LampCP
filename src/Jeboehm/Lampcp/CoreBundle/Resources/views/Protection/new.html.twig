@@ -12,8 +12,13 @@
 {% block content %}
     <h1>{{ "create.page.protection"|trans() }}</h1>
 
-    <form action="{{ path('config_protection_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
+    <form action="{{ path('config_protection_create') }}" class="form-horizontal"
+          method="post" {{ form_enctype(form) }}>
+
+        {{ form_row(form.path, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.realm, {'form_type': 'horizontal'}) }}
+
+        {{ form_rest(form) }}
 
         {{ macros.formbuttongrp(path('config_protection')) }}
     </form>

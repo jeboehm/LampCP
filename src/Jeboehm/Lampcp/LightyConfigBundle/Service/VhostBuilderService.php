@@ -43,7 +43,7 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
 			throw new CouldNotWriteFileException();
 		}
 
-		$this->_getLogger()->info('(VhostBuilderService) Creating new config: ' . $target);
+		$this->_getLogger()->info('(LightyConfigBundle) Creating new config: ' . $target);
 		file_put_contents($target, $content);
 	}
 
@@ -68,7 +68,7 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
 																		   'domain' => $domain,
 																	  ));
 
-			$this->_getLogger()->info('(VhostBuilderService) Generating FCGI-Starter: ' . $filename);
+			$this->_getLogger()->info('(LightyConfigBundle) Generating FCGI-Starter: ' . $filename);
 			file_put_contents($filename, $content);
 		}
 
@@ -84,59 +84,9 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
 	 * Build all configurations
 	 */
 	public function buildAll() {
-		/** @var $models Vhost[] */
-		$models = array();
-
-		foreach($this->_getAllDomains() as $domain) {
-			if($domain->getIpaddress()->count() > 0) {
-				foreach($domain->getIpaddress() as $ipaddress) {
-					/** @var $ipaddress IpAddress */
-					$vhost = new Vhost();
-					$vhost
-						->setDomain($domain)
-						->setIpaddress($ipaddress);
-
-					if($vhost->getSSLEnabled() || !$ipaddress->getHasSsl()) {
-						$models[] = $vhost;
-					}
-				}
-			} else {
-				$vhost = new Vhost();
-				$vhost->setDomain($domain);
-				$models[] = $vhost;
-			}
-
-			$this->_generatePhpIniForDomain($domain);
-			$this->_generateFcgiStarterForDomain($domain);
-		}
-
-		foreach($this->_getAllSubdomains() as $subdomain) {
-			if($subdomain->getDomain()->getIpaddress()->count() > 0) {
-				foreach($subdomain->getDomain()->getIpaddress() as $ipaddress) {
-					/** @var $ipaddress IpAddress */
-					$vhost = new Vhost();
-					$vhost
-						->setDomain($subdomain->getDomain())
-						->setSubdomain($subdomain)
-						->setIpaddress($ipaddress);
-
-					if($vhost->getSSLEnabled() || !$ipaddress->getHasSsl()) {
-						$models[] = $vhost;
-					}
-				}
-			} else {
-				$vhost = new Vhost();
-				$vhost
-					->setDomain($subdomain->getDomain())
-					->setSubdomain($subdomain);
-				$models[] = $vhost;
-			}
-		}
-
-		$models  = $this->_orderVhosts($models);
 		$content = $this->_renderTemplate(self::_twigVhost, array(
 																 'defaultcert' => $this->_getSingleCertificateWithDomainsAssigned(),
-																 'vhosts'      => $models,
+																 'vhosts'      => $this->_getVhostModels(),
 																 'ips'         => $this->_getAllIpAddresses(),
 															));
 
@@ -166,25 +116,11 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
 	}
 
 	/**
-	 * Order vhost models by wildcard
+	 * Get new Vhost model
 	 *
-	 * @param array $vhosts
-	 *
-	 * @return array
+	 * @return \Jeboehm\Lampcp\LightyConfigBundle\Model\Vhost
 	 */
-	protected function _orderVhosts(array $vhosts) {
-		$nonWc = array();
-		$wc    = array();
-
-		foreach($vhosts as $vhost) {
-			/** @var $vhost Vhost */
-			if($vhost->getIsWildcard()) {
-				$wc[] = $vhost;
-			} else {
-				$nonWc[] = $vhost;
-			}
-		}
-
-		return array_merge($wc, $nonWc);
+	protected function _getVhost() {
+		return new Vhost();
 	}
 }

@@ -10,14 +10,14 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Command;
 
-use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
-use Jeboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Jeboehm\Lampcp\CoreBundle\Service\CronService;
+use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\MysqlBundle\Service\MysqlAdminService;
 use Jeboehm\Lampcp\MysqlBundle\Service\MysqlSynchronizerService;
-use Jeboehm\Lampcp\CoreBundle\Entity\BuilderChangeRepository;
 
 class GenerateDatabasesCommand extends AbstractCommand {
 	/** @var MysqlAdminService */
@@ -33,7 +33,7 @@ class GenerateDatabasesCommand extends AbstractCommand {
 	 */
 	protected function _getEntitys() {
 		$entitys = array(
-			'Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabase',
+			'JeboehmLampcpCoreBundle:MysqlDatabase',
 		);
 
 		return $entitys;
@@ -111,19 +111,20 @@ class GenerateDatabasesCommand extends AbstractCommand {
 		}
 
 		if($run) {
-			$this->_getLogger()->info('(GenerateDatabasesCommand) Executing...');
+			$this->_getLogger()->info('(MysqlBundle) Executing...');
 
 			if($input->getOption('verbose')) {
-				$output->writeln('(GenerateDatabasesCommand) Executing...');
+				$output->writeln('(MysqlBundle) Executing...');
 			}
 
 			$this->_getMysqlSynchronizerService()->createDatabases();
 			$this->_getMysqlSynchronizerService()->deleteObsoleteDatabases();
 			$this->_getMysqlSynchronizerService()->deleteObsoleteUsers();
 
+			$this->_getCronService()->updateLastRun($this->getName());
 		} else {
 			if($input->getOption('verbose')) {
-				$output->writeln('(GenerateDatabasesCommand) No changes detected.');
+				$output->writeln('(MysqlBundle) No changes detected.');
 			}
 		}
 	}
@@ -134,21 +135,45 @@ class GenerateDatabasesCommand extends AbstractCommand {
 	 * @return bool
 	 */
 	protected function _isChanged() {
-		/** @var $repo BuilderChangeRepository */
-		$repo = $this->_getDoctrine()->getRepository('JeboehmLampcpCoreBundle:BuilderChange');
-		$data = $repo->getByEntitynamesArray($this->_getEntitys());
+		$last = $this->_getCronService()->getLastRun($this->getName());
 
-		if(count($data) > 0) {
-			foreach($data as $entity) {
-				$this->_getDoctrine()->remove($entity);
-			}
-
-			$this->_getDoctrine()->flush();
-
+		/**
+		 * First run
+		 */
+		if(!$last) {
 			return true;
+		} else {
+			/**
+			 * Find entities newer than $last
+			 */
+			foreach($this->_getEntitys() as $entity) {
+				$result = $this->_getChangeTrackingService()->findNewer($entity, $last);
+
+				if(count($result) > 0) {
+					return true;
+				}
+			}
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get cron service
+	 *
+	 * @return CronService
+	 */
+	protected function _getCronService() {
+		return $this->getContainer()->get('jeboehm_lampcp_core.cronservice');
+	}
+
+	/**
+	 * Get change tracking service
+	 *
+	 * @return ChangeTrackingService
+	 */
+	protected function _getChangeTrackingService() {
+		return $this->getContainer()->get('jeboehm_lampcp_core.changetrackingservice');
 	}
 
 	/**
