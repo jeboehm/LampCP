@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\SubdomainType;
  *
  * @Route("/config/subdomain")
  */
-class SubdomainController extends AbstractController implements ICrudController {
+class SubdomainController extends AbstractController {
 	/**
 	 * Lists all Subdomain entities.
 	 *
@@ -41,17 +41,10 @@ class SubdomainController extends AbstractController implements ICrudController 
 	/**
 	 * Finds and displays a Subdomain entity.
 	 *
-	 * @Route("/{id}/show", name="config_subdomain_show")
+	 * @Route("/{entity}/show", name="config_subdomain_show")
 	 * @Template()
 	 */
-	public function showAction($id) {
-		/** @var $entity Subdomain */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Subdomain entity.');
-		}
-
+	public function showAction(Subdomain $entity) {
 		return array(
 			'entity' => $entity,
 		);
@@ -90,7 +83,7 @@ class SubdomainController extends AbstractController implements ICrudController 
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_subdomain_show', array('id' => $entity->getId())));
+			return $this->redirect($this->generateUrl('config_subdomain_show', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -102,17 +95,10 @@ class SubdomainController extends AbstractController implements ICrudController 
 	/**
 	 * Displays a form to edit an existing Subdomain entity.
 	 *
-	 * @Route("/{id}/edit", name="config_subdomain_edit")
+	 * @Route("/{entity}/edit", name="config_subdomain_edit")
 	 * @Template()
 	 */
-	public function editAction($id) {
-		/** @var $entity Subdomain */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Subdomain entity.');
-		}
-
+	public function editAction(Subdomain $entity) {
 		$editForm = $this->createForm(new SubdomainType(), $entity);
 
 		return array(
@@ -124,27 +110,20 @@ class SubdomainController extends AbstractController implements ICrudController 
 	/**
 	 * Edits an existing Subdomain entity.
 	 *
-	 * @Route("/{id}/update", name="config_subdomain_update")
+	 * @Route("/{entity}/update", name="config_subdomain_update")
 	 * @Method("POST")
 	 * @Template("JeboehmLampcpCoreBundle:Subdomain:edit.html.twig")
 	 */
-	public function updateAction(Request $request, $id) {
-		/** @var $entity Subdomain */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Subdomain entity.');
-		}
-
+	public function updateAction(Request $request, Subdomain $entity) {
 		$editForm = $this->createForm(new SubdomainType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_subdomain_edit', array('id' => $id)));
+			return $this->redirect($this->generateUrl('config_subdomain_edit', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -156,17 +135,10 @@ class SubdomainController extends AbstractController implements ICrudController 
 	/**
 	 * Deletes a Subdomain entity.
 	 *
-	 * @Route("/{id}/delete", name="config_subdomain_delete")
+	 * @Route("/{entity}/delete", name="config_subdomain_delete")
 	 */
-	public function deleteAction($id) {
-		/** @var $entity Subdomain */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Subdomain entity.');
-		}
-
+	public function deleteAction(Subdomain $entity) {
+		$em = $this->getDoctrine()->getManager();
 		$em->remove($entity);
 		$em->flush();
 
@@ -178,7 +150,7 @@ class SubdomainController extends AbstractController implements ICrudController 
 	 *
 	 * @return \Doctrine\Common\Persistence\ObjectRepository
 	 */
-	protected function _getRepository() {
+	private function _getRepository() {
 		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Subdomain');
 	}
 }
