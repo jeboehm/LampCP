@@ -12,7 +12,7 @@
 {% block content %}
     <h1>{{ "create.page.protectionuser"|trans() }}</h1>
 
-    <form action="{{ path('config_protectionuser_create', { 'protectionid': protection.id }) }}"
+    <form action="{{ path('config_protectionuser_create', { 'protection': protection.id }) }}"
           class="form-horizontal" method="post" {{ form_enctype(form) }}>
 
         {{ form_row(form.username, {'form_type': 'horizontal'}) }}
@@ -21,6 +21,6 @@
 
         {{ form_rest(form) }}
 
-        {{ macros.formbuttongrp(path('config_protectionuser', { 'protectionid': entity.protection.id })) }}
+        {{ macros.formbuttongrp(path('config_protectionuser', { 'protection': entity.protection.id })) }}
     </form>
 {% endblock %}
