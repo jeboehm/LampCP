@@ -23,7 +23,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\MailAddressType;
  *
  * @Route("/config/mailaddress")
  */
-class MailAddressController extends AbstractController implements ICrudController {
+class MailAddressController extends AbstractController {
 	/**
 	 * Lists all MailAddress entities.
 	 *
@@ -42,17 +42,10 @@ class MailAddressController extends AbstractController implements ICrudControlle
 	/**
 	 * Finds and displays a MailAddress entity.
 	 *
-	 * @Route("/{id}/show", name="config_mailaddress_show")
+	 * @Route("/{entity}/show", name="config_mailaddress_show")
 	 * @Template()
 	 */
-	public function showAction($id) {
-		/** @var $entity MailAddress */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find MailAddress entity.');
-		}
-
+	public function showAction(MailAddress $entity) {
 		return array(
 			'entity' => $entity,
 		);
@@ -91,7 +84,7 @@ class MailAddressController extends AbstractController implements ICrudControlle
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_mailaddress_show', array('id' => $entity->getId())));
+			return $this->redirect($this->generateUrl('config_mailaddress_show', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -103,17 +96,10 @@ class MailAddressController extends AbstractController implements ICrudControlle
 	/**
 	 * Displays a form to edit an existing MailAddress entity.
 	 *
-	 * @Route("/{id}/edit", name="config_mailaddress_edit")
+	 * @Route("/{entity}/edit", name="config_mailaddress_edit")
 	 * @Template()
 	 */
-	public function editAction($id) {
-		/** @var $entity MailAddress */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find MailAddress entity.');
-		}
-
+	public function editAction(MailAddress $entity) {
 		$editForm = $this->createForm(new MailAddressType(), $entity);
 
 		return array(
@@ -125,24 +111,17 @@ class MailAddressController extends AbstractController implements ICrudControlle
 	/**
 	 * Edits an existing MailAddress entity.
 	 *
-	 * @Route("/{id}/update", name="config_mailaddress_update")
+	 * @Route("/{entity}/update", name="config_mailaddress_update")
 	 * @Method("POST")
 	 * @Template("JeboehmLampcpCoreBundle:MailAddress:edit.html.twig")
 	 */
-	public function updateAction(Request $request, $id) {
-		/** @var $entity MailAddress */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find MailAddress entity.');
-		}
-
+	public function updateAction(Request $request, MailAddress $entity) {
 		$oldForwards = $entity->getMailforward();
 		$editForm    = $this->createForm(new MailAddressType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			$em          = $this->getDoctrine()->getManager();
 			$newForwards = $entity->getMailforward();
 
 			/*
@@ -168,7 +147,7 @@ class MailAddressController extends AbstractController implements ICrudControlle
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_mailaddress_edit', array('id' => $id)));
+			return $this->redirect($this->generateUrl('config_mailaddress_edit', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -180,17 +159,10 @@ class MailAddressController extends AbstractController implements ICrudControlle
 	/**
 	 * Deletes a MailAddress entity.
 	 *
-	 * @Route("/{id}/delete", name="config_mailaddress_delete")
+	 * @Route("/{entity}/delete", name="config_mailaddress_delete")
 	 */
-	public function deleteAction($id) {
-		/** @var $entity MailAddress */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find MailAddress entity.');
-		}
-
+	public function deleteAction(MailAddress $entity) {
+		$em = $this->getDoctrine()->getManager();
 		$em->remove($entity->getMailaccount());
 
 		foreach($entity->getMailforward() as $forward) {
@@ -208,7 +180,7 @@ class MailAddressController extends AbstractController implements ICrudControlle
 	 *
 	 * @return \Doctrine\Common\Persistence\ObjectRepository
 	 */
-	protected function _getRepository() {
+	private function _getRepository() {
 		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:MailAddress');
 	}
 }

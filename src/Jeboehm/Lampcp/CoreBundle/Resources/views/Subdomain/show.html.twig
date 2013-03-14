@@ -70,5 +70,5 @@
         </tbody>
     </table>
 
-    {{ macros.showbuttongrp(path("config_subdomain"), path("config_subdomain_edit", { id : entity.id }), path("config_subdomain_delete", { id : entity.id })) }}
+    {{ macros.showbuttongrp(path("config_subdomain"), path("config_subdomain_edit", { 'entity' : entity.id }), path("config_subdomain_delete", { 'entity' : entity.id })) }}
 {% endblock %}

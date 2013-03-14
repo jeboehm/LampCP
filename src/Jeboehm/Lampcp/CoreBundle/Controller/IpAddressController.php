@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\IpAddressType;
  *
  * @Route("/config/ipaddress")
  */
-class IpAddressController extends AbstractController implements ICrudController {
+class IpAddressController extends AbstractController {
 	/**
 	 * Lists all IpAddress entities.
 	 *
@@ -41,17 +41,10 @@ class IpAddressController extends AbstractController implements ICrudController 
 	/**
 	 * Finds and displays a IpAddress entity.
 	 *
-	 * @Route("/{id}/show", name="config_ipaddress_show")
+	 * @Route("/{entity}/show", name="config_ipaddress_show")
 	 * @Template()
 	 */
-	public function showAction($id) {
-		/** @var $entity IpAddress */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find IpAddress entity.');
-		}
-
+	public function showAction(IpAddress $entity) {
 		return array(
 			'entity' => $entity,
 		);
@@ -90,7 +83,7 @@ class IpAddressController extends AbstractController implements ICrudController 
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_ipaddress_show', array('id' => $entity->getId())));
+			return $this->redirect($this->generateUrl('config_ipaddress_show', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -102,17 +95,10 @@ class IpAddressController extends AbstractController implements ICrudController 
 	/**
 	 * Displays a form to edit an existing IpAddress entity.
 	 *
-	 * @Route("/{id}/edit", name="config_ipaddress_edit")
+	 * @Route("/{entity}/edit", name="config_ipaddress_edit")
 	 * @Template()
 	 */
-	public function editAction($id) {
-		/** @var $entity IpAddress */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find IpAddress entity.');
-		}
-
+	public function editAction(IpAddress $entity) {
 		$editForm = $this->createForm(new IpAddressType(), $entity);
 
 		return array(
@@ -124,27 +110,20 @@ class IpAddressController extends AbstractController implements ICrudController 
 	/**
 	 * Edits an existing IpAddress entity.
 	 *
-	 * @Route("/{id}/update", name="config_ipaddress_update")
+	 * @Route("/{entity}/update", name="config_ipaddress_update")
 	 * @Method("POST")
 	 * @Template("JeboehmLampcpCoreBundle:IpAddress:edit.html.twig")
 	 */
-	public function updateAction(Request $request, $id) {
-		/** @var $entity IpAddress */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find IpAddress entity.');
-		}
-
+	public function updateAction(Request $request, IpAddress $entity) {
 		$editForm = $this->createForm(new IpAddressType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_ipaddress_edit', array('id' => $id)));
+			return $this->redirect($this->generateUrl('config_ipaddress_edit', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -156,17 +135,10 @@ class IpAddressController extends AbstractController implements ICrudController 
 	/**
 	 * Deletes a IpAddress entity.
 	 *
-	 * @Route("/{id}/delete", name="config_ipaddress_delete")
+	 * @Route("/{entity}/delete", name="config_ipaddress_delete")
 	 */
-	public function deleteAction($id) {
-		/** @var $entity IpAddress */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find IpAddress entity.');
-		}
-
+	public function deleteAction(IpAddress $entity) {
+		$em = $this->getDoctrine()->getManager();
 		$em->remove($entity);
 		$em->flush();
 
@@ -178,7 +150,7 @@ class IpAddressController extends AbstractController implements ICrudController 
 	 *
 	 * @return \Doctrine\Common\Persistence\ObjectRepository
 	 */
-	protected function _getRepository() {
+	private function _getRepository() {
 		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:IpAddress');
 	}
 }

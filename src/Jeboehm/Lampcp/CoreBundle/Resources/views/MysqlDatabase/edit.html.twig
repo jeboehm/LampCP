@@ -12,7 +12,7 @@
 {% block content %}
     <h1>{{ "edit.page.mysqldatabase"|trans() }}</h1>
 
-    <form action="{{ path('config_mysqldatabase_update', { 'id': entity.id }) }}"
+    <form action="{{ path('config_mysqldatabase_update', { 'entity': entity.id }) }}"
           class="form-horizontal" method="post" {{ form_enctype(edit_form) }}>
 
         {{ form_row(edit_form.name, {'form_type': 'horizontal'}) }}
@@ -22,6 +22,6 @@
 
         {{ form_rest(edit_form) }}
 
-        {{ macros.formbuttongrp(path('config_mysqldatabase'), path('config_mysqldatabase_delete', { 'id': entity.id })) }}
+        {{ macros.formbuttongrp(path('config_mysqldatabase'), path('config_mysqldatabase_delete', { 'entity': entity.id })) }}
     </form>
 {% endblock %}

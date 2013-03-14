@@ -23,18 +23,15 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\ProtectionUserType;
  *
  * @Route("/config/protectionuser")
  */
-class ProtectionUserController extends AbstractController implements ICrudSubController {
+class ProtectionUserController extends AbstractController {
 	/**
 	 * Lists all ProtectionUser entities.
 	 *
-	 * @Route("/{protectionid}/", name="config_protectionuser")
+	 * @Route("/{protection}/", name="config_protectionuser")
 	 * @Template()
 	 */
-	public function indexAction($protectionid) {
-		/** @var $protection Protection */
-		/** @var $entities ProtectionUser[] */
-		$protection = $this->_getProtection($protectionid);
-		$entities   = $this->_getRepository()->findBy(array('protection' => $protection), array('username' => 'asc'));
+	public function indexAction(Protection $protection) {
+		$entities = $this->_getRepository()->findBy(array('protection' => $protection), array('username' => 'asc'));
 
 		return array(
 			'entities'   => $entities,
@@ -45,20 +42,10 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 	/**
 	 * Finds and displays a ProtectionUser entity.
 	 *
-	 * @Route("/{id}/show", name="config_protectionuser_show")
+	 * @Route("/{entity}/show", name="config_protectionuser_show")
 	 * @Template()
 	 */
-	public function showAction($id) {
-		$em = $this->getDoctrine()->getManager();
-
-		/** @var $entity ProtectionUser */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:ProtectionUser')->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
-		}
-
-
+	public function showAction(ProtectionUser $entity) {
 		return array(
 			'entity' => $entity,
 		);
@@ -67,14 +54,12 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 	/**
 	 * Displays a form to create a new ProtectionUser entity.
 	 *
-	 * @Route("/{protectionid}/new", name="config_protectionuser_new")
+	 * @Route("/{protection}/new", name="config_protectionuser_new")
 	 * @Template()
 	 */
-	public function newAction($protectionid) {
-		/** @var $protection Protection */
-		$protection = $this->_getProtection($protectionid);
-		$entity     = new ProtectionUser($this->_getSelectedDomain(), $protection);
-		$form       = $this->createForm(new ProtectionUserType(), $entity);
+	public function newAction(Protection $protection) {
+		$entity = new ProtectionUser($this->_getSelectedDomain(), $protection);
+		$form   = $this->createForm(new ProtectionUserType(), $entity);
 
 		return array(
 			'entity'     => $entity,
@@ -86,15 +71,13 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 	/**
 	 * Creates a new ProtectionUser entity.
 	 *
-	 * @Route("/{protectionid}/create", name="config_protectionuser_create")
+	 * @Route("/{protection}/create", name="config_protectionuser_create")
 	 * @Method("POST")
 	 * @Template("JeboehmLampcpCoreBundle:ProtectionUser:new.html.twig")
 	 */
-	public function createAction(Request $request, $protectionid) {
-		/** @var $protection Protection */
-		$protection = $this->_getProtection($protectionid);
-		$entity     = new ProtectionUser($this->_getSelectedDomain(), $protection);
-		$form       = $this->createForm(new ProtectionUserType(), $entity);
+	public function createAction(Request $request, Protection $protection) {
+		$entity = new ProtectionUser($this->_getSelectedDomain(), $protection);
+		$form   = $this->createForm(new ProtectionUserType(), $entity);
 		$form->bind($request);
 
 		if($form->isValid()) {
@@ -104,7 +87,7 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_protectionuser_show', array('id' => $entity->getId())));
+			return $this->redirect($this->generateUrl('config_protectionuser_show', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -117,17 +100,10 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 	/**
 	 * Displays a form to edit an existing ProtectionUser entity.
 	 *
-	 * @Route("/{id}/edit", name="config_protectionuser_edit")
+	 * @Route("/{entity}/edit", name="config_protectionuser_edit")
 	 * @Template()
 	 */
-	public function editAction($id) {
-		/** @var $entity ProtectionUser */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
-		}
-
+	public function editAction(ProtectionUser $entity) {
 		$editForm = $this->createForm(new ProtectionUserType(), $entity);
 
 		return array(
@@ -139,24 +115,18 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 	/**
 	 * Edits an existing ProtectionUser entity.
 	 *
-	 * @Route("/{id}/update", name="config_protectionuser_update")
+	 * @Route("/{entity}/update", name="config_protectionuser_update")
 	 * @Method("POST")
 	 * @Template("JeboehmLampcpCoreBundle:ProtectionUser:edit.html.twig")
 	 */
-	public function updateAction(Request $request, $id) {
-		/** @var $entity ProtectionUser */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
-		}
-
+	public function updateAction(Request $request, ProtectionUser $entity) {
 		$oldPassword = $entity->getPassword();
 		$editForm    = $this->createForm(new ProtectionUserType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			$em = $this->getDoctrine()->getManager();
+
 			if(!$entity->getPassword()) {
 				$entity->setPassword($oldPassword);
 			} else {
@@ -166,7 +136,7 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_protectionuser_edit', array('id' => $id)));
+			return $this->redirect($this->generateUrl('config_protectionuser_edit', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -178,23 +148,14 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 	/**
 	 * Deletes a ProtectionUser entity.
 	 *
-	 * @Route("/{id}/delete", name="config_protectionuser_delete")
+	 * @Route("/{entity}/delete", name="config_protectionuser_delete")
 	 */
-	public function deleteAction($id) {
-		/** @var $entity ProtectionUser */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
-		}
-
-		$protectionid = $entity->getProtection()->getId();
-
+	public function deleteAction(ProtectionUser $entity) {
+		$em = $this->getDoctrine()->getManager();
 		$em->remove($entity);
 		$em->flush();
 
-		return $this->redirect($this->generateUrl('config_protectionuser', array('protectionid' => $protectionid)));
+		return $this->redirect($this->generateUrl('config_protectionuser', array('protection' => $entity->getProtection()->getId())));
 	}
 
 	/**
@@ -202,29 +163,7 @@ class ProtectionUserController extends AbstractController implements ICrudSubCon
 	 *
 	 * @return \Doctrine\Common\Persistence\ObjectRepository
 	 */
-	protected function _getRepository() {
+	private function _getRepository() {
 		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:ProtectionUser');
-	}
-
-	/**
-	 * Get protection
-	 *
-	 * @param int $protectionId
-	 *
-	 * @return Protection
-	 * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-	 */
-	protected function _getProtection($protectionId) {
-		/** @var $protection Protection */
-		$protection = $this
-			->getDoctrine()
-			->getRepository('JeboehmLampcpCoreBundle:Protection')
-			->find(intval($protectionId));
-
-		if(!$protection) {
-			throw $this->createNotFoundException();
-		}
-
-		return $protection;
 	}
 }

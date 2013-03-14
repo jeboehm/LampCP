@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\PathOptionType;
  *
  * @Route("/config/pathoption")
  */
-class PathOptionController extends AbstractController implements ICrudController {
+class PathOptionController extends AbstractController {
 	/**
 	 * Lists all PathOption entities.
 	 *
@@ -41,17 +41,10 @@ class PathOptionController extends AbstractController implements ICrudController
 	/**
 	 * Finds and displays a PathOption entity.
 	 *
-	 * @Route("/{id}/show", name="config_pathoption_show")
+	 * @Route("/{entity}/show", name="config_pathoption_show")
 	 * @Template()
 	 */
-	public function showAction($id) {
-		/** @var $entity PathOption */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find PathOption entity.');
-		}
-
+	public function showAction(PathOption $entity) {
 		return array(
 			'entity' => $entity,
 		);
@@ -90,7 +83,7 @@ class PathOptionController extends AbstractController implements ICrudController
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_pathoption_show', array('id' => $entity->getId())));
+			return $this->redirect($this->generateUrl('config_pathoption_show', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -102,17 +95,10 @@ class PathOptionController extends AbstractController implements ICrudController
 	/**
 	 * Displays a form to edit an existing PathOption entity.
 	 *
-	 * @Route("/{id}/edit", name="config_pathoption_edit")
+	 * @Route("/{entity}/edit", name="config_pathoption_edit")
 	 * @Template()
 	 */
-	public function editAction($id) {
-		/** @var $entity PathOption */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find PathOption entity.');
-		}
-
+	public function editAction(PathOption $entity) {
 		$editForm = $this->createForm(new PathOptionType(), $entity);
 
 		return array(
@@ -124,27 +110,20 @@ class PathOptionController extends AbstractController implements ICrudController
 	/**
 	 * Edits an existing PathOption entity.
 	 *
-	 * @Route("/{id}/update", name="config_pathoption_update")
+	 * @Route("/{entity}/update", name="config_pathoption_update")
 	 * @Method("POST")
 	 * @Template("JeboehmLampcpCoreBundle:PathOption:edit.html.twig")
 	 */
-	public function updateAction(Request $request, $id) {
-		/** @var $entity PathOption */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find PathOption entity.');
-		}
-
+	public function updateAction(Request $request, PathOption $entity) {
 		$editForm = $this->createForm(new PathOptionType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_pathoption_edit', array('id' => $id)));
+			return $this->redirect($this->generateUrl('config_pathoption_edit', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -156,17 +135,10 @@ class PathOptionController extends AbstractController implements ICrudController
 	/**
 	 * Deletes a PathOption entity.
 	 *
-	 * @Route("/{id}/delete", name="config_pathoption_delete")
+	 * @Route("/{entity}/delete", name="config_pathoption_delete")
 	 */
-	public function deleteAction($id) {
-		/** @var $entity PathOption */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find PathOption entity.');
-		}
-
+	public function deleteAction(PathOption $entity) {
+		$em = $this->getDoctrine()->getManager();
 		$em->remove($entity);
 		$em->flush();
 
@@ -178,7 +150,7 @@ class PathOptionController extends AbstractController implements ICrudController
 	 *
 	 * @return \Doctrine\Common\Persistence\ObjectRepository
 	 */
-	protected function _getRepository() {
+	private function _getRepository() {
 		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:PathOption');
 	}
 }

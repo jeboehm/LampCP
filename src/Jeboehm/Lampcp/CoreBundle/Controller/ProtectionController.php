@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\ProtectionType;
  *
  * @Route("/config/protection")
  */
-class ProtectionController extends AbstractController implements ICrudController {
+class ProtectionController extends AbstractController {
 	/**
 	 * Lists all Protection entities.
 	 *
@@ -41,17 +41,10 @@ class ProtectionController extends AbstractController implements ICrudController
 	/**
 	 * Finds and displays a Protection entity.
 	 *
-	 * @Route("/{id}/show", name="config_protection_show")
+	 * @Route("/{entity}/show", name="config_protection_show")
 	 * @Template()
 	 */
-	public function showAction($id) {
-		/** @var $entity Protection */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Protection entity.');
-		}
-
+	public function showAction(Protection $entity) {
 		return array(
 			'entity' => $entity,
 		);
@@ -90,7 +83,7 @@ class ProtectionController extends AbstractController implements ICrudController
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_protection_show', array('id' => $entity->getId())));
+			return $this->redirect($this->generateUrl('config_protection_show', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -102,17 +95,10 @@ class ProtectionController extends AbstractController implements ICrudController
 	/**
 	 * Displays a form to edit an existing Protection entity.
 	 *
-	 * @Route("/{id}/edit", name="config_protection_edit")
+	 * @Route("/{entity}/edit", name="config_protection_edit")
 	 * @Template()
 	 */
-	public function editAction($id) {
-		/** @var $entity Protection */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Protection entity.');
-		}
-
+	public function editAction(Protection $entity) {
 		$editForm = $this->createForm(new ProtectionType(), $entity);
 
 		return array(
@@ -124,27 +110,20 @@ class ProtectionController extends AbstractController implements ICrudController
 	/**
 	 * Edits an existing Protection entity.
 	 *
-	 * @Route("/{id}/update", name="config_protection_update")
+	 * @Route("/{entity}/update", name="config_protection_update")
 	 * @Method("POST")
 	 * @Template("JeboehmLampcpCoreBundle:Protection:edit.html.twig")
 	 */
-	public function updateAction(Request $request, $id) {
-		/** @var $entity Protection */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Protection entity.');
-		}
-
+	public function updateAction(Request $request, Protection $entity) {
 		$editForm = $this->createForm(new ProtectionType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_protection_edit', array('id' => $id)));
+			return $this->redirect($this->generateUrl('config_protection_edit', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -156,17 +135,10 @@ class ProtectionController extends AbstractController implements ICrudController
 	/**
 	 * Deletes a Protection entity.
 	 *
-	 * @Route("/{id}/delete", name="config_protection_delete")
+	 * @Route("/{entity}/delete", name="config_protection_delete")
 	 */
-	public function deleteAction($id) {
-		/** @var $entity Protection */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Protection entity.');
-		}
-
+	public function deleteAction(Protection $entity) {
+		$em = $this->getDoctrine()->getManager();
 		$em->remove($entity);
 		$em->flush();
 
@@ -178,7 +150,7 @@ class ProtectionController extends AbstractController implements ICrudController
 	 *
 	 * @return \Doctrine\Common\Persistence\ObjectRepository
 	 */
-	protected function _getRepository() {
+	private function _getRepository() {
 		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Protection');
 	}
 }
