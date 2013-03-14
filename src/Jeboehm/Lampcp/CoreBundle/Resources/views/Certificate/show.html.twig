@@ -74,5 +74,5 @@
         </tbody>
     </table>
 
-    {{ macros.showbuttongrp(path("config_certificate"), path("config_certificate_edit", { id : entity.id }), path("config_certificate_delete", { id : entity.id })) }}
+    {{ macros.showbuttongrp(path("config_certificate"), path("config_certificate_edit", { 'entity' : entity.id }), path("config_certificate_delete", { 'entity' : entity.id })) }}
 {% endblock %}
