@@ -30,15 +30,10 @@ class StatusController extends AbstractController {
 	 * @return array
 	 */
 	public function indexAction() {
-		$uptime = new ExecUtility();
-		$uptime->exec('uptime');
-
-		$uname = new ExecUtility();
-		$uname->exec('uname -a');
+		$cronjobs = $this->_getCronRepository()->findAll();
 
 		return array(
-			'uptime' => $uptime->getOutput(),
-			'uname'  => $uname->getOutput(),
+			'cronjobs' => $cronjobs,
 		);
 	}
 
@@ -68,5 +63,14 @@ class StatusController extends AbstractController {
 		}
 
 		return $this->redirect($this->generateUrl('status'));
+	}
+
+	/**
+	 * Get cron repository
+	 *
+	 * @return \Doctrine\Common\Persistence\ObjectRepository
+	 */
+	protected function _getCronRepository() {
+		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Cron');
 	}
 }

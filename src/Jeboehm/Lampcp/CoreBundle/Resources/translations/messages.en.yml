@@ -170,6 +170,13 @@ jeboehm.lampcp.corebundle:
         CertificateChainFile: CertificateChainFile
         CACertificateFile: CACertificateFile
 
+status:
+    title:
+        cronjobs: Cronjobs
+    column:
+        name: Name
+        lastrun: Last run
+
 # Systemconfig
 config:
     apache:
