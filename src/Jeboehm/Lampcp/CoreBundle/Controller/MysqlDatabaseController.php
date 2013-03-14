@@ -23,7 +23,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\MysqlDatabaseType;
  *
  * @Route("/config/mysqldatabase")
  */
-class MysqlDatabaseController extends AbstractController implements ICrudController {
+class MysqlDatabaseController extends AbstractController {
 	/**
 	 * Lists all MysqlDatabase entities.
 	 *
@@ -44,17 +44,10 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	/**
 	 * Finds and displays a MysqlDatabase entity.
 	 *
-	 * @Route("/{id}/show", name="config_mysqldatabase_show")
+	 * @Route("/{entity}/show", name="config_mysqldatabase_show")
 	 * @Template()
 	 */
-	public function showAction($id) {
-		/** @var $entity MysqlDatabase */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
-		}
-
+	public function showAction(MysqlDatabase $entity) {
 		return array(
 			'entity' => $entity,
 		);
@@ -99,7 +92,7 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_mysqldatabase_show', array('id' => $entity->getId())));
+			return $this->redirect($this->generateUrl('config_mysqldatabase_show', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -111,17 +104,10 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	/**
 	 * Displays a form to edit an existing MysqlDatabase entity.
 	 *
-	 * @Route("/{id}/edit", name="config_mysqldatabase_edit")
+	 * @Route("/{entity}/edit", name="config_mysqldatabase_edit")
 	 * @Template()
 	 */
-	public function editAction($id) {
-		/** @var $entity MysqlDatabase */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
-		}
-
+	public function editAction(MysqlDatabase $entity) {
 		$editForm = $this->createForm(new MysqlDatabaseType(), $entity);
 
 		return array(
@@ -133,19 +119,11 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	/**
 	 * Edits an existing MysqlDatabase entity.
 	 *
-	 * @Route("/{id}/update", name="config_mysqldatabase_update")
+	 * @Route("/{entity}/update", name="config_mysqldatabase_update")
 	 * @Method("POST")
 	 * @Template("JeboehmLampcpCoreBundle:MysqlDatabase:edit.html.twig")
 	 */
-	public function updateAction(Request $request, $id) {
-		/** @var $entity MysqlDatabase */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
-		}
-
+	public function updateAction(Request $request, MysqlDatabase $entity) {
 		$oldPassword = $entity->getPassword();
 		$editForm    = $this->createForm(new MysqlDatabaseType(), $entity);
 		$editForm->bind($request);
@@ -157,10 +135,11 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 				$entity->setPassword($this->_getCryptService()->encrypt($entity->getPassword()));
 			}
 
+			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_mysqldatabase_edit', array('id' => $id)));
+			return $this->redirect($this->generateUrl('config_mysqldatabase_edit', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -172,17 +151,10 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	/**
 	 * Deletes a MysqlDatabase entity.
 	 *
-	 * @Route("/{id}/delete", name="config_mysqldatabase_delete")
+	 * @Route("/{entity}/delete", name="config_mysqldatabase_delete")
 	 */
-	public function deleteAction($id) {
-		/** @var $entity MysqlDatabase */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find MysqlDatabase entity.');
-		}
-
+	public function deleteAction(MysqlDatabase $entity) {
+		$em = $this->getDoctrine()->getManager();
 		$em->remove($entity);
 		$em->flush();
 
@@ -194,7 +166,7 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	 *
 	 * @return MysqlDatabaseRepository
 	 */
-	protected function _getRepository() {
+	private function _getRepository() {
 		return $this
 			->getDoctrine()
 			->getManager()
@@ -207,7 +179,7 @@ class MysqlDatabaseController extends AbstractController implements ICrudControl
 	 * @return string
 	 * @throws \Exception
 	 */
-	protected function _getNewDatabaseName() {
+	private function _getNewDatabaseName() {
 		$prefix = $this->_getConfigService()->getParameter('mysql.dbprefix');
 
 		if(empty($prefix)) {
