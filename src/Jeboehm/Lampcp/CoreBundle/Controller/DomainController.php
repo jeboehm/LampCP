@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\DomainType;
  *
  * @Route("/config/domain")
  */
-class DomainController extends AbstractController implements ICrudController {
+class DomainController extends AbstractController {
 	/**
 	 * Lists all Domain entities.
 	 *
@@ -41,17 +41,10 @@ class DomainController extends AbstractController implements ICrudController {
 	/**
 	 * Finds and displays a Domain entity.
 	 *
-	 * @Route("/{id}/show", name="config_domain_show")
+	 * @Route("/{entity}/show", name="config_domain_show")
 	 * @Template()
 	 */
-	public function showAction($id) {
-		/** @var $entity Domain */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Domain entity.');
-		}
-
+	public function showAction(Domain $entity) {
 		return array(
 			'entity' => $entity,
 		);
@@ -92,7 +85,7 @@ class DomainController extends AbstractController implements ICrudController {
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_domain_show', array('id' => $entity->getId())));
+			return $this->redirect($this->generateUrl('config_domain_show', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -104,17 +97,10 @@ class DomainController extends AbstractController implements ICrudController {
 	/**
 	 * Displays a form to edit an existing Domain entity.
 	 *
-	 * @Route("/{id}/edit", name="config_domain_edit")
+	 * @Route("/{entity}/edit", name="config_domain_edit")
 	 * @Template()
 	 */
-	public function editAction($id) {
-		/** @var $entity Domain */
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Domain entity.');
-		}
-
+	public function editAction(Domain $entity) {
 		$editForm = $this->createForm(new DomainType(), $entity);
 
 		return array(
@@ -126,27 +112,20 @@ class DomainController extends AbstractController implements ICrudController {
 	/**
 	 * Edits an existing Domain entity.
 	 *
-	 * @Route("/{id}/update", name="config_domain_update")
+	 * @Route("/{entity}/update", name="config_domain_update")
 	 * @Method("POST")
 	 * @Template("JeboehmLampcpCoreBundle:Domain:edit.html.twig")
 	 */
-	public function updateAction(Request $request, $id) {
-		/** @var $entity Domain */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Domain entity.');
-		}
-
+	public function updateAction(Request $request, Domain $entity) {
 		$editForm = $this->createForm(new DomainType(), $entity);
 		$editForm->bind($request);
 
 		if($editForm->isValid()) {
+			$em = $this->getDoctrine()->getManager();
 			$em->persist($entity);
 			$em->flush();
 
-			return $this->redirect($this->generateUrl('config_domain_edit', array('id' => $id)));
+			return $this->redirect($this->generateUrl('config_domain_edit', array('entity' => $entity->getId())));
 		}
 
 		return array(
@@ -158,17 +137,10 @@ class DomainController extends AbstractController implements ICrudController {
 	/**
 	 * Deletes a Domain entity.
 	 *
-	 * @Route("/{id}/delete", name="config_domain_delete")
+	 * @Route("/{entity}/delete", name="config_domain_delete")
 	 */
-	public function deleteAction($id) {
-		/** @var $entity Domain */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find Domain entity.');
-		}
-
+	public function deleteAction(Domain $entity) {
+		$em = $this->getDoctrine()->getManager();
 		$em->remove($entity);
 		$em->flush();
 
@@ -180,7 +152,7 @@ class DomainController extends AbstractController implements ICrudController {
 	 *
 	 * @return string
 	 */
-	protected function _getSystemWebPath() {
+	private function _getSystemWebPath() {
 		return $this->_getConfigService()->getParameter('apache.pathwww');
 	}
 
@@ -189,7 +161,7 @@ class DomainController extends AbstractController implements ICrudController {
 	 *
 	 * @return \Doctrine\Common\Persistence\ObjectRepository
 	 */
-	protected function _getRepository() {
+	private function _getRepository() {
 		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Domain');
 	}
 }
