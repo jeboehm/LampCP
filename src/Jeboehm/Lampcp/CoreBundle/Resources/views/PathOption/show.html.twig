@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    {{ macros.showbuttongrp(path("config_pathoption"), path("config_pathoption_edit", { id : entity.id }), path("config_pathoption_delete", { id : entity.id })) }}
+    {{ macros.showbuttongrp(path("config_pathoption"), path("config_pathoption_edit", { 'entity' : entity.id }), path("config_pathoption_delete", { 'entity' : entity.id })) }}
 {% endblock %}
