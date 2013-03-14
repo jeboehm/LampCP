@@ -45,5 +45,5 @@
         </tbody>
     </table>
 
-    {{ macros.showbuttongrp(path("config_mailaddress"), path("config_mailaddress_edit", { id : entity.id }), path("config_mailaddress_delete", { id : entity.id })) }}
+    {{ macros.showbuttongrp(path("config_mailaddress"), path("config_mailaddress_edit", { 'entity' : entity.id }), path("config_mailaddress_delete", { 'entity' : entity.id })) }}
 {% endblock %}

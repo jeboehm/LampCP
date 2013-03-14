@@ -22,7 +22,7 @@
 {% block content %}
     <h1>{{ "create.page.mailaddress"|trans() }}</h1>
 
-    <form action="{{ path('config_mailaddress_create', { 'id': entity.id }) }}"
+    <form action="{{ path('config_mailaddress_create', { 'entity': entity.id }) }}"
           class="form-horizontal" method="post" {{ form_enctype(form) }}>
 
         {{ form_row(form.address, {'form_type': 'horizontal'}) }}
