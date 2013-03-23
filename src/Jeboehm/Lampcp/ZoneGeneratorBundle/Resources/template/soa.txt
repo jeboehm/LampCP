@@ -1,0 +1,7 @@
+@			%ttl%	IN	SOA		%primary%	%mail% (
+									%serial%
+									%refresh%
+									%retry%
+									%expire%
+									%minimum%
+								)

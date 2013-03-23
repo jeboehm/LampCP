@@ -15,56 +15,66 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 
 class DomainMenuBuilder extends ContainerAware {
-	/**
-	 * Build the top menu
-	 *
-	 * @param \Knp\Menu\FactoryInterface $factory
-	 * @param array                      $options
-	 *
-	 * @return \Knp\Menu\ItemInterface
-	 */
-	public function getMenu(FactoryInterface $factory, array $options) {
-		$menu = $factory->createItem('root');
+    /**
+     * Build the top menu
+     *
+     * @param \Knp\Menu\FactoryInterface $factory
+     * @param array                      $options
+     *
+     * @return \Knp\Menu\ItemInterface
+     */
+    public function getMenu(FactoryInterface $factory, array $options) {
+        $menu = $factory->createItem('root');
 
-		if($this->_getDomainselectorService()->getSelected() !== null) {
-			$menu->addChild($this->_getDomainselectorService()->getSelected()->getDomain(), array(
-																								 'attributes' => array(
-																									 'class' => 'nav-header',
-																								 )
-																							));
+        if ($this
+            ->_getDomainselectorService()
+            ->getSelected() !== null
+        ) {
+            $menu->addChild($this
+                ->_getDomainselectorService()
+                ->getSelected()
+                ->getDomain(), array(
+                                    'attributes' => array(
+                                        'class' => 'nav-header',
+                                    )
+                               ));
 
-			$menu->addChild('title.page.subdomain', array(
-														 'route' => 'config_subdomain',
-													));
+            $menu->addChild('title.page.dns', array(
+                                                   'route' => 'config_dns',
+                                              ));
 
-			$menu->addChild('title.page.mailaddress', array(
-														   'route' => 'config_mailaddress',
-													  ));
+            $menu->addChild('title.page.subdomain', array(
+                                                         'route' => 'config_subdomain',
+                                                    ));
 
-			$menu->addChild('title.page.mysqldatabase', array(
-															 'route' => 'config_mysqldatabase',
-														));
+            $menu->addChild('title.page.mailaddress', array(
+                                                           'route' => 'config_mailaddress',
+                                                      ));
 
-			$menu->addChild('title.page.pathoption', array(
-														  'route' => 'config_pathoption',
-													 ));
+            $menu->addChild('title.page.mysqldatabase', array(
+                                                             'route' => 'config_mysqldatabase',
+                                                        ));
 
-			$menu->addChild('title.page.protection', array(
-														  'route' => 'config_protection',
-													 ));
-		}
+            $menu->addChild('title.page.pathoption', array(
+                                                          'route' => 'config_pathoption',
+                                                     ));
 
-		return $menu;
-	}
+            $menu->addChild('title.page.protection', array(
+                                                          'route' => 'config_protection',
+                                                     ));
+        }
 
-	/**
-	 * Get domainselector service
-	 *
-	 * @return DomainselectorService
-	 */
-	protected function _getDomainselectorService() {
-		$service = $this->container->get('jeboehm_lampcp_core.domainselector');
+        return $menu;
+    }
 
-		return $service;
-	}
+    /**
+     * Get domainselector service
+     *
+     * @return DomainselectorService
+     */
+    protected function _getDomainselectorService() {
+        $service = $this->container->get('jeboehm_lampcp_core.domainselector');
+
+        return $service;
+    }
 }

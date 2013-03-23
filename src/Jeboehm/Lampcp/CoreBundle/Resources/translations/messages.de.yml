@@ -170,6 +170,16 @@ jeboehm.lampcp.corebundle:
         CertificateChainFile: CertificateChainFile
         CACertificateFile: CACertificateFile
 
+    dnstype:
+        subdomain: Origin
+
+    dnsresourcerecordtype:
+        record:
+            name: Name
+            ttl: TTL
+            type: Typ
+            rdata: RDATA
+
 status:
     title:
         cronjobs: Cronjobs

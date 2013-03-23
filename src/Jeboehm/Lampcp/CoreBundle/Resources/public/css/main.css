@@ -16,7 +16,7 @@ body {
     padding: 9px 0;
 }
 
-.mailforward {
+.mailforward, .dnsrecords {
     list-style-type: none;
     padding: 0;
     margin-left: 0;

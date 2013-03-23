@@ -1,0 +1,43 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset("bundles/jeboehmlampcpcore/js/dnszone.js") }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ "create.page.dns"|trans() }}</h1>
+
+    <form action="{{ path('config_dns_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_row(form.subdomain) }}
+
+        <h2>Resource Records</h2>
+
+        <div class="dnsrecords"
+             data-prototype="{{ form_widget(form.zone_collection.vars.prototype, {'form_type': 'horizontal'})|e }}">
+
+            {% for record in form.zone_collection %}
+                {{ form_widget(record, {'form_type': 'inline'}) }}
+            {% endfor %}
+
+            <div class="control-group">
+                <div class="controls" id="addbutton">
+                    <a href="#" class="btn dnsrecord-add">{{ "button.add"|trans() }}</a>
+                </div>
+            </div>
+        </div>
+
+        {{ form_rest(form) }}
+        {{ macros.formbuttongrp(path('config_dns')) }}
+    </form>
+{% endblock %}
