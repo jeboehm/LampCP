@@ -16,6 +16,7 @@ use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Filesystem\Filesystem;
 use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Dns;
+use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Transformer\ZonefileTransformer;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\DirectoryNotFound;
 
 class BuilderService {
@@ -138,11 +139,17 @@ EOT;
      */
     public function build() {
         $this->_checkRequirements();
-        $dns = $this->_getDnsEntities();
+        $dns            = $this->_getDnsEntities();
+        $zoneDefinition = array();
 
         foreach ($dns as $entity) {
-            $pathZoneDb     = sprintf('%s/%s.%s', $this->_getZoneDirectory(), $entity->getOrigin(), 'db');
-            $zoneDefinition = $this->_getZoneDefinition($entity->getOrigin(), $pathZoneDb);
+            $pathZoneDb       = sprintf('%s/%s.%s', $this->_getZoneDirectory(), $entity->getOrigin(), 'db');
+            $zoneDefinition[] = $this->_getZoneDefinition($entity->getOrigin(), $pathZoneDb);
+            $transformer      = new ZonefileTransformer($entity->getZonecollection());
+
+            file_put_contents($pathZoneDb, $transformer->transform());
         }
+
+        file_put_contents($this->_getZoneDefinitionPath(), join(PHP_EOL . PHP_EOL, $zoneDefinition));
     }
 }

@@ -145,6 +145,6 @@ class ZonefileTransformer {
      * @return string
      */
     private function _getTemplateFilename($type) {
-        return sprintf('%s/../Resources/template/%s.txt', __DIR__, strtolower($type));
+        return sprintf('%s/../../Resources/template/%s.txt', __DIR__, strtolower($type));
     }
 }

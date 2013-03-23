@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
+use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Service\BuilderService;
@@ -66,7 +67,9 @@ class GenerateConfigCommand extends AbstractCommand {
         }
 
         if ($run) {
-            $this->_getLogger()->info('(ZoneGeneratorBundle) Executing...');
+            $this
+                ->_getLogger()
+                ->info('(ZoneGeneratorBundle) Executing...');
 
             if ($input->getOption('verbose')) {
                 $output->writeln('(ZoneGeneratorBundle) Executing...');
@@ -75,11 +78,18 @@ class GenerateConfigCommand extends AbstractCommand {
             try {
                 $builder = $this->_getBuilderService();
                 $builder->build();
+                $this->_restartBind();
             } catch (\Exception $e) {
-                $this->_getLogger()->err('(ZoneGeneratorBundle) Error: ' . $e->getMessage());
+                $this
+                    ->_getLogger()
+                    ->err('(ZoneGeneratorBundle) Error: ' . $e->getMessage());
 
                 throw $e;
             }
+
+            $this
+                ->_getCronService()
+                ->updateLastRun($this->getName());
         } else {
             if ($input->getOption('verbose')) {
                 $output->writeln('(ZoneGeneratorBundle) No changes detected.');
@@ -93,7 +103,9 @@ class GenerateConfigCommand extends AbstractCommand {
      * @return bool
      */
     protected function _isChanged() {
-        $last = $this->_getCronService()->getLastRun($this->getName());
+        $last = $this
+            ->_getCronService()
+            ->getLastRun($this->getName());
 
         /**
          * First run
@@ -105,7 +117,9 @@ class GenerateConfigCommand extends AbstractCommand {
              * Find entities newer than $last
              */
             foreach ($this->_getEntitys() as $entity) {
-                $result = $this->_getChangeTrackingService()->findNewer($entity, $last);
+                $result = $this
+                    ->_getChangeTrackingService()
+                    ->findNewer($entity, $last);
 
                 if (count($result) > 0) {
                     return true;
@@ -123,7 +137,9 @@ class GenerateConfigCommand extends AbstractCommand {
      */
     protected function _getBuilderService() {
         /** @var $service BuilderService */
-        $service = $this->getContainer()->get('jeboehm_lampcp_zonegenerator.builderservice');
+        $service = $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_zonegenerator.builderservice');
 
         return $service;
     }
@@ -134,7 +150,9 @@ class GenerateConfigCommand extends AbstractCommand {
      * @return ChangeTrackingService
      */
     protected function _getChangeTrackingService() {
-        return $this->getContainer()->get('jeboehm_lampcp_core.changetrackingservice');
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_core.changetrackingservice');
     }
 
     /**
@@ -143,6 +161,48 @@ class GenerateConfigCommand extends AbstractCommand {
      * @return CronService
      */
     protected function _getCronService() {
-        return $this->getContainer()->get('jeboehm_lampcp_core.cronservice');
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_core.cronservice');
+    }
+
+    /**
+     * Get "enabled" from config service
+     *
+     * @return string
+     */
+    protected function _isEnabled() {
+        return $this
+            ->_getConfigService()
+            ->getParameter('dns.enabled');
+    }
+
+    /**
+     * Restart Bind
+     */
+    protected function _restartBind() {
+        $exec = new ExecUtility();
+        $cmd  = $this
+            ->_getConfigService()
+            ->getParameter('dns.cmd.reload');
+
+        if (!empty($cmd)) {
+            $this
+                ->_getLogger()
+                ->info('(ZoneGeneratorBundle) Restarting Bind...');
+
+            if (strpos($cmd, ' ') !== false) {
+                $cmdSplit = explode(' ', $cmd);
+                $exec->exec(array_shift($cmdSplit), $cmdSplit);
+            } else {
+                $exec->exec($cmd);
+            }
+
+            if ($exec->getCode() > 0) {
+                $this
+                    ->_getLogger()
+                    ->err($exec->getOutput());
+            }
+        }
     }
 }
