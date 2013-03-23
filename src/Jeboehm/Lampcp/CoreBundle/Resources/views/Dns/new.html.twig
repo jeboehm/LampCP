@@ -24,7 +24,7 @@
         <h2>Resource Records</h2>
 
         <div class="dnsrecords"
-             data-prototype="{{ form_widget(form.zone_collection.vars.prototype, {'form_type': 'horizontal'})|e }}">
+             data-prototype="{{ form_widget(form.zone_collection.vars.prototype, {'form_type': 'inline'})|e }}">
 
             {% for record in form.zone_collection %}
                 {{ form_widget(record, {'form_type': 'inline'}) }}
