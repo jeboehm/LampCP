@@ -34,7 +34,6 @@ class AppKernel extends Kernel {
 			new Jeboehm\Lampcp\ConfigBundle\JeboehmLampcpConfigBundle(),
 			new Jeboehm\Lampcp\PostfixBundle\JeboehmLampcpPostfixBundle(),
 			new Jeboehm\Lampcp\LightyConfigBundle\JeboehmLampcpLightyConfigBundle(),
-			new Jeboehm\Lampcp\BootstrapBundle\JeboehmLampcpBootstrapBundle(),
             new Jeboehm\Lampcp\AuthBundle\JeboehmLampcpAuthBundle(),
             new Jeboehm\Lampcp\ZoneGeneratorBundle\JeboehmLampcpZoneGeneratorBundle(),
 		);
