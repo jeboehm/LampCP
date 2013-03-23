@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
  * @ORM\Entity
  * @UniqueEntity(fields = {"subdomain", "domain"})
  */
-class Dns {
+class Dns extends AbstractEntity {
     /**
      * @var integer
      *
