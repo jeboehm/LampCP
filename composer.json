@@ -23,7 +23,6 @@
         "knplabs/knp-menu": "dev-master",
         "knplabs/knp-menu-bundle": "dev-master",
         "stof/doctrine-extensions-bundle": "dev-master",
-        "leafo/lessphp": "dev-master",
         "jboehm/passwd-bundle": "dev-master"
     },
     "scripts": {

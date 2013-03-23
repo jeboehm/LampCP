@@ -1,5 +1,5 @@
 {
-    "hash": "454a6b4a2e8a44a03dc0c3a8b914d1ca",
+    "hash": "fbf0fcfb4074ccc25b7d4b8a96220ab9",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -860,47 +860,6 @@
             "time": "2013-02-24 17:22:20"
         },
         {
-            "name": "leafo/lessphp",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/leafo/lessphp.git",
-                "reference": "54bb80519c9a73eff250fa1671707b492a402280"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/leafo/lessphp/zipball/54bb80519c9a73eff250fa1671707b492a402280",
-                "reference": "54bb80519c9a73eff250fa1671707b492a402280",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.3-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "lessc.inc.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Leaf Corcoran",
-                    "email": "leafot@gmail.com",
-                    "homepage": "http://leafo.net"
-                }
-            ],
-            "description": "lessphp is a compiler for LESS written in PHP.",
-            "homepage": "http://leafo.net/lessphp/",
-            "time": "2013-03-08 21:29:33"
-        },
-        {
             "name": "monolog/monolog",
             "version": "1.4.0",
             "source": {
@@ -1562,7 +1521,6 @@
         "knplabs/knp-menu": 20,
         "knplabs/knp-menu-bundle": 20,
         "stof/doctrine-extensions-bundle": 20,
-        "leafo/lessphp": 20,
         "jboehm/passwd-bundle": 20
     },
     "platform": {
