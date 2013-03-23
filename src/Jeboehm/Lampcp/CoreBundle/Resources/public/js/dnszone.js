@@ -19,7 +19,7 @@ jQuery(document).ready(function () {
 
         dnsrecord_delete_link.on('click', function (e) {
             e.preventDefault();
-            $(this).parent().remove();
+            $(this).parent().parent().remove();
         });
     });
 
@@ -27,6 +27,8 @@ jQuery(document).ready(function () {
         var prototype = dnsrecord_holder.attr('data-prototype');
         var newIndex = dnsrecord_holder.find(':input').length;
         var newForm = prototype.replace(/__name__/g, newIndex);
-        dnsrecord_holder.append(newForm);
+        var container = $('<div class="control-group"><div class="controls"></div></div>')
+        container.find('div.controls').append(newForm);
+        dnsrecord_holder.append(container);
     });
 });

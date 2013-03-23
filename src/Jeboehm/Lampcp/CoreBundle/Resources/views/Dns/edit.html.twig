@@ -28,8 +28,10 @@
              data-prototype="{{ form_widget(edit_form.zone_collection.vars.prototype, {'form_type': 'inline'})|e }}">
 
             {% for record in edit_form.zone_collection %}
-                <div class="controls">
-                    {{ form_widget(record, {'form_type': 'inline'}) }}
+                <div class="control-group">
+                    <div class="controls">
+                        {{ form_widget(record, {'form_type': 'inline'}) }}
+                    </div>
                 </div>
             {% endfor %}
 
