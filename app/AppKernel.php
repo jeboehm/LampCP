@@ -18,7 +18,6 @@ class AppKernel extends Kernel {
 			new Symfony\Bundle\SecurityBundle\SecurityBundle(),
 			new Symfony\Bundle\TwigBundle\TwigBundle(),
 			new Symfony\Bundle\MonologBundle\MonologBundle(),
-			new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 			new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
 			new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
 			new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
@@ -34,7 +33,6 @@ class AppKernel extends Kernel {
 			new Jeboehm\Lampcp\ConfigBundle\JeboehmLampcpConfigBundle(),
 			new Jeboehm\Lampcp\PostfixBundle\JeboehmLampcpPostfixBundle(),
 			new Jeboehm\Lampcp\LightyConfigBundle\JeboehmLampcpLightyConfigBundle(),
-			new Jeboehm\Lampcp\BootstrapBundle\JeboehmLampcpBootstrapBundle(),
             new Jeboehm\Lampcp\AuthBundle\JeboehmLampcpAuthBundle(),
             new Jeboehm\Lampcp\ZoneGeneratorBundle\JeboehmLampcpZoneGeneratorBundle(),
 		);
