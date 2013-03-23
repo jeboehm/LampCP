@@ -15,7 +15,6 @@
         "sensio/distribution-bundle": "2.2.*",
         "sensio/framework-extra-bundle": "dev-master",
         "sensio/generator-bundle": "2.2.*",
-        "symfony/assetic-bundle": "2.1.*",
         "twitter/bootstrap": "2.3.*",
         "jquery/jquery": "1.9.*",
         "braincrafted/bootstrap-bundle": "dev-master",
