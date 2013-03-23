@@ -170,6 +170,16 @@ jeboehm.lampcp.corebundle:
         CertificateChainFile: CertificateChainFile
         CACertificateFile: CACertificateFile
 
+    dnstype:
+        subdomain: Origin
+
+    dnsresourcerecordtype:
+        record:
+            name: Name
+            ttl: TTL
+            type: Type
+            rdata: RDATA
+
 status:
     title:
         cronjobs: Cronjobs
@@ -203,6 +213,7 @@ config:
         cmdlighttpdrestart: Restart command
 
     dns:
+        enabled: Enabled
         default.ns: Default nameserver for new zones
         config.zonedir: Zonedirectory
         config.zonedef: Configfile for zone definitions

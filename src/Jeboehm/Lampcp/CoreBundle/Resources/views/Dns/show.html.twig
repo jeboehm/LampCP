@@ -1,0 +1,74 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
+
+
+{% block content %}
+    <h1>{{ "show.page.dns"|trans() }}</h1>
+    <table class="table table-striped table-bordered">
+        <tbody>
+        <tr>
+            <td>Origin</td>
+            <td>{{ entity.origin }}</td>
+        </tr>
+        <tr>
+            <td>Primary</td>
+            <td>{{ entity.zonecollection.soa.primary }}</td>
+        </tr>
+        <tr>
+            <td>Mailbox</td>
+            <td>{{ entity.zonecollection.soa.mail }}</td>
+        </tr>
+        <tr>
+            <td>Serial</td>
+            <td>{{ entity.zonecollection.soa.serial }}</td>
+        </tr>
+        <tr>
+            <td>Refresh</td>
+            <td>{{ entity.zonecollection.soa.refresh }}</td>
+        </tr>
+        <tr>
+            <td>Retry</td>
+            <td>{{ entity.zonecollection.soa.retry }}</td>
+        </tr>
+        <tr>
+            <td>Expire</td>
+            <td>{{ entity.zonecollection.soa.expire }}</td>
+        </tr>
+        <tr>
+            <td>Minimum</td>
+            <td>{{ entity.zonecollection.soa.minimum }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.dnsresourcerecordtype.record.name"|trans() }}</th>
+            <th>{{ "jeboehm.lampcp.corebundle.dnsresourcerecordtype.record.ttl"|trans() }}</th>
+            <th>{{ "jeboehm.lampcp.corebundle.dnsresourcerecordtype.record.type"|trans() }}</th>
+            <th>{{ "jeboehm.lampcp.corebundle.dnsresourcerecordtype.record.rdata"|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for rr in entity.zonecollection.values %}
+            <tr>
+                <td>{{ rr.name }}</td>
+                <td>{{ rr.ttl }}</td>
+                <td>{{ rr.type }}</td>
+                <td>{{ rr.rdata }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ macros.showbuttongrp(path("config_dns"), path("config_dns_edit", { 'entity' : entity.id }), path("config_dns_delete", { 'entity' : entity.id })) }}
+{% endblock %}

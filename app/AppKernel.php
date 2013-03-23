@@ -36,6 +36,7 @@ class AppKernel extends Kernel {
 			new Jeboehm\Lampcp\LightyConfigBundle\JeboehmLampcpLightyConfigBundle(),
 			new Jeboehm\Lampcp\BootstrapBundle\JeboehmLampcpBootstrapBundle(),
             new Jeboehm\Lampcp\AuthBundle\JeboehmLampcpAuthBundle(),
+            new Jeboehm\Lampcp\ZoneGeneratorBundle\JeboehmLampcpZoneGeneratorBundle(),
 		);
 
 		if(in_array($this->getEnvironment(), array('dev', 'test'))) {
