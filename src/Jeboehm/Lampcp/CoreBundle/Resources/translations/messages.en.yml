@@ -213,6 +213,7 @@ config:
         cmdlighttpdrestart: Restart command
 
     dns:
+        enabled: Enabled
         default.ns: Default nameserver for new zones
         config.zonedir: Zonedirectory
         config.zonedef: Configfile for zone definitions

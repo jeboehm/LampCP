@@ -18,6 +18,7 @@ class ConfigProvider extends AbstractConfigProvider {
         $group = $this->_createGroup('dns');
 
         $this
+            ->_createEntity('enabled', ConfigTypes::TYPE_BOOL, $group, true)
             ->_createEntity('default.ns', ConfigTypes::TYPE_STRING, $group, 'ns.example.com.')
             ->_createEntity('config.zonedir', ConfigTypes::TYPE_STRING, $group, '/etc/bind/lampcp')
             ->_createEntity('config.zonedef', ConfigTypes::TYPE_STRING, $group, '/etc/bind/named.conf.local')

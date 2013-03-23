@@ -51,6 +51,14 @@ class GenerateConfigCommand extends AbstractCommand {
      * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
+        if (!$this->_isEnabled()) {
+            $this
+                ->_getLogger()
+                ->err('(ZoneGeneratorBundle) Command not enabled!');
+
+            return;
+        }
+
         $run = false;
 
         if ($input->getOption('force') || $this->_isChanged()) {
