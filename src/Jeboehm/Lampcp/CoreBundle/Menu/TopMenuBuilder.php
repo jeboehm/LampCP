@@ -12,61 +12,110 @@ namespace Jeboehm\Lampcp\CoreBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\Security\Core\SecurityContext;
 use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 
 class TopMenuBuilder extends ContainerAware {
-	/**
-	 * Build the top menu
-	 *
-	 * @param \Knp\Menu\FactoryInterface $factory
-	 * @param array                      $options
-	 *
-	 * @return \Knp\Menu\ItemInterface
-	 */
-	public function getMenu(FactoryInterface $factory, array $options) {
-		$menu           = $factory->createItem('root');
-		$domainselector = $menu->addChild($this->_getDomainselectorTitle());
-		$menu->addChild('title.page.logout', array(
-												  'route' => 'fos_user_security_logout'
-											 ));
+    /**
+     * Build the top menu
+     *
+     * @param \Knp\Menu\FactoryInterface $factory
+     * @param array                      $options
+     *
+     * @return \Knp\Menu\ItemInterface
+     */
+    public function getMenu(FactoryInterface $factory, array $options) {
+        $menu           = $factory->createItem('root');
+        $domainselector = $menu->addChild($this->_getDomainselectorTitle());
 
-		foreach($this->_getDomainselectorService()->getDomains() as $domain) {
-			/** @var $domain Domain */
-			$domainselector->addChild($domain->getDomain(), array(
-																 'route'           => 'set_domain',
-																 'routeParameters' => array(
-																	 'domain' => $domain->getId(),
-																 ),
-															));
-		}
+        // Domainselector aufbauen
+        foreach ($this
+                     ->_getDomainselectorService()
+                     ->getDomains() as $domain) {
+            /** @var $domain Domain */
+            $domainselector->addChild($domain->getDomain(), array(
+                                                                 'route'           => 'set_domain',
+                                                                 'routeParameters' => array(
+                                                                     'domain' => $domain->getId(),
+                                                                 ),
+                                                            ));
+        }
 
-		return $menu;
-	}
+        return $menu;
+    }
 
-	/**
-	 * Get domainselector service
-	 *
-	 * @return DomainselectorService
-	 */
-	protected function _getDomainselectorService() {
-		$service = $this->container->get('jeboehm_lampcp_core.domainselector');
+    /**
+     * Get user menu
+     *
+     * @param FactoryInterface $factory
+     * @param array            $options
+     *
+     * @return \Knp\Menu\ItemInterface
+     */
+    public function getUserMenu(FactoryInterface $factory, array $options) {
+        $menu     = $factory->createItem('root');
+        $loggedIn = $menu->addChild($this->_getUsername(), array(
+                                                                'attributes' => array(
+                                                                    'loggedasbutton' => true,
+                                                                ),
+                                                           ));
 
-		return $service;
-	}
+        $loggedIn->addChild('title.page.changepassword', array(
+                                                              'route' => 'fos_user_change_password',
+                                                         ));
 
-	/**
-	 * Get title for domainselector menu
-	 *
-	 * @return string
-	 */
-	private function _getDomainselectorTitle() {
-		if($this->_getDomainselectorService()->getSelected() === null) {
-			$text = 'default.topmenu.no.domain';
-		} else {
-			$text = $this->_getDomainselectorService()->getSelected()->getDomain();
-		}
+        $loggedIn->addChild('title.page.logout', array(
+                                                      'route' => 'fos_user_security_logout'
+                                                 ));
 
-		return $text;
-	}
+        return $menu;
+    }
+
+    /**
+     * Get domainselector service
+     *
+     * @return DomainselectorService
+     */
+    protected function _getDomainselectorService() {
+        $service = $this->container->get('jeboehm_lampcp_core.domainselector');
+
+        return $service;
+    }
+
+    /**
+     * Get title for domainselector menu
+     *
+     * @return string
+     */
+    private function _getDomainselectorTitle() {
+        if ($this
+            ->_getDomainselectorService()
+            ->getSelected() === null
+        ) {
+            $text = 'nav.topmenu.nodomain';
+        } else {
+            $text = $this
+                ->_getDomainselectorService()
+                ->getSelected()
+                ->getDomain();
+        }
+
+        return $text;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    private function _getUsername() {
+        /** @var $security SecurityContext */
+        $security = $this->container->get('security.context');
+        $user     = $security
+            ->getToken()
+            ->getUsername();
+
+        return $user;
+    }
 }

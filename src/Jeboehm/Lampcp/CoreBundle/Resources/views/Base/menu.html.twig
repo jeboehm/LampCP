@@ -10,5 +10,9 @@
 {% extends "BraincraftedBootstrapBundle:Menu:menu.html.twig" %}
 
 {% block label %}
-{{ parent()|trans }}
+    {% if attributes.loggedasbutton is defined and attributes.loggedasbutton == true %}
+        <i class="icon-white icon-user"></i>
+    {% endif %}
+
+    {{ parent()|trans }}
 {% endblock %}

@@ -47,7 +47,10 @@
 
                 <a class="brand" href="{{ path("default") }}">{{ "title.head"|trans() }}</a>
 
-                {{ knp_menu_render('JeboehmLampcpCoreBundle:TopMenuBuilder:getMenu', {'nav_type': 'navbar'}) }}
+                <div class="nav-collapse">
+                    {{ knp_menu_render('JeboehmLampcpCoreBundle:TopMenuBuilder:getMenu', {'nav_type': 'navbar'}) }}
+                    {{ knp_menu_render('JeboehmLampcpCoreBundle:TopMenuBuilder:getUserMenu', {'nav_type': 'navbar', 'pull' : 'right' }) }}
+                </div>
             </div>
         </div>
     </div>

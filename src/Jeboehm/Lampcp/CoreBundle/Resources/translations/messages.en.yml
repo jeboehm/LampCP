@@ -23,6 +23,7 @@ title:
         systemconfig: Systemconfiguration
         ipaddress: IP-Addresses
         certificate: Certificates
+        changepassword: Change password
         login: LampCP Login
         logout: Logout
 
@@ -84,12 +85,11 @@ label:
     enabled: enabled
     disabled: disabled
 
-# Seiteninhalte
-default.topmenu.no.domain: No domain chosen
-status.headline.uptime: uptime / logged in / load
-status.headline.uname: hostname / kernel version
-leftnavall.general: General
-leftnav.select.domain: Choose domain
+nav:
+    topmenu:
+        nodomain: No domain selected
+    general:
+        title: General
 
 # Tabellenspalten / Attribute
 all:
