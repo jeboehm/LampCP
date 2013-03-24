@@ -23,13 +23,13 @@
 
         {{ form_row(edit_form.address, {'form_type': 'horizontal'}) }}
 
-        <h2>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailaccount"|trans }}</h2>
+        <legend>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailaccount"|trans }}</legend>
 
         {{ form_row(edit_form.mailaccount.enabled, {'form_type': 'horizontal'}) }}
         {{ form_row(edit_form.mailaccount.password.first, {'form_type': 'horizontal'}) }}
         {{ form_row(edit_form.mailaccount.password.second, {'form_type': 'horizontal'}) }}
 
-        <h2>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailforward"|trans }}</h2>
+        <legend>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailforward"|trans }}</legend>
 
         <div class="mailforward"
              data-prototype="{{ form_widget(edit_form.mailforward.vars.prototype, {'form_type': 'horizontal'})|e }}">
