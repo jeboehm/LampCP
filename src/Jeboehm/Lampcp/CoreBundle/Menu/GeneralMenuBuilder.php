@@ -32,7 +32,7 @@ class GeneralMenuBuilder extends ContainerAware {
 											  ));
 
 		$menu->addChild('title.page.systemconfig', array(
-														'route' => 'systemconfig',
+														'route' => 'config_system',
 												   ));
 
 		$menu->addChild('title.page.ipaddress', array(
