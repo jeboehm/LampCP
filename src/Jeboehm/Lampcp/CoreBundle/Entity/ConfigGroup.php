@@ -8,10 +8,9 @@
  *
  */
 
-namespace Jeboehm\Lampcp\ConfigBundle\Entity;
+namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Jeboehm\Lampcp\CoreBundle\Entity\AbstractEntity;
@@ -40,7 +39,7 @@ class ConfigGroup extends AbstractEntity {
 
 	/**
 	 * @var ConfigEntity[]
-	 * @OneToMany(targetEntity="ConfigEntity", mappedBy="configgroup", cascade={"remove"})
+	 * @ORM\OneToMany(targetEntity="ConfigEntity", mappedBy="configgroup", cascade={"remove"})
 	 */
 	private $configentity;
 

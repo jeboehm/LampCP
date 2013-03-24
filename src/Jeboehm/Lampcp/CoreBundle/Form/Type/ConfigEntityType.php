@@ -8,15 +8,15 @@
  *
  */
 
-namespace Jeboehm\Lampcp\ConfigBundle\Form;
+namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Jeboehm\Lampcp\ConfigBundle\Entity\ConfigEntity;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
+use Jeboehm\Lampcp\CoreBundle\Form\Model\ConfigEntity;
 
 class ConfigEntityType extends AbstractType {
     /**
@@ -60,7 +60,7 @@ class ConfigEntityType extends AbstractType {
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-                                    'data_class' => 'Jeboehm\Lampcp\ConfigBundle\Entity\ConfigEntity',
+                                    'data_class' => 'Jeboehm\Lampcp\CoreBundle\Form\Model\ConfigEntity',
                                ));
     }
 

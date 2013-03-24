@@ -13,11 +13,6 @@ jeboehm_lampcp_core:
     type:     annotation
     prefix:   /
 
-jeboehm_lampcp_config:
-    resource: "@JeboehmLampcpConfigBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
