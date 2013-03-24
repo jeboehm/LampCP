@@ -21,7 +21,7 @@
     <form action="{{ path('config_dns_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_row(form.subdomain) }}
 
-        <h2>Resource Records</h2>
+        <legend>Resource Records</legend>
 
         <div class="dnsrecords"
              data-prototype="{{ form_widget(form.zone_collection.vars.prototype, {'form_type': 'inline'})|e }}">
