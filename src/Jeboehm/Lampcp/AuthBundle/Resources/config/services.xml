@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<!--
+
+LampCP
+https://github.com/jeboehm/LampCP
+
+Licensed under the GPL Version 2 license
+http://www.gnu.org/licenses/gpl-2.0.txt
+
+-->
+
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="jeboehm_lampcp_auth.changepasswordsuccess.class">Jeboehm\Lampcp\AuthBundle\Listener\ChangePasswordSuccess</parameter>
+    </parameters>
+
+    <services>
+        <service id="jeboehm_lampcp_auth.changepasswordsuccess.listener" class="%jeboehm_lampcp_auth.changepasswordsuccess.class%">
+            <argument type="service" id="router" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+    </services>
+</container>
