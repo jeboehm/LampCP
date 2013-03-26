@@ -39,5 +39,9 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <service id="jeboehm_lampcp_core.cronservice" class="%jeboehm_lampcp_core.cronservice.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
+
+        <service id="jeboehm_lampcp_core.configprovider" class="Jeboehm\Lampcp\CoreBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
+            <tag name="config.provider" />
+        </service>
     </services>
 </container>

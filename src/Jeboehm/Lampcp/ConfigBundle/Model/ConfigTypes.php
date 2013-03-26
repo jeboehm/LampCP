@@ -19,8 +19,9 @@ namespace Jeboehm\Lampcp\ConfigBundle\Model;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class ConfigTypes {
-	const TYPE_INTEGER  = 0;
-	const TYPE_STRING   = 1;
-	const TYPE_PASSWORD = 2;
-	const TYPE_BOOL     = 3;
+    const TYPE_INTEGER  = 0;
+    const TYPE_STRING   = 1;
+    const TYPE_PASSWORD = 2;
+    const TYPE_BOOL     = 3;
+    const TYPE_HIDDEN   = 4;
 }
