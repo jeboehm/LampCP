@@ -13,12 +13,23 @@ namespace Jeboehm\Lampcp\LightyConfigBundle\Service;
 use Jeboehm\Lampcp\ConfigBundle\Service\AbstractConfigProvider;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
 
+/**
+ * Class ConfigProvider
+ *
+ * Provides the default configuration
+ *
+ * @package Jeboehm\Lampcp\LightyConfigBundle\Service
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ConfigProvider extends AbstractConfigProvider {
-	public function init() {
-		$group = $this->_createGroup('lighttpd');
-		$this
-			->_createEntity('enabled', ConfigTypes::TYPE_BOOL, $group, true)
-			->_createEntity('pathlighttpdconf', ConfigTypes::TYPE_STRING, $group, '/etc/lighttpd/conf-enabled')
-			->_createEntity('cmdlighttpdrestart', ConfigTypes::TYPE_STRING, $group, '/etc/init.d/lighttpd restart');
-	}
+    /**
+     * Create configuration fields
+     */
+    public function init() {
+        $group = $this->_createGroup('lighttpd');
+        $this
+            ->_createEntity('enabled', ConfigTypes::TYPE_BOOL, $group, true)
+            ->_createEntity('pathlighttpdconf', ConfigTypes::TYPE_STRING, $group, '/etc/lighttpd/conf-enabled')
+            ->_createEntity('cmdlighttpdrestart', ConfigTypes::TYPE_STRING, $group, '/etc/init.d/lighttpd restart');
+    }
 }

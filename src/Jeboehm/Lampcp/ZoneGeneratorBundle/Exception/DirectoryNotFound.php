@@ -10,6 +10,14 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Exception;
 
+/**
+ * Class DirectoryNotFound
+ *
+ * Thrown, when a directory is not found.
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Exception
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class DirectoryNotFound extends \Exception {
 
 }

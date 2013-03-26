@@ -10,6 +10,14 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Exception;
 
+/**
+ * Class NSNotFound
+ *
+ * Thrown, when the Nameserver is not found.
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Exception
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class NSNotFound extends \Exception {
 
 }

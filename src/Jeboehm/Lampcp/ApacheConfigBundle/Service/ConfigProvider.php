@@ -13,15 +13,26 @@ namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 use Jeboehm\Lampcp\ConfigBundle\Service\AbstractConfigProvider;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
 
+/**
+ * Class ConfigProvider
+ *
+ * Provides the default configuration.
+ *
+ * @package Jeboehm\Lampcp\ApacheConfigBundle\Service
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ConfigProvider extends AbstractConfigProvider {
-	public function init() {
-		$group = $this->_createGroup('apache');
-		$this
-			->_createEntity('enabled', ConfigTypes::TYPE_BOOL, $group, true)
-			->_createEntity('pathwww', ConfigTypes::TYPE_STRING, $group, '/var/www')
-			->_createEntity('pathapache2conf', ConfigTypes::TYPE_STRING, $group, '/etc/apache2/sites-enabled')
-			->_createEntity('pathphpini', ConfigTypes::TYPE_STRING, $group, '/etc/php5/cgi/php.ini')
-			->_createEntity('cmdapache2restart', ConfigTypes::TYPE_STRING, $group, 'service apache2 restart')
-			->_createEntity('pathcertificate', ConfigTypes::TYPE_STRING, $group, '/etc/ssl/lampcp');
-	}
+    /**
+     * Create configuration fields.
+     */
+    public function init() {
+        $group = $this->_createGroup('apache');
+        $this
+            ->_createEntity('enabled', ConfigTypes::TYPE_BOOL, $group, true)
+            ->_createEntity('pathwww', ConfigTypes::TYPE_STRING, $group, '/var/www')
+            ->_createEntity('pathapache2conf', ConfigTypes::TYPE_STRING, $group, '/etc/apache2/sites-enabled')
+            ->_createEntity('pathphpini', ConfigTypes::TYPE_STRING, $group, '/etc/php5/cgi/php.ini')
+            ->_createEntity('cmdapache2restart', ConfigTypes::TYPE_STRING, $group, 'service apache2 restart')
+            ->_createEntity('pathcertificate', ConfigTypes::TYPE_STRING, $group, '/etc/ssl/lampcp');
+    }
 }

@@ -12,5 +12,11 @@ namespace Jeboehm\Lampcp\PostfixBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * Class JeboehmLampcpPostfixBundle
+ *
+ * @package Jeboehm\Lampcp\PostfixBundle
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class JeboehmLampcpPostfixBundle extends Bundle {
 }

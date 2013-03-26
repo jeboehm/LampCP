@@ -10,5 +10,13 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Exception;
 
+/**
+ * Class CouldNotWriteFileException
+ *
+ * Thrown, when a file could not be written.
+ *
+ * @package Jeboehm\Lampcp\ApacheConfigBundle\Exception
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class CouldNotWriteFileException extends \Exception {
 }

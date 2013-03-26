@@ -16,6 +16,15 @@ use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AbstractResourceRecord;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\DnsResourceRecordTypes;
 
+/**
+ * Class ZoneCollectionTransformer
+ *
+ * Transforms a ZoneCollection to an array
+ * of DnsResourceModels and vise versa
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Form\Transformer
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ZoneCollectionTransformer implements DataTransformerInterface {
     /** @var ZoneCollection */
     private $_zone;

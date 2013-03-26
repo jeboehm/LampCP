@@ -22,109 +22,109 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields = {"mailaddress", "target"})
  */
 class MailForward extends AbstractEntity {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="integer")
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-	/**
-	 * @var Domain
-	 * @Assert\NotNull()
-	 * @ORM\ManyToOne(targetEntity="Domain", inversedBy="mailforward")
-	 */
-	private $domain;
+    /**
+     * @var Domain
+     * @Assert\NotNull()
+     * @ORM\ManyToOne(targetEntity="Domain", inversedBy="mailforward")
+     */
+    private $domain;
 
-	/**
-	 * @var MailAddress
-	 * @Assert\NotNull()
-	 * @ORM\ManyToOne(targetEntity="MailAddress", inversedBy="mailforward")
-	 */
-	private $mailaddress;
+    /**
+     * @var MailAddress
+     * @Assert\NotNull()
+     * @ORM\ManyToOne(targetEntity="MailAddress", inversedBy="mailforward")
+     */
+    private $mailaddress;
 
-	/**
-	 * @var string
-	 * @Assert\Email()
-	 * @Assert\NotBlank()
-	 * @ORM\Column(name="target", type="string", length=255)
-	 */
-	private $target;
+    /**
+     * @var string
+     * @Assert\Email()
+     * @Assert\NotBlank()
+     * @ORM\Column(name="target", type="string", length=255)
+     */
+    private $target;
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId() {
+        return $this->id;
+    }
 
-	/**
-	 * Set domain
-	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
-	 *
-	 * @return MailForward
-	 */
-	public function setDomain($domain) {
-		$this->domain = $domain;
+    /**
+     * Set domain
+     *
+     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     *
+     * @return MailForward
+     */
+    public function setDomain($domain) {
+        $this->domain = $domain;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get domain
-	 *
-	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain
-	 */
-	public function getDomain() {
-		return $this->domain;
-	}
+    /**
+     * Get domain
+     *
+     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain
+     */
+    public function getDomain() {
+        return $this->domain;
+    }
 
-	/**
-	 * Set mailaddress
-	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\MailAddress $mailaddress
-	 *
-	 * @return MailForward
-	 */
-	public function setMailaddress($mailaddress) {
-		$this->mailaddress = $mailaddress;
+    /**
+     * Set mailaddress
+     *
+     * @param \Jeboehm\Lampcp\CoreBundle\Entity\MailAddress $mailaddress
+     *
+     * @return MailForward
+     */
+    public function setMailaddress($mailaddress) {
+        $this->mailaddress = $mailaddress;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get mailaddress
-	 *
-	 * @return \Jeboehm\Lampcp\CoreBundle\Entity\MailAddress
-	 */
-	public function getMailaddress() {
-		return $this->mailaddress;
-	}
+    /**
+     * Get mailaddress
+     *
+     * @return \Jeboehm\Lampcp\CoreBundle\Entity\MailAddress
+     */
+    public function getMailaddress() {
+        return $this->mailaddress;
+    }
 
-	/**
-	 * Set target
-	 *
-	 * @param string $target
-	 *
-	 * @return MailForward
-	 */
-	public function setTarget($target) {
-		$this->target = $target;
+    /**
+     * Set target
+     *
+     * @param string $target
+     *
+     * @return MailForward
+     */
+    public function setTarget($target) {
+        $this->target = $target;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get target
-	 *
-	 * @return string
-	 */
-	public function getTarget() {
-		return $this->target;
-	}
+    /**
+     * Get target
+     *
+     * @return string
+     */
+    public function getTarget() {
+        return $this->target;
+    }
 }

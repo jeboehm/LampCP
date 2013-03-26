@@ -12,5 +12,11 @@ namespace Jeboehm\Lampcp\UserLoaderBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * Class JeboehmLampcpUserLoaderBundle
+ *
+ * @package Jeboehm\Lampcp\UserLoaderBundle
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class JeboehmLampcpUserLoaderBundle extends Bundle {
 }

@@ -10,6 +10,14 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Exception;
 
+/**
+ * Class TemplateNotFound
+ *
+ * Thrown, when a template is not found.
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Exception
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class TemplateNotFound extends \Exception {
 
 }

@@ -14,6 +14,14 @@ use Doctrine\ORM\EntityManager;
 use Jeboehm\Lampcp\CoreBundle\Entity\ConfigGroup;
 use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntity;
 
+/**
+ * Class AbstractConfigProvider
+ *
+ * Provides useful methods for configuration providers
+ *
+ * @package Jeboehm\Lampcp\ConfigBundle\Service
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 abstract class AbstractConfigProvider {
     /** @var EntityManager */
     private $_em;

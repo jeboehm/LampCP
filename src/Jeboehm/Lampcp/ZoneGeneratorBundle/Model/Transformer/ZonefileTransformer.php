@@ -17,6 +17,14 @@ use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\TemplateNotFound;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\NoResourceRecords;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\NoSoaRecord;
 
+/**
+ * Class ZonefileTransformer
+ *
+ * Transforms a ZoneCollection to a zonefile.
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Transformer
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ZonefileTransformer {
     /** @var ZoneCollection */
     protected $_collection;

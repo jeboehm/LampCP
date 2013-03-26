@@ -14,6 +14,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Jeboehm\Lampcp\CoreBundle\Form\Transformer\ZoneCollectionTransformer;
 
+/**
+ * Class DnsType
+ *
+ * Builds a DNS configuration form
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Form\Type
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class DnsType extends AbstractType {
     /**
      * Build form

@@ -17,6 +17,14 @@ use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntity;
 use Jeboehm\Lampcp\ConfigBundle\Exception\ConfigEntityNotFoundException;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
 
+/**
+ * Class ConfigService
+ *
+ * Methods for handling the configuration.
+ *
+ * @package Jeboehm\Lampcp\ConfigBundle\Service
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ConfigService {
     /** @var \Doctrine\ORM\EntityManager */
     private $_em;

@@ -19,6 +19,14 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Dns;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Transformer\ZonefileTransformer;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\DirectoryNotFound;
 
+/**
+ * Class BuilderService
+ *
+ * Builds Bind zonefiles.
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Service
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class BuilderService {
     /** @var \Doctrine\ORM\EntityManager */
     protected $_em;

@@ -10,6 +10,14 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Model;
 
+/**
+ * Class DnsResourceRecordTypes
+ *
+ * Provides a list of the available resource record types.
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Model
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class DnsResourceRecordTypes {
     static $types = array(
         'A',

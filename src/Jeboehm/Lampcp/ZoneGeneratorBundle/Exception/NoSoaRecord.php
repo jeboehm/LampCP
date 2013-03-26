@@ -10,6 +10,14 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Exception;
 
+/**
+ * Class NoSoaRecord
+ *
+ * Thrown, when no SOA record is set.
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Exception
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class NoSoaRecord extends \Exception {
 
 }

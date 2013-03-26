@@ -10,6 +10,14 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Utilities;
 
+/**
+ * Class PasswordGeneratorUtility
+ *
+ * Generates random passwords
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Utilities
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class PasswordGeneratorUtility {
 	/**
 	 * Generate password

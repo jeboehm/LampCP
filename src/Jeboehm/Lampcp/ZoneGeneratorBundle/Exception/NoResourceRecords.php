@@ -10,6 +10,14 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Exception;
 
+/**
+ * Class NoResourceRecords
+ *
+ * Thrown, when no resource records are set.
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Exception
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class NoResourceRecords extends \Exception {
 
 }

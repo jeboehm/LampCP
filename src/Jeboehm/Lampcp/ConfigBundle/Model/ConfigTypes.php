@@ -10,6 +10,14 @@
 
 namespace Jeboehm\Lampcp\ConfigBundle\Model;
 
+/**
+ * Class ConfigTypes
+ *
+ * Holds the configuration types.
+ *
+ * @package Jeboehm\Lampcp\ConfigBundle\Model
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ConfigTypes {
 	const TYPE_INTEGER  = 0;
 	const TYPE_STRING   = 1;

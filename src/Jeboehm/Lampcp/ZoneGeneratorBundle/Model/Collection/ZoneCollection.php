@@ -15,6 +15,14 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AbstractResourceRecord;
 
+/**
+ * Class ZoneCollection
+ *
+ * Collects Resource Records.
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ZoneCollection extends ArrayCollection {
     /** @var SOA */
     protected $_soa;

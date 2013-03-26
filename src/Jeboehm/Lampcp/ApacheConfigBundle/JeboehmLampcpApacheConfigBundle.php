@@ -12,5 +12,11 @@ namespace Jeboehm\Lampcp\ApacheConfigBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * Class JeboehmLampcpApacheConfigBundle
+ *
+ * @package Jeboehm\Lampcp\ApacheConfigBundle
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class JeboehmLampcpApacheConfigBundle extends Bundle {
 }

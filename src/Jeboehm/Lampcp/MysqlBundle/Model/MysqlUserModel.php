@@ -10,74 +10,82 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Model;
 
+/**
+ * Class MysqlUserModel
+ *
+ * Holds a MySQL user
+ *
+ * @package Jeboehm\Lampcp\MysqlBundle\Model
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class MysqlUserModel {
-	/** @var string */
-	private $username;
+    /** @var string */
+    private $username;
 
-	/** @var string */
-	private $password;
+    /** @var string */
+    private $password;
 
-	/** @var string */
-	private $host;
+    /** @var string */
+    private $host;
 
-	/**
-	 * Konstruktor
-	 */
-	public function __construct() {
-		$this->host = 'localhost';
-	}
+    /**
+     * Konstruktor
+     */
+    public function __construct() {
+        $this->host = 'localhost';
+    }
 
-	/**
-	 * @param string $host
-	 *
-	 * @return MysqlUserModel
-	 */
-	public function setHost($host) {
-		$this->host = $host;
+    /**
+     * @param string $host
+     *
+     * @return MysqlUserModel
+     */
+    public function setHost($host) {
+        $this->host = $host;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getHost() {
-		return $this->host;
-	}
+    /**
+     * @return string
+     */
+    public function getHost() {
+        return $this->host;
+    }
 
-	/**
-	 * @param string $password
-	 *
-	 * @return MysqlUserModel
-	 */
-	public function setPassword($password) {
-		$this->password = $password;
+    /**
+     * @param string $password
+     *
+     * @return MysqlUserModel
+     */
+    public function setPassword($password) {
+        $this->password = $password;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getPassword() {
-		return $this->password;
-	}
+    /**
+     * @return string
+     */
+    public function getPassword() {
+        return $this->password;
+    }
 
-	/**
-	 * @param string $username
-	 *
-	 * @return MysqlUserModel
-	 */
-	public function setUsername($username) {
-		$this->username = $username;
+    /**
+     * @param string $username
+     *
+     * @return MysqlUserModel
+     */
+    public function setUsername($username) {
+        $this->username = $username;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getUsername() {
-		return $this->username;
-	}
+    /**
+     * @return string
+     */
+    public function getUsername() {
+        return $this->username;
+    }
 }

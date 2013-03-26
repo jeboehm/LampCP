@@ -10,6 +10,12 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord;
 
+/**
+ * Class AbstractResourceRecord
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 abstract class AbstractResourceRecord implements IResourceRecord {
     /** @var string */
     private $_name;
@@ -24,7 +30,9 @@ abstract class AbstractResourceRecord implements IResourceRecord {
      * Constructor
      */
     public function __construct() {
-        $this->setTtl(1800)->setName('@');
+        $this
+            ->setTtl(1800)
+            ->setName('@');
     }
 
     /**
