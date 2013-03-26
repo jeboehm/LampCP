@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 
 /**
  * Status controller.
@@ -39,7 +40,7 @@ class StatusController extends AbstractController {
     }
 
     /**
-     * Saves the domain to session
+     * Saves the domain to domainselector
      *
      * @Route("/config/setdomain/{domain}", name="set_domain")
      *
@@ -48,9 +49,9 @@ class StatusController extends AbstractController {
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function setDomainAction(Domain $domain) {
-        $this
-            ->_getSession()
-            ->set('domain', $domain->getId());
+        /** @var $domainselector DomainselectorService */
+        $domainselector = $this->get('jeboehm_lampcp_core.domainselector');
+        $domainselector->setDomain($domain);
 
         return $this->redirect($this->generateUrl('status'));
     }

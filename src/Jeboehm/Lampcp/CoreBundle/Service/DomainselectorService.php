@@ -24,6 +24,8 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class DomainselectorService {
+    const SESSIONKEY = 'domain';
+
     /** @var \Doctrine\ORM\EntityManager */
     private $_em;
 
@@ -61,7 +63,7 @@ class DomainselectorService {
      * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain|null
      */
     public function getSelected() {
-        $id      = $this->_session->get('domain');
+        $id      = $this->_session->get(self::SESSIONKEY);
         $domains = $this->getDomains();
 
         if (is_numeric($id) && $id > 0) {
@@ -74,5 +76,14 @@ class DomainselectorService {
         }
 
         return null;
+    }
+
+    /**
+     * Set domain
+     *
+     * @param Domain $domain
+     */
+    public function setDomain(Domain $domain) {
+        $this->_session->set(self::SESSIONKEY, $domain->getId());
     }
 }
