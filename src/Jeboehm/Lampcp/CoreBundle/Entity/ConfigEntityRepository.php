@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
 
 /**
  * ConfigEntityRepository
@@ -39,7 +40,7 @@ class ConfigEntityRepository extends EntityRepository {
     }
 
     /**
-     * Get all entities, ordered by groupname
+     * Get all visible entities, ordered by groupname
      *
      * @return ConfigEntity[]
      */
@@ -47,6 +48,7 @@ class ConfigEntityRepository extends EntityRepository {
         $qb = $this->createQueryBuilder('c');
         $qb
             ->leftJoin('c.configgroup', 'g')
+            ->where($qb->expr()->notIn('c.type', array(ConfigTypes::TYPE_HIDDEN)))
             ->orderBy('g.name', 'asc')
             ->addOrderBy('c.id', 'asc');
 
