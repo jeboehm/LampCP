@@ -12,5 +12,11 @@ namespace Jeboehm\Lampcp\MysqlBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * Class JeboehmLampcpMysqlBundle
+ *
+ * @package Jeboehm\Lampcp\MysqlBundle
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class JeboehmLampcpMysqlBundle extends Bundle {
 }

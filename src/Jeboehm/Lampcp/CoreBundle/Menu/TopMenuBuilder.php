@@ -16,6 +16,14 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 
+/**
+ * Class TopMenuBuilder
+ *
+ * Builds the top menu, with the domainselector
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Menu
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class TopMenuBuilder extends ContainerAware {
     /**
      * Build the top menu

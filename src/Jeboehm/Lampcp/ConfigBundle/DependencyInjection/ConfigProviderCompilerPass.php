@@ -14,17 +14,25 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * Class ConfigProviderCompilerPass
+ *
+ * Search for "config.provider" tagged services.
+ *
+ * @package Jeboehm\Lampcp\ConfigBundle\DependencyInjection
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ConfigProviderCompilerPass implements CompilerPassInterface {
-	public function process(ContainerBuilder $container) {
-		if(!$container->hasDefinition('jeboehm_lampcp_config_configprovidercollector')) {
-			return;
-		}
+    public function process(ContainerBuilder $container) {
+        if (!$container->hasDefinition('jeboehm_lampcp_config_configprovidercollector')) {
+            return;
+        }
 
-		$definition = $container->getDefinition('jeboehm_lampcp_config_configprovidercollector');
-		$services   = $container->findTaggedServiceIds('config.provider');
+        $definition = $container->getDefinition('jeboehm_lampcp_config_configprovidercollector');
+        $services   = $container->findTaggedServiceIds('config.provider');
 
-		foreach($services as $id => $attrib) {
-			$definition->addMethodCall('addProvider', array(new Reference($id)));
-		}
-	}
+        foreach ($services as $id => $attrib) {
+            $definition->addMethodCall('addProvider', array(new Reference($id)));
+        }
+    }
 }

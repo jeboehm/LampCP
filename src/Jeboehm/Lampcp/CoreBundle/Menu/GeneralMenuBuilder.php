@@ -13,6 +13,14 @@ namespace Jeboehm\Lampcp\CoreBundle\Menu;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
+/**
+ * Class GeneralMenuBuilder
+ *
+ * Builds the main menu
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Menu
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class GeneralMenuBuilder extends ContainerAware {
     /**
      * Build the top menu

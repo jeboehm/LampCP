@@ -19,6 +19,14 @@ use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Service\BuilderService;
 
+/**
+ * Class GenerateConfigCommand
+ *
+ * Generate Bind zonefiles
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Command
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class GenerateConfigCommand extends AbstractCommand {
     /**
      * Get watched entitys

@@ -12,6 +12,14 @@ namespace Jeboehm\Lampcp\AuthBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * Class JeboehmLampcpAuthBundle
+ *
+ * Parent: FOSUserBundle
+ *
+ * @package Jeboehm\Lampcp\AuthBundle
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class JeboehmLampcpAuthBundle extends Bundle {
 	public function getParent() {
 		return 'FOSUserBundle';

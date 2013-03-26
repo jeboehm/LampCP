@@ -12,6 +12,14 @@ namespace Jeboehm\Lampcp\CoreBundle\Form\Model;
 
 use Jeboehm\Lampcp\CoreBundle\Entity\ConfigGroup;
 
+/**
+ * Class ConfigEntity
+ *
+ * Holds a configuration entity without doctrine bindings
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Form\Model
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ConfigEntity {
     /** @var string */
     private $name;

@@ -16,76 +16,93 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * Class GenerateViewCommand
+ *
+ * Provides commands for creating database tables
+ *
+ * @package Jeboehm\Lampcp\PostfixBundle\Command
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class GenerateViewCommand extends AbstractCommand {
-	/**
-	 * Configure command
-	 */
-	protected function configure() {
-		$this->setName('lampcp:postfix:generateview');
-		$this->setDescription('Generate or drop the postfix table views');
-		$this->addOption('create', 'c', InputOption::VALUE_NONE);
-		$this->addOption('drop', 'd', InputOption::VALUE_NONE);
-	}
+    /**
+     * Configure command
+     */
+    protected function configure() {
+        $this->setName('lampcp:postfix:generateview');
+        $this->setDescription('Generate or drop the postfix table views');
+        $this->addOption('create', 'c', InputOption::VALUE_NONE);
+        $this->addOption('drop', 'd', InputOption::VALUE_NONE);
+    }
 
-	/**
-	 * Get sql files for method
-	 *
-	 * @param string $method
-	 *
-	 * @return array
-	 * @throws \Exception
-	 */
-	protected function _getSqlFiles($method) {
-		$fs   = new Filesystem();
-		$sql  = array();
-		$path = realpath(__DIR__ . '/../Resources/sql/' . strtolower($method));
+    /**
+     * Get sql files for method
+     *
+     * @param string $method
+     *
+     * @return array
+     * @throws \Exception
+     */
+    protected function _getSqlFiles($method) {
+        $fs   = new Filesystem();
+        $sql  = array();
+        $path = realpath(__DIR__ . '/../Resources/sql/' . strtolower($method));
 
-		if(!$fs->exists($path)) {
-			throw new \Exception('Cant find sql files for method!');
-		}
+        if (!$fs->exists($path)) {
+            throw new \Exception('Cant find sql files for method!');
+        }
 
-		foreach(glob($path . '/*.sql') as $file) {
-			$content = file_get_contents($file);
+        foreach (glob($path . '/*.sql') as $file) {
+            $content = file_get_contents($file);
 
-			if(!empty($content)) {
-				$sql[] = $content;
-			}
-		}
+            if (!empty($content)) {
+                $sql[] = $content;
+            }
+        }
 
-		return $sql;
-	}
+        return $sql;
+    }
 
-	/**
-	 * Execute command
-	 *
-	 * @param \Symfony\Component\Console\Input\InputInterface   $input
-	 * @param \Symfony\Component\Console\Output\OutputInterface $output
-	 *
-	 * @throws \Exception
-	 * @return int|null|void
-	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		if($input->getOption('create')) {
-			$sql = $this->_getSqlFiles('create');
+    /**
+     * Execute command
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface   $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @throws \Exception
+     * @return int|null|void
+     */
+    protected function execute(InputInterface $input, OutputInterface $output) {
+        if ($input->getOption('create')) {
+            $sql = $this->_getSqlFiles('create');
 
-			foreach($sql as $statement) {
-				$this->_getDoctrine()->getConnection()->exec($statement);
-			}
+            foreach ($sql as $statement) {
+                $this
+                    ->_getDoctrine()
+                    ->getConnection()
+                    ->exec($statement);
+            }
 
-			$output->writeln('Created Postfix views!');
-			$this->_getLogger()->alert('(PostfixBundle) Created Postfix views');
+            $output->writeln('Created Postfix views!');
+            $this
+                ->_getLogger()
+                ->alert('(PostfixBundle) Created Postfix views');
+        } elseif ($input->getOption('drop')) {
+            $sql = $sql = $this->_getSqlFiles('drop');
 
-		} elseif($input->getOption('drop')) {
-			$sql = $sql = $this->_getSqlFiles('drop');
+            foreach ($sql as $statement) {
+                $this
+                    ->_getDoctrine()
+                    ->getConnection()
+                    ->exec($statement);
+            }
 
-			foreach($sql as $statement) {
-				$this->_getDoctrine()->getConnection()->exec($statement);
-			}
-
-			$output->writeln('Dropped Postfix views!');
-			$this->_getLogger()->alert('(PostfixBundle) Dropped Postfix views');
-		} else {
-			$output->writeln('Choose: --create or --drop');
-		}
-	}
+            $output->writeln('Dropped Postfix views!');
+            $this
+                ->_getLogger()
+                ->alert('(PostfixBundle) Dropped Postfix views');
+        } else {
+            $output->writeln('Choose: --create or --drop');
+        }
+    }
 }

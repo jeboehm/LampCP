@@ -17,47 +17,62 @@ use Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Command\GenerateLampcpConfigCommand as BaseGenerateLampcpConfigCommand;
 
+/**
+ * Class GenerateLampcpConfigCommand
+ *
+ * Generate first vhost for new LampCP installations
+ *
+ * @package Jeboehm\Lampcp\LightyConfigBundle\Command
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class GenerateLampcpConfigCommand extends BaseGenerateLampcpConfigCommand {
-	/**
-	 * Configure command
-	 */
-	protected function configure() {
-		parent::configure();
-		$this->setName('lampcp:lighty:generatelampcpconfig');
-		$this->setDescription('Generates the lighttpd configuration for LampCP');
-	}
+    /**
+     * Configure command
+     */
+    protected function configure() {
+        parent::configure();
+        $this->setName('lampcp:lighty:generatelampcpconfig');
+        $this->setDescription('Generates the lighttpd configuration for LampCP');
+    }
 
+    /**
+     * @return VhostBuilderService
+     */
+    protected function _getVhostBuilderService() {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_lighty_config_vhostbuilder');
+    }
 
-	/**
-	 * @return VhostBuilderService
-	 */
-	protected function _getVhostBuilderService() {
-		return $this->getContainer()->get('jeboehm_lampcp_lighty_config_vhostbuilder');
-	}
+    /**
+     * @return DirectoryBuilderService
+     */
+    protected function _getDirectoryBuilderService() {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_lighty_config_directorybuilder');
+    }
 
-	/**
-	 * @return DirectoryBuilderService
-	 */
-	protected function _getDirectoryBuilderService() {
-		return $this->getContainer()->get('jeboehm_lampcp_lighty_config_directorybuilder');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function _getLampcpDomain($servername, $username, $dir) {
-		$domain       = parent::_getLampcpDomain($servername, $username, $dir);
-		$customconfig = <<< EOT
+    /**
+     * {@inheritdoc}
+     */
+    protected function _getLampcpDomain($servername, $username, $dir) {
+        $domain       = parent::_getLampcpDomain($servername, $username, $dir);
+        $customconfig = <<< EOT
 url.rewrite-if-not-file = (
     "(.+)" => "/app.php$1"
 )
 
 EOT;
 
-		$domain->setCustomconfig($customconfig);
-		$this->_getDoctrine()->persist($domain);
-		$this->_getDoctrine()->flush();
+        $domain->setCustomconfig($customconfig);
+        $this
+            ->_getDoctrine()
+            ->persist($domain);
+        $this
+            ->_getDoctrine()
+            ->flush();
 
-		return $domain;
-	}
+        return $domain;
+    }
 }

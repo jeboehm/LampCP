@@ -10,6 +10,12 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord;
 
+/**
+ * Class NS
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class NS extends AbstractResourceRecord {
     /**
      * Get class name

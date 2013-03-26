@@ -10,9 +10,17 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\IBuilder;
 
+/**
+ * Class BuilderServiceInterface
+ *
+ * Interface for configuration building services.
+ *
+ * @package Jeboehm\Lampcp\ApacheConfigBundle\IBuilder
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 interface BuilderServiceInterface {
-	/**
-	 * @return void
-	 */
-	public function buildAll();
+    /**
+     * @return void
+     */
+    public function buildAll();
 }

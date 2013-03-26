@@ -13,6 +13,14 @@ namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Class ConfigType
+ *
+ * Builds the configuration form
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Form\Type
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ConfigType extends AbstractType {
     /**
      * Build form

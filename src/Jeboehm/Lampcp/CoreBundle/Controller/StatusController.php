@@ -20,43 +20,49 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
  * Status controller.
  */
 class StatusController extends AbstractController {
-	/**
-	 * Shows status page.
-	 *
-	 * @Route("/", name="status")
-	 * @Route("/", name="default")
-	 * @Template()
-	 * @return array
-	 */
-	public function indexAction() {
-		$cronjobs = $this->_getCronRepository()->findAll();
+    /**
+     * Shows status page.
+     *
+     * @Route("/", name="status")
+     * @Route("/", name="default")
+     * @Template()
+     * @return array
+     */
+    public function indexAction() {
+        $cronjobs = $this
+            ->_getCronRepository()
+            ->findAll();
 
-		return array(
-			'cronjobs' => $cronjobs,
-		);
-	}
+        return array(
+            'cronjobs' => $cronjobs,
+        );
+    }
 
-	/**
-	 * Saves the domain to session
-	 *
-	 * @Route("/config/setdomain/{domain}", name="set_domain")
-	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
-	 *
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function setDomainAction(Domain $domain) {
-		$this->_getSession()->set('domain', $domain->getId());
+    /**
+     * Saves the domain to session
+     *
+     * @Route("/config/setdomain/{domain}", name="set_domain")
+     *
+     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function setDomainAction(Domain $domain) {
+        $this
+            ->_getSession()
+            ->set('domain', $domain->getId());
 
-		return $this->redirect($this->generateUrl('status'));
-	}
+        return $this->redirect($this->generateUrl('status'));
+    }
 
-	/**
-	 * Get cron repository
-	 *
-	 * @return \Doctrine\Common\Persistence\ObjectRepository
-	 */
-	protected function _getCronRepository() {
-		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Cron');
-	}
+    /**
+     * Get cron repository
+     *
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    protected function _getCronRepository() {
+        return $this
+            ->getDoctrine()
+            ->getRepository('JeboehmLampcpCoreBundle:Cron');
+    }
 }

@@ -23,164 +23,180 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\CertificateType;
  * @Route("/config/certificate")
  */
 class CertificateController extends AbstractController {
-	/**
-	 * Lists all Certificate entities.
-	 *
-	 * @Route("/", name="config_certificate")
-	 * @Template()
-	 */
-	public function indexAction() {
-		/** @var $entities Certificate[] */
-		$entities = $this->_getRepository()->findBy(array(), array('name' => 'asc'));
+    /**
+     * Lists all Certificate entities.
+     *
+     * @Route("/", name="config_certificate")
+     * @Template()
+     */
+    public function indexAction() {
+        /** @var $entities Certificate[] */
+        $entities = $this
+            ->_getRepository()
+            ->findBy(array(), array('name' => 'asc'));
 
-		return array(
-			'entities' => $entities,
-		);
-	}
+        return array(
+            'entities' => $entities,
+        );
+    }
 
-	/**
-	 * Finds and displays a Certificate entity.
-	 *
-	 * @Route("/{entity}/show", name="config_certificate_show")
-	 * @Template()
-	 */
-	public function showAction(Certificate $entity) {
-		try {
-			$privKey = $entity->getCertificateKeyFile();
+    /**
+     * Finds and displays a Certificate entity.
+     *
+     * @Route("/{entity}/show", name="config_certificate_show")
+     * @Template()
+     */
+    public function showAction(Certificate $entity) {
+        try {
+            $privKey = $entity->getCertificateKeyFile();
 
-			if(!empty($privKey)) {
-				$entity->setCertificateKeyFile($this->_getCryptService()->decrypt($privKey));
-			}
-		} catch(\Exception $e) {
+            if (!empty($privKey)) {
+                $entity->setCertificateKeyFile($this
+                    ->_getCryptService()
+                    ->decrypt($privKey));
+            }
+        } catch (\Exception $e) {
+        }
 
-		}
+        return array(
+            'entity' => $entity,
+        );
+    }
 
-		return array(
-			'entity' => $entity,
-		);
-	}
+    /**
+     * Displays a form to create a new Certificate entity.
+     *
+     * @Route("/new", name="config_certificate_new")
+     * @Template()
+     */
+    public function newAction() {
+        $entity = new Certificate();
+        $form   = $this->createForm(new CertificateType(), $entity);
 
-	/**
-	 * Displays a form to create a new Certificate entity.
-	 *
-	 * @Route("/new", name="config_certificate_new")
-	 * @Template()
-	 */
-	public function newAction() {
-		$entity = new Certificate();
-		$form   = $this->createForm(new CertificateType(), $entity);
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
 
-		return array(
-			'entity' => $entity,
-			'form'   => $form->createView(),
-		);
-	}
+    /**
+     * Creates a new Certificate entity.
+     *
+     * @Route("/create", name="config_certificate_create")
+     * @Method("POST")
+     * @Template("JeboehmLampcpCoreBundle:Certificate:new.html.twig")
+     */
+    public function createAction(Request $request) {
+        $entity = new Certificate();
+        $form   = $this->createForm(new CertificateType(), $entity);
+        $form->bind($request);
 
-	/**
-	 * Creates a new Certificate entity.
-	 *
-	 * @Route("/create", name="config_certificate_create")
-	 * @Method("POST")
-	 * @Template("JeboehmLampcpCoreBundle:Certificate:new.html.twig")
-	 */
-	public function createAction(Request $request) {
-		$entity = new Certificate();
-		$form   = $this->createForm(new CertificateType(), $entity);
-		$form->bind($request);
+        if ($form->isValid()) {
+            $privKey = $entity->getCertificateKeyFile();
 
-		if($form->isValid()) {
-			$privKey = $entity->getCertificateKeyFile();
+            if (!empty($privKey)) {
+                $entity->setCertificateKeyFile($this
+                    ->_getCryptService()
+                    ->encrypt($privKey));
+            }
 
-			if(!empty($privKey)) {
-				$entity->setCertificateKeyFile($this->_getCryptService()->encrypt($privKey));
-			}
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->persist($entity);
+            $em->flush();
 
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($entity);
-			$em->flush();
+            return $this->redirect($this->generateUrl('config_certificate_show', array('entity' => $entity->getId())));
+        }
 
-			return $this->redirect($this->generateUrl('config_certificate_show', array('entity' => $entity->getId())));
-		}
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
 
-		return array(
-			'entity' => $entity,
-			'form'   => $form->createView(),
-		);
-	}
+    /**
+     * Displays a form to edit an existing Certificate entity.
+     *
+     * @Route("/{entity}/edit", name="config_certificate_edit")
+     * @Template()
+     */
+    public function editAction(Certificate $entity) {
+        try {
+            $privKey = $entity->getCertificateKeyFile();
 
-	/**
-	 * Displays a form to edit an existing Certificate entity.
-	 *
-	 * @Route("/{entity}/edit", name="config_certificate_edit")
-	 * @Template()
-	 */
-	public function editAction(Certificate $entity) {
-		try {
-			$privKey = $entity->getCertificateKeyFile();
+            if (!empty($privKey)) {
+                $entity->setCertificateKeyFile($this
+                    ->_getCryptService()
+                    ->decrypt($privKey));
+            }
+        } catch (\Exception $e) {
+        }
 
-			if(!empty($privKey)) {
-				$entity->setCertificateKeyFile($this->_getCryptService()->decrypt($privKey));
-			}
-		} catch(\Exception $e) {
+        $editForm = $this->createForm(new CertificateType(), $entity);
 
-		}
+        return array(
+            'entity'    => $entity,
+            'edit_form' => $editForm->createView(),
+        );
+    }
 
-		$editForm = $this->createForm(new CertificateType(), $entity);
+    /**
+     * Edits an existing Certificate entity.
+     *
+     * @Route("/{entity}/update", name="config_certificate_update")
+     * @Method("POST")
+     * @Template("JeboehmLampcpCoreBundle:Certificate:edit.html.twig")
+     */
+    public function updateAction(Request $request, Certificate $entity) {
+        $editForm = $this->createForm(new CertificateType(), $entity);
+        $editForm->bind($request);
 
-		return array(
-			'entity'    => $entity,
-			'edit_form' => $editForm->createView(),
-		);
-	}
+        if ($editForm->isValid()) {
+            $privKey = $this
+                ->_getCryptService()
+                ->encrypt($entity->getCertificateKeyFile());
+            $entity->setCertificateKeyFile($privKey);
 
-	/**
-	 * Edits an existing Certificate entity.
-	 *
-	 * @Route("/{entity}/update", name="config_certificate_update")
-	 * @Method("POST")
-	 * @Template("JeboehmLampcpCoreBundle:Certificate:edit.html.twig")
-	 */
-	public function updateAction(Request $request, Certificate $entity) {
-		$editForm = $this->createForm(new CertificateType(), $entity);
-		$editForm->bind($request);
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->persist($entity);
+            $em->flush();
 
-		if($editForm->isValid()) {
-			$privKey = $this->_getCryptService()->encrypt($entity->getCertificateKeyFile());
-			$entity->setCertificateKeyFile($privKey);
+            return $this->redirect($this->generateUrl('config_certificate_edit', array('entity' => $entity->getId())));
+        }
 
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($entity);
-			$em->flush();
+        return array(
+            'entity'    => $entity,
+            'edit_form' => $editForm->createView(),
+        );
+    }
 
-			return $this->redirect($this->generateUrl('config_certificate_edit', array('entity' => $entity->getId())));
-		}
+    /**
+     * Deletes a Certificate entity.
+     *
+     * @Route("/{entity}/delete", name="config_certificate_delete")
+     */
+    public function deleteAction(Certificate $entity) {
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
 
-		return array(
-			'entity'    => $entity,
-			'edit_form' => $editForm->createView(),
-		);
-	}
+        $em->remove($entity);
+        $em->flush();
 
-	/**
-	 * Deletes a Certificate entity.
-	 *
-	 * @Route("/{entity}/delete", name="config_certificate_delete")
-	 */
-	public function deleteAction(Certificate $entity) {
-		$em = $this->getDoctrine()->getManager();
+        return $this->redirect($this->generateUrl('config_certificate'));
+    }
 
-		$em->remove($entity);
-		$em->flush();
-
-		return $this->redirect($this->generateUrl('config_certificate'));
-	}
-
-	/**
-	 * Get repository
-	 *
-	 * @return \Doctrine\Common\Persistence\ObjectRepository
-	 */
-	private function _getRepository() {
-		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:Certificate');
-	}
+    /**
+     * Get repository
+     *
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    private function _getRepository() {
+        return $this
+            ->getDoctrine()
+            ->getRepository('JeboehmLampcpCoreBundle:Certificate');
+    }
 }

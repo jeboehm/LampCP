@@ -13,7 +13,18 @@ namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Service;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
 use Jeboehm\Lampcp\ConfigBundle\Service\AbstractConfigProvider;
 
+/**
+ * Class ConfigProvider
+ *
+ * Provides default configuration.
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Service
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ConfigProvider extends AbstractConfigProvider {
+    /**
+     * Create configuration fields.
+     */
     public function init() {
         $group = $this->_createGroup('dns');
 

@@ -12,5 +12,11 @@ namespace Jeboehm\Lampcp\ZoneGeneratorBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * Class JeboehmLampcpZoneGeneratorBundle
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class JeboehmLampcpZoneGeneratorBundle extends Bundle {
 }

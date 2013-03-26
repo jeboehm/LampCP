@@ -14,6 +14,15 @@ use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 
+/**
+ * Class DomainMenuBuilder
+ *
+ * Builds the domain menu, only shown when the domainselector
+ * is filled.
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Menu
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class DomainMenuBuilder extends ContainerAware {
     /**
      * Build the top menu

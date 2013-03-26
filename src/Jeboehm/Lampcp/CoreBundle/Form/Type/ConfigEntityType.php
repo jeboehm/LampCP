@@ -18,6 +18,14 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
 use Jeboehm\Lampcp\CoreBundle\Form\Model\ConfigEntity;
 
+/**
+ * Class ConfigEntityType
+ *
+ * Builds the form for config entities
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Form\Type
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ConfigEntityType extends AbstractType {
     /**
      * Build form

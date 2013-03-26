@@ -10,6 +10,12 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord;
 
+/**
+ * Class SOA
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class SOA extends AbstractResourceRecord {
     /** @var string */
     protected $primary;
@@ -40,7 +46,12 @@ class SOA extends AbstractResourceRecord {
     public function __construct() {
         parent::__construct();
 
-        $this->refreshSerial()->setRefresh(300)->setRetry(100)->setExpire(6000)->setMinimum(600);
+        $this
+            ->refreshSerial()
+            ->setRefresh(300)
+            ->setRetry(100)
+            ->setExpire(6000)
+            ->setMinimum(600);
     }
 
     /**

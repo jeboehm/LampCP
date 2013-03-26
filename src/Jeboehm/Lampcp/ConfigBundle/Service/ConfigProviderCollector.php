@@ -12,32 +12,41 @@ namespace Jeboehm\Lampcp\ConfigBundle\Service;
 
 use Jeboehm\Lampcp\ConfigBundle\Service\AbstractConfigProvider;
 
+/**
+ * Class ConfigProviderCollector
+ *
+ * Collects the config providers. Used by
+ * ConfigProviderCompilerPass.
+ *
+ * @package Jeboehm\Lampcp\ConfigBundle\Service
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ConfigProviderCollector {
-	/** @var array */
-	protected $_provider;
+    /** @var array */
+    protected $_provider;
 
-	/**
-	 * Konstruktor
-	 */
-	public function __construct() {
-		$this->_provider = array();
-	}
+    /**
+     * Konstruktor
+     */
+    public function __construct() {
+        $this->_provider = array();
+    }
 
-	/**
-	 * Add provider
-	 *
-	 * @param AbstractConfigProvider $provider
-	 */
-	public function addProvider(AbstractConfigProvider $provider) {
-		$this->_provider[] = $provider;
-	}
+    /**
+     * Add provider
+     *
+     * @param AbstractConfigProvider $provider
+     */
+    public function addProvider(AbstractConfigProvider $provider) {
+        $this->_provider[] = $provider;
+    }
 
-	/**
-	 * Return registered providers
-	 *
-	 * @return AbstractConfigProvider[]
-	 */
-	public function getProviders() {
-		return $this->_provider;
-	}
+    /**
+     * Return registered providers
+     *
+     * @return AbstractConfigProvider[]
+     */
+    public function getProviders() {
+        return $this->_provider;
+    }
 }

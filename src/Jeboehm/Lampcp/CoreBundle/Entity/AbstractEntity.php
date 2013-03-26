@@ -19,37 +19,37 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\MappedSuperclass
  */
 abstract class AbstractEntity {
-	/**
-	 * @var \DateTime $created
-	 *
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(name="created", type="datetime")
-	 */
-	private $created;
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created", type="datetime")
+     */
+    private $created;
 
-	/**
-	 * @var \DateTime $updated
-	 *
-	 * @Gedmo\Timestampable(on="update")
-	 * @ORM\Column(name="updated", type="datetime")
-	 */
-	private $updated;
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated", type="datetime")
+     */
+    private $updated;
 
-	/**
-	 * Get created
-	 *
-	 * @return \DateTime
-	 */
-	public function getCreated() {
-		return $this->created;
-	}
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated() {
+        return $this->created;
+    }
 
-	/**
-	 * Get updated
-	 *
-	 * @return \DateTime
-	 */
-	public function getUpdated() {
-		return $this->updated;
-	}
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdated() {
+        return $this->updated;
+    }
 }

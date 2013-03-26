@@ -13,23 +13,31 @@ namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * Class ProtectionUserType
+ *
+ * Builds a protection user form
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Form\Type
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ProtectionUserType extends AbstractType {
-	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder
-			->add('username')
-			->add('password', 'repeated', array(
-											   'type'     => 'password',
-											   'required' => !$this->_getIsEditMode($builder),
-										  ));
-	}
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder
+            ->add('username')
+            ->add('password', 'repeated', array(
+                                               'type'     => 'password',
+                                               'required' => !$this->_getIsEditMode($builder),
+                                          ));
+    }
 
-	public function setDefaultOptions(OptionsResolverInterface $resolver) {
-		$resolver->setDefaults(array(
-									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\ProtectionUser'
-							   ));
-	}
+    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+        $resolver->setDefaults(array(
+                                    'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\ProtectionUser'
+                               ));
+    }
 
-	public function getName() {
-		return 'jeboehm_lampcp_corebundle_protectionusertype';
-	}
+    public function getName() {
+        return 'jeboehm_lampcp_corebundle_protectionusertype';
+    }
 }

@@ -10,6 +10,12 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord;
 
+/**
+ * Class IResourceRecord
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 interface IResourceRecord {
     /**
      * Get domain name

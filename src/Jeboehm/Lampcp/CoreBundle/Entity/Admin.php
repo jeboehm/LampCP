@@ -24,46 +24,46 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("email")
  */
 class Admin extends BaseUser {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="integer")
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-	/**
-	 * @var \DateTime $created
-	 *
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(name="created", type="datetime")
-	 */
-	private $created;
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created", type="datetime")
+     */
+    private $created;
 
-	/**
-	 * @var \DateTime $updated
-	 *
-	 * @Gedmo\Timestampable(on="update")
-	 * @ORM\Column(name="updated", type="datetime")
-	 */
-	private $updated;
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated", type="datetime")
+     */
+    private $updated;
 
-	/**
-	 * Get created
-	 *
-	 * @return \DateTime
-	 */
-	public function getCreated() {
-		return $this->created;
-	}
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated() {
+        return $this->created;
+    }
 
-	/**
-	 * Get updated
-	 *
-	 * @return \DateTime
-	 */
-	public function getUpdated() {
-		return $this->updated;
-	}
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdated() {
+        return $this->updated;
+    }
 }

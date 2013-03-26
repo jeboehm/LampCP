@@ -10,6 +10,12 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord;
 
+/**
+ * Class SPF
+ *
+ * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class SPF extends AbstractResourceRecord {
     /**
      * Get class name

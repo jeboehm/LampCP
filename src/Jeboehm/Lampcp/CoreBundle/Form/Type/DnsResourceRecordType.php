@@ -15,6 +15,14 @@ use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\DnsResourceRecordTypes;
 
+/**
+ * Class DnsResourceRecordType
+ *
+ * Builds a form for DNS resource records
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Form\Type
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class DnsResourceRecordType extends AbstractType {
     /**
      * Build form

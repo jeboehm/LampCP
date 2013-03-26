@@ -16,6 +16,14 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;
 
+/**
+ * Class ChangePasswordSuccess
+ *
+ * Listens for password changing events.
+ *
+ * @package Jeboehm\Lampcp\AuthBundle\Listener
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ChangePasswordSuccess implements EventSubscriberInterface {
     /** @var UrlGeneratorInterface */
     private $router;

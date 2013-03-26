@@ -10,5 +10,13 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Exception;
 
+/**
+ * Class DatabaseNotExistsException
+ *
+ * Thrown, when a requested database not exists
+ *
+ * @package Jeboehm\Lampcp\MysqlBundle\Exception
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class DatabaseNotExistsException extends \Exception {
 }

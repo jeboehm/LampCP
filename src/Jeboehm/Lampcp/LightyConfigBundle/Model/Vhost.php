@@ -14,88 +14,99 @@ use Jeboehm\Lampcp\CoreBundle\Entity\PathOption;
 use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
 use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost as ParentVhost;
 
+/**
+ * Class Vhost
+ *
+ * Holds a virtual host
+ *
+ * @package Jeboehm\Lampcp\LightyConfigBundle\Model
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class Vhost extends ParentVhost {
-	const _php_fcgi_socket = '/tmp/php.socket';
+    const _php_fcgi_socket = '/tmp/php.socket';
 
-	/**
-	 * Returns true, if the vhost is bound to all ips (*, 0.0.0.0)
-	 *
-	 * @return bool
-	 */
-	public function getBoundToAllIps() {
-		if($this->getIpaddress()->getIp() === '*') {
-			return true;
-		}
+    /**
+     * Returns true, if the vhost is bound to all ips (*, 0.0.0.0)
+     *
+     * @return bool
+     */
+    public function getBoundToAllIps() {
+        if ($this
+            ->getIpaddress()
+            ->getIp() === '*'
+        ) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Get PHP Socket path
-	 *
-	 * @return string
-	 */
-	public function getFcgiSocket() {
-		$socket = '';
+    /**
+     * Get PHP Socket path
+     *
+     * @return string
+     */
+    public function getFcgiSocket() {
+        $socket = '';
 
-		if($this->getPHPEnabled()) {
-			$socket = $this->domain->getPath() . self::_php_fcgi_socket;
-		}
+        if ($this->getPHPEnabled()) {
+            $socket = $this->domain->getPath() . self::_php_fcgi_socket;
+        }
 
-		return $socket;
-	}
+        return $socket;
+    }
 
-	/**
-	 * Get protections
-	 *
-	 * @return Protection[]
-	 */
-	protected function _getProtection() {
-		return $this->domain->getProtection();
-	}
+    /**
+     * Get protections
+     *
+     * @return Protection[]
+     */
+    protected function _getProtection() {
+        return $this->domain->getProtection();
+    }
 
-	/**
-	 * Get pathoptions
-	 *
-	 * @return PathOption[]
-	 */
-	protected function _getPathOption() {
-		return $this->domain->getPathoption();
-	}
+    /**
+     * Get pathoptions
+     *
+     * @return PathOption[]
+     */
+    protected function _getPathOption() {
+        return $this->domain->getPathoption();
+    }
 
-	/**
-	 * Get directory options
-	 *
-	 * @return array
-	 */
-	public function getDirectoryOptions() {
-		$options = parent::getDirectoryOptions();
+    /**
+     * Get directory options
+     *
+     * @return array
+     */
+    public function getDirectoryOptions() {
+        $options = parent::getDirectoryOptions();
 
-		foreach($options as $key => $value) {
-			$pathOld = $value['path'];
-			$pathNew = substr($pathOld, strlen($this->getDocumentRoot()));
+        foreach ($options as $key => $value) {
+            $pathOld = $value['path'];
+            $pathNew = substr($pathOld, strlen($this->getDocumentRoot()));
 
-			if(empty($pathNew)) {
-				$pathNew = '/';
-			}
+            if (empty($pathNew)) {
+                $pathNew = '/';
+            }
 
-			$value['path'] = $pathNew;
-			$options[$key] = $value;
-		}
+            $value['path'] = $pathNew;
+            $options[$key] = $value;
+        }
 
-		return $options;
-	}
+        return $options;
+    }
 
-	/**
-	 * Get ServerName
-	 *
-	 * @return string
-	 */
-	public function getServerNameRegex() {
-		$servername = $this->getServerName();
-		$servername = str_replace('.', '\\.', $servername);
-		$servername = sprintf('^(www\.)?%s$', $servername);
+    /**
+     * Get ServerName
+     *
+     * @return string
+     */
+    public function getServerNameRegex() {
+        $servername = $this->getServerName();
+        $servername = str_replace('.', '\\.', $servername);
+        $servername = sprintf('^(www\.)?%s$', $servername);
 
-		return $servername;
-	}
+        return $servername;
+    }
 }

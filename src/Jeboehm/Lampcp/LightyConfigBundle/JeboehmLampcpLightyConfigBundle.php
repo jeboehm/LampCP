@@ -12,5 +12,11 @@ namespace Jeboehm\Lampcp\LightyConfigBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * Class JeboehmLampcpLightyConfigBundle
+ *
+ * @package Jeboehm\Lampcp\LightyConfigBundle
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class JeboehmLampcpLightyConfigBundle extends Bundle {
 }
