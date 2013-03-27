@@ -25,6 +25,7 @@ class AppKernel extends Kernel {
 			new FOS\UserBundle\FOSUserBundle(),
 			new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 			new Jboehm\Bundle\PasswdBundle\JboehmPasswdBundle(),
+            new Jeboehm\Lampcp\UpdateBundle\JeboehmLampcpUpdateBundle(),
 			new Jeboehm\Lampcp\CoreBundle\JeboehmLampcpCoreBundle(),
 			new Jeboehm\Lampcp\UserLoaderBundle\JeboehmLampcpUserLoaderBundle(),
 			new Jeboehm\Lampcp\ApacheConfigBundle\JeboehmLampcpApacheConfigBundle(),
