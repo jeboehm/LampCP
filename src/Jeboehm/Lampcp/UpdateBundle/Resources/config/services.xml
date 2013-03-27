@@ -16,6 +16,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
     <parameters>
         <parameter key="jeboehm_lampcp_update.updateexecutor.class">Jeboehm\Lampcp\UpdateBundle\Service\UpdateExecutor</parameter>
+        <parameter key="jeboehm_lampcp_update.kernelcachewarmer.class">Jeboehm\Lampcp\UpdateBundle\Listener\KernelCacheWarmer</parameter>
     </parameters>
 
     <services>
@@ -24,6 +25,11 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             <argument type="service" id="logger"/>
             <argument type="service" id="config"/>
             <argument type="service" id="service_container"/>
+        </service>
+
+        <service id="jeboehm_lampcp_update.kernelcachewarmer" class="%jeboehm_lampcp_update.kernelcachewarmer.class%">
+            <tag name="kernel.cache_warmer"/>
+            <argument type="service" id="jeboehm_lampcp_update.updateexecutor"/>
         </service>
     </services>
 </container>
