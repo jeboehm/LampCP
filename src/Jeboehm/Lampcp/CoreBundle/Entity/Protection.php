@@ -21,7 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table()
  * @ORM\Entity
- * @UniqueEntity("path")
+ * @UniqueEntity(fields = {"path", "domain"})
  */
 class Protection extends AbstractEntity {
     /**
