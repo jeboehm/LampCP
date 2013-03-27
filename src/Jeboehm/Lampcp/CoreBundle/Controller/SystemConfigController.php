@@ -119,9 +119,14 @@ class SystemConfigController extends AbstractController {
         $form = new FormEntity();
         $form
             ->setName($entity->getName())
-            ->setValue($entity->getValue())
             ->setType($entity->getType())
             ->setConfiggroup($entity->getConfiggroup());
+
+        $value = $this
+            ->_getConfigService()
+            ->getParameter($form->getFullName());
+
+        $form->setValue($value);
 
         return $form;
     }
