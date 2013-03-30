@@ -98,7 +98,9 @@ nav:
 security:
     roles:
         super_admin: Vollzugriff
+        admin: Administrator
         dyndns: DynDNS Client
+        user: Benutzer
 
 # Tabellenspalten / Attribute
 all:

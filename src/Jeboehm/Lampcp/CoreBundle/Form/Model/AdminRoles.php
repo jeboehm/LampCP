@@ -22,6 +22,8 @@ namespace Jeboehm\Lampcp\CoreBundle\Form\Model;
 class AdminRoles {
     static public $roles = array(
         'ROLE_SUPER_ADMIN' => 'security.roles.super_admin',
+        'ROLE_ADMIN'       => 'security.roles.admin',
         'ROLE_DYNDNS'      => 'security.roles.dyndns',
+        'ROLE_USER'        => 'security.roles.user',
     );
 }
