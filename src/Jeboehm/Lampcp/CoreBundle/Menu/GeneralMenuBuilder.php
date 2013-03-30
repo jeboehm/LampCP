@@ -43,6 +43,10 @@ class GeneralMenuBuilder extends ContainerAware {
                                                         'route' => 'config_system',
                                                    ));
 
+        $menu->addChild('title.page.admin', array(
+                                                 'route' => 'config_admin',
+                                            ));
+
         $menu->addChild('title.page.ipaddress', array(
                                                      'route' => 'config_ipaddress',
                                                 ));

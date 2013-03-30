@@ -1,0 +1,27 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ "create.page.admin"|trans() }}</h1>
+
+    <form action="{{ path('config_admin_create') }}" class="form-horizontal"
+          method="post" {{ form_enctype(form) }}>
+
+        {{ form_row(form.username, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.email, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.plainPassword, {'form_type': 'horizontal'}) }}
+        {{ form_row(form.enabled, {'form_type': 'horizontal'}) }}
+
+        {{ form_rest(form) }}
+
+        {{ macros.formbuttongrp(path('config_admin')) }}
+    </form>
+{% endblock %}
