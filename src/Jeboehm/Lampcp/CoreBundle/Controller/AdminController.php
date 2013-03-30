@@ -11,11 +11,12 @@
 namespace Jeboehm\Lampcp\CoreBundle\Controller;
 
 use FOS\UserBundle\Model\UserManagerInterface;
-use Jeboehm\Lampcp\CoreBundle\Form\Type\AdminType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\AdminType;
+use Jeboehm\Lampcp\CoreBundle\Form\Model\AdminRoles;
 use Jeboehm\Lampcp\CoreBundle\Entity\Admin;
 
 /**
@@ -48,7 +49,8 @@ class AdminController extends AbstractController {
      */
     public function showAction(Admin $entity) {
         return array(
-            'entity' => $entity,
+            'entity'    => $entity,
+            'roleTrans' => AdminRoles::$roles,
         );
     }
 

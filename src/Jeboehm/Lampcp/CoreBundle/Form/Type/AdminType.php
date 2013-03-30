@@ -12,6 +12,7 @@ namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Jeboehm\Lampcp\CoreBundle\Form\Model\AdminRoles;
 
 /**
  * Class AdminType
@@ -36,6 +37,10 @@ class AdminType extends AbstractType {
                                                     'type'     => 'password',
                                                     'required' => false,
                                                ))
+            ->add('roles', 'choice', array(
+                                          'multiple' => true,
+                                          'choices'  => AdminRoles::$roles,
+                                     ))
             ->add('enabled', 'checkbox');
     }
 

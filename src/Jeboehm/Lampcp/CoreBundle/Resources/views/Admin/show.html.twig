@@ -27,6 +27,24 @@
             <td>{{ entity.email }}</td>
         </tr>
         <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.admintype.roles"|trans() }}</th>
+            <td>
+                {% if entity.roles|length > 0 %}
+                    <ul>
+                        {% for role in entity.roles %}
+                            <li>
+                                {% if roleTrans[role] is defined %}
+                                    {{ (roleTrans[role])|trans() }}
+                                {% else %}
+                                    {{ role }}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
             <th>{{ "jeboehm.lampcp.corebundle.admintype.enabled"|trans() }}</th>
             <td>{{ macros.boollabel(entity.enabled) }}</td>
         </tr>

@@ -95,6 +95,11 @@ nav:
     general:
         title: General
 
+security:
+    roles:
+        super_admin: Full access
+        dyndns: DynDNS Client
+
 # Tabellenspalten / Attribute
 all:
     column:
@@ -188,6 +193,7 @@ jeboehm.lampcp.corebundle:
         username: Username
         email: Emailaddress
         enabled: Enabled
+        roles: Roles
         plainPassword.first: Password
         plainPassword.second: Password again
 
