@@ -12,6 +12,11 @@ namespace Jeboehm\Lampcp\CoreBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class JeboehmLampcpCoreBundle extends Bundle
-{
+/**
+ * Class JeboehmLampcpCoreBundle
+ *
+ * @package Jeboehm\Lampcp\CoreBundle
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
+class JeboehmLampcpCoreBundle extends Bundle {
 }

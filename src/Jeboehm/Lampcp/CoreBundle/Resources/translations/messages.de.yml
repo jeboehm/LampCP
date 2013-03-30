@@ -23,6 +23,8 @@ title:
         systemconfig: Systemkonfiguration
         ipaddress: IP-Adressen
         certificate: Zertifikate
+        admin: Benutzerverwaltung
+        changepassword: Passwort ändern
         login: LampCP Anmeldung
         logout: Logout
 
@@ -40,6 +42,7 @@ edit:
         systemconfig: Systemkonfiguration bearbeiten
         ipaddress: IP-Adressen bearbeiten
         certificate: Zertifikate bearbeiten
+        admin: Benutzer bearbeiten
 
 # Seitentitel anzeigen
 show:
@@ -54,6 +57,7 @@ show:
         dns: DNS Zone anzeigen
         ipaddress: IP-Adresse anzeigen
         certificate: Zertifikat anzeigen
+        admin: Benutzer anzeigen
 
 # Seitentitel anlegen
 create:
@@ -68,6 +72,7 @@ create:
         dns: DNS Zone anlegen
         ipaddress: IP-Adresse anlegen
         certificate: Zertifikat anlegen
+        admin: Benutzer anlegen
 
 # Buttons
 button:
@@ -84,12 +89,18 @@ label:
     enabled: Aktiviert
     disabled: Deaktiviert
 
-# Seiteninhalte
-default.topmenu.no.domain: Keine Domain ausgewählt
-status.headline.uptime: Uptime / Angemeldete User / Load
-status.headline.uname: Hostname / Kernel-Version
-leftnavall.general: Allgemein
-leftnav.select.domain: Domain auswählen
+nav:
+    topmenu:
+        nodomain: Keine Domain ausgewählt
+    general:
+        title: Allgemein
+
+security:
+    roles:
+        super_admin: Vollzugriff
+        admin: Administrator
+        dyndns: DynDNS Client
+        user: Benutzer
 
 # Tabellenspalten / Attribute
 all:
@@ -170,6 +181,31 @@ jeboehm.lampcp.corebundle:
         CertificateChainFile: CertificateChainFile
         CACertificateFile: CACertificateFile
 
+    dnstype:
+        subdomain: Origin
+
+    dnsresourcerecordtype:
+        record:
+            name: Name
+            ttl: TTL
+            type: Typ
+            rdata: RDATA
+
+    admintype:
+        username: Benutzername
+        email: E-Mailadresse
+        enabled: Aktiviert
+        roles: Rollen
+        plainPassword.first: Passwort
+        plainPassword.second: Eingabe wiederholen
+
+status:
+    title:
+        cronjobs: Cronjobs
+    column:
+        name: Name
+        lastrun: Zuletzt ausgeführt
+
 # Systemconfig
 config:
     apache:
@@ -196,6 +232,7 @@ config:
         cmdlighttpdrestart: Neustartbefehl
 
     dns:
+        enabled: Aktiviert
         default.ns: Standardnameserver für neue Zonen
         config.zonedir: Zonenverzeichnis
         config.zonedef: Konfigurationsdatei für Zonendefinitionen

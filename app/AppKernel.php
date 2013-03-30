@@ -18,15 +18,14 @@ class AppKernel extends Kernel {
 			new Symfony\Bundle\SecurityBundle\SecurityBundle(),
 			new Symfony\Bundle\TwigBundle\TwigBundle(),
 			new Symfony\Bundle\MonologBundle\MonologBundle(),
-			new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 			new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-			new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
 			new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 			new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 			new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle(),
 			new FOS\UserBundle\FOSUserBundle(),
 			new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 			new Jboehm\Bundle\PasswdBundle\JboehmPasswdBundle(),
+            new Jeboehm\Lampcp\UpdateBundle\JeboehmLampcpUpdateBundle(),
 			new Jeboehm\Lampcp\CoreBundle\JeboehmLampcpCoreBundle(),
 			new Jeboehm\Lampcp\UserLoaderBundle\JeboehmLampcpUserLoaderBundle(),
 			new Jeboehm\Lampcp\ApacheConfigBundle\JeboehmLampcpApacheConfigBundle(),
@@ -34,8 +33,8 @@ class AppKernel extends Kernel {
 			new Jeboehm\Lampcp\ConfigBundle\JeboehmLampcpConfigBundle(),
 			new Jeboehm\Lampcp\PostfixBundle\JeboehmLampcpPostfixBundle(),
 			new Jeboehm\Lampcp\LightyConfigBundle\JeboehmLampcpLightyConfigBundle(),
-			new Jeboehm\Lampcp\BootstrapBundle\JeboehmLampcpBootstrapBundle(),
             new Jeboehm\Lampcp\AuthBundle\JeboehmLampcpAuthBundle(),
+            new Jeboehm\Lampcp\ZoneGeneratorBundle\JeboehmLampcpZoneGeneratorBundle(),
 		);
 
 		if(in_array($this->getEnvironment(), array('dev', 'test'))) {

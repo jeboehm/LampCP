@@ -10,5 +10,13 @@
 
 namespace Jeboehm\Lampcp\ConfigBundle\Exception;
 
+/**
+ * Class ConfigEntityNotFoundException
+ *
+ * Thrown, when a requested entity not found
+ *
+ * @package Jeboehm\Lampcp\ConfigBundle\Exception
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class ConfigEntityNotFoundException extends \Exception {
 }

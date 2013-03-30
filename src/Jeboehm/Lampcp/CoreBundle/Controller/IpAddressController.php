@@ -22,163 +22,145 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\IpAddressType;
  *
  * @Route("/config/ipaddress")
  */
-class IpAddressController extends AbstractController implements ICrudController {
-	/**
-	 * Lists all IpAddress entities.
-	 *
-	 * @Route("/", name="config_ipaddress")
-	 * @Template()
-	 */
-	public function indexAction() {
-		/** @var $entities IpAddress[] */
-		$entities = $this->_getRepository()->findBy(array(), array('alias' => 'asc'));
+class IpAddressController extends AbstractController {
+    /**
+     * Lists all IpAddress entities.
+     *
+     * @Route("/", name="config_ipaddress")
+     * @Template()
+     */
+    public function indexAction() {
+        /** @var $entities IpAddress[] */
+        $entities = $this
+            ->_getRepository()
+            ->findBy(array(), array('alias' => 'asc'));
 
-		return array(
-			'entities' => $entities,
-		);
-	}
+        return array(
+            'entities' => $entities,
+        );
+    }
 
-	/**
-	 * Finds and displays a IpAddress entity.
-	 *
-	 * @Route("/{id}/show", name="config_ipaddress_show")
-	 * @Template()
-	 */
-	public function showAction($id) {
-		/** @var $entity IpAddress */
-		$entity = $this->_getRepository()->find($id);
+    /**
+     * Finds and displays a IpAddress entity.
+     *
+     * @Route("/{entity}/show", name="config_ipaddress_show")
+     * @Template()
+     */
+    public function showAction(IpAddress $entity) {
+        return array(
+            'entity' => $entity,
+        );
+    }
 
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find IpAddress entity.');
-		}
+    /**
+     * Displays a form to create a new IpAddress entity.
+     *
+     * @Route("/new", name="config_ipaddress_new")
+     * @Template()
+     */
+    public function newAction() {
+        $entity = new IpAddress($this->_getSelectedDomain());
+        $form   = $this->createForm(new IpAddressType(), $entity);
 
-		return array(
-			'entity' => $entity,
-		);
-	}
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
 
-	/**
-	 * Displays a form to create a new IpAddress entity.
-	 *
-	 * @Route("/new", name="config_ipaddress_new")
-	 * @Template()
-	 */
-	public function newAction() {
-		$entity = new IpAddress($this->_getSelectedDomain());
-		$form   = $this->createForm(new IpAddressType(), $entity);
+    /**
+     * Creates a new IpAddress entity.
+     *
+     * @Route("/create", name="config_ipaddress_create")
+     * @Method("POST")
+     * @Template("JeboehmLampcpCoreBundle:IpAddress:new.html.twig")
+     */
+    public function createAction(Request $request) {
+        $entity = new IpAddress();
+        $form   = $this->createForm(new IpAddressType(), $entity);
+        $form->bind($request);
 
-		return array(
-			'entity' => $entity,
-			'form'   => $form->createView(),
-		);
-	}
+        if ($form->isValid()) {
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->persist($entity);
+            $em->flush();
 
-	/**
-	 * Creates a new IpAddress entity.
-	 *
-	 * @Route("/create", name="config_ipaddress_create")
-	 * @Method("POST")
-	 * @Template("JeboehmLampcpCoreBundle:IpAddress:new.html.twig")
-	 */
-	public function createAction(Request $request) {
-		$entity = new IpAddress();
-		$form   = $this->createForm(new IpAddressType(), $entity);
-		$form->bind($request);
+            return $this->redirect($this->generateUrl('config_ipaddress_show', array('entity' => $entity->getId())));
+        }
 
-		if($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($entity);
-			$em->flush();
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
 
-			return $this->redirect($this->generateUrl('config_ipaddress_show', array('id' => $entity->getId())));
-		}
+    /**
+     * Displays a form to edit an existing IpAddress entity.
+     *
+     * @Route("/{entity}/edit", name="config_ipaddress_edit")
+     * @Template()
+     */
+    public function editAction(IpAddress $entity) {
+        $editForm = $this->createForm(new IpAddressType(), $entity);
 
-		return array(
-			'entity' => $entity,
-			'form'   => $form->createView(),
-		);
-	}
+        return array(
+            'entity'    => $entity,
+            'edit_form' => $editForm->createView(),
+        );
+    }
 
-	/**
-	 * Displays a form to edit an existing IpAddress entity.
-	 *
-	 * @Route("/{id}/edit", name="config_ipaddress_edit")
-	 * @Template()
-	 */
-	public function editAction($id) {
-		/** @var $entity IpAddress */
-		$entity = $this->_getRepository()->find($id);
+    /**
+     * Edits an existing IpAddress entity.
+     *
+     * @Route("/{entity}/update", name="config_ipaddress_update")
+     * @Method("POST")
+     * @Template("JeboehmLampcpCoreBundle:IpAddress:edit.html.twig")
+     */
+    public function updateAction(Request $request, IpAddress $entity) {
+        $editForm = $this->createForm(new IpAddressType(), $entity);
+        $editForm->bind($request);
 
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find IpAddress entity.');
-		}
+        if ($editForm->isValid()) {
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->persist($entity);
+            $em->flush();
 
-		$editForm = $this->createForm(new IpAddressType(), $entity);
+            return $this->redirect($this->generateUrl('config_ipaddress_edit', array('entity' => $entity->getId())));
+        }
 
-		return array(
-			'entity'    => $entity,
-			'edit_form' => $editForm->createView(),
-		);
-	}
+        return array(
+            'entity'    => $entity,
+            'edit_form' => $editForm->createView(),
+        );
+    }
 
-	/**
-	 * Edits an existing IpAddress entity.
-	 *
-	 * @Route("/{id}/update", name="config_ipaddress_update")
-	 * @Method("POST")
-	 * @Template("JeboehmLampcpCoreBundle:IpAddress:edit.html.twig")
-	 */
-	public function updateAction(Request $request, $id) {
-		/** @var $entity IpAddress */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
+    /**
+     * Deletes a IpAddress entity.
+     *
+     * @Route("/{entity}/delete", name="config_ipaddress_delete")
+     */
+    public function deleteAction(IpAddress $entity) {
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        $em->remove($entity);
+        $em->flush();
 
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find IpAddress entity.');
-		}
+        return $this->redirect($this->generateUrl('config_ipaddress'));
+    }
 
-		$editForm = $this->createForm(new IpAddressType(), $entity);
-		$editForm->bind($request);
-
-		if($editForm->isValid()) {
-			$em->persist($entity);
-			$em->flush();
-
-			return $this->redirect($this->generateUrl('config_ipaddress_edit', array('id' => $id)));
-		}
-
-		return array(
-			'entity'    => $entity,
-			'edit_form' => $editForm->createView(),
-		);
-	}
-
-	/**
-	 * Deletes a IpAddress entity.
-	 *
-	 * @Route("/{id}/delete", name="config_ipaddress_delete")
-	 */
-	public function deleteAction($id) {
-		/** @var $entity IpAddress */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find IpAddress entity.');
-		}
-
-		$em->remove($entity);
-		$em->flush();
-
-		return $this->redirect($this->generateUrl('config_ipaddress'));
-	}
-
-	/**
-	 * Get repository
-	 *
-	 * @return \Doctrine\Common\Persistence\ObjectRepository
-	 */
-	protected function _getRepository() {
-		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:IpAddress');
-	}
+    /**
+     * Get repository
+     *
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    private function _getRepository() {
+        return $this
+            ->getDoctrine()
+            ->getRepository('JeboehmLampcpCoreBundle:IpAddress');
+    }
 }

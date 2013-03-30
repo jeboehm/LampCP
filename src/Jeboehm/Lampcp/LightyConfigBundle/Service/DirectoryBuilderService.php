@@ -15,21 +15,29 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService as ParentDirectoryBuilderService;
 
+/**
+ * Class DirectoryBuilderService
+ *
+ * Creates default folders per vhost in the filesystem
+ *
+ * @package Jeboehm\Lampcp\LightyConfigBundle\Service
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class DirectoryBuilderService extends ParentDirectoryBuilderService implements BuilderServiceInterface {
-	const _http_user = 'www-data';
+    const _http_user = 'www-data';
 
-	/**
-	 * Create default directorys
-	 * Lighttpd writes logs as www-data, so we have to change the owner of the logs dir
-	 *
-	 * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
-	 */
-	protected function _createDirectorysForDomain(Domain $domain) {
-		parent::_createDirectorysForDomain($domain);
-		$fs = new Filesystem();
+    /**
+     * Create default directorys
+     * Lighttpd writes logs as www-data, so we have to change the owner of the logs dir
+     *
+     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     */
+    protected function _createDirectorysForDomain(Domain $domain) {
+        parent::_createDirectorysForDomain($domain);
+        $fs = new Filesystem();
 
-		if($fs->exists($domain->getPath() . '/logs')) {
-			$fs->chown($domain->getPath() . '/logs', self::_http_user, true);
-		}
-	}
+        if ($fs->exists($domain->getPath() . '/logs')) {
+            $fs->chown($domain->getPath() . '/logs', self::_http_user, true);
+        }
+    }
 }

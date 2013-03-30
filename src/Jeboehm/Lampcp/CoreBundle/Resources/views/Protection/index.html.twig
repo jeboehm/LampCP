@@ -25,18 +25,18 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('config_protection_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('config_protection_show', { 'entity': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.fullpath }}</td>
                 <td>{{ entity.realm }}</td>
                 <td>{{ entity.protectionuser|length }}</td>
                 <td>
                     <div class="btn-group">
                         <a class="btn btn-info btn-mini"
-                           href="{{ path('config_protection_show', { 'id': entity.id }) }}">{{ "button.show"|trans() }}</a>
+                           href="{{ path('config_protection_show', { 'entity': entity.id }) }}">{{ "button.show"|trans() }}</a>
                         <a class="btn btn-warning btn-mini"
-                           href="{{ path('config_protection_edit', { 'id': entity.id }) }}">{{ "button.edit"|trans() }}</a>
+                           href="{{ path('config_protection_edit', { 'entity': entity.id }) }}">{{ "button.edit"|trans() }}</a>
                         <a class="btn btn-mini"
-                           href="{{ path('config_protectionuser', { 'protectionid': entity.id }) }}">{{ "title.page.protectionuser"|trans() }}</a>
+                           href="{{ path('config_protectionuser', { 'protection': entity.id }) }}">{{ "title.page.protectionuser"|trans() }}</a>
                     </div>
                 </td>
             </tr>

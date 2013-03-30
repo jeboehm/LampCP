@@ -23,208 +23,165 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\ProtectionUserType;
  *
  * @Route("/config/protectionuser")
  */
-class ProtectionUserController extends AbstractController implements ICrudSubController {
-	/**
-	 * Lists all ProtectionUser entities.
-	 *
-	 * @Route("/{protectionid}/", name="config_protectionuser")
-	 * @Template()
-	 */
-	public function indexAction($protectionid) {
-		/** @var $protection Protection */
-		/** @var $entities ProtectionUser[] */
-		$protection = $this->_getProtection($protectionid);
-		$entities   = $this->_getRepository()->findBy(array('protection' => $protection), array('username' => 'asc'));
+class ProtectionUserController extends AbstractController {
+    /**
+     * Lists all ProtectionUser entities.
+     *
+     * @Route("/{protection}/", name="config_protectionuser")
+     * @Template()
+     */
+    public function indexAction(Protection $protection) {
+        $entities = $this
+            ->_getRepository()
+            ->findBy(array('protection' => $protection), array('username' => 'asc'));
 
-		return array(
-			'entities'   => $entities,
-			'protection' => $protection,
-		);
-	}
+        return array(
+            'entities'   => $entities,
+            'protection' => $protection,
+        );
+    }
 
-	/**
-	 * Finds and displays a ProtectionUser entity.
-	 *
-	 * @Route("/{id}/show", name="config_protectionuser_show")
-	 * @Template()
-	 */
-	public function showAction($id) {
-		$em = $this->getDoctrine()->getManager();
+    /**
+     * Finds and displays a ProtectionUser entity.
+     *
+     * @Route("/{entity}/show", name="config_protectionuser_show")
+     * @Template()
+     */
+    public function showAction(ProtectionUser $entity) {
+        return array(
+            'entity' => $entity,
+        );
+    }
 
-		/** @var $entity ProtectionUser */
-		$entity = $em->getRepository('JeboehmLampcpCoreBundle:ProtectionUser')->find($id);
+    /**
+     * Displays a form to create a new ProtectionUser entity.
+     *
+     * @Route("/{protection}/new", name="config_protectionuser_new")
+     * @Template()
+     */
+    public function newAction(Protection $protection) {
+        $entity = new ProtectionUser($this->_getSelectedDomain(), $protection);
+        $form   = $this->createForm(new ProtectionUserType(), $entity);
 
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
-		}
+        return array(
+            'entity'     => $entity,
+            'form'       => $form->createView(),
+            'protection' => $protection,
+        );
+    }
 
+    /**
+     * Creates a new ProtectionUser entity.
+     *
+     * @Route("/{protection}/create", name="config_protectionuser_create")
+     * @Method("POST")
+     * @Template("JeboehmLampcpCoreBundle:ProtectionUser:new.html.twig")
+     */
+    public function createAction(Request $request, Protection $protection) {
+        $entity = new ProtectionUser($this->_getSelectedDomain(), $protection);
+        $form   = $this->createForm(new ProtectionUserType(), $entity);
+        $form->bind($request);
 
-		return array(
-			'entity' => $entity,
-		);
-	}
+        if ($form->isValid()) {
+            $entity->setPassword($this
+                ->_getCryptService()
+                ->encrypt($entity->getPassword()));
 
-	/**
-	 * Displays a form to create a new ProtectionUser entity.
-	 *
-	 * @Route("/{protectionid}/new", name="config_protectionuser_new")
-	 * @Template()
-	 */
-	public function newAction($protectionid) {
-		/** @var $protection Protection */
-		$protection = $this->_getProtection($protectionid);
-		$entity     = new ProtectionUser($this->_getSelectedDomain(), $protection);
-		$form       = $this->createForm(new ProtectionUserType(), $entity);
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+            $em->persist($entity);
+            $em->flush();
 
-		return array(
-			'entity'     => $entity,
-			'form'       => $form->createView(),
-			'protection' => $protection,
-		);
-	}
+            return $this->redirect($this->generateUrl('config_protectionuser_show', array('entity' => $entity->getId())));
+        }
 
-	/**
-	 * Creates a new ProtectionUser entity.
-	 *
-	 * @Route("/{protectionid}/create", name="config_protectionuser_create")
-	 * @Method("POST")
-	 * @Template("JeboehmLampcpCoreBundle:ProtectionUser:new.html.twig")
-	 */
-	public function createAction(Request $request, $protectionid) {
-		/** @var $protection Protection */
-		$protection = $this->_getProtection($protectionid);
-		$entity     = new ProtectionUser($this->_getSelectedDomain(), $protection);
-		$form       = $this->createForm(new ProtectionUserType(), $entity);
-		$form->bind($request);
+        return array(
+            'entity'     => $entity,
+            'form'       => $form->createView(),
+            'protection' => $protection,
+        );
+    }
 
-		if($form->isValid()) {
-			$entity->setPassword($this->_getCryptService()->encrypt($entity->getPassword()));
+    /**
+     * Displays a form to edit an existing ProtectionUser entity.
+     *
+     * @Route("/{entity}/edit", name="config_protectionuser_edit")
+     * @Template()
+     */
+    public function editAction(ProtectionUser $entity) {
+        $editForm = $this->createForm(new ProtectionUserType(), $entity);
 
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($entity);
-			$em->flush();
+        return array(
+            'entity'    => $entity,
+            'edit_form' => $editForm->createView(),
+        );
+    }
 
-			return $this->redirect($this->generateUrl('config_protectionuser_show', array('id' => $entity->getId())));
-		}
+    /**
+     * Edits an existing ProtectionUser entity.
+     *
+     * @Route("/{entity}/update", name="config_protectionuser_update")
+     * @Method("POST")
+     * @Template("JeboehmLampcpCoreBundle:ProtectionUser:edit.html.twig")
+     */
+    public function updateAction(Request $request, ProtectionUser $entity) {
+        $oldPassword = $entity->getPassword();
+        $editForm    = $this->createForm(new ProtectionUserType(), $entity);
+        $editForm->bind($request);
 
-		return array(
-			'entity'     => $entity,
-			'form'       => $form->createView(),
-			'protection' => $protection,
-		);
-	}
+        if ($editForm->isValid()) {
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
 
-	/**
-	 * Displays a form to edit an existing ProtectionUser entity.
-	 *
-	 * @Route("/{id}/edit", name="config_protectionuser_edit")
-	 * @Template()
-	 */
-	public function editAction($id) {
-		/** @var $entity ProtectionUser */
-		$entity = $this->_getRepository()->find($id);
+            if (!$entity->getPassword()) {
+                $entity->setPassword($oldPassword);
+            } else {
+                $entity->setPassword($this
+                    ->_getCryptService()
+                    ->encrypt($entity->getPassword()));
+            }
 
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
-		}
+            $em->persist($entity);
+            $em->flush();
 
-		$editForm = $this->createForm(new ProtectionUserType(), $entity);
+            return $this->redirect($this->generateUrl('config_protectionuser_edit', array('entity' => $entity->getId())));
+        }
 
-		return array(
-			'entity'    => $entity,
-			'edit_form' => $editForm->createView(),
-		);
-	}
+        return array(
+            'entity'    => $entity,
+            'edit_form' => $editForm->createView(),
+        );
+    }
 
-	/**
-	 * Edits an existing ProtectionUser entity.
-	 *
-	 * @Route("/{id}/update", name="config_protectionuser_update")
-	 * @Method("POST")
-	 * @Template("JeboehmLampcpCoreBundle:ProtectionUser:edit.html.twig")
-	 */
-	public function updateAction(Request $request, $id) {
-		/** @var $entity ProtectionUser */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
+    /**
+     * Deletes a ProtectionUser entity.
+     *
+     * @Route("/{entity}/delete", name="config_protectionuser_delete")
+     */
+    public function deleteAction(ProtectionUser $entity) {
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        $em->remove($entity);
+        $em->flush();
 
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
-		}
+        return $this->redirect($this->generateUrl('config_protectionuser', array(
+                                                                                'protection' => $entity
+                                                                                    ->getProtection()
+                                                                                    ->getId()
+                                                                           )));
+    }
 
-		$oldPassword = $entity->getPassword();
-		$editForm    = $this->createForm(new ProtectionUserType(), $entity);
-		$editForm->bind($request);
-
-		if($editForm->isValid()) {
-			if(!$entity->getPassword()) {
-				$entity->setPassword($oldPassword);
-			} else {
-				$entity->setPassword($this->_getCryptService()->encrypt($entity->getPassword()));
-			}
-
-			$em->persist($entity);
-			$em->flush();
-
-			return $this->redirect($this->generateUrl('config_protectionuser_edit', array('id' => $id)));
-		}
-
-		return array(
-			'entity'    => $entity,
-			'edit_form' => $editForm->createView(),
-		);
-	}
-
-	/**
-	 * Deletes a ProtectionUser entity.
-	 *
-	 * @Route("/{id}/delete", name="config_protectionuser_delete")
-	 */
-	public function deleteAction($id) {
-		/** @var $entity ProtectionUser */
-		$em     = $this->getDoctrine()->getManager();
-		$entity = $this->_getRepository()->find($id);
-
-		if(!$entity) {
-			throw $this->createNotFoundException('Unable to find ProtectionUser entity.');
-		}
-
-		$protectionid = $entity->getProtection()->getId();
-
-		$em->remove($entity);
-		$em->flush();
-
-		return $this->redirect($this->generateUrl('config_protectionuser', array('protectionid' => $protectionid)));
-	}
-
-	/**
-	 * Get repository
-	 *
-	 * @return \Doctrine\Common\Persistence\ObjectRepository
-	 */
-	protected function _getRepository() {
-		return $this->getDoctrine()->getRepository('JeboehmLampcpCoreBundle:ProtectionUser');
-	}
-
-	/**
-	 * Get protection
-	 *
-	 * @param int $protectionId
-	 *
-	 * @return Protection
-	 * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-	 */
-	protected function _getProtection($protectionId) {
-		/** @var $protection Protection */
-		$protection = $this
-			->getDoctrine()
-			->getRepository('JeboehmLampcpCoreBundle:Protection')
-			->find(intval($protectionId));
-
-		if(!$protection) {
-			throw $this->createNotFoundException();
-		}
-
-		return $protection;
-	}
+    /**
+     * Get repository
+     *
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    private function _getRepository() {
+        return $this
+            ->getDoctrine()
+            ->getRepository('JeboehmLampcpCoreBundle:ProtectionUser');
+    }
 }

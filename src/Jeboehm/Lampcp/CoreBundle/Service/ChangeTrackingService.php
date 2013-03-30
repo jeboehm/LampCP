@@ -13,56 +13,67 @@ namespace Jeboehm\Lampcp\CoreBundle\Service;
 use Doctrine\ORM\EntityManager;
 
 /**
+ * Class ChangeTrackingService
+ * 
  * This class checks given repositories for changes
- * that a never than a given \DateTime
+ * that are never than a given \DateTime
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Service
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class ChangeTrackingService {
-	/** @var EntityManager */
-	private $_em;
+    /** @var EntityManager */
+    private $_em;
 
-	/**
-	 * Constructor
-	 *
-	 * @param \Doctrine\ORM\EntityManager $em
-	 */
-	public function __construct(EntityManager $em) {
-		$this->_em = $em;
-	}
+    /**
+     * Constructor
+     *
+     * @param \Doctrine\ORM\EntityManager $em
+     */
+    public function __construct(EntityManager $em) {
+        $this->_em = $em;
+    }
 
-	/**
-	 * Get entity manager
-	 *
-	 * @return \Doctrine\ORM\EntityManager
-	 */
-	protected function _getEntityManager() {
-		return $this->_em;
-	}
+    /**
+     * Get entity manager
+     *
+     * @return \Doctrine\ORM\EntityManager
+     */
+    protected function _getEntityManager() {
+        return $this->_em;
+    }
 
-	/**
-	 * Get entities newer than $min
-	 *
-	 * @param string    $repository
-	 * @param \DateTime $min
-	 *
-	 * @return mixed
-	 */
-	public function findNewer($repository, \DateTime $min) {
-		$qb = $this->_getRepository($repository)->createQueryBuilder('e');
-		$qb
-			->where($qb->expr()->gte('e.updated', '?1'))
-			->setParameter(1, $min);
+    /**
+     * Get entities newer than $min
+     *
+     * @param string    $repository
+     * @param \DateTime $min
+     *
+     * @return mixed
+     */
+    public function findNewer($repository, \DateTime $min) {
+        $qb = $this
+            ->_getRepository($repository)
+            ->createQueryBuilder('e');
+        $qb
+            ->where($qb
+                ->expr()
+                ->gte('e.updated', '?1'))
+            ->setParameter(1, $min);
 
-		return $qb->getQuery()->execute();
-	}
+        return $qb
+            ->getQuery()
+            ->execute();
+    }
 
-	/**
-	 * Get repository
-	 *
-	 * @param string $repository
-	 *
-	 * @return \Doctrine\ORM\EntityRepository
-	 */
-	protected function _getRepository($repository) {
-		return $this->_em->getRepository($repository);
-	}
+    /**
+     * Get repository
+     *
+     * @param string $repository
+     *
+     * @return \Doctrine\ORM\EntityRepository
+     */
+    protected function _getRepository($repository) {
+        return $this->_em->getRepository($repository);
+    }
 }

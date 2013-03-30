@@ -12,7 +12,7 @@
 {% block content %}
     <h1>{{ "edit.page.domain"|trans() }}</h1>
 
-    <form action="{{ path('config_domain_update', { 'id': entity.id }) }}" class="form-horizontal"
+    <form action="{{ path('config_domain_update', { 'entity': entity.id }) }}" class="form-horizontal"
           method="post" {{ form_enctype(edit_form) }}>
 
         {{ form_row(edit_form.domain, {'form_type': 'horizontal'}) }}
@@ -46,6 +46,6 @@
 
         {{ form_rest(edit_form) }}
 
-        {{ macros.formbuttongrp(path('config_domain'), path('config_domain_delete', { 'id': entity.id })) }}
+        {{ macros.formbuttongrp(path('config_domain'), path('config_domain_delete', { 'entity': entity.id })) }}
     </form>
 {% endblock %}

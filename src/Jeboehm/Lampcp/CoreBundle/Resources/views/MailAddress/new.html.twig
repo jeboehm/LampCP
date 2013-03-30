@@ -12,28 +12,24 @@
 {% block javascripts %}
     {{ parent() }}
 
-    {% javascripts
-    '@JeboehmLampcpCoreBundle/Resources/public/js/mailaddress.js' %}
-
-    <script src="{{ asset_url }}" type="text/javascript"></script>
-    {% endjavascripts %}
+    <script src="{{ asset("bundles/jeboehmlampcpcore/js/mailaddress.js") }}" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
     <h1>{{ "create.page.mailaddress"|trans() }}</h1>
 
-    <form action="{{ path('config_mailaddress_create', { 'id': entity.id }) }}"
+    <form action="{{ path('config_mailaddress_create', { 'entity': entity.id }) }}"
           class="form-horizontal" method="post" {{ form_enctype(form) }}>
 
         {{ form_row(form.address, {'form_type': 'horizontal'}) }}
 
-        <h2>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailaccount"|trans }}</h2>
+        <legend>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailaccount"|trans }}</legend>
 
         {{ form_row(form.mailaccount.enabled, {'form_type': 'horizontal'}) }}
         {{ form_row(form.mailaccount.password.first, {'form_type': 'horizontal'}) }}
         {{ form_row(form.mailaccount.password.second, {'form_type': 'horizontal'}) }}
 
-        <h2>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailforward"|trans }}</h2>
+        <legend>{{ "jeboehm.lampcp.corebundle.mailaddresstype.mailforward"|trans }}</legend>
 
         <div class="mailforward"
              data-prototype="{{ form_widget(form.mailforward.vars.prototype, {'form_type': 'horizontal'})|e }}">

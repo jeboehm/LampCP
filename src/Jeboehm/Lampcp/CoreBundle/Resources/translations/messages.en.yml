@@ -23,6 +23,8 @@ title:
         systemconfig: Systemconfiguration
         ipaddress: IP-Addresses
         certificate: Certificates
+        admin: Useraccounts
+        changepassword: Change password
         login: LampCP Login
         logout: Logout
 
@@ -40,6 +42,7 @@ edit:
         systemconfig: Edit systemconfiguration
         ipaddress: Edit IP-address
         certificate: Edit certificate
+        admin: Edit account
 
 # Seitentitel anzeigen
 show:
@@ -54,6 +57,7 @@ show:
         dns: Show DNS zone
         ipaddress: Show IP address
         certificate: Show certificate
+        admin: Show account
 
 # Seitentitel anlegen
 create:
@@ -68,6 +72,7 @@ create:
         dns: Create DNS zone
         ipaddress: Create IP address
         certificate: Create certificate
+        admin: Create account
 
 # Buttons
 button:
@@ -84,12 +89,18 @@ label:
     enabled: enabled
     disabled: disabled
 
-# Seiteninhalte
-default.topmenu.no.domain: No domain chosen
-status.headline.uptime: uptime / logged in / load
-status.headline.uname: hostname / kernel version
-leftnavall.general: General
-leftnav.select.domain: Choose domain
+nav:
+    topmenu:
+        nodomain: No domain selected
+    general:
+        title: General
+
+security:
+    roles:
+        super_admin: Full access
+        admin: Admin
+        dyndns: DynDNS Client
+        user: User
 
 # Tabellenspalten / Attribute
 all:
@@ -170,6 +181,31 @@ jeboehm.lampcp.corebundle:
         CertificateChainFile: CertificateChainFile
         CACertificateFile: CACertificateFile
 
+    dnstype:
+        subdomain: Origin
+
+    dnsresourcerecordtype:
+        record:
+            name: Name
+            ttl: TTL
+            type: Type
+            rdata: RDATA
+
+    admintype:
+        username: Username
+        email: Emailaddress
+        enabled: Enabled
+        roles: Roles
+        plainPassword.first: Password
+        plainPassword.second: Password again
+
+status:
+    title:
+        cronjobs: Cronjobs
+    column:
+        name: Name
+        lastrun: Last run
+
 # Systemconfig
 config:
     apache:
@@ -196,6 +232,7 @@ config:
         cmdlighttpdrestart: Restart command
 
     dns:
+        enabled: Enabled
         default.ns: Default nameserver for new zones
         config.zonedir: Zonedirectory
         config.zonedef: Configfile for zone definitions

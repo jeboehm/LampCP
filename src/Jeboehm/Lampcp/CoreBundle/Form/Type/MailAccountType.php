@@ -13,25 +13,33 @@ namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * Class MailAccountType
+ *
+ * Builds a mail account form
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Form\Type
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class MailAccountType extends AbstractType {
-	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder
-			->add('enabled', null, array(
-										'required' => false,
-								   ))
-			->add('password', 'repeated', array(
-											   'type'     => 'password',
-											   'required' => false,
-										  ));
-	}
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder
+            ->add('enabled', null, array(
+                                        'required' => false,
+                                   ))
+            ->add('password', 'repeated', array(
+                                               'type'     => 'password',
+                                               'required' => false,
+                                          ));
+    }
 
-	public function setDefaultOptions(OptionsResolverInterface $resolver) {
-		$resolver->setDefaults(array(
-									'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailAccount'
-							   ));
-	}
+    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+        $resolver->setDefaults(array(
+                                    'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailAccount'
+                               ));
+    }
 
-	public function getName() {
-		return 'jeboehm_lampcp_corebundle_mailaccounttype';
-	}
+    public function getName() {
+        return 'jeboehm_lampcp_corebundle_mailaccounttype';
+    }
 }

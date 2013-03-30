@@ -15,58 +15,55 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
+use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 
 /**
  * Status controller.
  */
 class StatusController extends AbstractController {
-	/**
-	 * Shows status page.
-	 *
-	 * @Route("/", name="status")
-	 * @Route("/", name="default")
-	 * @Template()
-	 * @return array
-	 */
-	public function indexAction() {
-		$uptime = new ExecUtility();
-		$uptime->exec('uptime');
+    /**
+     * Shows status page.
+     *
+     * @Route("/", name="status")
+     * @Route("/", name="default")
+     * @Template()
+     * @return array
+     */
+    public function indexAction() {
+        $cronjobs = $this
+            ->_getCronRepository()
+            ->findAll();
 
-		$uname = new ExecUtility();
-		$uname->exec('uname -a');
+        return array(
+            'cronjobs' => $cronjobs,
+        );
+    }
 
-		return array(
-			'uptime' => $uptime->getOutput(),
-			'uname'  => $uname->getOutput(),
-		);
-	}
+    /**
+     * Saves the domain to domainselector
+     *
+     * @Route("/config/setdomain/{domain}", name="set_domain")
+     *
+     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function setDomainAction(Domain $domain) {
+        /** @var $domainselector DomainselectorService */
+        $domainselector = $this->get('jeboehm_lampcp_core.domainselector');
+        $domainselector->setDomain($domain);
 
-	/**
-	 * Saves the domain to session
-	 *
-	 * @Route("/setdomain/{id}", name="set_domain")
-	 *
-	 * @param int $id
-	 *
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function setDomainAction($id) {
-		if(is_numeric($id)) {
-			/** @var $domain Domain */
-			$domain  = $this
-				->getDoctrine()
-				->getRepository('JeboehmLampcpCoreBundle:Domain')
-				->findOneBy(array('id' => $id));
-			$session = $this->_getSession();
+        return $this->redirect($this->generateUrl('status'));
+    }
 
-			if(!$domain) {
-				$session->set('domain', 0);
-			} else {
-				$session->set('domain', $domain->getId());
-			}
-		}
-
-		return $this->redirect($this->generateUrl('status'));
-	}
+    /**
+     * Get cron repository
+     *
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    protected function _getCronRepository() {
+        return $this
+            ->getDoctrine()
+            ->getRepository('JeboehmLampcpCoreBundle:Cron');
+    }
 }

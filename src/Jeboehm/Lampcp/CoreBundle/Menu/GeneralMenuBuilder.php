@@ -13,40 +13,52 @@ namespace Jeboehm\Lampcp\CoreBundle\Menu;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
+/**
+ * Class GeneralMenuBuilder
+ *
+ * Builds the main menu
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Menu
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
+ */
 class GeneralMenuBuilder extends ContainerAware {
-	/**
-	 * Build the top menu
-	 *
-	 * @param \Knp\Menu\FactoryInterface $factory
-	 * @param array                      $options
-	 *
-	 * @return \Knp\Menu\ItemInterface
-	 */
-	public function getMenu(FactoryInterface $factory, array $options) {
-		$menu = $factory->createItem('root');
+    /**
+     * Build the top menu
+     *
+     * @param \Knp\Menu\FactoryInterface $factory
+     * @param array                      $options
+     *
+     * @return \Knp\Menu\ItemInterface
+     */
+    public function getMenu(FactoryInterface $factory, array $options) {
+        $menu = $factory->createItem('root');
 
-		$menu->addChild('leftnavall.general', array(
-												   'attributes' => array(
-													   'class' => 'nav-header',
-												   )
-											  ));
+        $menu->addChild('nav.general.title', array(
+                                                  'attributes' => array(
+                                                      'class' => 'nav-header',
+                                                  )
+                                             ));
 
-		$menu->addChild('title.page.systemconfig', array(
-														'route' => 'systemconfig',
-												   ));
+        $menu->addChild('title.page.systemconfig', array(
+                                                        'route' => 'config_system',
+                                                   ));
 
-		$menu->addChild('title.page.ipaddress', array(
-													 'route' => 'config_ipaddress',
-												));
+        $menu->addChild('title.page.admin', array(
+                                                 'route' => 'config_admin',
+                                            ));
 
-		$menu->addChild('title.page.certificate', array(
-													   'route' => 'config_certificate',
-												  ));
+        $menu->addChild('title.page.ipaddress', array(
+                                                     'route' => 'config_ipaddress',
+                                                ));
 
-		$menu->addChild('title.page.domain', array(
-												  'route' => 'config_domain',
-											 ));
+        $menu->addChild('title.page.certificate', array(
+                                                       'route' => 'config_certificate',
+                                                  ));
 
-		return $menu;
-	}
+        $menu->addChild('title.page.domain', array(
+                                                  'route' => 'config_domain',
+                                             ));
+
+        return $menu;
+    }
 }

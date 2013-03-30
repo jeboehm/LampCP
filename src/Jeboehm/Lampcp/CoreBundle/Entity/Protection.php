@@ -21,137 +21,139 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table()
  * @ORM\Entity
- * @UniqueEntity("path")
+ * @UniqueEntity(fields = {"path", "domain"})
  */
 class Protection extends AbstractEntity {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="integer")
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-	/**
-	 * @var Domain
-	 * @Assert\NotNull()
-	 * @ORM\ManyToOne(targetEntity="Domain", inversedBy="protection")
-	 */
-	private $domain;
+    /**
+     * @var Domain
+     * @Assert\NotNull()
+     * @ORM\ManyToOne(targetEntity="Domain", inversedBy="protection")
+     */
+    private $domain;
 
-	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="ProtectionUser", mappedBy="protection", cascade={"remove"})
-	 */
-	private $protectionuser;
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="ProtectionUser", mappedBy="protection", cascade={"remove"})
+     */
+    private $protectionuser;
 
-	/**
-	 * @var string
-	 * @ORM\Column(name="path", type="string", length=255)
-	 */
-	private $path;
+    /**
+     * @var string
+     * @ORM\Column(name="path", type="string", length=255)
+     */
+    private $path;
 
-	/**
-	 * @var string
-	 * @Assert\NotBlank()
-	 * @ORM\Column(name="realm", type="string", length=15)
-	 */
-	private $realm;
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     * @ORM\Column(name="realm", type="string", length=15)
+     */
+    private $realm;
 
-	/**
-	 * Konstruktor
-	 *
-	 * @param Domain $domain
-	 */
-	public function __construct(Domain $domain) {
-		$this->domain         = $domain;
-		$this->protectionuser = new ArrayCollection();
-	}
+    /**
+     * Konstruktor
+     *
+     * @param Domain $domain
+     */
+    public function __construct(Domain $domain) {
+        $this->domain         = $domain;
+        $this->protectionuser = new ArrayCollection();
+    }
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId() {
+        return $this->id;
+    }
 
-	/**
-	 * Get domain
-	 *
-	 * @return Domain
-	 */
-	public function getDomain() {
-		return $this->domain;
-	}
+    /**
+     * Get domain
+     *
+     * @return Domain
+     */
+    public function getDomain() {
+        return $this->domain;
+    }
 
-	/**
-	 * Set path
-	 *
-	 * @param string $path
-	 *
-	 * @return Protection
-	 */
-	public function setPath($path) {
-		$this->path = strval($path);
+    /**
+     * Set path
+     *
+     * @param string $path
+     *
+     * @return Protection
+     */
+    public function setPath($path) {
+        $this->path = strval($path);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get path
-	 *
-	 * @return string
-	 */
-	public function getPath() {
-		return $this->path;
-	}
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath() {
+        return $this->path;
+    }
 
-	/**
-	 * Set realm
-	 *
-	 * @param string $realm
-	 *
-	 * @return Protection
-	 */
-	public function setRealm($realm) {
-		$this->realm = $realm;
+    /**
+     * Set realm
+     *
+     * @param string $realm
+     *
+     * @return Protection
+     */
+    public function setRealm($realm) {
+        $this->realm = $realm;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get realm
-	 *
-	 * @return string
-	 */
-	public function getRealm() {
-		return $this->realm;
-	}
+    /**
+     * Get realm
+     *
+     * @return string
+     */
+    public function getRealm() {
+        return $this->realm;
+    }
 
-	/**
-	 * Get ProtectionUser
-	 *
-	 * @return Collection
-	 */
-	public function getProtectionuser() {
-		return $this->protectionuser;
-	}
+    /**
+     * Get ProtectionUser
+     *
+     * @return Collection
+     */
+    public function getProtectionuser() {
+        return $this->protectionuser;
+    }
 
-	/**
-	 * Get full path
-	 *
-	 * @return string
-	 */
-	public function getFullPath() {
-		$path = $this->getDomain()->getPath();
+    /**
+     * Get full path
+     *
+     * @return string
+     */
+    public function getFullPath() {
+        $path = $this
+            ->getDomain()
+            ->getPath();
 
-		if(!empty($this->path)) {
-			$path .= '/' . $this->getPath();
-		}
+        if (!empty($this->path)) {
+            $path .= '/' . $this->getPath();
+        }
 
-		return $path;
-	}
+        return $path;
+    }
 }
