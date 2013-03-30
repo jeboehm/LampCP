@@ -1,0 +1,37 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ "show.page.admin"|trans() }}</h1>
+
+    <table class="table table-striped table-bordered">
+        <tbody>
+        <tr>
+            <th>{{ "all.column.id"|trans() }}</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.admintype.username"|trans() }}</th>
+            <td>{{ entity.username }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.admintype.email"|trans() }}</th>
+            <td>{{ entity.email }}</td>
+        </tr>
+        <tr>
+            <th>{{ "jeboehm.lampcp.corebundle.admintype.enabled"|trans() }}</th>
+            <td>{{ macros.boollabel(entity.enabled) }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    {{ macros.showbuttongrp(path("config_admin"), path("config_admin_edit", { 'entity' : entity.id }), path("config_admin_delete", { 'entity' : entity.id })) }}
+{% endblock %}

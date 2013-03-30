@@ -23,6 +23,7 @@ title:
         systemconfig: Systemconfiguration
         ipaddress: IP-Addresses
         certificate: Certificates
+        admin: Useraccounts
         changepassword: Change password
         login: LampCP Login
         logout: Logout
@@ -41,6 +42,7 @@ edit:
         systemconfig: Edit systemconfiguration
         ipaddress: Edit IP-address
         certificate: Edit certificate
+        admin: Edit account
 
 # Seitentitel anzeigen
 show:
@@ -55,6 +57,7 @@ show:
         dns: Show DNS zone
         ipaddress: Show IP address
         certificate: Show certificate
+        admin: Show account
 
 # Seitentitel anlegen
 create:
@@ -69,6 +72,7 @@ create:
         dns: Create DNS zone
         ipaddress: Create IP address
         certificate: Create certificate
+        admin: Create account
 
 # Buttons
 button:
@@ -179,6 +183,13 @@ jeboehm.lampcp.corebundle:
             ttl: TTL
             type: Type
             rdata: RDATA
+
+    admintype:
+        username: Username
+        email: Emailaddress
+        enabled: Enabled
+        plainPassword.first: Password
+        plainPassword.second: Password again
 
 status:
     title:
