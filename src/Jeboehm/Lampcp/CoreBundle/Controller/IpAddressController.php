@@ -18,7 +18,10 @@ use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\IpAddressType;
 
 /**
- * IpAddress controller.
+ * Class IpAddressController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/ipaddress")
  */

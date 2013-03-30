@@ -21,7 +21,10 @@ use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\NS;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA;
 
 /**
- * DNS controller.
+ * Class DnsController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/dns")
  */

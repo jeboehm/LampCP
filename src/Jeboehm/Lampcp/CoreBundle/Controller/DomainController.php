@@ -18,7 +18,10 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\DomainType;
 
 /**
- * Domain controller.
+ * Class DomainController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/domain")
  */

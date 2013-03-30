@@ -19,7 +19,10 @@ use Jeboehm\Lampcp\CoreBundle\Entity\MailForward;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\MailAddressType;
 
 /**
- * MailAddress controller.
+ * Class MailAddressController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/mailaddress")
  */

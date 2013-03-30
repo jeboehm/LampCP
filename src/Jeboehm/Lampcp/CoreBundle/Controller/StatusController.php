@@ -18,7 +18,10 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 
 /**
- * Status controller.
+ * Class StatusController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class StatusController extends AbstractController {
     /**

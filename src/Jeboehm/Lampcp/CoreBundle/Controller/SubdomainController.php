@@ -18,7 +18,10 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\SubdomainType;
 
 /**
- * Subdomain controller.
+ * Class SubdomainController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/subdomain")
  */

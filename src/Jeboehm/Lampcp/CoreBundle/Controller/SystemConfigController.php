@@ -21,7 +21,10 @@ use Jeboehm\Lampcp\CoreBundle\Form\Type\ConfigType;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
 
 /**
- * Config controller.
+ * Class SystemConfigController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/system")
  */

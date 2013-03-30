@@ -18,7 +18,10 @@ use Jeboehm\Lampcp\CoreBundle\Entity\PathOption;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\PathOptionType;
 
 /**
- * PathOption controller.
+ * Class PathOptionController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/pathoption")
  */
