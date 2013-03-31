@@ -33,7 +33,7 @@ class Dns extends AbstractEntity {
     private $id;
 
     /**
-     * @var string
+     * @var Domain
      * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Domain", inversedBy="dns")
      */
@@ -74,7 +74,7 @@ class Dns extends AbstractEntity {
     /**
      * Get domain
      *
-     * @return string
+     * @return Domain
      */
     public function getDomain() {
         return $this->domain;
