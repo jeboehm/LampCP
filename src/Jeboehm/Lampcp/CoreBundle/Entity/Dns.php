@@ -19,7 +19,7 @@ use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
  * Dns
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jeboehm\Lampcp\CoreBundle\Entity\DnsRepository")
  * @UniqueEntity(fields = {"subdomain", "domain"})
  */
 class Dns extends AbstractEntity {
