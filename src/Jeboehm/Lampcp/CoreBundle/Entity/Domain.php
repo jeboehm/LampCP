@@ -154,6 +154,12 @@ class Domain extends AbstractEntity {
     private $subdomain;
 
     /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Dns", mappedBy="domain", cascade={"remove"})
+     */
+    private $dns;
+
+    /**
      * @var Domain
      * @ORM\ManyToOne(targetEntity="Domain", inversedBy="children")
      */
@@ -184,6 +190,7 @@ class Domain extends AbstractEntity {
         $this->mailaddress    = new ArrayCollection();
         $this->mysqldatabase  = new ArrayCollection();
         $this->ipaddress      = new ArrayCollection();
+        $this->dns            = new ArrayCollection();
         $this->children       = new ArrayCollection();
     }
 
@@ -525,6 +532,15 @@ class Domain extends AbstractEntity {
      */
     public function getSubdomain() {
         return $this->subdomain;
+    }
+
+    /**
+     * Get Dns
+     *
+     * @return Collection
+     */
+    public function getDns() {
+        return $this->dns;
     }
 
     /**
