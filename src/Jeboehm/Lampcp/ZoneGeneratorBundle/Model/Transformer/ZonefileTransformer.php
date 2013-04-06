@@ -92,7 +92,7 @@ class ZonefileTransformer {
             $content[] = $template;
         }
 
-        return join(PHP_EOL, $content);
+        return join('', $content);
     }
 
     /**
