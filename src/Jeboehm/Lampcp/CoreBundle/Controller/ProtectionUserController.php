@@ -19,7 +19,10 @@ use Jeboehm\Lampcp\CoreBundle\Entity\ProtectionUser;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\ProtectionUserType;
 
 /**
- * ProtectionUser controller.
+ * Class ProtectionUserController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/protectionuser")
  */

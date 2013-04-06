@@ -19,7 +19,10 @@ use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\MysqlDatabaseType;
 
 /**
- * MysqlDatabase controller.
+ * Class MysqlDatabaseController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/mysqldatabase")
  */

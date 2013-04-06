@@ -19,7 +19,7 @@ use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
  * Dns
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jeboehm\Lampcp\CoreBundle\Entity\DnsRepository")
  * @UniqueEntity(fields = {"subdomain", "domain"})
  */
 class Dns extends AbstractEntity {
@@ -33,7 +33,7 @@ class Dns extends AbstractEntity {
     private $id;
 
     /**
-     * @var string
+     * @var Domain
      * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Domain", inversedBy="dns")
      */
@@ -74,7 +74,7 @@ class Dns extends AbstractEntity {
     /**
      * Get domain
      *
-     * @return string
+     * @return Domain
      */
     public function getDomain() {
         return $this->domain;

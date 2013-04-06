@@ -40,6 +40,7 @@ class ZoneCollection extends ArrayCollection {
             $this->_soa = $value;
         } elseif ($value instanceof AbstractResourceRecord) {
             parent::add($value);
+            $this->_sortKeys();
         } else {
             throw new UnexpectedTypeException($value, 'Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AbstractResourceRecord');
         }
@@ -79,5 +80,13 @@ class ZoneCollection extends ArrayCollection {
         }
 
         return $arr;
+    }
+
+    /**
+     * Sort the array keys.
+     */
+    protected function _sortKeys() {
+        $values = $this->getValues();
+        parent::__construct($values);
     }
 }

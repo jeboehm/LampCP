@@ -20,7 +20,10 @@ use Jeboehm\Lampcp\CoreBundle\Form\Model\AdminRoles;
 use Jeboehm\Lampcp\CoreBundle\Entity\Admin;
 
 /**
- * Admin controller.
+ * Class AdminController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/admin")
  */

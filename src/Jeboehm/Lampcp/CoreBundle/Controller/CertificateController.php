@@ -18,7 +18,10 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\CertificateType;
 
 /**
- * Certificate controller.
+ * Class CertificateController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/certificate")
  */

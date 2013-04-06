@@ -18,7 +18,10 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\ProtectionType;
 
 /**
- * Protection controller.
+ * Class ProtectionController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/protection")
  */
