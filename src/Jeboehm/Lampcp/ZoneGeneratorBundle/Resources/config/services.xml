@@ -17,6 +17,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
     <parameters>
         <parameter key="jeboehm_lampcp_zonegenerator.builderservice.class">Jeboehm\Lampcp\ZoneGeneratorBundle\Service\BuilderService</parameter>
+        <parameter key="jeboehm_lampcp_zonegenerator.recordupdateservice.class">Jeboehm\Lampcp\ZoneGeneratorBundle\Service\RecordUpdateService</parameter>
     </parameters>
 
     <services>
@@ -30,6 +31,10 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="logger"/>
             <argument type="service" id="config"/>
+        </service>
+
+        <service id="jeboehm_lampcp_zonegenerator.recordupdateservice" class="%jeboehm_lampcp_zonegenerator.recordupdateservice.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
     </services>
 </container>
