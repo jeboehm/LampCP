@@ -48,10 +48,10 @@ class SOA extends AbstractResourceRecord {
 
         $this
             ->refreshSerial()
-            ->setRefresh(300)
-            ->setRetry(100)
-            ->setExpire(6000)
-            ->setMinimum(600);
+            ->setRefresh(86400)
+            ->setRetry(7200)
+            ->setExpire(3600000)
+            ->setMinimum(172800);
     }
 
     /**
