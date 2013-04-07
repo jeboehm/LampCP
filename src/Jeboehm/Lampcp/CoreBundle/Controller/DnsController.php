@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Jeboehm\Lampcp\CoreBundle\Entity\Dns;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\DnsType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\DnsSoaType;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\NS;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA;
@@ -194,6 +195,57 @@ class DnsController extends AbstractController {
         $em->flush();
 
         return $this->redirect($this->generateUrl('config_dns'));
+    }
+
+    /**
+     * Edit SOA record
+     *
+     * @Route("/{entity}/editsoa", name="config_dns_edit_soa")
+     * @Template()
+     */
+    public function editSoaAction(Dns $entity) {
+        $editForm = $this->createForm(new DnsSoaType(), $entity
+            ->getZonecollection()
+            ->getSoa());
+
+        return array(
+            'edit_form' => $editForm->createView(),
+            'entity'    => $entity,
+        );
+    }
+
+    /**
+     * Update SOA record
+     *
+     * @Route("/{entity}/updatesoa", name="config_dns_update_soa")
+     * @Template()
+     */
+    public function updateSoaAction(Request $request, Dns $entity) {
+        $zone     = $entity->getZonecollection();
+        $soa      = $zone->getSoa();
+        $editForm = $this->createForm(new DnsSoaType(), $soa);
+        $editForm->bind($request);
+
+        if ($editForm->isValid()) {
+            $soa->refreshSerial();
+
+            $zone->add($soa);
+            $entity->setZonecollection(clone $zone);
+
+            $em = $this
+                ->getDoctrine()
+                ->getManager();
+
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('config_dns_show', array('entity' => $entity->getId())));
+        }
+
+        return array(
+            'entity'    => $entity,
+            'edit_form' => $editForm->createView(),
+        );
     }
 
     /**

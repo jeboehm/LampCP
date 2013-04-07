@@ -39,6 +39,7 @@ edit:
         protectionuser: Edit account
         subdomain: Edit subdomain
         dns: Edit DNS zone
+        dnssoa: Edit SOA record
         systemconfig: Edit systemconfiguration
         ipaddress: Edit IP-address
         certificate: Edit certificate
@@ -190,6 +191,15 @@ jeboehm.lampcp.corebundle:
             ttl: TTL
             type: Type
             rdata: RDATA
+
+    dnssoatype:
+        primary: Primary
+        mail: E-Mail
+        serial: Serial
+        refresh: Refresh
+        retry: Retry
+        expire: Expire
+        minimum: Minimum
 
     admintype:
         username: Username

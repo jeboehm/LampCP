@@ -1,0 +1,37 @@
+{#
+ # LampCP
+ # https://github.com/jeboehm/LampCP
+ #
+ # Licensed under the GPL Version 2 license
+ # http://www.gnu.org/licenses/gpl-2.0.txt
+ #
+ #}
+
+{% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ "edit.page.dnssoa"|trans() }}</h1>
+
+    <form action="{{ path('config_dns_update_soa', { 'entity': entity.id }) }}" class="form-horizontal"
+          method="post" {{ form_enctype(edit_form) }}>
+
+        {{ form_row(edit_form.primary, {'form_type': 'horizontal'}) }}
+        {{ form_row(edit_form.mail, {'form_type': 'horizontal'}) }}
+        {{ form_row(edit_form.serial, {'form_type': 'horizontal'}) }}
+        {{ form_row(edit_form.refresh, {'form_type': 'horizontal'}) }}
+        {{ form_row(edit_form.retry, {'form_type': 'horizontal'}) }}
+        {{ form_row(edit_form.expire, {'form_type': 'horizontal'}) }}
+        {{ form_row(edit_form.minimum, {'form_type': 'horizontal'}) }}
+
+        {{ form_rest(edit_form) }}
+
+        {{ macros.formbuttongrp(path('config_dns')) }}
+
+        <div class="control-group">
+            <div class="controls">
+                <a class="btn btn-info"
+                   href="{{ path('config_dns_edit', {'entity' : entity.id}) }}">{{ "edit.page.dns"|trans() }}</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}
