@@ -47,7 +47,8 @@ class ZoneCollectionTransformer implements DataTransformerInterface {
      */
     public function transform($value) {
         if ($value instanceof ZoneCollection) {
-            $arr = array();
+            $arr      = array();
+            $position = 0;
 
             foreach ($value->getValues() as $rr) {
                 /** @var $rr AbstractResourceRecord */
@@ -56,8 +57,11 @@ class ZoneCollectionTransformer implements DataTransformerInterface {
                     ->setName($rr->getName())
                     ->setTtl($rr->getTtl())
                     ->setType($rr->getType())
-                    ->setRdata($rr->getRdata());
+                    ->setRdata($rr->getRdata())
+                    ->setPosition($position);
+
                 $arr[] = $dnsResourceModel;
+                $position++;
             }
 
             return $arr;
@@ -75,7 +79,8 @@ class ZoneCollectionTransformer implements DataTransformerInterface {
      */
     public function reverseTransform($value) {
         if (is_array($value)) {
-            $zone = $this->_zone;
+            $records = array();
+            $zone    = $this->_zone;
             $zone->clear();
 
             foreach ($value as $rr) {
@@ -89,8 +94,21 @@ class ZoneCollectionTransformer implements DataTransformerInterface {
                         ->setTtl($rr->getTtl())
                         ->setRdata($rr->getRdata());
 
-                    $zone->add($record);
+                    $pos = $rr->getPosition();
+
+                    while (array_key_exists($pos, $records)) {
+                        $pos++;
+                    }
+
+                    $records[$pos] = $record;
                 }
+            }
+
+            ksort($records);
+
+            foreach ($records as $record) {
+                /** @var $record AbstractResourceRecord */
+                $zone->add($record);
             }
 
             return $zone;

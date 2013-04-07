@@ -55,7 +55,12 @@ class DnsResourceRecordType extends AbstractType {
                                         'attr' => array(
                                             'placeholder' => 'jeboehm.lampcp.corebundle.dnsresourcerecordtype.record.rdata'
                                         )
-                                   ));
+                                   ))
+            ->add('position', 'hidden', array(
+                                             'attr' => array(
+                                                 'class' => 'dnsposition',
+                                             )
+                                        ));
     }
 
     /**
