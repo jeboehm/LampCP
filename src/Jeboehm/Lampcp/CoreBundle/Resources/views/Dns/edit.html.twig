@@ -30,7 +30,12 @@
             {% for record in edit_form.zone_collection %}
                 <div class="control-group">
                     <div class="controls">
-                        {{ form_widget(record, {'form_type': 'inline'}) }}
+                        {{ form_row(record.name, {'form_type': 'inline'}) }}
+                        {{ form_row(record.ttl, {'form_type': 'inline'}) }}
+                        {{ form_row(record.type, {'form_type': 'inline'}) }}
+                        {{ form_row(record.rdata, {'form_type': 'inline'}) }}
+
+                        <div class="btn-group dnsactions"></div>
                     </div>
                 </div>
             {% endfor %}
