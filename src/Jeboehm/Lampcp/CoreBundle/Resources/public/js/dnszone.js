@@ -41,7 +41,14 @@ jQuery(document).ready(function () {
             var container = $(this).parent().parent().parent();
             e.preventDefault();
 
-            $(container).insertBefore($(container).prev());
+            var thispos = $(container).find('input.dnsposition');
+
+            if (parseInt($(thispos).val()) > 0) {
+                var swappos = $(container).prev().find('input.dnsposition');
+                dnsSwitchPositions(swappos, thispos, true);
+
+                $(container).insertBefore($(container).prev());
+            }
         });
 
         /**
@@ -53,6 +60,10 @@ jQuery(document).ready(function () {
 
             // Nicht unter die Aktionsbuttons schieben.
             if (!$(container).next().hasClass('dnsformcontrol')) {
+                var thispos = $(container).find('input.dnsposition');
+                var swappos = $(container).next().find('input.dnsposition');
+                dnsSwitchPositions(swappos, thispos, false);
+
                 $(container).insertAfter($(container).next());
             }
         });
@@ -70,3 +81,24 @@ jQuery(document).ready(function () {
         dnsrecord_holder.append(container);
     });
 });
+
+/**
+ * Switch position fields.
+ * If up is true, objB will be decreased.
+ *
+ * @param objA
+ * @param objB
+ * @param up
+ */
+function dnsSwitchPositions(objA, objB, up) {
+    posA = parseInt($(objA).val());
+    posB = parseInt($(objB).val());
+
+    if (up) {
+        $(objA).val(posA + 1);
+        $(objB).val(posB - 1);
+    } else {
+        $(objA).val(posA - 1);
+        $(objB).val(posB + 1);
+    }
+}

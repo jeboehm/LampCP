@@ -31,6 +31,9 @@ class DnsResourceModel {
     /** @var string */
     private $_rdata;
 
+    /** @var int */
+    private $_position;
+
     /**
      * Set Name
      *
@@ -117,5 +120,27 @@ class DnsResourceModel {
      */
     public function getType() {
         return $this->_type;
+    }
+
+    /**
+     * Set Position
+     *
+     * @param int $position
+     *
+     * @return DnsResourceModel
+     */
+    public function setPosition($position) {
+        $this->_position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get Position
+     *
+     * @return int
+     */
+    public function getPosition() {
+        return $this->_position;
     }
 }
