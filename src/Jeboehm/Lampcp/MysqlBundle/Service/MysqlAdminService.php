@@ -13,6 +13,7 @@ namespace Jeboehm\Lampcp\MysqlBundle\Service;
 use Symfony\Bridge\Monolog\Logger;
 use Jeboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
 use Jeboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel;
+use Jeboehm\Lampcp\MysqlBundle\Exception\CouldNotConnectException;
 use Jeboehm\Lampcp\MysqlBundle\Exception\UserAlreadyExistsException;
 use Jeboehm\Lampcp\MysqlBundle\Exception\UserNotExistsException;
 use Jeboehm\Lampcp\MysqlBundle\Exception\DatabaseAlreadyExistsException;
@@ -71,10 +72,8 @@ class MysqlAdminService {
         $mysqli = new \mysqli($host, $user, $password, null, $port);
 
         if ($mysqli->connect_error) {
-            $msg = '(MysqlBundle) Conn Error: ' . $mysqli->connect_error;
-
-            $this->_logger->err($msg);
-            throw new \Exception($msg);
+            $this->_logger->error('Could not connect to MySQL Server: ' . $mysqli->connect_error);
+            throw new CouldNotConnectException($mysqli->connect_error);
         }
 
         return $mysqli;
@@ -183,7 +182,7 @@ class MysqlAdminService {
      */
     public function createDatabase(MysqlDatabaseModel $database) {
         if ($this->checkDatabaseExists($database)) {
-            $this->_logger->err('(MysqlBundle) Database already exists: ' . $database->getName());
+            $this->_logger->error('MySQL database already exists: ' . $database->getName());
             throw new DatabaseAlreadyExistsException();
         }
 
@@ -191,7 +190,7 @@ class MysqlAdminService {
         $result = $this->_mysqli->query($q);
 
         if ($result) {
-            $this->_logger->info('(MysqlBundle) Created database: ' . $database->getName());
+            $this->_logger->info('MySQL Database created: ' . $database->getName());
 
             return true;
         }
@@ -209,15 +208,14 @@ class MysqlAdminService {
      */
     public function dropDatabase(MysqlDatabaseModel $database) {
         if (!$this->checkDatabaseExists($database)) {
-            $this->_logger->err('(MysqlBundle) Database not exists: ' . $database->getName());
-            throw new DatabaseNotExistsException();
+            return true;
         }
 
         $q      = sprintf('DROP DATABASE %s', $database->getName());
         $result = $this->_mysqli->query($q);
 
         if ($result) {
-            $this->_logger->info('(MysqlBundle) Deleted database: ' . $database->getName());
+            $this->_logger->info('MySQL Database deleted: ' . $database->getName());
 
             return true;
         }
@@ -235,15 +233,15 @@ class MysqlAdminService {
      */
     public function createUser(MysqlUserModel $user) {
         if ($this->checkUserExists($user)) {
-            $this->_logger->err('(MysqlBundle) User already exists: ' . $user->getUsername());
-            throw new UserAlreadyExistsException();
+            $this->_logger->error('MySQL user already exists: ' . $user->getUsername());
+            throw new UserAlreadyExistsException($user->getUsername());
         }
 
         $q      = sprintf('CREATE USER "%s"@"%s" IDENTIFIED BY "%s"', $user->getUsername(), $user->getHost(), $user->getPassword());
         $result = $this->_mysqli->query($q);
 
         if ($result) {
-            $this->_logger->info('(MysqlBundle) Created user: ' . $user->getUsername());
+            $this->_logger->info('Created MySQL user: ' . $user->getUsername());
 
             return true;
         }
@@ -261,15 +259,14 @@ class MysqlAdminService {
      */
     public function dropUser(MysqlUserModel $user) {
         if (!$this->checkUserExists($user)) {
-            $this->_logger->err('(MysqlBundle) User not exists: ' . $user->getUsername());
-            throw new UserNotExistsException();
+            return true;
         }
 
         $q      = sprintf('DROP USER "%s"@"%s"', $user->getUsername(), $user->getHost());
         $result = $this->_mysqli->query($q);
 
         if ($result) {
-            $this->_logger->info('(MysqlBundle) Deleted user: ' . $user->getUsername());
+            $this->_logger->info('Deleted MySQL user: ' . $user->getUsername());
 
             return true;
         }
@@ -287,7 +284,7 @@ class MysqlAdminService {
      */
     public function setUserPassword(MysqlUserModel $user) {
         if (!$this->checkUserExists($user)) {
-            $this->_logger->err('(MysqlBundle) User not exists: ' . $user->getUsername());
+            $this->_logger->error('MySQL user not exists: ' . $user->getUsername());
             throw new UserNotExistsException();
         }
 
@@ -295,7 +292,7 @@ class MysqlAdminService {
         $result = $this->_mysqli->query($q);
 
         if ($result) {
-            $this->_logger->info('(MysqlBundle) Changed user password: ' . $user->getUsername());
+            $this->_logger->info('(MysqlBundle) Changed MySQL user password: ' . $user->getUsername());
 
             return true;
         }
@@ -313,7 +310,7 @@ class MysqlAdminService {
      */
     public function grantPermissionsOnDatabase(MysqlDatabaseModel $database) {
         if (!$this->checkDatabaseExists($database)) {
-            $this->_logger->err('(MysqlBundle) Database not exists: ' . $database->getName());
+            $this->_logger->error('MySQL Database not exists: ' . $database->getName());
             throw new DatabaseNotExistsException();
         }
 
@@ -322,11 +319,11 @@ class MysqlAdminService {
             $result = $this->_mysqli->query($q);
 
             if (!$result) {
-                $this->_logger->err('(MysqlBundle) Could not grant permissions on database: ' . $database->getName());
+                $this->_logger->error('Could not grant permissions on MySQL database: ' . $database->getName());
             }
         }
 
-        $this->_logger->info('(MysqlBundle) Granted permissions on database: ' . $database->getName());
+        $this->_logger->info('Granted permissions on MySQL database: ' . $database->getName());
 
         return true;
     }

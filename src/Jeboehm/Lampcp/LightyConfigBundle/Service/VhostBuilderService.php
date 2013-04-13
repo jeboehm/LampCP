@@ -51,9 +51,6 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
             throw new CouldNotWriteFileException();
         }
 
-        $this
-            ->_getLogger()
-            ->info('(LightyConfigBundle) Creating new config: ' . $target);
         file_put_contents($target, $content);
     }
 

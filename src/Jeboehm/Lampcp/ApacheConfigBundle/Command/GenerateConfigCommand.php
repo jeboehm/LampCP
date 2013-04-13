@@ -113,11 +113,9 @@ class GenerateConfigCommand extends AbstractCommand {
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (!$this->_isEnabled()) {
-            $this
-                ->_getLogger()
-                ->err('(ApacheConfigBundle) Command not enabled!');
+            $output->writeln('Command not enabled');
 
-            return;
+            return false;
         }
 
         $run = false;
@@ -127,44 +125,28 @@ class GenerateConfigCommand extends AbstractCommand {
         }
 
         if ($run) {
+            $certificate = $this->_getCertificateBuilderService();
+            $certificate->buildAll();
+
+            $directory = $this->_getDirectoryBuilderService();
+            $directory->buildAll();
+
+            $vhost = $this->_getVhostBuilderService();
+            $vhost->buildAll();
+
+            $protection = $this->_getProtectionBuilderService();
+            $protection->buildAll();
+
+            $this->_restartApache();
+
             $this
-                ->_getLogger()
-                ->info('(ApacheConfigBundle) Executing...');
+                ->_getCronService()
+                ->updateLastRun($this->getName());
 
-            if ($input->getOption('verbose')) {
-                $output->writeln('(ApacheConfigBundle) Executing...');
-            }
-
-            try {
-                $certificate = $this->_getCertificateBuilderService();
-                $certificate->buildAll();
-
-                $directory = $this->_getDirectoryBuilderService();
-                $directory->buildAll();
-
-                $vhost = $this->_getVhostBuilderService();
-                $vhost->buildAll();
-
-                $protection = $this->_getProtectionBuilderService();
-                $protection->buildAll();
-
-                $this->_restartApache();
-
-                $this
-                    ->_getCronService()
-                    ->updateLastRun($this->getName());
-            } catch (\Exception $e) {
-                $this
-                    ->_getLogger()
-                    ->err('(ApacheConfigBundle) Error: ' . $e->getMessage());
-
-                throw $e;
-            }
-        } else {
-            if ($input->getOption('verbose')) {
-                $output->writeln('(ApacheConfigBundle) No changes detected.');
-            }
+            return true;
         }
+
+        return false;
     }
 
     /**

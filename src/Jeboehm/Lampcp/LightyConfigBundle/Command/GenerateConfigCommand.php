@@ -30,6 +30,8 @@ use Jeboehm\Lampcp\LightyConfigBundle\Service\FcgiStarterService;
  */
 class GenerateConfigCommand extends ParentConfigCommand {
     /**
+     * Get vhost builder service.
+     *
      * @return VhostBuilderService
      */
     protected function _getVhostBuilderService() {
@@ -39,6 +41,8 @@ class GenerateConfigCommand extends ParentConfigCommand {
     }
 
     /**
+     * Get directory builder service.
+     *
      * @return DirectoryBuilderService
      */
     protected function _getDirectoryBuilderService() {
@@ -48,6 +52,8 @@ class GenerateConfigCommand extends ParentConfigCommand {
     }
 
     /**
+     * Get protection builder service.
+     *
      * @return ProtectionBuilderService
      */
     protected function _getProtectionBuilderService() {
@@ -57,6 +63,8 @@ class GenerateConfigCommand extends ParentConfigCommand {
     }
 
     /**
+     * Get certificate builder service.
+     *
      * @return CertificateBuilderService
      */
     protected function _getCertificateBuilderService() {
@@ -66,6 +74,8 @@ class GenerateConfigCommand extends ParentConfigCommand {
     }
 
     /**
+     * Get FCGI starter service.
+     *
      * @return FcgiStarterService
      */
     protected function _getFcgiStarterService() {
@@ -75,7 +85,7 @@ class GenerateConfigCommand extends ParentConfigCommand {
     }
 
     /**
-     * Configure command
+     * Configure command.
      */
     protected function configure() {
         $this->setName('lampcp:lighty:generateconfig');
@@ -114,16 +124,16 @@ class GenerateConfigCommand extends ParentConfigCommand {
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * Execute command.
      *
-     * @return int|null|void
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return bool
      */
     public function execute(InputInterface $input, OutputInterface $output) {
         if (!$this->_isEnabled()) {
-            $this
-                ->_getLogger()
-                ->err('(LightyConfigBundle) Command not enabled!');
+            $output->writeln('Command not enabled.');
 
             return;
         }

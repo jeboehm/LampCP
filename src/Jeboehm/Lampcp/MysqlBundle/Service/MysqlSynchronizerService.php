@@ -11,9 +11,10 @@
 namespace Jeboehm\Lampcp\MysqlBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Monolog\Logger;
+use Jeboehm\Lampcp\MysqlBundle\Exception\EmptyDatabasePrefixException;
 use Jeboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel;
 use Jeboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
-use Symfony\Bridge\Monolog\Logger;
 use Jeboehm\Lampcp\MysqlBundle\Service\MysqlAdminService;
 use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
@@ -84,9 +85,8 @@ class MysqlSynchronizerService {
         $prefix = $this->_systemconfig->getParameter('mysql.dbprefix');
 
         if (empty($prefix)) {
-            $msg = '(MysqlBundle) Empty database prefix!';
-            $this->_logger->err($msg);
-            throw new \Exception($msg);
+            $this->_logger->error('MySQL database prefix not configured.');
+            throw new EmptyDatabasePrefixException();
         }
 
         return $prefix;
@@ -102,7 +102,6 @@ class MysqlSynchronizerService {
                 ->findOneBy(array('name' => $database->getName()));
 
             if (!$mysqldb) {
-                $this->_logger->alert('(MysqlBundle) Deleting obsolete database: ' . $database->getName());
                 $this->_mysqladmin->dropDatabase($database);
             }
         }
@@ -118,7 +117,6 @@ class MysqlSynchronizerService {
                 ->findOneBy(array('name' => $user->getUsername()));
 
             if (!$mysqldb) {
-                $this->_logger->alert('(MysqlBundle) Deleting obsolete user: ' . $user->getUsername());
                 $this->_mysqladmin->dropUser($user);
             }
         }
@@ -147,12 +145,10 @@ class MysqlSynchronizerService {
             if ($this->_mysqladmin->checkUserExists($userModel)) {
                 $this->_mysqladmin->setUserPassword($userModel);
             } else {
-                $this->_logger->info('(MysqlBundle) Adding user: ' . $userModel->getUsername());
                 $this->_mysqladmin->createUser($userModel);
             }
 
             if (!$this->_mysqladmin->checkDatabaseExists($dbModel)) {
-                $this->_logger->info('(MysqlBundle) Creating database: ' . $dbModel->getName());
                 $this->_mysqladmin->createDatabase($dbModel);
                 $this->_mysqladmin->grantPermissionsOnDatabase($dbModel);
             }

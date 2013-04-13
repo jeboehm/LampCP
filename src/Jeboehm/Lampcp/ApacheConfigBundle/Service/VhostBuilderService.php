@@ -52,7 +52,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
         }
 
         if (empty($globalConfig)) {
-            throw new \Exception('Could not read global php.ini');
+            throw new GlobalPhpIniNotFoundException();
         }
 
         return $this->_renderTemplate(self::_twigPhpIni, array(
@@ -82,9 +82,6 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
                                                                            'domain' => $domain,
                                                                       ));
 
-            $this
-                ->_getLogger()
-                ->info('(ApacheConfigBundle) Generating FCGI-Starter: ' . $filename);
             file_put_contents($filename, $content);
         }
 
@@ -116,9 +113,6 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
         }
 
         if (!$fs->exists($filename)) {
-            $this
-                ->_getLogger()
-                ->info('(ApacheConfigBundle) Generating php.ini:' . $filename);
             file_put_contents($filename, $this->_renderPhpIni($domain));
         }
 
@@ -154,9 +148,6 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
             throw new CouldNotWriteFileException();
         }
 
-        $this
-            ->_getLogger()
-            ->info('(ApacheConfigBundle) Creating new config: ' . $target);
         file_put_contents($target, $content);
     }
 

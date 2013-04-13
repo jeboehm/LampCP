@@ -114,7 +114,7 @@ abstract class AbstractConfigProvider {
      */
     protected function _createEntity($name, $type, ConfigGroup $group = null, $default = '') {
         if (!$group && !$this->_lastGroup) {
-            throw new \Exception('No group provided!');
+            throw new NoGroupProvidedException();
         }
 
         $name   = strtolower($name);

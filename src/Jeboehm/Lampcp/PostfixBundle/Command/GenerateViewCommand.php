@@ -83,12 +83,11 @@ class GenerateViewCommand extends AbstractCommand {
                     ->exec($statement);
             }
 
-            $output->writeln('Created Postfix views!');
-            $this
-                ->_getLogger()
-                ->alert('(PostfixBundle) Created Postfix views');
+            $output->writeln('Views created.');
+
+            return true;
         } elseif ($input->getOption('drop')) {
-            $sql = $sql = $this->_getSqlFiles('drop');
+            $sql = $this->_getSqlFiles('drop');
 
             foreach ($sql as $statement) {
                 $this
@@ -97,12 +96,13 @@ class GenerateViewCommand extends AbstractCommand {
                     ->exec($statement);
             }
 
-            $output->writeln('Dropped Postfix views!');
-            $this
-                ->_getLogger()
-                ->alert('(PostfixBundle) Dropped Postfix views');
+            $output->writeln('Views deleted.');
+
+            return true;
         } else {
             $output->writeln('Choose: --create or --drop');
         }
+
+        return false;
     }
 }

@@ -61,11 +61,9 @@ class GenerateConfigCommand extends AbstractCommand {
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (!$this->_isEnabled()) {
-            $this
-                ->_getLogger()
-                ->err('(ZoneGeneratorBundle) Command not enabled!');
+            $output->writeln('Command not enabled.');
 
-            return;
+            return false;
         }
 
         $run = false;
@@ -77,31 +75,16 @@ class GenerateConfigCommand extends AbstractCommand {
         if ($run) {
             $this
                 ->_getLogger()
-                ->info('(ZoneGeneratorBundle) Executing...');
+                ->info('Building dns configuration...');
 
-            if ($input->getOption('verbose')) {
-                $output->writeln('(ZoneGeneratorBundle) Executing...');
-            }
+            $builder = $this->_getBuilderService();
+            $builder->build();
 
-            try {
-                $builder = $this->_getBuilderService();
-                $builder->build();
-                $this->_restartBind();
-            } catch (\Exception $e) {
-                $this
-                    ->_getLogger()
-                    ->err('(ZoneGeneratorBundle) Error: ' . $e->getMessage());
-
-                throw $e;
-            }
+            $this->_restartBind();
 
             $this
                 ->_getCronService()
                 ->updateLastRun($this->getName());
-        } else {
-            if ($input->getOption('verbose')) {
-                $output->writeln('(ZoneGeneratorBundle) No changes detected.');
-            }
         }
     }
 

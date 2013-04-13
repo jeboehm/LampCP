@@ -165,7 +165,7 @@ class LoadUsersCommand extends AbstractCommand {
                 $domainsForUser = $this->_domainRepository->findBy(array('user' => $localUser));
 
                 if (count($domainsForUser) > 0) {
-                    $logMsg = '(UserLoaderBundle) Could not delete invalid user ' . $localUser->getName() . ', because ' . count($domainsForUser) . ' domains are linked to it.';
+                    $logMsg = 'Could not delete invalid local user ' . $localUser->getName() . ', because ' . count($domainsForUser) . ' domains are linked to it.';
                     $this
                         ->_getLogger()
                         ->error($logMsg);

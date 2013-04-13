@@ -116,11 +116,9 @@ class GenerateDatabasesCommand extends AbstractCommand {
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (!$this->_isEnabled()) {
-            $this
-                ->_getLogger()
-                ->err('(MysqlBundle) Command not enabled!');
+            $output->writeln('Command not enabled.');
 
-            return;
+            return false;
         }
 
         $run = false;
@@ -132,18 +130,16 @@ class GenerateDatabasesCommand extends AbstractCommand {
         if ($run) {
             $this
                 ->_getLogger()
-                ->info('(MysqlBundle) Executing...');
-
-            if ($input->getOption('verbose')) {
-                $output->writeln('(MysqlBundle) Executing...');
-            }
+                ->info('Updating MySQL databases...');
 
             $this
                 ->_getMysqlSynchronizerService()
                 ->createDatabases();
+
             $this
                 ->_getMysqlSynchronizerService()
                 ->deleteObsoleteDatabases();
+
             $this
                 ->_getMysqlSynchronizerService()
                 ->deleteObsoleteUsers();
@@ -151,11 +147,11 @@ class GenerateDatabasesCommand extends AbstractCommand {
             $this
                 ->_getCronService()
                 ->updateLastRun($this->getName());
-        } else {
-            if ($input->getOption('verbose')) {
-                $output->writeln('(MysqlBundle) No changes detected.');
-            }
+
+            return true;
         }
+
+        return false;
     }
 
     /**

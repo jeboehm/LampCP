@@ -20,14 +20,14 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Command\GenerateLampcpConfigCommand as Bas
 /**
  * Class GenerateLampcpConfigCommand
  *
- * Generate first vhost for new LampCP installations
+ * Generate first vhost for new LampCP installations.
  *
  * @package Jeboehm\Lampcp\LightyConfigBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class GenerateLampcpConfigCommand extends BaseGenerateLampcpConfigCommand {
     /**
-     * Configure command
+     * Configure command.
      */
     protected function configure() {
         parent::configure();
@@ -36,7 +36,9 @@ class GenerateLampcpConfigCommand extends BaseGenerateLampcpConfigCommand {
     }
 
     /**
-     * @return VhostBuilderService
+     * Get vhost builder service.
+     *
+     * @return VhostBuilderService.
      */
     protected function _getVhostBuilderService() {
         return $this
@@ -45,7 +47,9 @@ class GenerateLampcpConfigCommand extends BaseGenerateLampcpConfigCommand {
     }
 
     /**
-     * @return DirectoryBuilderService
+     * Get directory builder service.
+     *
+     * @return DirectoryBuilderService.
      */
     protected function _getDirectoryBuilderService() {
         return $this

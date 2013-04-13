@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Monolog\Logger;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\Controller\HostNotValid;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\Controller\NoHostsGiven;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\Controller\TooManyHosts;
@@ -61,6 +62,10 @@ class DyndnsController extends Controller {
 
                 if (!$result) {
                     throw new HostNotFound();
+                } else {
+                    $this
+                        ->_getLogger()
+                        ->info(sprintf('Set %s to %s.', $hostname, $ip));
                 }
             }
         } catch (TooManyHosts $e) {
@@ -104,5 +109,14 @@ class DyndnsController extends Controller {
      */
     protected function _getRecordUpdateService() {
         return $this->container->get('jeboehm_lampcp_zonegenerator.recordupdateservice');
+    }
+
+    /**
+     * Get logger.
+     *
+     * @return Logger
+     */
+    protected function _getLogger() {
+        return $this->container->get('logger');
     }
 }

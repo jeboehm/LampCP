@@ -16,6 +16,7 @@ use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Filesystem\Filesystem;
 use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Dns;
+use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ZoneDefinition;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Transformer\ZonefileTransformer;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\DirectoryNotFound;
 
@@ -83,35 +84,6 @@ class BuilderService {
     }
 
     /**
-     * Get zone files definition
-     *
-     * @param string $name
-     * @param string $dbPath
-     *
-     * @return string
-     */
-    protected function _getZoneDefinition($name, $dbPath) {
-        $text = <<< EOT
-zone "%name%" IN {
-    type master;
-    file "%path%";
-};
-
-
-EOT;
-
-        $text = str_replace(array(
-                                 '%name%',
-                                 '%path%',
-                            ), array(
-                                    $name,
-                                    $dbPath,
-                               ), $text);
-
-        return $text;
-    }
-
-    /**
      * Get Dns Entities
      *
      * @return Dns[]
@@ -133,7 +105,7 @@ EOT;
     protected function _checkZoneDefinition(Dns $zone) {
         $dbPath     = sprintf('%s/%s.%s', $this->_getZoneDirectory(), $zone->getOrigin(), 'db');
         $config     = file_get_contents($this->_getZoneDefinitionPath());
-        $definition = $this->_getZoneDefinition($zone->getOrigin(), $dbPath);
+        $definition = ZoneDefinition::create($zone->getOrigin(), $dbPath);
 
         if (strpos($config, $definition) !== false) {
             return true;
@@ -152,7 +124,7 @@ EOT;
 
         foreach ($dns as $entity) {
             $pathZoneDb       = sprintf('%s/%s.%s', $this->_getZoneDirectory(), $entity->getOrigin(), 'db');
-            $zoneDefinition[] = $this->_getZoneDefinition($entity->getOrigin(), $pathZoneDb);
+            $zoneDefinition[] = ZoneDefinition::create($entity->getOrigin(), $pathZoneDb);
             $transformer      = new ZonefileTransformer($entity->getZonecollection());
 
             file_put_contents($pathZoneDb, $transformer->transform());

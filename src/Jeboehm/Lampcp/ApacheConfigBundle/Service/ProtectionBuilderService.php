@@ -10,6 +10,7 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
+use Jeboehm\Lampcp\CoreBundle\Entity\ProtectionUser;
 use Symfony\Component\Filesystem\Filesystem;
 use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
@@ -29,9 +30,9 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
     const _twigAuthUserFile = 'JeboehmLampcpApacheConfigBundle:Apache2:AuthUserFile.conf.twig';
 
     /**
-     * Get protection model array
+     * Get protection model array.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Protection $protection
+     * @param ProtectionEntity $protection
      *
      * @return ProtectionConfigModel[]
      */
@@ -39,6 +40,7 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
         $models = array();
 
         foreach ($protection->getProtectionuser() as $prot) {
+            /** @var $prot ProtectionUser */
             $mod = new ProtectionConfigModel();
             $mod
                 ->setId($prot->getId())
@@ -54,11 +56,11 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
     }
 
     /**
-     * Generate AuthUserFile
+     * Generate AuthUserFile.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Protection $protection
+     * @param ProtectionEntity $protection
      *
-     * @throws \Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
+     * @throws CouldNotWriteFileException
      */
     protected function _generateAuthUserFile(ProtectionEntity $protection) {
         $fs               = new Filesystem();
@@ -74,9 +76,6 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
             throw new CouldNotWriteFileException();
         }
 
-        $this
-            ->_getLogger()
-            ->info('(ApacheConfigBundle) Generating AuthUserFile:' . $pathAuthUserFile);
         file_put_contents($pathAuthUserFile, $contents);
 
         // Change rights
@@ -87,6 +86,7 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
             ->getDomain()
             ->getUser()
             ->getName());
+
         $fs->chgrp($pathAuthUserFile, $protection
             ->getDomain()
             ->getUser()
@@ -94,7 +94,7 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
     }
 
     /**
-     * Build all configurations
+     * Build all configurations.
      */
     public function buildAll() {
         foreach ($this->_getAllDomains() as $domain) {
@@ -107,7 +107,7 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
     }
 
     /**
-     * Look for obsolete AuthUserFile files
+     * Look for obsolete AuthUserFile files.
      */
     protected function _cleanConfDirectory() {
         /** @var $domains Domain[] */
@@ -135,9 +135,6 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
                                 ));
 
                 if (!$protection) {
-                    $this
-                        ->_getLogger()
-                        ->info('(ApacheConfigBundle) Deleting obsolete AuthUserFile: ' . $filepath);
                     $fs->remove($filepath);
                 }
             }
