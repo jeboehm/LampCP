@@ -13,8 +13,8 @@ namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Process\Process;
 use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
-use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Service\BuilderService;
@@ -186,31 +186,34 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Restart Bind
+     * Restart Bind.
+     *
+     * @return bool
      */
     protected function _restartBind() {
-        $exec = new ExecUtility();
-        $cmd  = $this
+        $cmd = $this
             ->_getConfigService()
             ->getParameter('dns.cmd.reload');
 
-        if (!empty($cmd)) {
+        if (empty($cmd)) {
+            return false;
+        }
+
+        $proc = new Process($cmd);
+        $proc->run();
+
+        if ($proc->getExitCode() > 0) {
             $this
                 ->_getLogger()
-                ->info('(ZoneGeneratorBundle) Restarting Bind...');
+                ->error('Could not restart bind!');
 
-            if (strpos($cmd, ' ') !== false) {
-                $cmdSplit = explode(' ', $cmd);
-                $exec->exec(array_shift($cmdSplit), $cmdSplit);
-            } else {
-                $exec->exec($cmd);
-            }
-
-            if ($exec->getCode() > 0) {
-                $this
-                    ->_getLogger()
-                    ->err($exec->getOutput());
-            }
+            return false;
+        } else {
+            $this
+                ->_getLogger()
+                ->info('Restarted bind!');
         }
+
+        return true;
     }
 }

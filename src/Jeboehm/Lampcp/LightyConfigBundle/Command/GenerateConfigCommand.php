@@ -13,12 +13,12 @@ namespace Jeboehm\Lampcp\LightyConfigBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Process\Process;
 use Jeboehm\Lampcp\ApacheConfigBundle\Command\GenerateConfigCommand as ParentConfigCommand;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\CertificateBuilderService;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\FcgiStarterService;
-use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 
 /**
  * Class GenerateConfigCommand
@@ -84,32 +84,33 @@ class GenerateConfigCommand extends ParentConfigCommand {
     }
 
     /**
-     * Restart apache2
+     * Restart Lighttpd.
      */
     protected function _restartApache() {
-        $exec = new ExecUtility();
-        $cmd  = $this
+        $cmd = $this
             ->_getConfigService()
             ->getParameter('lighttpd.cmdlighttpdrestart');
 
-        if (!empty($cmd)) {
+        if (empty($cmd)) {
+            return false;
+        }
+
+        $proc = new Process($cmd);
+        $proc->run();
+
+        if ($proc->getExitCode() > 0) {
             $this
                 ->_getLogger()
-                ->info('(LightyConfigBundle) Restarting Lighttpd...');
+                ->error('Could not restart lighttpd.');
 
-            if (strpos($cmd, ' ') !== false) {
-                $cmdSplit = explode(' ', $cmd);
-                $exec->exec(array_shift($cmdSplit), $cmdSplit);
-            } else {
-                $exec->exec($cmd);
-            }
-
-            if ($exec->getCode() > 0) {
-                $this
-                    ->_getLogger()
-                    ->err($exec->getOutput());
-            }
+            return false;
+        } else {
+            $this
+                ->_getLogger()
+                ->info('Restarted lighttpd.');
         }
+
+        return true;
     }
 
     /**

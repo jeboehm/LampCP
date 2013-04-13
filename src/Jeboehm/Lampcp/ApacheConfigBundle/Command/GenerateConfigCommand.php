@@ -13,8 +13,8 @@ namespace Jeboehm\Lampcp\ApacheConfigBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Process\Process;
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
-use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
@@ -194,32 +194,33 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Restart apache2
+     * Restart apache2.
      */
     protected function _restartApache() {
-        $exec = new ExecUtility();
-        $cmd  = $this
+        $cmd = $this
             ->_getConfigService()
             ->getParameter('apache.cmdapache2restart');
 
-        if (!empty($cmd)) {
+        if (empty($cmd)) {
+            return false;
+        }
+
+        $proc = new Process($cmd);
+        $proc->run();
+
+        if ($proc->getExitCode() > 0) {
             $this
                 ->_getLogger()
-                ->info('(ApacheConfigBundle) Restarting apache2...');
+                ->error('Could not restart Apache2.');
 
-            if (strpos($cmd, ' ') !== false) {
-                $cmdSplit = explode(' ', $cmd);
-                $exec->exec(array_shift($cmdSplit), $cmdSplit);
-            } else {
-                $exec->exec($cmd);
-            }
-
-            if ($exec->getCode() > 0) {
-                $this
-                    ->_getLogger()
-                    ->err($exec->getOutput());
-            }
+            return false;
+        } else {
+            $this
+                ->_getLogger()
+                ->info('Restarted Apache2.');
         }
+
+        return true;
     }
 
     /**
