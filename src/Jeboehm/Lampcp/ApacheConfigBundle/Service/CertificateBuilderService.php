@@ -11,6 +11,8 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Doctrine\ORM\EntityRepository;
+use Jeboehm\Lampcp\ApacheConfigBundle\Exception\EmptyCertificatePathException;
 use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
 
@@ -36,9 +38,9 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
     );
 
     /**
-     * Get certificate repository
+     * Get certificate repository.
      *
-     * @return \Doctrine\ORM\EntityRepository
+     * @return EntityRepository
      */
     protected function _getRepository() {
         return $this
@@ -47,10 +49,10 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
     }
 
     /**
-     * Get certificate storage directory
+     * Get certificate storage directory.
      *
+     * @throws EmptyCertificatePathException
      * @return string
-     * @throws \Exception
      */
     protected function _getStorageDir() {
         $fs  = new Filesystem();
@@ -59,11 +61,7 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
             ->getParameter('apache.pathcertificate');
 
         if (empty($dir)) {
-            $msg = '(ApacheConfigBundle) Certificate Path config variable is empty!';
-            $this
-                ->_getLogger()
-                ->err($msg);
-            throw new \Exception($msg);
+            throw new EmptyCertificatePathException();
         }
 
         if (!$fs->exists($dir)) {
@@ -74,9 +72,9 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
     }
 
     /**
-     * Save certificate
+     * Save certificate.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Certificate $cert
+     * @param Certificate $cert
      */
     protected function _saveCertificate(Certificate $cert) {
         $target   = $this->_getStorageDir();
@@ -108,10 +106,6 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
             $mSetPath = 'set' . $method . 'Path';
 
             if ($cert->$mGet()) {
-                $this
-                    ->_getLogger()
-                    ->info('(ApacheConfigBundle) Generating Cert.: ' . $fullfilename);
-
                 if ($ext === self::_EXTENSION_PRIVATEKEY) {
                     $content = $this
                         ->_getCryptService()
@@ -131,10 +125,6 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
                 $cert->$mSetPath($fullfilename);
             } else {
                 if ($fs->exists($fullfilename)) {
-                    $this
-                        ->_getLogger()
-                        ->info('(ApacheConfigBundle) Deleting Cert.: ' . $fullfilename);
-
                     $fs->remove($fullfilename);
                 }
 
@@ -144,9 +134,9 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
     }
 
     /**
-     * Remove certificate from storage dir
+     * Remove certificate from storage dir.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Certificate $cert
+     * @param Certificate $cert
      */
     protected function _deleteCertificate(Certificate $cert) {
         $fs       = new Filesystem();
@@ -176,10 +166,6 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
             $mSetPath = 'set' . $method . 'Path';
 
             if ($fs->exists($fullfilename)) {
-                $this
-                    ->_getLogger()
-                    ->info('(ApacheConfigBundle) Deleting Cert.: ' . $fullfilename);
-
                 $fs->remove($fullfilename);
                 $cert->$mSetPath('');
             }
@@ -187,7 +173,7 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
     }
 
     /**
-     * Clean up certificate directory
+     * Clean up certificate directory.
      */
     protected function _removeUnusedCertificates() {
         $dir   = $this->_getStorageDir();
@@ -212,16 +198,13 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
             if ($certificate) {
                 continue;
             } else {
-                $this
-                    ->_getLogger()
-                    ->info('(ApacheConfigBundle) Removing unused certfile: ' . $filename);
                 $fs->remove($path);
             }
         }
     }
 
     /**
-     * Build certificates
+     * Build certificates.
      */
     public function buildAll() {
         foreach ($this

@@ -26,14 +26,14 @@ class ConfigProviderCollector {
     protected $_provider;
 
     /**
-     * Konstruktor
+     * Constructor.
      */
     public function __construct() {
         $this->_provider = array();
     }
 
     /**
-     * Add provider
+     * Add provider.
      *
      * @param AbstractConfigProvider $provider
      */
@@ -42,7 +42,7 @@ class ConfigProviderCollector {
     }
 
     /**
-     * Return registered providers
+     * Return registered providers.
      *
      * @return AbstractConfigProvider[]
      */

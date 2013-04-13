@@ -26,7 +26,7 @@ class KernelCacheWarmer implements CacheWarmerInterface {
     protected $_updater;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param UpdateExecutor $updater
      */

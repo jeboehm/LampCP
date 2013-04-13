@@ -13,8 +13,8 @@ namespace Jeboehm\Lampcp\ApacheConfigBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Process\Process;
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
-use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
@@ -32,7 +32,7 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService;
  */
 class GenerateConfigCommand extends AbstractCommand {
     /**
-     * Get watched entitys
+     * Get watched entities.
      *
      * @return array
      */
@@ -51,6 +51,8 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
+     * Get vhost builder service.
+     *
      * @return VhostBuilderService
      */
     protected function _getVhostBuilderService() {
@@ -60,6 +62,8 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
+     * Get directory builder service.
+     *
      * @return DirectoryBuilderService
      */
     protected function _getDirectoryBuilderService() {
@@ -69,6 +73,8 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
+     * Get protection builder service.
+     *
      * @return ProtectionBuilderService
      */
     protected function _getProtectionBuilderService() {
@@ -78,6 +84,8 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
+     * Get certificate builder service.
+     *
      * @return CertificateBuilderService
      */
     protected function _getCertificateBuilderService() {
@@ -87,7 +95,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Configure command
+     * Configure command.
      */
     protected function configure() {
         $this->setName('lampcp:apache:generateconfig');
@@ -96,21 +104,18 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Execute command
+     * Execute command.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      *
-     * @throws \Exception
-     * @return int|null|void
+     * @return bool
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (!$this->_isEnabled()) {
-            $this
-                ->_getLogger()
-                ->err('(ApacheConfigBundle) Command not enabled!');
+            $output->writeln('Command not enabled');
 
-            return;
+            return false;
         }
 
         $run = false;
@@ -120,48 +125,32 @@ class GenerateConfigCommand extends AbstractCommand {
         }
 
         if ($run) {
+            $certificate = $this->_getCertificateBuilderService();
+            $certificate->buildAll();
+
+            $directory = $this->_getDirectoryBuilderService();
+            $directory->buildAll();
+
+            $vhost = $this->_getVhostBuilderService();
+            $vhost->buildAll();
+
+            $protection = $this->_getProtectionBuilderService();
+            $protection->buildAll();
+
+            $this->_restartApache();
+
             $this
-                ->_getLogger()
-                ->info('(ApacheConfigBundle) Executing...');
+                ->_getCronService()
+                ->updateLastRun($this->getName());
 
-            if ($input->getOption('verbose')) {
-                $output->writeln('(ApacheConfigBundle) Executing...');
-            }
-
-            try {
-                $certificate = $this->_getCertificateBuilderService();
-                $certificate->buildAll();
-
-                $directory = $this->_getDirectoryBuilderService();
-                $directory->buildAll();
-
-                $vhost = $this->_getVhostBuilderService();
-                $vhost->buildAll();
-
-                $protection = $this->_getProtectionBuilderService();
-                $protection->buildAll();
-
-                $this->_restartApache();
-
-                $this
-                    ->_getCronService()
-                    ->updateLastRun($this->getName());
-            } catch (\Exception $e) {
-                $this
-                    ->_getLogger()
-                    ->err('(ApacheConfigBundle) Error: ' . $e->getMessage());
-
-                throw $e;
-            }
-        } else {
-            if ($input->getOption('verbose')) {
-                $output->writeln('(ApacheConfigBundle) No changes detected.');
-            }
+            return true;
         }
+
+        return false;
     }
 
     /**
-     * Checks for changed entitys that are relevant for this task
+     * Checks for changed entitys that are relevant for this task.
      *
      * @return bool
      */
@@ -194,36 +183,37 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Restart apache2
+     * Restart apache2.
      */
     protected function _restartApache() {
-        $exec = new ExecUtility();
-        $cmd  = $this
+        $cmd = $this
             ->_getConfigService()
             ->getParameter('apache.cmdapache2restart');
 
-        if (!empty($cmd)) {
+        if (empty($cmd)) {
+            return false;
+        }
+
+        $proc = new Process($cmd);
+        $proc->run();
+
+        if ($proc->getExitCode() > 0) {
             $this
                 ->_getLogger()
-                ->info('(ApacheConfigBundle) Restarting apache2...');
+                ->error('Could not restart Apache2.');
 
-            if (strpos($cmd, ' ') !== false) {
-                $cmdSplit = explode(' ', $cmd);
-                $exec->exec(array_shift($cmdSplit), $cmdSplit);
-            } else {
-                $exec->exec($cmd);
-            }
-
-            if ($exec->getCode() > 0) {
-                $this
-                    ->_getLogger()
-                    ->err($exec->getOutput());
-            }
+            return false;
+        } else {
+            $this
+                ->_getLogger()
+                ->info('Restarted Apache2.');
         }
+
+        return true;
     }
 
     /**
-     * Get cron service
+     * Get cron service.
      *
      * @return CronService
      */
@@ -234,7 +224,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get change tracking service
+     * Get change tracking service.
      *
      * @return ChangeTrackingService
      */
@@ -245,7 +235,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get "enabled" from config service
+     * Get "enabled" from config service.
      *
      * @return string
      */

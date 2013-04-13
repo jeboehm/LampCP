@@ -26,17 +26,17 @@ use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class ConfigService {
-    /** @var \Doctrine\ORM\EntityManager */
+    /** @var EntityManager */
     private $_em;
 
-    /** @var \Jeboehm\Lampcp\CoreBundle\Service\CryptService */
+    /** @var CryptService */
     private $_cs;
 
     /**
-     * Konstruktor
+     * Constructor.
      *
-     * @param \Doctrine\ORM\EntityManager                     $em
-     * @param \Jeboehm\Lampcp\CoreBundle\Service\CryptService $cs
+     * @param EntityManager $em
+     * @param CryptService  $cs
      */
     public function __construct(EntityManager $em, CryptService $cs) {
         $this->_em = $em;
@@ -44,7 +44,7 @@ class ConfigService {
     }
 
     /**
-     * Get config entity repository
+     * Get config entity repository.
      *
      * @return ConfigEntityRepository
      */
@@ -53,7 +53,7 @@ class ConfigService {
     }
 
     /**
-     * Get entity
+     * Get entity.
      *
      * @param string $name
      *
@@ -76,7 +76,7 @@ class ConfigService {
     }
 
     /**
-     * Get config parameter
+     * Get config parameter.
      *
      * @param string $name
      *
@@ -106,7 +106,7 @@ class ConfigService {
     }
 
     /**
-     * Set config parameter
+     * Set config parameter.
      *
      * @param string $name
      * @param string $value

@@ -18,7 +18,7 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService as ParentD
 /**
  * Class DirectoryBuilderService
  *
- * Creates default folders per vhost in the filesystem
+ * Creates default folders per vhost in the filesystem.
  *
  * @package Jeboehm\Lampcp\LightyConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
@@ -27,8 +27,8 @@ class DirectoryBuilderService extends ParentDirectoryBuilderService implements B
     const _http_user = 'www-data';
 
     /**
-     * Create default directorys
-     * Lighttpd writes logs as www-data, so we have to change the owner of the logs dir
+     * Create default directories.
+     * Lighttpd writes logs as www-data, so we have to change the owner of the logs dir.
      *
      * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
      */

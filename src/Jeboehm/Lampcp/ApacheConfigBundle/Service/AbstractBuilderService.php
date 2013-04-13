@@ -44,28 +44,34 @@ abstract class AbstractBuilderService implements BuilderServiceInterface {
     private $_cryptService;
 
     /**
-     * @return \Symfony\Bundle\TwigBundle\TwigEngine
+     * Get twig engine.
+     *
+     * @return TwigEngine
      */
     protected function _getTemplating() {
         return $this->_templating;
     }
 
     /**
-     * @return \Doctrine\ORM\EntityManager
+     * Get entity manager.
+     *
+     * @return EntityManager
      */
     protected function _getDoctrine() {
         return $this->_doctrine;
     }
 
     /**
-     * @return \Jeboehm\Lampcp\ConfigBundle\Service\ConfigService
+     * Get config service.
+     *
+     * @return ConfigService
      */
     protected function _getConfigService() {
         return $this->_configService;
     }
 
     /**
-     * Get Logger
+     * Get Logger.
      *
      * @return Logger
      */
@@ -74,22 +80,22 @@ abstract class AbstractBuilderService implements BuilderServiceInterface {
     }
 
     /**
-     * Get cryptservice
+     * Get cryptservice.
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Service\CryptService
+     * @return CryptService
      */
     protected function _getCryptService() {
         return $this->_cryptService;
     }
 
     /**
-     * Konstruktor
+     * Constructor.
      *
-     * @param \Symfony\Bundle\TwigBundle\TwigEngine              $templating
-     * @param \Doctrine\ORM\EntityManager                        $doctrine
-     * @param \Jeboehm\Lampcp\ConfigBundle\Service\ConfigService $configService
-     * @param \Symfony\Bridge\Monolog\Logger                     $logger
-     * @param \Jeboehm\Lampcp\CoreBundle\Service\CryptService    $cs
+     * @param TwigEngine    $templating
+     * @param EntityManager $doctrine
+     * @param ConfigService $configService
+     * @param Logger        $logger
+     * @param CryptService  $cs
      */
     public function __construct(TwigEngine $templating, EntityManager $doctrine, ConfigService $configService, Logger $logger, CryptService $cs) {
         $this->_templating    = $templating;
@@ -100,7 +106,7 @@ abstract class AbstractBuilderService implements BuilderServiceInterface {
     }
 
     /**
-     * Render Template
+     * Render Template.
      *
      * @param string $template
      * @param array  $options
@@ -114,7 +120,7 @@ abstract class AbstractBuilderService implements BuilderServiceInterface {
     }
 
     /**
-     * Get all domains
+     * Get all domains.
      *
      * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain[]
      */
@@ -129,7 +135,7 @@ abstract class AbstractBuilderService implements BuilderServiceInterface {
     }
 
     /**
-     * Get all Subdomains
+     * Get all Subdomains.
      *
      * @return \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain[]
      */

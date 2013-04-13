@@ -17,7 +17,7 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost as ParentVhost;
 /**
  * Class Vhost
  *
- * Holds a virtual host
+ * Holds a virtual host.
  *
  * @package Jeboehm\Lampcp\LightyConfigBundle\Model
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
@@ -42,7 +42,7 @@ class Vhost extends ParentVhost {
     }
 
     /**
-     * Get PHP Socket path
+     * Get PHP Socket path.
      *
      * @return string
      */
@@ -57,7 +57,7 @@ class Vhost extends ParentVhost {
     }
 
     /**
-     * Get protections
+     * Get protections.
      *
      * @return Protection[]
      */
@@ -66,7 +66,7 @@ class Vhost extends ParentVhost {
     }
 
     /**
-     * Get pathoptions
+     * Get pathoptions.
      *
      * @return PathOption[]
      */
@@ -75,7 +75,7 @@ class Vhost extends ParentVhost {
     }
 
     /**
-     * Get directory options
+     * Get directory options.
      *
      * @return array
      */
@@ -98,7 +98,7 @@ class Vhost extends ParentVhost {
     }
 
     /**
-     * Get ServerName
+     * Get ServerName.
      *
      * @return string
      */

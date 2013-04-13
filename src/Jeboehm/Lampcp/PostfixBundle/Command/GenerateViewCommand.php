@@ -19,14 +19,14 @@ use Symfony\Component\Console\Input\InputOption;
 /**
  * Class GenerateViewCommand
  *
- * Provides commands for creating database tables
+ * Provides commands for creating database tables.
  *
  * @package Jeboehm\Lampcp\PostfixBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class GenerateViewCommand extends AbstractCommand {
     /**
-     * Configure command
+     * Configure command.
      */
     protected function configure() {
         $this->setName('lampcp:postfix:generateview');
@@ -36,7 +36,7 @@ class GenerateViewCommand extends AbstractCommand {
     }
 
     /**
-     * Get sql files for method
+     * Get sql files for method.
      *
      * @param string $method
      *
@@ -64,13 +64,13 @@ class GenerateViewCommand extends AbstractCommand {
     }
 
     /**
-     * Execute command
+     * Execute the command.
      *
      * @param \Symfony\Component\Console\Input\InputInterface   $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
      * @throws \Exception
-     * @return int|null|void
+     * @return bool
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         if ($input->getOption('create')) {
@@ -83,12 +83,11 @@ class GenerateViewCommand extends AbstractCommand {
                     ->exec($statement);
             }
 
-            $output->writeln('Created Postfix views!');
-            $this
-                ->_getLogger()
-                ->alert('(PostfixBundle) Created Postfix views');
+            $output->writeln('Views created.');
+
+            return true;
         } elseif ($input->getOption('drop')) {
-            $sql = $sql = $this->_getSqlFiles('drop');
+            $sql = $this->_getSqlFiles('drop');
 
             foreach ($sql as $statement) {
                 $this
@@ -97,12 +96,13 @@ class GenerateViewCommand extends AbstractCommand {
                     ->exec($statement);
             }
 
-            $output->writeln('Dropped Postfix views!');
-            $this
-                ->_getLogger()
-                ->alert('(PostfixBundle) Dropped Postfix views');
+            $output->writeln('Views deleted.');
+
+            return true;
         } else {
             $output->writeln('Choose: --create or --drop');
         }
+
+        return false;
     }
 }

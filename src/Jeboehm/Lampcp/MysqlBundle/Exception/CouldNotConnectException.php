@@ -11,12 +11,12 @@
 namespace Jeboehm\Lampcp\MysqlBundle\Exception;
 
 /**
- * Class UserAlreadyExistsException
+ * Class CouldNotConnectException
  *
- * Thrown, when a user with the same name already exists.
+ * Thrown when the database connection is refused.
  *
  * @package Jeboehm\Lampcp\MysqlBundle\Exception
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class UserAlreadyExistsException extends \Exception {
+class CouldNotConnectException extends \Exception {
 }

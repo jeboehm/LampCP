@@ -11,12 +11,13 @@
 namespace Jeboehm\Lampcp\MysqlBundle\Exception;
 
 /**
- * Class UserAlreadyExistsException
+ * Class EmptyDatabasePrefixException
  *
- * Thrown, when a user with the same name already exists.
+ * Thrown, when the database prefix is not
+ * configured.
  *
  * @package Jeboehm\Lampcp\MysqlBundle\Exception
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class UserAlreadyExistsException extends \Exception {
+class EmptyDatabasePrefixException extends \Exception {
 }

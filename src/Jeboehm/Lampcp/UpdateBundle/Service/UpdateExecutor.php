@@ -195,12 +195,12 @@ class UpdateExecutor {
         foreach ($providers as $provider) {
             $this->_prepareProvider($provider);
 
-            $this->_logger->info(sprintf('(Updater) Found update: %s, Ver.: %s', $provider->getName(), $provider->getVersion()));
+            $this->_logger->info(sprintf('Found update: %s, Ver.: %s', $provider->getName(), $provider->getVersion()));
 
             if ($provider->executeUpdate()) {
-                $this->_logger->info(sprintf('(Updater) Update successful: %s, Ver.: %s', $provider->getName(), $provider->getVersion()));
+                $this->_logger->info(sprintf('Update successful: %s, Ver.: %s', $provider->getName(), $provider->getVersion()));
             } else {
-                $this->_logger->info(sprintf('(Updater) Update failed: %s, Ver.: %s', $provider->getName(), $provider->getVersion()));
+                $this->_logger->info(sprintf('Update failed: %s, Ver.: %s', $provider->getName(), $provider->getVersion()));
             }
 
             $this->_saveExecution($provider);

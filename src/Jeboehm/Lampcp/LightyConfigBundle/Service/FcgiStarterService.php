@@ -11,7 +11,7 @@
 namespace Jeboehm\Lampcp\LightyConfigBundle\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
+use Symfony\Component\Process\Process;
 use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\AbstractBuilderService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
@@ -27,7 +27,7 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
  */
 class FcgiStarterService extends AbstractBuilderService implements BuilderServiceInterface {
     /**
-     * Checks a given socket
+     * Checks a given socket.
      *
      * @param string $socketPath
      *
@@ -52,9 +52,9 @@ class FcgiStarterService extends AbstractBuilderService implements BuilderServic
     }
 
     /**
-     * Checks, if php is needed for domain
+     * Checks, if php is needed for domain.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     * @param Domain $domain
      *
      * @return bool
      */
@@ -76,6 +76,8 @@ class FcgiStarterService extends AbstractBuilderService implements BuilderServic
     }
 
     /**
+     * Start missing FCGI instances.
+     *
      * @return void
      */
     public function buildAll() {
@@ -89,15 +91,11 @@ class FcgiStarterService extends AbstractBuilderService implements BuilderServic
                 if (!is_executable($cmd)) {
                     $this
                         ->_getLogger()
-                        ->err('(LightyConfigBundle) Could not execute ' . $cmd);
-                    continue;
+                        ->error('Unable to execute: ' . $cmd);
                 } else {
                     if (!$this->_checkSocket($domain->getPath() . '/tmp/php.socket')) {
-                        $this
-                            ->_getLogger()
-                            ->info('(LightyConfigBundle) PHP-FCGI is not running! Starting...');
-                        $exec = new ExecUtility();
-                        $exec->exec($cmd);
+                        $proc = new Process($cmd);
+                        $proc->run();
                     }
                 }
             }
