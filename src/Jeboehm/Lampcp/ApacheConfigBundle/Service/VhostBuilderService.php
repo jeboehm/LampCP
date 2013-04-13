@@ -12,7 +12,7 @@ namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
-
+use Jeboehm\Lampcp\ApacheConfigBundle\Exception\GlobalPhpIniNotFoundException;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
 use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
@@ -34,11 +34,11 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
     const _domainFileName  = '20_vhost.conf';
 
     /**
-     * Render php.ini
+     * Render php.ini.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     * @param Domain $domain
      *
-     * @throws \Exception
+     * @throws GlobalPhpIniNotFoundException
      * @return string
      */
     protected function _renderPhpIni(Domain $domain) {
@@ -62,11 +62,11 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
     }
 
     /**
-     * Generate and save FCGI Starter Script
+     * Generate and save FCGI Starter Script.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     * @param Domain $domain
      *
-     * @throws \Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
+     * @throws CouldNotWriteFileException
      * @return void
      */
     protected function _generateFcgiStarterForDomain(Domain $domain) {
@@ -101,11 +101,11 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
     }
 
     /**
-     * Generate and save php.ini
+     * Generate and save php.ini.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     * @param Domain $domain
      *
-     * @throws \Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
+     * @throws CouldNotWriteFileException
      */
     protected function _generatePhpIniForDomain(Domain $domain) {
         $fs       = new Filesystem();
@@ -135,11 +135,11 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
     }
 
     /**
-     * Save vhost config
+     * Save vhost config.
      *
      * @param string $content
      *
-     * @throws \Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
+     * @throws CouldNotWriteFileException
      * @return void
      */
     protected function _saveVhostConfig($content) {
@@ -163,7 +163,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
     /**
      * Get all IPs
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\IpAddress[]
+     * @return IpAddress[]
      */
     protected function _getAllIpAddresses() {
         /** @var $ips IpAddress[] */
@@ -176,9 +176,9 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
     }
 
     /**
-     * Get Vhost Models
+     * Get Vhost Models.
      *
-     * @return \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost[]
+     * @return Vhost[]
      */
     protected function _getVhostModels() {
         /** @var $models Vhost[] */
@@ -259,7 +259,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
     }
 
     /**
-     * Build all configurations
+     * Build all configurations.
      */
     public function buildAll() {
         $content = $this->_renderTemplate(self::_twigVhost, array(
@@ -271,7 +271,7 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
     }
 
     /**
-     * Order vhost models by wildcard
+     * Order vhost models by wildcard.
      *
      * @param array $vhosts
      *
@@ -294,20 +294,20 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
     }
 
     /**
-     * Get Vhost Model
+     * Get Vhost Model.
      *
-     * @return \Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost
+     * @return Vhost
      */
     protected function _getVhost() {
         return new Vhost();
     }
 
     /**
-     * Get parent domain and set some properties from alias-domain
+     * Get parent domain and set some properties from alias-domain.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     * @param Domain $domain
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain
+     * @return Domain
      */
     protected function _getAliasDomain(Domain $domain) {
         $parent = clone $domain->getParent();
@@ -320,11 +320,11 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
     }
 
     /**
-     * Get parent subdomain and set some properties from alias-subdomain
+     * Get parent subdomain and set some properties from alias-subdomain.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain $subdomain
+     * @param Subdomain $subdomain
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain
+     * @return Subdomain
      */
     protected function _getAliasSubdomain(Subdomain $subdomain) {
         $domain = clone $subdomain

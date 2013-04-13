@@ -27,7 +27,7 @@ class DirectoryBuilderService extends AbstractBuilderService implements BuilderS
     const _dirs = 'conf,htdocs,logs,php-fcgi,tmp';
 
     /**
-     * Get default directorys
+     * Get default directories.
      *
      * @param string $basepath
      *
@@ -45,9 +45,9 @@ class DirectoryBuilderService extends AbstractBuilderService implements BuilderS
     }
 
     /**
-     * Create default directorys
+     * Create default directories.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     * @param Domain $domain
      */
     protected function _createDirectorysForDomain(Domain $domain) {
         $fs = new Filesystem();
@@ -68,7 +68,7 @@ class DirectoryBuilderService extends AbstractBuilderService implements BuilderS
     }
 
     /**
-     * Create directory structure for all domains
+     * Create directory structure for all domains.
      */
     public function buildAll() {
         foreach ($this->_getAllDomains() as $domain) {

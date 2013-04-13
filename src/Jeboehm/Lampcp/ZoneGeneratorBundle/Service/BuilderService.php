@@ -28,21 +28,21 @@ use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\DirectoryNotFound;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class BuilderService {
-    /** @var \Doctrine\ORM\EntityManager */
+    /** @var EntityManager */
     protected $_em;
 
-    /** @var \Symfony\Bridge\Monolog\Logger */
+    /** @var Logger */
     protected $_logger;
 
-    /** @var \Jeboehm\Lampcp\ConfigBundle\Service\ConfigService */
+    /** @var ConfigService */
     protected $_config;
 
     /**
      * Konstruktor
      *
-     * @param \Doctrine\ORM\EntityManager                        $em
-     * @param \Symfony\Bridge\Monolog\Logger                     $logger
-     * @param \Jeboehm\Lampcp\ConfigBundle\Service\ConfigService $config
+     * @param EntityManager $em
+     * @param Logger        $logger
+     * @param ConfigService $config
      */
     public function __construct(EntityManager $em, Logger $logger, ConfigService $config) {
         $this->_em     = $em;

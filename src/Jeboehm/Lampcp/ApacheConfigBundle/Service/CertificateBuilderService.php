@@ -11,6 +11,8 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Doctrine\ORM\EntityRepository;
+use Jeboehm\Lampcp\ApacheConfigBundle\Exception\EmptyCertificatePathException;
 use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
 
@@ -36,9 +38,9 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
     );
 
     /**
-     * Get certificate repository
+     * Get certificate repository.
      *
-     * @return \Doctrine\ORM\EntityRepository
+     * @return EntityRepository
      */
     protected function _getRepository() {
         return $this
@@ -47,10 +49,10 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
     }
 
     /**
-     * Get certificate storage directory
+     * Get certificate storage directory.
      *
+     * @throws EmptyCertificatePathException
      * @return string
-     * @throws \Exception
      */
     protected function _getStorageDir() {
         $fs  = new Filesystem();
@@ -74,9 +76,9 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
     }
 
     /**
-     * Save certificate
+     * Save certificate.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Certificate $cert
+     * @param Certificate $cert
      */
     protected function _saveCertificate(Certificate $cert) {
         $target   = $this->_getStorageDir();
@@ -144,9 +146,9 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
     }
 
     /**
-     * Remove certificate from storage dir
+     * Remove certificate from storage dir.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Certificate $cert
+     * @param Certificate $cert
      */
     protected function _deleteCertificate(Certificate $cert) {
         $fs       = new Filesystem();
@@ -187,7 +189,7 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
     }
 
     /**
-     * Clean up certificate directory
+     * Clean up certificate directory.
      */
     protected function _removeUnusedCertificates() {
         $dir   = $this->_getStorageDir();
@@ -221,7 +223,7 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
     }
 
     /**
-     * Build certificates
+     * Build certificates.
      */
     public function buildAll() {
         foreach ($this

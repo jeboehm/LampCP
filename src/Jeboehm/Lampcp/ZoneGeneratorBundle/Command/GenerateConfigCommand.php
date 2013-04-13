@@ -22,14 +22,14 @@ use Jeboehm\Lampcp\ZoneGeneratorBundle\Service\BuilderService;
 /**
  * Class GenerateConfigCommand
  *
- * Generate Bind zonefiles
+ * Generate Bind zonefiles.
  *
  * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class GenerateConfigCommand extends AbstractCommand {
     /**
-     * Get watched entitys
+     * Get watched entities.
      *
      * @return array
      */
@@ -42,7 +42,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Configure command
+     * Configure command.
      */
     protected function configure() {
         $this->setName('lampcp:zone:generateconfig');
@@ -51,10 +51,10 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Execute command
+     * Execute command.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      *
      * @throws \Exception
      * @return int|null|void
@@ -106,7 +106,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Checks for changed entitys that are relevant for this task
+     * Checks for changed entitys that are relevant for this task.
      *
      * @return bool
      */
@@ -139,7 +139,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get builder service
+     * Get builder service.
      *
      * @return BuilderService
      */
@@ -153,7 +153,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get change tracking service
+     * Get change tracking service.
      *
      * @return ChangeTrackingService
      */
@@ -164,7 +164,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get cron service
+     * Get cron service.
      *
      * @return CronService
      */
@@ -175,7 +175,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get "enabled" from config service
+     * Get "enabled" from config service.
      *
      * @return string
      */

@@ -51,11 +51,11 @@ class MysqlSynchronizerService {
     /**
      * Konstruktor
      *
-     * @param EntityManager                                      $em
-     * @param \Symfony\Bridge\Monolog\Logger                     $logger
-     * @param MysqlAdminService                                  $mysqladmin
-     * @param \Jeboehm\Lampcp\ConfigBundle\Service\ConfigService $systemconfig
-     * @param \Jeboehm\Lampcp\CoreBundle\Service\CryptService    $cryptservice
+     * @param EntityManager     $em
+     * @param Logger            $logger
+     * @param MysqlAdminService $mysqladmin
+     * @param ConfigService     $systemconfig
+     * @param CryptService      $cryptservice
      */
     public function __construct(EntityManager $em, Logger $logger, MysqlAdminService $mysqladmin, ConfigService $systemconfig, CryptService $cryptservice) {
         $this->_em           = $em;
@@ -66,7 +66,7 @@ class MysqlSynchronizerService {
     }
 
     /**
-     * Get entity repository
+     * Get entity repository.
      *
      * @return MysqlDatabaseRepository
      */
@@ -75,9 +75,9 @@ class MysqlSynchronizerService {
     }
 
     /**
-     * Get database prefix
+     * Get database prefix.
      *
-     * @throws \Exception
+     * @throws EmptyDatabasePrefixException
      * @return string
      */
     protected function _getPrefix() {
@@ -93,7 +93,7 @@ class MysqlSynchronizerService {
     }
 
     /**
-     * Delete obsolete MySQL databases
+     * Delete obsolete MySQL databases.
      */
     public function deleteObsoleteDatabases() {
         foreach ($this->_mysqladmin->getDatabases($this->_getPrefix()) as $database) {
@@ -109,7 +109,7 @@ class MysqlSynchronizerService {
     }
 
     /**
-     * Delete obsolete MySQL users
+     * Delete obsolete MySQL users.
      */
     public function deleteObsoleteUsers() {
         foreach ($this->_mysqladmin->getUsers($this->_getPrefix()) as $user) {
@@ -125,7 +125,7 @@ class MysqlSynchronizerService {
     }
 
     /**
-     * Create MySQL databases, users and grant permissions
+     * Create MySQL databases, users and grant permissions.
      */
     public function createDatabases() {
         /** @var $dbs MysqlDatabase[] */

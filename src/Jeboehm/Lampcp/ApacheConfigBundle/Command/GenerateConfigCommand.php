@@ -32,7 +32,7 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService;
  */
 class GenerateConfigCommand extends AbstractCommand {
     /**
-     * Get watched entitys
+     * Get watched entities.
      *
      * @return array
      */
@@ -51,6 +51,8 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
+     * Get vhost builder service.
+     *
      * @return VhostBuilderService
      */
     protected function _getVhostBuilderService() {
@@ -60,6 +62,8 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
+     * Get directory builder service.
+     *
      * @return DirectoryBuilderService
      */
     protected function _getDirectoryBuilderService() {
@@ -69,6 +73,8 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
+     * Get protection builder service.
+     *
      * @return ProtectionBuilderService
      */
     protected function _getProtectionBuilderService() {
@@ -78,6 +84,8 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
+     * Get certificate builder service.
+     *
      * @return CertificateBuilderService
      */
     protected function _getCertificateBuilderService() {
@@ -87,7 +95,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Configure command
+     * Configure command.
      */
     protected function configure() {
         $this->setName('lampcp:apache:generateconfig');
@@ -96,13 +104,12 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Execute command
+     * Execute command.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      *
-     * @throws \Exception
-     * @return int|null|void
+     * @return bool
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (!$this->_isEnabled()) {
@@ -161,7 +168,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Checks for changed entitys that are relevant for this task
+     * Checks for changed entitys that are relevant for this task.
      *
      * @return bool
      */
@@ -224,7 +231,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get cron service
+     * Get cron service.
      *
      * @return CronService
      */
@@ -235,7 +242,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get change tracking service
+     * Get change tracking service.
      *
      * @return ChangeTrackingService
      */
@@ -246,7 +253,7 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get "enabled" from config service
+     * Get "enabled" from config service.
      *
      * @return string
      */

@@ -24,13 +24,13 @@ use Jboehm\Bundle\PasswdBundle\Model\Group;
 /**
  * Class LoadUsersCommand
  *
- * Collects system users and creates a cache in the database
+ * Collects system users and creates a cache in the database.
  *
  * @package Jeboehm\Lampcp\UserLoaderBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class LoadUsersCommand extends AbstractCommand {
-    /** @var \Doctrine\ORM\EntityRepository */
+    /** @var EntityRepository */
     protected $_localUserRepository;
 
     /** @var PasswdService */
@@ -39,11 +39,11 @@ class LoadUsersCommand extends AbstractCommand {
     /** @var GroupService */
     protected $_systemGroupService;
 
-    /** @var \Doctrine\ORM\EntityRepository */
+    /** @var EntityRepository */
     protected $_domainRepository;
 
     /**
-     * Setting up the Command
+     * Setting up the Command.
      *
      * @return void
      */
@@ -53,7 +53,7 @@ class LoadUsersCommand extends AbstractCommand {
     }
 
     /**
-     * Runs the Command
+     * Runs the Command.
      *
      * @param InputInterface  $input  The Input Interface, contains arguments and options
      * @param OutputInterface $output The Output Interface, to display formated output
@@ -92,10 +92,10 @@ class LoadUsersCommand extends AbstractCommand {
     }
 
     /**
-     * Syncs system users to local cache
+     * Syncs system users to local cache.
      *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
+     * @param OutputInterface $output
+     * @param InputInterface  $input
      */
     protected function _syncSystemToLocal(OutputInterface $output, InputInterface $input) {
         foreach ($this->_systemUserService->getAll() as $systemUser) {
@@ -151,10 +151,10 @@ class LoadUsersCommand extends AbstractCommand {
     }
 
     /**
-     * Checks for invalid local users
+     * Checks for invalid local users.
      *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
+     * @param OutputInterface $output
+     * @param InputInterface  $input
      */
     protected function _checkDeleted(OutputInterface $output, InputInterface $input) {
         foreach ($this->_localUserRepository->findAll() as $localUser) {

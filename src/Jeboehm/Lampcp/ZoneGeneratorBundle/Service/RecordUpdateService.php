@@ -20,7 +20,7 @@ use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Transformer\FqdnTransformer;
 /**
  * Class RecordUpdateService
  *
- * Find and update a record by FQDN.
+ * Find and update a 'A' or 'AAAA' record by FQDN.
  *
  * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>

@@ -18,16 +18,16 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
 /**
  * Class CertificateBuilderService
  *
- * Stores SSL certificates in the filesystem
+ * Stores SSL certificates in the filesystem.
  *
  * @package Jeboehm\Lampcp\LightyConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class CertificateBuilderService extends ParentCertificateBuilderService implements BuilderServiceInterface {
     /**
-     * Save certificate
+     * Save certificate.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Certificate $cert
+     * @param Certificate $cert
      */
     protected function _saveCertificate(Certificate $cert) {
         $target   = $this->_getStorageDir();

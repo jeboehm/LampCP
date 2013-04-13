@@ -29,6 +29,8 @@ class Protection {
     private $password;
 
     /**
+     * Set id.
+     *
      * @param int $id
      *
      * @return Protection
@@ -40,6 +42,8 @@ class Protection {
     }
 
     /**
+     * Get id.
+     *
      * @return int
      */
     public function getId() {
@@ -47,6 +51,8 @@ class Protection {
     }
 
     /**
+     * Set username.
+     *
      * @param string $username
      *
      * @return Protection
@@ -58,6 +64,8 @@ class Protection {
     }
 
     /**
+     * Get username.
+     *
      * @return string
      */
     public function getUsername() {
@@ -65,6 +73,8 @@ class Protection {
     }
 
     /**
+     * Set password.
+     *
      * @param string $password
      *
      * @return Protection
@@ -76,6 +86,8 @@ class Protection {
     }
 
     /**
+     * Get password.
+     *
      * @return string
      */
     public function getPassword() {

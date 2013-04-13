@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
 /**
  * Class VhostBuilderService
  *
- * Builds the Lighttpd configuration
+ * Builds the Lighttpd configuration.
  *
  * @package Jeboehm\Lampcp\LightyConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
@@ -32,11 +32,11 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
     const _twigFcgiStarter = 'JeboehmLampcpLightyConfigBundle:PHP:php-fcgi-starter.sh.twig';
 
     /**
-     * Save vhost config
+     * Save vhost config.
      *
      * @param string $content
      *
-     * @throws \Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
+     * @throws CouldNotWriteFileException
      * @return void
      */
     protected function _saveVhostConfig($content) {
@@ -58,11 +58,11 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
     }
 
     /**
-     * Generate and save FCGI Starter Script
+     * Generate and save FCGI Starter Script.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     * @param Domain $domain
      *
-     * @throws \Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
+     * @throws CouldNotWriteFileException
      * @return void
      */
     protected function _generateFcgiStarterForDomain(Domain $domain) {
@@ -97,7 +97,7 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
     }
 
     /**
-     * Build all configurations
+     * Build all configurations.
      */
     public function buildAll() {
         $content = $this->_renderTemplate(self::_twigVhost, array(
@@ -110,9 +110,9 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
     }
 
     /**
-     * Get single certificate with domain / subdomain set
+     * Get single certificate with domain / subdomain set.
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Certificate|null
+     * @return Certificate
      */
     protected function _getSingleCertificateWithDomainsAssigned() {
         /** @var $certs Certificate[] */
@@ -137,9 +137,9 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
     }
 
     /**
-     * Get new Vhost model
+     * Get new Vhost model.
      *
-     * @return \Jeboehm\Lampcp\LightyConfigBundle\Model\Vhost
+     * @return Vhost
      */
     protected function _getVhost() {
         return new Vhost();

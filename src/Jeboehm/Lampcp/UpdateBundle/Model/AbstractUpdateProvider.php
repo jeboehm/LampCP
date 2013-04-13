@@ -36,7 +36,7 @@ abstract class AbstractUpdateProvider {
     abstract public function getName();
 
     /**
-     * Get module's version number (unique per module!).
+     * Get module's version number (unique per module).
      *
      * @return float
      */
@@ -50,20 +50,20 @@ abstract class AbstractUpdateProvider {
     abstract public function getRunOnFreshInstallations();
 
     /**
-     * Execute the update
+     * Execute the update.
      *
      * @return bool
      */
     abstract public function executeUpdate();
 
     /**
-     * Custom constructor
+     * Custom constructor.
      */
     public function prepareUpdate() {
     }
 
     /**
-     * Set service container
+     * Set service container.
      *
      * @param ContainerInterface $container
      *
@@ -76,7 +76,7 @@ abstract class AbstractUpdateProvider {
     }
 
     /**
-     * Get service container
+     * Get service container.
      *
      * @return ContainerInterface
      */
@@ -85,7 +85,7 @@ abstract class AbstractUpdateProvider {
     }
 
     /**
-     * Get entity manager
+     * Get entity manager.
      *
      * @return EntityManager
      */
@@ -94,7 +94,7 @@ abstract class AbstractUpdateProvider {
     }
 
     /**
-     * Set entity manager
+     * Set entity manager.
      *
      * @param EntityManager $em
      *

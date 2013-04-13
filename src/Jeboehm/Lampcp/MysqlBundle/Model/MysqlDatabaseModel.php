@@ -13,7 +13,7 @@ namespace Jeboehm\Lampcp\MysqlBundle\Model;
 /**
  * Class MysqlDatabaseModel
  *
- * Holds a MySQL database
+ * Holds a MySQL database.
  *
  * @package Jeboehm\Lampcp\MysqlBundle\Model
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
@@ -33,6 +33,8 @@ class MysqlDatabaseModel {
     }
 
     /**
+     * Set database name.
+     *
      * @param string $name
      *
      * @return MysqlDatabaseModel
@@ -44,6 +46,8 @@ class MysqlDatabaseModel {
     }
 
     /**
+     * Get database name.
+     *
      * @return string
      */
     public function getName() {
@@ -51,6 +55,8 @@ class MysqlDatabaseModel {
     }
 
     /**
+     * Set permitted users.
+     *
      * @param array $users
      *
      * @return MysqlDatabaseModel
@@ -62,6 +68,8 @@ class MysqlDatabaseModel {
     }
 
     /**
+     * Get permitted users.
+     *
      * @return MysqlUserModel[]
      */
     public function getUsers() {
@@ -69,7 +77,7 @@ class MysqlDatabaseModel {
     }
 
     /**
-     * Get MySQL Database Permissions
+     * Get MySQL database permissions.
      *
      * @return array
      */

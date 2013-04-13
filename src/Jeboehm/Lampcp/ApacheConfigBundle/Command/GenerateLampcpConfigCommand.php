@@ -28,7 +28,7 @@ use Jeboehm\Lampcp\CoreBundle\Entity\User;
  */
 class GenerateLampcpConfigCommand extends GenerateConfigCommand {
     /**
-     * Configure command
+     * Configure command.
      */
     protected function configure() {
         $this->setName('lampcp:apache:generatelampcpconfig');
@@ -38,13 +38,12 @@ class GenerateLampcpConfigCommand extends GenerateConfigCommand {
     }
 
     /**
-     * Execute command
+     * Execute command.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      *
-     * @throws \Exception
-     * @return int|null|void
+     * @return bool
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $this
@@ -76,15 +75,14 @@ class GenerateLampcpConfigCommand extends GenerateConfigCommand {
     }
 
     /**
-     * Generate fake domain
+     * Generate fake domain.
      *
      * @param string $servername
      * @param string $username
      * @param string $dir
      *
      * @throws \Exception
-     *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain
+     * @return Domain
      */
     protected function _getLampcpDomain($servername, $username, $dir) {
         $domain = $this

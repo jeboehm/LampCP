@@ -22,7 +22,7 @@ use Jeboehm\Lampcp\MysqlBundle\Service\MysqlSynchronizerService;
 /**
  * Class GenerateDatabasesCommand
  *
- * Create, delete and update MySQL databases
+ * Create, delete and update MySQL databases.
  *
  * @package Jeboehm\Lampcp\MysqlBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
@@ -35,7 +35,7 @@ class GenerateDatabasesCommand extends AbstractCommand {
     protected $_mysqlsyncservice;
 
     /**
-     * Get watched entitys
+     * Get watched entities.
      *
      * @return array
      */
@@ -48,7 +48,9 @@ class GenerateDatabasesCommand extends AbstractCommand {
     }
 
     /**
-     * @return \Jeboehm\Lampcp\MysqlBundle\Service\MysqlAdminService
+     * Get mysql admin service.
+     *
+     * @return MysqlAdminService
      */
     protected function _getMysqlAdminService() {
         if (!$this->_mysqladminservice) {
@@ -62,7 +64,7 @@ class GenerateDatabasesCommand extends AbstractCommand {
     }
 
     /**
-     * Initialize MySQLAdminService
+     * Initialize mysql admin service.
      */
     protected function _mysqlAdminServiceConnect() {
         $this
@@ -79,9 +81,9 @@ class GenerateDatabasesCommand extends AbstractCommand {
     }
 
     /**
-     * Get MysqlSynchronizerService
+     * Get mysql synchronizer service.
      *
-     * @return \Jeboehm\Lampcp\MysqlBundle\Service\MysqlSynchronizerService
+     * @return MysqlSynchronizerService
      */
     protected function _getMysqlSynchronizerService() {
         if (!$this->_mysqlsyncservice) {
@@ -95,7 +97,7 @@ class GenerateDatabasesCommand extends AbstractCommand {
     }
 
     /**
-     * Configure command
+     * Configure command.
      */
     protected function configure() {
         $this->setName('lampcp:mysql:generatedatabases');
@@ -104,13 +106,13 @@ class GenerateDatabasesCommand extends AbstractCommand {
     }
 
     /**
-     * Execute command
+     * Execute command.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      *
      * @throws \Exception
-     * @return int|null|void
+     * @return bool
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (!$this->_isEnabled()) {
@@ -157,7 +159,7 @@ class GenerateDatabasesCommand extends AbstractCommand {
     }
 
     /**
-     * Checks for changed entitys that are relevant for this task
+     * Checks for changed entitys that are relevant for this task.
      *
      * @return bool
      */
@@ -190,7 +192,7 @@ class GenerateDatabasesCommand extends AbstractCommand {
     }
 
     /**
-     * Get cron service
+     * Get cron service.
      *
      * @return CronService
      */
@@ -201,7 +203,7 @@ class GenerateDatabasesCommand extends AbstractCommand {
     }
 
     /**
-     * Get change tracking service
+     * Get change tracking service.
      *
      * @return ChangeTrackingService
      */
@@ -212,7 +214,7 @@ class GenerateDatabasesCommand extends AbstractCommand {
     }
 
     /**
-     * Get "enabled" from config service
+     * Get "enabled" from config service.
      *
      * @return string
      */

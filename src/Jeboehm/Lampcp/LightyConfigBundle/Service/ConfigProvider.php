@@ -16,7 +16,7 @@ use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
 /**
  * Class ConfigProvider
  *
- * Provides the default configuration
+ * Provides the default configuration.
  *
  * @package Jeboehm\Lampcp\LightyConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>

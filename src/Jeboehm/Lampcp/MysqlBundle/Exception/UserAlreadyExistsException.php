@@ -13,7 +13,7 @@ namespace Jeboehm\Lampcp\MysqlBundle\Exception;
 /**
  * Class UserAlreadyExistsException
  *
- * Thrown, when a user with the same name already exists
+ * Thrown, when a user with the same name already exists.
  *
  * @package Jeboehm\Lampcp\MysqlBundle\Exception
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
