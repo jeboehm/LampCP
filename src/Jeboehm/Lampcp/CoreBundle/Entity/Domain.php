@@ -23,7 +23,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity("domain")
  */
-class Domain extends AbstractEntity {
+class Domain extends AbstractEntity implements DomainInterface {
     /**
      * @var integer
      *
@@ -423,7 +423,7 @@ class Domain extends AbstractEntity {
     }
 
     /**
-     * Get user
+     * Get the user who owns the domain.
      *
      * @return User
      */
@@ -546,7 +546,7 @@ class Domain extends AbstractEntity {
     /**
      * Set children
      *
-     * @param \Doctrine\Common\Collections\Collection $children
+     * @param Collection $children
      *
      * @return Domain
      */
@@ -559,7 +559,7 @@ class Domain extends AbstractEntity {
     /**
      * Get children
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getChildren() {
         return $this->children;
@@ -568,7 +568,7 @@ class Domain extends AbstractEntity {
     /**
      * Set parent domain
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $parent
+     * @param Domain $parent
      *
      * @return Domain
      */
@@ -581,7 +581,7 @@ class Domain extends AbstractEntity {
     /**
      * Get parent domain
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain
+     * @return Domain
      */
     public function getParent() {
         return $this->parent;

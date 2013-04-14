@@ -23,7 +23,7 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Entity
  * @UniqueEntity(fields = {"subdomain", "domain"})
  */
-class Subdomain extends AbstractEntity {
+class Subdomain extends AbstractEntity implements DomainInterface {
     /**
      * @var integer
      *
@@ -365,7 +365,7 @@ class Subdomain extends AbstractEntity {
     /**
      * Set children
      *
-     * @param \Doctrine\Common\Collections\Collection $children
+     * @param Collection $children
      *
      * @return Subdomain
      */
@@ -378,7 +378,7 @@ class Subdomain extends AbstractEntity {
     /**
      * Get children
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getChildren() {
         return $this->children;
@@ -387,7 +387,7 @@ class Subdomain extends AbstractEntity {
     /**
      * Set parent subdomain
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain $parent
+     * @param Subdomain $parent
      *
      * @return Subdomain
      */
@@ -400,9 +400,18 @@ class Subdomain extends AbstractEntity {
     /**
      * Get parent subdomain
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain
+     * @return Subdomain
      */
     public function getParent() {
         return $this->parent;
+    }
+
+    /**
+     * Get the user who owns the domain.
+     *
+     * @return User
+     */
+    public function getUser() {
+        return $this->getDomain()->getUser();
     }
 }
