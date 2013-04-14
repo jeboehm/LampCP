@@ -52,7 +52,7 @@ class MailAccount extends AbstractEntity {
     /**
      * @var string
      * @ORM\Column(name="password", type="string", length=255)
-     * @Assert\MinLength(6)
+     * @Assert\Length(min="6")
      */
     private $password;
 

@@ -56,8 +56,7 @@ class MysqlDatabase extends AbstractEntity {
     /**
      * @var string
      * @ORM\Column(name="password", type="string", length=255)
-     * @Assert\MinLength(6)
-     * @Assert\MaxLength(50)
+     * @Assert\Length(min="6", max="50")
      */
     private $password;
 
