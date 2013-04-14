@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class JeboehmLampcpAuthBundle extends Bundle {
-	public function getParent() {
-		return 'FOSUserBundle';
-	}
+    public function getParent() {
+        return 'FOSUserBundle';
+    }
 }

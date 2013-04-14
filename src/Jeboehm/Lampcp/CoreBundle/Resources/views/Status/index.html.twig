@@ -24,11 +24,11 @@
 
         <tbody>
         {% for cronjob in cronjobs %}
-        <tr>
-            <td>{{ cronjob.id }}</td>
-            <td>{{ cronjob.name }}</td>
-            <td>{{ cronjob.lastrun|date("d.m.Y H:i") }}</td>
-        </tr>
+            <tr>
+                <td>{{ cronjob.id }}</td>
+                <td>{{ cronjob.name }}</td>
+                <td>{{ cronjob.lastrun|date("d.m.Y H:i") }}</td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>

@@ -12,8 +12,8 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
         <parameter key="jeboehm_lampcp_core.domainselector.class">Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService</parameter>
@@ -30,24 +30,24 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         </service>
 
         <service id="jeboehm_lampcp_core.domainselector" class="%jeboehm_lampcp_core.domainselector.class%">
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="session" />
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="session"/>
         </service>
 
         <service id="jeboehm_lampcp_core.changetrackingservice" class="%jeboehm_lampcp_core.changetrackingservice.class%">
-            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
 
         <service id="jeboehm_lampcp_core.cronservice" class="%jeboehm_lampcp_core.cronservice.class%">
-            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
 
         <service id="jeboehm_lampcp_core.configprovider" class="Jeboehm\Lampcp\CoreBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
-            <tag name="config.provider" />
+            <tag name="config.provider"/>
         </service>
 
         <service id="jeboehm_lampcp_core.promoteallsuperadmin.update" class="%jeboehm_lampcp_core.promoteallsuperadmin.update.class%">
-            <tag name="update.provider" />
+            <tag name="update.provider"/>
         </service>
     </services>
 </container>

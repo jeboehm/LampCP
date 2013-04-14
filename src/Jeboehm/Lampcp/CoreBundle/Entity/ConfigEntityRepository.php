@@ -48,7 +48,9 @@ class ConfigEntityRepository extends EntityRepository {
         $qb = $this->createQueryBuilder('c');
         $qb
             ->leftJoin('c.configgroup', 'g')
-            ->where($qb->expr()->notIn('c.type', array(ConfigTypes::TYPE_HIDDEN)))
+            ->where($qb
+                ->expr()
+                ->notIn('c.type', array(ConfigTypes::TYPE_HIDDEN)))
             ->orderBy('g.name', 'asc')
             ->addOrderBy('c.id', 'asc');
 

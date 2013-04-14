@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Class ChangeTrackingService
- * 
+ *
  * This class checks given repositories for changes
  * that are never than a given \DateTime
  *

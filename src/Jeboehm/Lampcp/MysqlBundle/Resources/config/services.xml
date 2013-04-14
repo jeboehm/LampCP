@@ -11,8 +11,8 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 -->
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
         <parameter key="jeboehm_lampcp_mysql.mysqladminservice.class">Jeboehm\Lampcp\MysqlBundle\Service\MysqlAdminService</parameter>
@@ -21,19 +21,19 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
     <services>
         <service id="jeboehm_lampcp_mysql.mysqladminservice" class="%jeboehm_lampcp_mysql.mysqladminservice.class%">
-            <argument type="service" id="logger" />
+            <argument type="service" id="logger"/>
         </service>
 
         <service id="jeboehm_lampcp_mysql.mysqlsynchronizerservice" class="%jeboehm_lampcp_mysql.mysqlsynchronizerservice.class%">
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="logger" />
-            <argument type="service" id="jeboehm_lampcp_mysql.mysqladminservice" />
-            <argument type="service" id="config" />
-            <argument type="service" id="jeboehm_lampcp_core.cryptservice" />
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="logger"/>
+            <argument type="service" id="jeboehm_lampcp_mysql.mysqladminservice"/>
+            <argument type="service" id="config"/>
+            <argument type="service" id="jeboehm_lampcp_core.cryptservice"/>
         </service>
 
         <service id="jeboehm_lampcp_mysql.configprovider" class="Jeboehm\Lampcp\MysqlBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
-            <tag name="config.provider" />
+            <tag name="config.provider"/>
         </service>
     </services>
 </container>

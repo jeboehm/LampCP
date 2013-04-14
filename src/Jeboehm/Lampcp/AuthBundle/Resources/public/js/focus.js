@@ -8,5 +8,5 @@
  */
 
 jQuery(document).ready(function () {
-	$('#username').focus();
+    $('#username').focus();
 });

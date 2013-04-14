@@ -23,14 +23,14 @@ use Jeboehm\Lampcp\ConfigBundle\DependencyInjection\ConfigProviderCompilerPass;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class JeboehmLampcpConfigBundle extends Bundle {
-	/**
-	 * Add compiler pass
-	 *
-	 * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-	 */
-	public function build(ContainerBuilder $container) {
-		parent::build($container);
+    /**
+     * Add compiler pass
+     *
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    public function build(ContainerBuilder $container) {
+        parent::build($container);
 
-		$container->addCompilerPass(new ConfigProviderCompilerPass());
-	}
+        $container->addCompilerPass(new ConfigProviderCompilerPass());
+    }
 }
