@@ -228,9 +228,11 @@ config:
 
     mysql:
         enabled: Aktiviert
-        rootuser: MySQL Administrator
-        rootpassword: MySQL Administratorpasswort
-        dbprefix: MySQL Datenbankprefix
+        rootuser: Administrator
+        rootpassword: Administratorpasswort
+        dbprefix: Datenbankprefix
+        host: Host
+        port: Port
 
     unix:
         passwdfile: Unix Benutzerdatei
