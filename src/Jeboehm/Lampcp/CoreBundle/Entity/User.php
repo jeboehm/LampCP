@@ -88,7 +88,7 @@ class User extends AbstractEntity {
      * @return User
      */
     public function setName($name) {
-        $this->name = $name;
+        $this->name = strtolower($name);
 
         return $this;
     }
