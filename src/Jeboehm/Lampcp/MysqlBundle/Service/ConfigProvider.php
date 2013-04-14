@@ -31,6 +31,8 @@ class ConfigProvider extends AbstractConfigProvider {
             ->_createEntity('enabled', ConfigTypes::TYPE_BOOL, $group, true)
             ->_createEntity('rootuser', ConfigTypes::TYPE_STRING, $group, 'root')
             ->_createEntity('rootpassword', ConfigTypes::TYPE_PASSWORD, $group, '')
+            ->_createEntity('host', ConfigTypes::TYPE_STRING, $group, '127.0.0.1')
+            ->_createEntity('port', ConfigTypes::TYPE_INTEGER, $group, 3306)
             ->_createEntity('dbprefix', ConfigTypes::TYPE_STRING, $group, 'lampcpsql');
     }
 }

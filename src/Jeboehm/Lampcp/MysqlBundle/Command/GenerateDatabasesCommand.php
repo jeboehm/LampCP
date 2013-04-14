@@ -70,14 +70,14 @@ class GenerateDatabasesCommand extends AbstractCommand {
         $this
             ->_getMysqlAdminService()
             ->connect($this
-                ->getContainer()
-                ->getParameter('database_host'), $this
+                ->_getConfigService()
+                ->getParameter('mysql.host'), $this
                 ->_getConfigService()
                 ->getParameter('mysql.rootuser'), $this
                 ->_getConfigService()
                 ->getParameter('mysql.rootpassword'), $this
-                ->getContainer()
-                ->getParameter('database_port'));
+                ->_getConfigService()
+                ->getParameter('mysql.port'));
     }
 
     /**
