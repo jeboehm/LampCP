@@ -33,14 +33,47 @@ class ConfigService {
     private $_cs;
 
     /**
-     * Constructor.
+     * Set Crypt Service.
+     *
+     * @param CryptService $cs
+     *
+     * @return ConfigService
+     */
+    public function setCs(CryptService $cs) {
+        $this->_cs = $cs;
+
+        return $this;
+    }
+
+    /**
+     * Get Crypt Service.
+     *
+     * @return CryptService
+     */
+    public function getCs() {
+        return $this->_cs;
+    }
+
+    /**
+     * Set Entity Manager.
      *
      * @param EntityManager $em
-     * @param CryptService  $cs
+     *
+     * @return ConfigService
      */
-    public function __construct(EntityManager $em, CryptService $cs) {
+    public function setEm(EntityManager $em) {
         $this->_em = $em;
-        $this->_cs = $cs;
+
+        return $this;
+    }
+
+    /**
+     * Get Entity Manager.
+     *
+     * @return EntityManager
+     */
+    public function getEm() {
+        return $this->_em;
     }
 
     /**
@@ -49,7 +82,7 @@ class ConfigService {
      * @return ConfigEntityRepository
      */
     protected function _getConfigEntityRepository() {
-        return $this->_em->getRepository('JeboehmLampcpCoreBundle:ConfigEntity');
+        return $this->getEm()->getRepository('JeboehmLampcpCoreBundle:ConfigEntity');
     }
 
     /**
@@ -132,8 +165,8 @@ class ConfigService {
 
         if ($newval != $entity->getValue()) {
             $entity->setValue($newval);
-            $this->_em->persist($entity);
-            $this->_em->flush();
+            $this->getEm()->persist($entity);
+            $this->getEm()->flush();
         }
     }
 }

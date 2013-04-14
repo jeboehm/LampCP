@@ -23,8 +23,13 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
     <services>
         <service id="jeboehm_lampcp_config_configservice" class="%jeboehm_lampcp_config.configservice.class%">
-            <argument type="service" id="doctrine.orm.entity_manager"/>
-            <argument type="service" id="jeboehm_lampcp_core.cryptservice"/>
+            <call method="setEm">
+                <argument type="service" id="doctrine.orm.entity_manager"/>
+            </call>
+
+            <call method="setCs">
+                <argument type="service" id="jeboehm_lampcp_core.cryptservice"/>
+            </call>
         </service>
 
         <service id="jeboehm_lampcp_config_abstractconfigprovider" class="%jeboehm_lampcp_config.abstractconfigprovider.class%" abstract="true">
