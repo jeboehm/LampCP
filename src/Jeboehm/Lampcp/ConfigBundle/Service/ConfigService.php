@@ -82,7 +82,9 @@ class ConfigService {
      * @return ConfigEntityRepository
      */
     protected function _getConfigEntityRepository() {
-        return $this->getEm()->getRepository('JeboehmLampcpCoreBundle:ConfigEntity');
+        return $this
+            ->getEm()
+            ->getRepository('JeboehmLampcpCoreBundle:ConfigEntity');
     }
 
     /**
@@ -95,9 +97,14 @@ class ConfigService {
      */
     protected function _getEntity($name) {
         $nameArr = explode('.', $name, 2);
-        $group   = $nameArr[0];
-        $conf    = $nameArr[1];
-        $entity  = $this
+
+        if (count($nameArr) !== 2) {
+            throw new ConfigEntityNotFoundException();
+        }
+
+        $group  = $nameArr[0];
+        $conf   = $nameArr[1];
+        $entity = $this
             ->_getConfigEntityRepository()
             ->findOneByNameAndGroup($conf, $group);
 
@@ -165,8 +172,12 @@ class ConfigService {
 
         if ($newval != $entity->getValue()) {
             $entity->setValue($newval);
-            $this->getEm()->persist($entity);
-            $this->getEm()->flush();
+            $this
+                ->getEm()
+                ->persist($entity);
+            $this
+                ->getEm()
+                ->flush();
         }
     }
 }
