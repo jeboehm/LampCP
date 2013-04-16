@@ -10,6 +10,7 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Tests\Model\Collection;
 
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\A;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AAAA;
@@ -54,7 +55,39 @@ class ZoneCollectionTest extends \PHPUnit_Framework_TestCase {
             ->add(new SOA())
             ->add(new A());
 
+        $getbytype = $zc->getByType('SOA');
+
         $this->assertInstanceOf('Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA', $zc->getSoa());
+        $this->assertInstanceOf('Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA', array_pop($getbytype));
+    }
+
+    /**
+     * Test add.
+     */
+    public function testAdd() {
+        $zc = new ZoneCollection();
+
+        $zc->add(new SOA());
+
+        $this->assertInstanceOf('Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA', $zc->getSoa());
+
+        $zc->add(new AAAA());
+
+        $this->assertInstanceOf('Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AAAA', $zc->last());
+    }
+
+    /**
+     * Test add non ResourceRecord object.
+     */
+    public function testAddOther() {
+        $zc = new ZoneCollection();
+
+        try {
+            $zc->add(new \stdClass());
+        } catch (UnexpectedTypeException $e) {
+        }
+
+        $this->assertInstanceOf('Symfony\Component\Form\Exception\UnexpectedTypeException', $e);
     }
 
     /**
