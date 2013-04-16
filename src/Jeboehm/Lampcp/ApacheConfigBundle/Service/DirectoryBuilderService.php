@@ -10,6 +10,7 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
@@ -49,22 +50,41 @@ class DirectoryBuilderService extends AbstractBuilderService implements BuilderS
      *
      * @param Domain $domain
      */
-    protected function _createDirectorysForDomain(Domain $domain) {
+    public function createDirectoriesForDomain(Domain $domain) {
+        $fs   = new Filesystem();
+        $dirs = array_merge(array($domain->getPath()), $this->_getDefaultDirs($domain->getPath()));
+
+        $fs->mkdir($dirs, 0750);
+        $fs->chmod($dirs, 0750);
+
+        $this->_changeDirectoryOwner($domain);
+    }
+
+    /**
+     * Change directory owners.
+     *
+     * @param Domain $domain
+     *
+     * @return bool
+     */
+    protected function _changeDirectoryOwner(Domain $domain) {
         $fs = new Filesystem();
 
-        $fs->mkdir(array_merge(array($domain->getPath()), $this->_getDefaultDirs($domain->getPath())), 0750);
+        try {
+            $fs->chown($domain->getPath(), self::_root); // Domain Root
+            $fs->chgrp($domain->getPath(), $domain
+                ->getUser()
+                ->getGroupname(), true); // Domain Root + Child
 
-        $fs->chmod(array_merge(array($domain->getPath()), $this->_getDefaultDirs($domain->getPath())), 0750);
+            // Child directorys
+            $fs->chown($this->_getDefaultDirs($domain->getPath()), $domain
+                ->getUser()
+                ->getName(), true);
+        } catch (IOException $e) {
+            return false;
+        }
 
-        $fs->chown($domain->getPath(), self::_root); // Domain Root
-        $fs->chgrp($domain->getPath(), $domain
-            ->getUser()
-            ->getGroupname(), true); // Domain Root + Child
-
-        // Child directorys
-        $fs->chown($this->_getDefaultDirs($domain->getPath()), $domain
-            ->getUser()
-            ->getName(), true);
+        return true;
     }
 
     /**
@@ -72,7 +92,7 @@ class DirectoryBuilderService extends AbstractBuilderService implements BuilderS
      */
     public function buildAll() {
         foreach ($this->_getAllDomains() as $domain) {
-            $this->_createDirectorysForDomain($domain);
+            $this->createDirectoriesForDomain($domain);
         }
     }
 }

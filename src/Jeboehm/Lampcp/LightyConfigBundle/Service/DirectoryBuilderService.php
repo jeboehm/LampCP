@@ -32,8 +32,8 @@ class DirectoryBuilderService extends ParentDirectoryBuilderService implements B
      *
      * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
      */
-    protected function _createDirectorysForDomain(Domain $domain) {
-        parent::_createDirectorysForDomain($domain);
+    protected function createDirectoriesForDomain(Domain $domain) {
+        parent::createDirectoriesForDomain($domain);
         $fs = new Filesystem();
 
         if ($fs->exists($domain->getPath() . '/logs')) {
