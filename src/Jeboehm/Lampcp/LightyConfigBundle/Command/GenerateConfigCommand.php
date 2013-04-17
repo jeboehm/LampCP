@@ -19,6 +19,7 @@ use Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\CertificateBuilderService;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\FcgiStarterService;
+use Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService;
 
 /**
  * Class GenerateConfigCommand

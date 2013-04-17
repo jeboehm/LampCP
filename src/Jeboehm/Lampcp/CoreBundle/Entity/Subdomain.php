@@ -412,6 +412,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      * @return User
      */
     public function getUser() {
-        return $this->getDomain()->getUser();
+        return $this
+            ->getDomain()
+            ->getUser();
     }
 }

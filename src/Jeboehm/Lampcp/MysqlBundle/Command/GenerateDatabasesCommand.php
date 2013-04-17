@@ -39,7 +39,7 @@ class GenerateDatabasesCommand extends AbstractCommand {
      *
      * @return array
      */
-    protected function _getEntitys() {
+    protected function _getEntities() {
         $entitys = array(
             'JeboehmLampcpCoreBundle:MysqlDatabase',
         );
@@ -129,10 +129,6 @@ class GenerateDatabasesCommand extends AbstractCommand {
 
         if ($run) {
             $this
-                ->_getLogger()
-                ->info('Updating MySQL databases...');
-
-            $this
                 ->_getMysqlSynchronizerService()
                 ->createDatabases();
 
@@ -160,31 +156,9 @@ class GenerateDatabasesCommand extends AbstractCommand {
      * @return bool
      */
     protected function _isChanged() {
-        $last = $this
+        return $this
             ->_getCronService()
-            ->getLastRun($this->getName());
-
-        /**
-         * First run
-         */
-        if (!$last) {
-            return true;
-        } else {
-            /**
-             * Find entities newer than $last
-             */
-            foreach ($this->_getEntitys() as $entity) {
-                $result = $this
-                    ->_getChangeTrackingService()
-                    ->findNewer($entity, $last);
-
-                if (count($result) > 0) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+            ->checkEntitiesChanged($this->getName(), $this->_getEntities());
     }
 
     /**

@@ -74,6 +74,8 @@ class ChangeTrackingService {
      * @return \Doctrine\ORM\EntityRepository
      */
     protected function _getRepository($repository) {
-        return $this->_getEntityManager()->getRepository($repository);
+        return $this
+            ->_getEntityManager()
+            ->getRepository($repository);
     }
 }

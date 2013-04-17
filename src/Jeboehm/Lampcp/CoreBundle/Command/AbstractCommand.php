@@ -11,22 +11,19 @@
 namespace Jeboehm\Lampcp\CoreBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Monolog\Logger;
+use Doctrine\ORM\EntityManager;
 use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
 
 /**
  * Class AbstractCommand
  *
- * Provides some useful methods for commands
+ * Provides some useful methods for commands.
  *
  * @package Jeboehm\Lampcp\CoreBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 abstract class AbstractCommand extends ContainerAwareCommand {
-    /** @var EntityManager */
-    private $_em;
-
     /** @var ConfigService */
     private $_configService;
 
@@ -34,47 +31,35 @@ abstract class AbstractCommand extends ContainerAwareCommand {
     private $_logger;
 
     /**
-     * Get doctrine
+     * Get doctrine.
      *
      * @return EntityManager
      */
     protected function _getDoctrine() {
-        if (!$this->_em) {
-            $this->_em = $this
-                ->getContainer()
-                ->get('doctrine.orm.entity_manager');
-        }
-
-        return $this->_em;
+        return $this
+            ->getContainer()
+            ->get('doctrine.orm.entity_manager');
     }
 
     /**
-     * Get system config service
+     * Get system config service.
      *
-     * @return \Jeboehm\Lampcp\ConfigBundle\Service\ConfigService
+     * @return ConfigService
      */
     protected function _getConfigService() {
-        if (!$this->_configService) {
-            $this->_configService = $this
-                ->getContainer()
-                ->get('config');
-        }
-
-        return $this->_configService;
+        return $this
+            ->getContainer()
+            ->get('config');
     }
 
     /**
-     * Get logger
+     * Get logger.
      *
      * @return Logger
      */
     protected function _getLogger() {
-        if (!$this->_logger) {
-            $this->_logger = $this
-                ->getContainer()
-                ->get('logger');
-        }
-
-        return $this->_logger;
+        return $this
+            ->getContainer()
+            ->get('logger');
     }
 }

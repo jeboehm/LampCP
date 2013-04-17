@@ -131,7 +131,9 @@ class ConfigService {
             switch ($entity->getType()) {
                 case ConfigTypes::TYPE_PASSWORD:
                     try {
-                        $retval = $this->getCs()->decrypt($entval);
+                        $retval = $this
+                            ->getCs()
+                            ->decrypt($entval);
                     } catch (\Exception $e) {
                         $retval = '';
                     }
@@ -158,7 +160,9 @@ class ConfigService {
         switch ($entity->getType()) {
             case ConfigTypes::TYPE_PASSWORD:
                 if (!empty($value)) {
-                    $newval = $this->getCs()->encrypt($value);
+                    $newval = $this
+                        ->getCs()
+                        ->encrypt($value);
                 }
                 break;
 
