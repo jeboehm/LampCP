@@ -38,25 +38,25 @@ class CronServiceTest extends WebTestCase {
      * Set up.
      */
     public function setUp() {
-        $this->_cs   = $this
+        $this->_cs     = $this
             ->createClient()
             ->getContainer()
             ->get('jeboehm_lampcp_core.cronservice');
-        $this->_name = 'test-' . date('YmdHis');
+        $this->_name   = 'test-' . date('YmdHis');
+        $this->_domain = $this->_getDomain();
     }
 
     /**
      * Tear down.
      */
     protected function tearDown() {
-        parent::tearDown();
-
         try {
             $this->_deleteDomain($this->_domain);
         } catch (\Exception $e) {
+            var_dump($e->getMessage());
         }
 
-        $this->_domain = null;
+        parent::tearDown();
     }
 
     /**
@@ -100,7 +100,6 @@ class CronServiceTest extends WebTestCase {
     public function testSomethingModified() {
         $this->_cs->updateLastRun($this->_name);
 
-        $this->_domain = $this->_getDomain();
         $this->_saveDomain($this->_domain);
 
         $check = $this->_cs->checkEntitiesChanged($this->_name, array(self::ENTITY_NAME));
@@ -144,12 +143,19 @@ class CronServiceTest extends WebTestCase {
      */
     protected function _deleteDomain(Domain $domain) {
         /** @var EntityManager $em */
-        $em = $this
-            ->createClient()
-            ->getContainer()
-            ->get('doctrine.orm.entity_manager');
 
-        $em->remove($domain);
-        $em->flush();
+        if ($domain->getId() > 0) {
+            $em = $this
+                ->createClient()
+                ->getContainer()
+                ->get('doctrine.orm.entity_manager');
+
+            $aDomain = $em
+                ->getRepository(self::ENTITY_NAME)
+                ->findOneBy(array('id' => $domain->getId()));
+
+            $em->remove($aDomain);
+            $em->flush();
+        }
     }
 }
