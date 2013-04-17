@@ -81,6 +81,7 @@ class ZoneCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testAddOther() {
         $zc = new ZoneCollection();
+        $e  = null;
 
         try {
             $zc->add(new \stdClass());
