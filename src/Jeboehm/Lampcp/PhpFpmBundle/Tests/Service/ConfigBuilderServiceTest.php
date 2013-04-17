@@ -21,8 +21,8 @@ use Jeboehm\Lampcp\CoreBundle\Entity\User;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class ConfigBuilderServiceTest extends WebTestCase {
-    /** Expect this file in pool config generation. */
-    const EXPECT_FILENAME = '/tmp/lampcp-pool-testneverexists.conf';
+    /** @var string */
+    protected $_expectFilename;
 
     /** @var ConfigBuilderService */
     protected $builder;
@@ -31,6 +31,8 @@ class ConfigBuilderServiceTest extends WebTestCase {
      * Set up.
      */
     public function setUp() {
+        $this->_expectFilename = sys_get_temp_dir() . '/lampcp-pool-testneverexists.conf';
+
         $this->builder = $this
             ->createClient()
             ->getContainer()
@@ -44,7 +46,7 @@ class ConfigBuilderServiceTest extends WebTestCase {
         $cs
             ->expects($this->any())
             ->method('getParameter')
-            ->will($this->returnValue('/tmp'));
+            ->will($this->returnValue(sys_get_temp_dir()));
 
         $this->builder->setConfigservice($cs);
     }
@@ -71,9 +73,9 @@ class ConfigBuilderServiceTest extends WebTestCase {
     public function testCreatePool() {
         $this->builder->createPool($this->_getUser());
 
-        $this->assertTrue(is_file(self::EXPECT_FILENAME));
+        $this->assertTrue(is_file($this->_expectFilename));
 
-        unlink(self::EXPECT_FILENAME);
+        unlink($this->_expectFilename);
     }
 
     /**
@@ -84,9 +86,9 @@ class ConfigBuilderServiceTest extends WebTestCase {
         $user->setName('testneverexists');
 
         $this->builder->createPool($user);
-        $this->assertTrue(is_file(self::EXPECT_FILENAME));
+        $this->assertTrue(is_file($this->_expectFilename));
 
         $this->builder->deleteOldPools();
-        $this->assertFalse(is_file(self::EXPECT_FILENAME));
+        $this->assertFalse(is_file($this->_expectFilename));
     }
 }
