@@ -56,15 +56,10 @@ class CryptServiceTest extends WebTestCase {
 
     /**
      * Expect exception on invalid decrypted data.
+     *
+     * @expectedException \Jeboehm\Lampcp\CoreBundle\Exception\WrongEncryptionKeyException
      */
     public function testDecryptFailure() {
-        $e = null;
-
-        try {
-            $this->_cs->decrypt(rand(0, 9999));
-        } catch (WrongEncryptionKeyException $e) {
-        }
-
-        $this->assertInstanceOf('Jeboehm\Lampcp\CoreBundle\Exception\WrongEncryptionKeyException', $e);
+        $this->_cs->decrypt(rand(0, 9999));
     }
 }

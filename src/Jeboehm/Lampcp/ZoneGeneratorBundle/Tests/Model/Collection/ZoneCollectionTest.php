@@ -78,17 +78,13 @@ class ZoneCollectionTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * Test add non ResourceRecord object.
+     *
+     * @expectedException \Symfony\Component\Form\Exception\UnexpectedTypeException
      */
     public function testAddOther() {
         $zc = new ZoneCollection();
-        $e  = null;
 
-        try {
-            $zc->add(new \stdClass());
-        } catch (UnexpectedTypeException $e) {
-        }
-
-        $this->assertInstanceOf('Symfony\Component\Form\Exception\UnexpectedTypeException', $e);
+        $zc->add(new \stdClass());
     }
 
     /**
