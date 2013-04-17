@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\CoreBundle\Tests\Service;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jeboehm\Lampcp\CoreBundle\Exception\WrongEncryptionKeyException;
 use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
 
 /**
@@ -51,5 +52,19 @@ class CryptServiceTest extends WebTestCase {
     public function testDecrypt($encrypted) {
         $result = $this->_cs->decrypt($encrypted);
         $this->assertEquals('randomdata', $result);
+    }
+
+    /**
+     * Expect exception on invalid decrypted data.
+     */
+    public function testDecryptFailure() {
+        $e = null;
+
+        try {
+            $this->_cs->decrypt(rand(0, 9999));
+        } catch (WrongEncryptionKeyException $e) {
+        }
+
+        $this->assertInstanceOf('Jeboehm\Lampcp\CoreBundle\Exception\WrongEncryptionKeyException', $e);
     }
 }
