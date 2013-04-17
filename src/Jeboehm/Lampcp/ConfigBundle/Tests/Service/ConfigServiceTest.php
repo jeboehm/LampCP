@@ -63,7 +63,7 @@ class ConfigServiceTest extends WebTestCase {
             ->getMock();
 
         $repository
-            ->expects($this->atLeastOnce())
+            ->expects($this->any())
             ->method('findOneByNameAndGroup')
             ->will($this->returnValue($this->_getConfigEntity()));
 
@@ -93,7 +93,7 @@ class ConfigServiceTest extends WebTestCase {
             ->will($this->returnValue(true));
 
         $em
-            ->expects($this->atLeastOnce())
+            ->expects($this->any())
             ->method('getRepository')
             ->will($this->returnValue($this->_getMockRepository()));
 
@@ -133,6 +133,30 @@ class ConfigServiceTest extends WebTestCase {
         $this->assertEquals($this
             ->_getConfigEntity()
             ->getValue(), $this->_cs->getParameter('testgroup.test'));
+    }
+
+    /**
+     * Get parameter with invalid name.
+     *
+     * @expectedException \Jeboehm\Lampcp\ConfigBundle\Exception\ConfigEntityNotFoundException
+     */
+    public function testGetParameterInvalidName() {
+        $this->_cs->getParameter('invalid');
+    }
+
+    /**
+     * Get non existing parameter.
+     *
+     * @expectedException \Jeboehm\Lampcp\ConfigBundle\Exception\ConfigEntityNotFoundException
+     */
+    public function testGetParameterNotFound() {
+        /** @var ConfigService $cs */
+        $cs = $this
+            ->createClient()
+            ->getContainer()
+            ->get('config');
+
+        $cs->getParameter('invalid.name.yo');
     }
 
     /**
