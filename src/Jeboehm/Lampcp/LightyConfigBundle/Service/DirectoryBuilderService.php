@@ -10,10 +10,10 @@
 
 namespace Jeboehm\Lampcp\LightyConfigBundle\Service;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService as ParentDirectoryBuilderService;
+use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class DirectoryBuilderService

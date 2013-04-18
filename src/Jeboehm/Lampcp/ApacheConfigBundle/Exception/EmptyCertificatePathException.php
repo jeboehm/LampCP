@@ -18,5 +18,6 @@ namespace Jeboehm\Lampcp\ApacheConfigBundle\Exception;
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Exception
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class EmptyCertificatePathException extends \Exception {
+class EmptyCertificatePathException extends \Exception
+{
 }

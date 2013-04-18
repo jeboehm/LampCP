@@ -10,8 +10,8 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Adds some generic fields to an entity

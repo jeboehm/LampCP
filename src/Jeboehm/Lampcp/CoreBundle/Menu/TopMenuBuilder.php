@@ -10,11 +10,11 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Menu;
 
+use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Security\Core\SecurityContext;
-use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
-use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 
 /**
  * Class TopMenuBuilder

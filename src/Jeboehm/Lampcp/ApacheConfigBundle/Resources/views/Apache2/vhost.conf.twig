@@ -40,11 +40,6 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     ServerAlias {{ alias }}
     {% endfor %}
 
-    {% if vhost.PHPEnabled %}
-    SuexecUserGroup {{ vhost.SuexecUserGroup }}
-    AddHandler fcgid-script .php
-    {% endif %}
-
     {% if vhost.SSLEnabled %}
     SSLEngine On
     SSLProtocol all -SSLv2
@@ -76,6 +71,10 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     ## End Force SSL
     {% endif %}
 
+    {% if vhost.PHPEnabled %}
+    ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://{{vhost.PhpFpmSocket}}{{ vhost.DocumentRoot }}
+    {% endif %}
+
     <Directory "/">
         Options FollowSymLinks
         AllowOverride None
@@ -88,10 +87,6 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
         AllowOverride FileInfo Indexes Limit AuthConfig
         Order Allow,Deny
         Allow From All
-
-        {% if vhost.PHPEnabled %}
-        FCGIWrapper {{ vhost.FcgiWrapper }}
-        {% endif %}
 
         {% if vhost.PathOptionForDocumentRoot is not null %}
         {{ macros.pathoption(vhost.PathOptionForDocumentRoot) }}

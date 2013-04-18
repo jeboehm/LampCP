@@ -10,10 +10,10 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Bridge\Monolog\Logger;
 use Doctrine\ORM\EntityManager;
 use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
+use Symfony\Bridge\Monolog\Logger;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 /**
  * Class AbstractCommand

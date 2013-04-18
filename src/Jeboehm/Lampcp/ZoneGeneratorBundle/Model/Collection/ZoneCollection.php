@@ -11,9 +11,9 @@
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AbstractResourceRecord;
+use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 /**
  * Class ZoneCollection

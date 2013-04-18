@@ -13,13 +13,13 @@ namespace Jeboehm\Lampcp\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
 use Jeboehm\Lampcp\CoreBundle\Entity\Dns;
-use Jeboehm\Lampcp\CoreBundle\Form\Type\DnsType;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\DnsSoaType;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\DnsType;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\NS;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class DnsController

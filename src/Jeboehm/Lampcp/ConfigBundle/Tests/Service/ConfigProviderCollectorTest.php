@@ -10,8 +10,8 @@
 
 namespace Jeboehm\Lampcp\ConfigBundle\Tests\Service;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Jeboehm\Lampcp\ConfigBundle\Service\ConfigProviderCollector;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class ConfigProviderCollectorTest

@@ -12,16 +12,16 @@ namespace Jeboehm\Lampcp\PhpFpmBundle\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
+use Jeboehm\Lampcp\CoreBundle\Entity\DomainInterface;
+use Jeboehm\Lampcp\CoreBundle\Entity\User;
+use Jeboehm\Lampcp\PhpFpmBundle\Exception\DirectoryNotFoundException;
+use Jeboehm\Lampcp\PhpFpmBundle\Exception\NotMyConfigurationException;
+use Jeboehm\Lampcp\PhpFpmBundle\Model\PoolCreator;
 use Symfony\Bridge\Twig\TwigEngine;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use Jeboehm\Lampcp\PhpFpmBundle\Exception\NotMyConfigurationException;
-use Jeboehm\Lampcp\PhpFpmBundle\Exception\DirectoryNotFoundException;
-use Jeboehm\Lampcp\PhpFpmBundle\Model\PoolCreator;
-use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
-use Jeboehm\Lampcp\CoreBundle\Entity\User;
-use Jeboehm\Lampcp\CoreBundle\Entity\DomainInterface;
 
 /**
  * Class ConfigBuilderService
@@ -202,7 +202,7 @@ class ConfigBuilderService {
      *
      * @return PoolCreator
      */
-    protected function _getPoolCreator(User $user) {
+    public function getPoolCreator(User $user) {
         $creator = new PoolCreator($this->getTwig(), $this
             ->getConfigservice()
             ->getParameter('phpfpm.socketdir'), $user);
@@ -219,7 +219,7 @@ class ConfigBuilderService {
      * @throws DirectoryNotFoundException
      */
     public function createPool(User $user) {
-        $creator   = $this->_getPoolCreator($user);
+        $creator   = $this->getPoolCreator($user);
         $filename  = $this->_getFilename($creator->getPoolName());
         $directory = $this->_getPoolDirectory();
         $path      = $directory . '/' . $filename;

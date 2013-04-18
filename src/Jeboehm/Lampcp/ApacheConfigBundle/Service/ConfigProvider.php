@@ -10,8 +10,8 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
-use Jeboehm\Lampcp\ConfigBundle\Service\AbstractConfigProvider;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
+use Jeboehm\Lampcp\ConfigBundle\Service\AbstractConfigProvider;
 
 /**
  * Class ConfigProvider
@@ -21,11 +21,13 @@ use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class ConfigProvider extends AbstractConfigProvider {
+class ConfigProvider extends AbstractConfigProvider
+{
     /**
      * Create configuration fields.
      */
-    public function init() {
+    public function init()
+    {
         $group = $this->_createGroup('apache');
         $this
             ->_createEntity('enabled', ConfigTypes::TYPE_BOOL, $group, true)

@@ -10,9 +10,9 @@
 
 namespace Jeboehm\Lampcp\PhpFpmBundle\Tests\Service;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Jeboehm\Lampcp\PhpFpmBundle\Service\ConfigBuilderService;
 use Jeboehm\Lampcp\CoreBundle\Entity\User;
+use Jeboehm\Lampcp\PhpFpmBundle\Service\ConfigBuilderService;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class ConfigBuilderServiceTest
@@ -73,7 +73,7 @@ class ConfigBuilderServiceTest extends WebTestCase {
     public function testCreatePool() {
         $this->builder->createPool($this->_getUser());
 
-        $this->assertTrue(is_file($this->_expectFilename));
+        $this->assertFileExists($this->_expectFilename);
 
         unlink($this->_expectFilename);
     }
@@ -86,9 +86,9 @@ class ConfigBuilderServiceTest extends WebTestCase {
         $user->setName('testneverexists');
 
         $this->builder->createPool($user);
-        $this->assertTrue(is_file($this->_expectFilename));
+        $this->assertFileExists($this->_expectFilename);
 
         $this->builder->deleteOldPools();
-        $this->assertFalse(is_file($this->_expectFilename));
+        $this->assertFileNotExists($this->_expectFilename);
     }
 }

@@ -10,8 +10,8 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Service;
 
-use Jeboehm\Lampcp\ConfigBundle\Service\AbstractConfigProvider;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
+use Jeboehm\Lampcp\ConfigBundle\Service\AbstractConfigProvider;
 
 /**
  * Class ConfigProvider

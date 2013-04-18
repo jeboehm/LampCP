@@ -10,9 +10,9 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Tests\Service;
 
+use Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Entity\User;
-use Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -22,18 +22,20 @@ use Symfony\Component\Filesystem\Filesystem;
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Tests\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class DirectoryBuilderServiceTest extends WebTestCase {
-    const _dirs = 'conf,htdocs,logs,php-fcgi,tmp';
+class DirectoryBuilderServiceTest extends WebTestCase
+{
+    const _dirs = 'conf,htdocs,logs,tmp';
 
     /**
-     * Test createDirectoriesForDomain().
+     * Test createDirectories().
      */
-    public function testCreateDirectorysForDomain() {
+    public function testCreateDirectorysForDomain()
+    {
         $domain  = $this->_getDomain();
         $fs      = new Filesystem();
         $service = $this->_getService();
 
-        $service->createDirectoriesForDomain($domain);
+        $service->createDirectories($domain);
 
         foreach (explode(',', self::_dirs) as $dir) {
             $path = $this->_getTestPath() . '/' . $dir;
@@ -44,7 +46,8 @@ class DirectoryBuilderServiceTest extends WebTestCase {
     /**
      * Tear down.
      */
-    protected function tearDown() {
+    protected function tearDown()
+    {
         parent::tearDown();
 
         $fs = new Filesystem();
@@ -56,7 +59,8 @@ class DirectoryBuilderServiceTest extends WebTestCase {
      *
      * @return Domain
      */
-    protected function _getDomain() {
+    protected function _getDomain()
+    {
         $user   = new User();
         $domain = new Domain();
 
@@ -78,7 +82,8 @@ class DirectoryBuilderServiceTest extends WebTestCase {
      *
      * @return string
      */
-    protected function _getTestPath() {
+    protected function _getTestPath()
+    {
         $fs       = new Filesystem();
         $testpath = sys_get_temp_dir() . '/testdomain';
 
@@ -94,7 +99,8 @@ class DirectoryBuilderServiceTest extends WebTestCase {
      *
      * @return DirectoryBuilderService
      */
-    protected function _getService() {
+    protected function _getService()
+    {
         return $this
             ->createClient()
             ->getContainer()

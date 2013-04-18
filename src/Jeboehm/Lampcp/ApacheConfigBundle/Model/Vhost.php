@@ -10,11 +10,12 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Model;
 
+use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
 use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
 use Jeboehm\Lampcp\CoreBundle\Entity\PathOption;
 use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
+use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
 
 /**
  * Class Vhost
@@ -24,7 +25,8 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Model
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class Vhost {
+class Vhost
+{
     const _serveralias_prefix_normal   = 'www.';
     const _serveralias_prefix_wildcard = '*.';
     const _php_fcgi_wrapper            = '/php-fcgi/php-fcgi-starter.sh';
@@ -40,30 +42,39 @@ class Vhost {
     /** @var IpAddress */
     protected $ipaddress;
 
-    /** @var boolean */
-    protected $isSubDomain;
+    /** @var string */
+    protected $phpfpmsocket;
 
     /**
      * VirtualHost
      *
      * @return string
      */
-    public function getVhostAddress() {
+    public function getVhostAddress()
+    {
         if ($this
             ->getIpaddress()
             ->isIpv6()
         ) {
-            $address = sprintf('[%s]:%s', $this
-                ->getIpaddress()
-                ->getIp(), $this
-                ->getIpaddress()
-                ->getPort());
+            $address = sprintf(
+                '[%s]:%s',
+                $this
+                    ->getIpaddress()
+                    ->getIp(),
+                $this
+                    ->getIpaddress()
+                    ->getPort()
+            );
         } else {
-            $address = sprintf('%s:%s', $this
-                ->getIpaddress()
-                ->getIp(), $this
-                ->getIpaddress()
-                ->getPort());
+            $address = sprintf(
+                '%s:%s',
+                $this
+                    ->getIpaddress()
+                    ->getIp(),
+                $this
+                    ->getIpaddress()
+                    ->getPort()
+            );
         }
 
         return $address;
@@ -74,8 +85,9 @@ class Vhost {
      *
      * @return string
      */
-    public function getServerName() {
-        if ($this->isSubDomain) {
+    public function getServerName()
+    {
+        if ($this->isSubDomain()) {
             $servername = $this->subdomain->getFullDomain();
         } else {
             $servername = $this->domain->getDomain();
@@ -89,8 +101,9 @@ class Vhost {
      *
      * @return bool
      */
-    public function getIsWildcard() {
-        if ($this->isSubDomain) {
+    public function getIsWildcard()
+    {
+        if ($this->isSubDomain()) {
             $wildcard = $this->subdomain->getIsWildcard();
         } else {
             $wildcard = $this->domain->getIsWildcard();
@@ -104,14 +117,15 @@ class Vhost {
      *
      * @return array
      */
-    public function getServerAlias() {
+    public function getServerAlias()
+    {
         if ($this->getIsWildcard()) {
             $serveralias = self::_serveralias_prefix_wildcard;
         } else {
             $serveralias = self::_serveralias_prefix_normal;
         }
 
-        if ($this->isSubDomain) {
+        if ($this->isSubDomain()) {
             $serveralias .= $this->subdomain->getFullDomain();
         } else {
             $serveralias .= $this->domain->getDomain();
@@ -125,12 +139,17 @@ class Vhost {
      *
      * @return string
      */
-    public function getSuexecUserGroup() {
-        return sprintf('%s %s', $this->domain
-            ->getUser()
-            ->getName(), $this->domain
-            ->getUser()
-            ->getGroupname());
+    public function getSuexecUserGroup()
+    {
+        return sprintf(
+            '%s %s',
+            $this->domain
+                ->getUser()
+                ->getName(),
+            $this->domain
+                ->getUser()
+                ->getGroupname()
+        );
     }
 
     /**
@@ -138,8 +157,9 @@ class Vhost {
      *
      * @return string
      */
-    public function getDocumentRoot() {
-        if ($this->isSubDomain) {
+    public function getDocumentRoot()
+    {
+        if ($this->isSubDomain()) {
             $root = $this->subdomain->getFullPath();
         } else {
             $root = $this->domain->getFullWebrootPath();
@@ -153,8 +173,9 @@ class Vhost {
      *
      * @return string
      */
-    public function getRedirectUrl() {
-        if ($this->isSubDomain) {
+    public function getRedirectUrl()
+    {
+        if ($this->isSubDomain()) {
             $url = $this->subdomain->getRedirectUrl();
         } else {
             $url = $this->domain->getRedirectUrl();
@@ -168,12 +189,13 @@ class Vhost {
      *
      * @return bool
      */
-    public function getPHPEnabled() {
+    public function getPHPEnabled()
+    {
         if ($this->getRedirectUrl() != '') {
             return false;
         }
 
-        if ($this->isSubDomain) {
+        if ($this->isSubDomain()) {
             $enabled = $this->subdomain->getParsePhp();
         } else {
             $enabled = $this->domain->getParsePhp();
@@ -187,8 +209,9 @@ class Vhost {
      *
      * @return bool
      */
-    public function getSSLEnabled() {
-        if ($this->isSubDomain) {
+    public function getSSLEnabled()
+    {
+        if ($this->isSubDomain()) {
             $certificate = $this->subdomain->getCertificate();
         } else {
             $certificate = $this->domain->getCertificate();
@@ -204,8 +227,9 @@ class Vhost {
      *
      * @return bool
      */
-    public function getForceSSL() {
-        if ($this->isSubDomain) {
+    public function getForceSSL()
+    {
+        if ($this->isSubDomain()) {
             $force       = $this->subdomain->getForceSsl();
             $certificate = $this->subdomain->getCertificate();
         } else {
@@ -226,13 +250,14 @@ class Vhost {
     /**
      * Get Certificate
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Certificate
+     * @return Certificate
      */
-    public function getCertificate() {
+    public function getCertificate()
+    {
         $certificate = null;
 
         if ($this->getSSLEnabled()) {
-            if ($this->isSubDomain) {
+            if ($this->isSubDomain()) {
                 $certificate = $this->subdomain->getCertificate();
             } else {
                 $certificate = $this->domain->getCertificate();
@@ -247,8 +272,9 @@ class Vhost {
      *
      * @return string
      */
-    public function getCustomConfig() {
-        if ($this->isSubDomain) {
+    public function getCustomConfig()
+    {
+        if ($this->isSubDomain()) {
             $custom = $this->subdomain->getCustomconfig();
         } else {
             $custom = $this->domain->getCustomconfig();
@@ -258,26 +284,12 @@ class Vhost {
     }
 
     /**
-     * FcgiWrapper
-     *
-     * @return string
-     */
-    public function getFcgiWrapper() {
-        $wrapper = '';
-
-        if ($this->getPHPEnabled()) {
-            $wrapper = $this->domain->getPath() . self::_php_fcgi_wrapper;
-        }
-
-        return $wrapper;
-    }
-
-    /**
      * Pathoption for document root
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\PathOption|null
+     * @return PathOption|null
      */
-    public function getPathOptionForDocumentRoot() {
+    public function getPathOptionForDocumentRoot()
+    {
         $docroot          = $this->getDocumentRoot();
         $returnPathOption = null;
         foreach ($this
@@ -295,9 +307,10 @@ class Vhost {
     /**
      * Protection for document root
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Protection|null
+     * @return Protection|null
      */
-    public function getProtectionForDocumentRoot() {
+    public function getProtectionForDocumentRoot()
+    {
         $docroot          = $this->getDocumentRoot();
         $returnProtection = null;
         foreach ($this
@@ -317,7 +330,8 @@ class Vhost {
      *
      * @return Protection[]
      */
-    protected function _getProtection() {
+    protected function _getProtection()
+    {
         $protections = array();
         $docroot     = $this->getDocumentRoot();
 
@@ -338,7 +352,8 @@ class Vhost {
      *
      * @return PathOption[]
      */
-    protected function _getPathOption() {
+    protected function _getPathOption()
+    {
         $pathoptions = array();
         $docroot     = $this->getDocumentRoot();
 
@@ -359,14 +374,15 @@ class Vhost {
      *
      * @return array
      */
-    public function getDirectoryOptions() {
+    public function getDirectoryOptions()
+    {
         $options = array();
         $ordered = array();
 
         foreach ($this->_getPathOption() as $pathoption) {
             $path = $pathoption->getFullPath();
 
-            if (!$this->_isFolderRootOrChild($this->getDocumentRoot(), $path)) {
+            if (!$this->isFolderRootOrChild($this->getDocumentRoot(), $path)) {
                 continue;
             }
 
@@ -383,7 +399,7 @@ class Vhost {
         foreach ($this->_getProtection() as $protection) {
             $path = $protection->getFullPath();
 
-            if (!$this->_isFolderRootOrChild($this->getDocumentRoot(), $path)) {
+            if (!$this->isFolderRootOrChild($this->getDocumentRoot(), $path)) {
                 continue;
             }
 
@@ -411,9 +427,10 @@ class Vhost {
     /**
      * Get IP Address
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\IpAddress
+     * @return IpAddress
      */
-    public function getIpaddress() {
+    public function getIpaddress()
+    {
         if ($this->ipaddress) {
             $ipaddress = $this->ipaddress;
         } else {
@@ -430,11 +447,12 @@ class Vhost {
     /**
      * Set IP Address
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\IpAddress $ipaddress
+     * @param IpAddress $ipaddress
      *
      * @return Vhost
      */
-    public function setIpaddress(IpAddress $ipaddress) {
+    public function setIpaddress(IpAddress $ipaddress)
+    {
         $this->ipaddress = $ipaddress;
 
         return $this;
@@ -445,7 +463,8 @@ class Vhost {
      *
      * @return string
      */
-    public function getAccessLog() {
+    public function getAccessLog()
+    {
         return $this->domain->getPath() . self::_log_access;
     }
 
@@ -454,18 +473,20 @@ class Vhost {
      *
      * @return string
      */
-    public function getErrorLog() {
+    public function getErrorLog()
+    {
         return $this->domain->getPath() . self::_log_error;
     }
 
     /**
      * Set domain
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     * @param Domain $domain
      *
      * @return Vhost
      */
-    public function setDomain($domain) {
+    public function setDomain($domain)
+    {
         $this->domain = $domain;
 
         return $this;
@@ -474,22 +495,25 @@ class Vhost {
     /**
      * Get domain
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain
+     * @return Domain
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
     /**
      * Set subdomain
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain $subdomain
+     * @param Subdomain $subdomain
      *
      * @return Vhost
      */
-    public function setSubdomain($subdomain) {
-        $this->subdomain   = $subdomain;
-        $this->isSubDomain = true;
+    public function setSubdomain($subdomain)
+    {
+        if ($subdomain !== null) {
+            $this->subdomain = $subdomain;
+        }
 
         return $this;
     }
@@ -497,9 +521,10 @@ class Vhost {
     /**
      * Get subdomain
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Subdomain
+     * @return Subdomain
      */
-    public function getSubdomain() {
+    public function getSubdomain()
+    {
         return $this->subdomain;
     }
 
@@ -516,7 +541,8 @@ class Vhost {
      *
      * @return bool
      */
-    protected function _isFolderRootOrChild($haystack, $needle) {
+    public function isFolderRootOrChild($haystack, $needle)
+    {
         $result = false;
 
         if ($haystack === $needle) {
@@ -530,5 +556,43 @@ class Vhost {
         }
 
         return $result;
+    }
+
+    /**
+     * Set PHP-FPM Socket.
+     *
+     * @param string $phpfpmsocket
+     *
+     * @return Vhost
+     */
+    public function setPhpFpmSocket($phpfpmsocket)
+    {
+        $this->phpfpmsocket = $phpfpmsocket;
+
+        return $this;
+    }
+
+    /**
+     * Get PHP-FPM Socket.
+     *
+     * @return string
+     */
+    public function getPhpFpmSocket()
+    {
+        return $this->phpfpmsocket;
+    }
+
+    /**
+     * True, if this vhost got a subdomain.
+     *
+     * @return bool
+     */
+    public function isSubdomain()
+    {
+        if ($this->getSubdomain() !== null) {
+            return true;
+        }
+
+        return false;
     }
 }

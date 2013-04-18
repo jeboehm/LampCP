@@ -10,12 +10,10 @@
 
 namespace Jeboehm\Lampcp\LightyConfigBundle\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService;
-use Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Command\GenerateLampcpConfigCommand as BaseGenerateLampcpConfigCommand;
+use Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService;
+use Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService;
+use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Class GenerateLampcpConfigCommand

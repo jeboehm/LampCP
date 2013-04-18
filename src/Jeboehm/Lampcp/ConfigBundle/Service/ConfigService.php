@@ -11,11 +11,11 @@
 namespace Jeboehm\Lampcp\ConfigBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
-use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntityRepository;
-use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntity;
 use Jeboehm\Lampcp\ConfigBundle\Exception\ConfigEntityNotFoundException;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
+use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntity;
+use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntityRepository;
+use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
 
 /**
  * Class ConfigService

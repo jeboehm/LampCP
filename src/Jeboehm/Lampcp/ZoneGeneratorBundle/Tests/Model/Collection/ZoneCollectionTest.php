@@ -10,12 +10,12 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Tests\Model\Collection;
 
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\A;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AAAA;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\NS;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 /**
  * Class ZoneCollectionTest

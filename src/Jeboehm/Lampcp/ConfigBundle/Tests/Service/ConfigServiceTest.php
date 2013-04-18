@@ -10,11 +10,11 @@
 
 namespace Jeboehm\Lampcp\ConfigBundle\Tests\Service;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
+use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntity;
 use Jeboehm\Lampcp\CoreBundle\Entity\ConfigGroup;
-use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class ConfigServiceTest

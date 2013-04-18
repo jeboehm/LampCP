@@ -11,9 +11,9 @@
 namespace Jeboehm\Lampcp\CoreBundle\Tests\Service;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jeboehm\Lampcp\CoreBundle\Service\CronService;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class CronServiceTest

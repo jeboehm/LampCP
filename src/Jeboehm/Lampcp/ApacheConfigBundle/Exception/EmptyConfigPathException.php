@@ -11,12 +11,14 @@
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Exception;
 
 /**
- * Class GlobalPhpIniNotFoundException
+ * Class EmptyConfigPathException
  *
- * Thrown, when the certificate path is empty.
+ * Thrown, when the config path is not set.
  *
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Exception
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class GlobalPhpIniNotFoundException extends \Exception {
+class EmptyConfigPathException extends \Exception
+{
+
 }

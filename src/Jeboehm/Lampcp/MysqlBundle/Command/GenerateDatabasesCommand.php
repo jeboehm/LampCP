@@ -10,14 +10,14 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
-use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
+use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\MysqlBundle\Service\MysqlAdminService;
 use Jeboehm\Lampcp\MysqlBundle\Service\MysqlSynchronizerService;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class GenerateDatabasesCommand

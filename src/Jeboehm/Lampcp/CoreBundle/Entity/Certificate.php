@@ -10,10 +10,10 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Certificate
@@ -123,9 +123,22 @@ class Certificate extends AbstractEntity {
     }
 
     /**
-     * Get id
+     * Set Id
      *
-     * @return integer
+     * @param int $id
+     *
+     * @return Certificate
+     */
+    public function setId($id) {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get Id
+     *
+     * @return int
      */
     public function getId() {
         return $this->id;

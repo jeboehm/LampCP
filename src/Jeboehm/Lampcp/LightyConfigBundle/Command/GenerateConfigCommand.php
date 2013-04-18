@@ -10,16 +10,15 @@
 
 namespace Jeboehm\Lampcp\LightyConfigBundle\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Process\Process;
 use Jeboehm\Lampcp\ApacheConfigBundle\Command\GenerateConfigCommand as ParentConfigCommand;
-use Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService;
-use Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService;
-use Jeboehm\Lampcp\LightyConfigBundle\Service\CertificateBuilderService;
-use Jeboehm\Lampcp\LightyConfigBundle\Service\FcgiStarterService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService;
+use Jeboehm\Lampcp\LightyConfigBundle\Service\CertificateBuilderService;
+use Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService;
+use Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Class GenerateConfigCommand
@@ -75,17 +74,6 @@ class GenerateConfigCommand extends ParentConfigCommand {
     }
 
     /**
-     * Get FCGI starter service.
-     *
-     * @return FcgiStarterService
-     */
-    protected function _getFcgiStarterService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_lighty_config_fcgistarterservice');
-    }
-
-    /**
      * Configure command.
      */
     protected function configure() {
@@ -97,7 +85,7 @@ class GenerateConfigCommand extends ParentConfigCommand {
     /**
      * Restart Lighttpd.
      */
-    protected function _restartApache() {
+    protected function _restartProcess() {
         $cmd = $this
             ->_getConfigService()
             ->getParameter('lighttpd.cmdlighttpdrestart');
@@ -140,10 +128,6 @@ class GenerateConfigCommand extends ParentConfigCommand {
         }
 
         parent::execute($input, $output);
-
-        $this
-            ->_getFcgiStarterService()
-            ->buildAll();
     }
 
     /**

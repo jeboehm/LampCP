@@ -13,12 +13,12 @@ namespace Jeboehm\Lampcp\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
-use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntity as DoctrineEntity;
-use Jeboehm\Lampcp\CoreBundle\Form\Model\ConfigEntity as FormEntity;
-use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntityRepository;
-use Jeboehm\Lampcp\CoreBundle\Form\Type\ConfigType;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
+use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntity as DoctrineEntity;
+use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntityRepository;
+use Jeboehm\Lampcp\CoreBundle\Form\Model\ConfigEntity as FormEntity;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\ConfigType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class SystemConfigController

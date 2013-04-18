@@ -10,10 +10,10 @@
 
 namespace Jeboehm\Lampcp\LightyConfigBundle\Service;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService as ParentCertificateBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
+use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService as ParentCertificateBuilderService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class CertificateBuilderService
@@ -30,7 +30,7 @@ class CertificateBuilderService extends ParentCertificateBuilderService implemen
      * @param Certificate $cert
      */
     protected function _saveCertificate(Certificate $cert) {
-        $target   = $this->_getStorageDir();
+        $target   = $this->getStorageDir();
         $fs       = new Filesystem();
         $filename = $target . '/' . $cert->getId();
 

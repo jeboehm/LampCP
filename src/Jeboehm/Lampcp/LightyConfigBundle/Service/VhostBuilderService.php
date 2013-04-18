@@ -10,14 +10,11 @@
 
 namespace Jeboehm\Lampcp\LightyConfigBundle\Service;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
-use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService as ParentVhostBuilderService;
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
-use Jeboehm\Lampcp\LightyConfigBundle\Model\Vhost;
+use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
+use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService as ParentVhostBuilderService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
+use Jeboehm\Lampcp\LightyConfigBundle\Model\Vhost;
 
 /**
  * Class VhostBuilderService
@@ -28,8 +25,7 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class VhostBuilderService extends ParentVhostBuilderService implements BuilderServiceInterface {
-    const _twigVhost       = 'JeboehmLampcpLightyConfigBundle:Lighttpd:vhost.conf.twig';
-    const _twigFcgiStarter = 'JeboehmLampcpLightyConfigBundle:PHP:php-fcgi-starter.sh.twig';
+    const vhostConfigTemplate = 'JeboehmLampcpLightyConfigBundle:Lighttpd:vhost.conf.twig';
 
     /**
      * Save vhost config.
@@ -42,7 +38,7 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
     protected function _saveVhostConfig($content) {
         $target = $this
             ->_getConfigService()
-            ->getParameter('lighttpd.pathlighttpdconf') . '/' . self::_domainFileName;
+            ->getParameter('lighttpd.pathlighttpdconf') . '/' . self::vhostConfigFilename;
 
         $content = str_replace('  ', '', $content);
         $content = str_replace(PHP_EOL . PHP_EOL, PHP_EOL, $content);
@@ -55,49 +51,10 @@ class VhostBuilderService extends ParentVhostBuilderService implements BuilderSe
     }
 
     /**
-     * Generate and save FCGI Starter Script.
-     *
-     * @param Domain $domain
-     *
-     * @throws CouldNotWriteFileException
-     * @return void
-     */
-    protected function _generateFcgiStarterForDomain(Domain $domain) {
-        $fs       = new Filesystem();
-        $filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
-
-        if (!is_writable(dirname($filename))) {
-            throw new CouldNotWriteFileException();
-        }
-
-        if (!$fs->exists($filename)) {
-            $content = $this->_renderTemplate(self::_twigFcgiStarter, array(
-                                                                           'domain' => $domain,
-                                                                      ));
-
-            $this
-                ->_getLogger()
-                ->info('(LightyConfigBundle) Generating FCGI-Starter: ' . $filename);
-            file_put_contents($filename, $content);
-        }
-
-        // Change rights
-        $fs->chmod($filename, 0755);
-
-        // Change user & group
-        $fs->chown($filename, $domain
-            ->getUser()
-            ->getName());
-        $fs->chgrp($filename, $domain
-            ->getUser()
-            ->getGroupname());
-    }
-
-    /**
      * Build all configurations.
      */
     public function buildAll() {
-        $content = $this->_renderTemplate(self::_twigVhost, array(
+        $content = $this->_renderTemplate(self::vhostConfigTemplate, array(
                                                                  'defaultcert' => $this->_getSingleCertificateWithDomainsAssigned(),
                                                                  'vhosts'      => $this->_getVhostModels(),
                                                                  'ips'         => $this->_getAllIpAddresses(),

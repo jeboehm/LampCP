@@ -10,15 +10,15 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Service;
 
-use Symfony\Bridge\Monolog\Logger;
-use Jeboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
-use Jeboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel;
-use Jeboehm\Lampcp\MysqlBundle\Exception\CouldNotReadDataException;
 use Jeboehm\Lampcp\MysqlBundle\Exception\CouldNotConnectException;
-use Jeboehm\Lampcp\MysqlBundle\Exception\UserAlreadyExistsException;
-use Jeboehm\Lampcp\MysqlBundle\Exception\UserNotExistsException;
+use Jeboehm\Lampcp\MysqlBundle\Exception\CouldNotReadDataException;
 use Jeboehm\Lampcp\MysqlBundle\Exception\DatabaseAlreadyExistsException;
 use Jeboehm\Lampcp\MysqlBundle\Exception\DatabaseNotExistsException;
+use Jeboehm\Lampcp\MysqlBundle\Exception\UserAlreadyExistsException;
+use Jeboehm\Lampcp\MysqlBundle\Exception\UserNotExistsException;
+use Jeboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel;
+use Jeboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
+use Symfony\Bridge\Monolog\Logger;
 
 /**
  * Class MysqlAdminService

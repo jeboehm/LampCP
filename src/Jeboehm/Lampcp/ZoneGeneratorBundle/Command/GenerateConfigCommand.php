@@ -10,14 +10,14 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Process\Process;
-use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Service\BuilderService;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Class GenerateConfigCommand

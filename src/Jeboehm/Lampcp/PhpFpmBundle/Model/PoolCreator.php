@@ -10,9 +10,9 @@
 
 namespace Jeboehm\Lampcp\PhpFpmBundle\Model;
 
-use Symfony\Bridge\Twig\TwigEngine;
 use Jeboehm\Lampcp\CoreBundle\Entity\User;
 use Jeboehm\Lampcp\PhpFpmBundle\Exception\DirectoryNotFoundException;
+use Symfony\Bridge\Twig\TwigEngine;
 
 /**
  * Class PoolCreator

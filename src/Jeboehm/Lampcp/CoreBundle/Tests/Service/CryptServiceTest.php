@@ -10,9 +10,9 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Tests\Service;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Jeboehm\Lampcp\CoreBundle\Exception\WrongEncryptionKeyException;
 use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class CryptServiceTest

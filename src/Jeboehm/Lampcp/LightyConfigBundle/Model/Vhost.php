@@ -10,9 +10,9 @@
 
 namespace Jeboehm\Lampcp\LightyConfigBundle\Model;
 
+use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost as ParentVhost;
 use Jeboehm\Lampcp\CoreBundle\Entity\PathOption;
 use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
-use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost as ParentVhost;
 
 /**
  * Class Vhost
@@ -23,8 +23,6 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost as ParentVhost;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class Vhost extends ParentVhost {
-    const _php_fcgi_socket = '/tmp/php.socket';
-
     /**
      * Returns true, if the vhost is bound to all ips (*, 0.0.0.0)
      *
@@ -39,21 +37,6 @@ class Vhost extends ParentVhost {
         }
 
         return false;
-    }
-
-    /**
-     * Get PHP Socket path.
-     *
-     * @return string
-     */
-    public function getFcgiSocket() {
-        $socket = '';
-
-        if ($this->getPHPEnabled()) {
-            $socket = $this->domain->getPath() . self::_php_fcgi_socket;
-        }
-
-        return $socket;
     }
 
     /**

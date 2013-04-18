@@ -12,11 +12,11 @@ namespace Jeboehm\Lampcp\UpdateBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
+use Jeboehm\Lampcp\CoreBundle\Entity\UpdateExecution;
+use Jeboehm\Lampcp\UpdateBundle\Model\AbstractUpdateProvider;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Jeboehm\Lampcp\CoreBundle\Entity\UpdateExecution;
-use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
-use Jeboehm\Lampcp\UpdateBundle\Model\AbstractUpdateProvider;
 
 /**
  * Class UpdateExecutor

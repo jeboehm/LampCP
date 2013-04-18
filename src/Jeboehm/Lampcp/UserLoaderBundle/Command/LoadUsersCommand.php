@@ -10,16 +10,16 @@
 
 namespace Jeboehm\Lampcp\UserLoaderBundle\Command;
 
-use Jboehm\Bundle\PasswdBundle\Model\PasswdService;
+use Jboehm\Bundle\PasswdBundle\Model\Group;
 use Jboehm\Bundle\PasswdBundle\Model\GroupService;
+use Jboehm\Bundle\PasswdBundle\Model\PasswdService;
+use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jeboehm\Lampcp\CoreBundle\Entity\User;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Jeboehm\Lampcp\CoreBundle\Entity\User;
-use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
-use Jboehm\Bundle\PasswdBundle\Model\Group;
 
 /**
  * Class LoadUsersCommand
