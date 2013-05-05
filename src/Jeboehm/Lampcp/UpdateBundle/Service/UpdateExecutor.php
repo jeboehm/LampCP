@@ -10,6 +10,7 @@
 
 namespace Jeboehm\Lampcp\UpdateBundle\Service;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Monolog\Logger;
@@ -190,7 +191,11 @@ class UpdateExecutor {
      * Execute all outstanding updates.
      */
     public function executeUpdates() {
-        $providers = $this->_getOutstandingUpdateProviders();
+        try {
+            $providers = $this->_getOutstandingUpdateProviders();
+        } catch (DBALException $e) {
+            $providers = array();
+        }
 
         foreach ($providers as $provider) {
             $this->_prepareProvider($provider);
