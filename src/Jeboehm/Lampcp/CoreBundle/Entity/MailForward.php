@@ -21,7 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @UniqueEntity(fields = {"mailaddress", "target"})
  */
-class MailForward extends AbstractEntity {
+class MailForward extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -58,7 +59,8 @@ class MailForward extends AbstractEntity {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -69,7 +71,8 @@ class MailForward extends AbstractEntity {
      *
      * @return MailForward
      */
-    public function setDomain($domain) {
+    public function setDomain($domain)
+    {
         $this->domain = $domain;
 
         return $this;
@@ -80,7 +83,8 @@ class MailForward extends AbstractEntity {
      *
      * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
@@ -91,7 +95,8 @@ class MailForward extends AbstractEntity {
      *
      * @return MailForward
      */
-    public function setMailaddress($mailaddress) {
+    public function setMailaddress($mailaddress)
+    {
         $this->mailaddress = $mailaddress;
 
         return $this;
@@ -102,7 +107,8 @@ class MailForward extends AbstractEntity {
      *
      * @return \Jeboehm\Lampcp\CoreBundle\Entity\MailAddress
      */
-    public function getMailaddress() {
+    public function getMailaddress()
+    {
         return $this->mailaddress;
     }
 
@@ -113,7 +119,8 @@ class MailForward extends AbstractEntity {
      *
      * @return MailForward
      */
-    public function setTarget($target) {
+    public function setTarget($target)
+    {
         $this->target = $target;
 
         return $this;
@@ -124,7 +131,8 @@ class MailForward extends AbstractEntity {
      *
      * @return string
      */
-    public function getTarget() {
+    public function getTarget()
+    {
         return $this->target;
     }
 }

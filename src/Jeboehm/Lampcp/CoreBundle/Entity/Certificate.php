@@ -22,7 +22,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity("name")
  */
-class Certificate extends AbstractEntity {
+class Certificate extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -110,7 +111,8 @@ class Certificate extends AbstractEntity {
     /**
      * Konstruktor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->CACertificateFile        = '';
         $this->CertificateChainFile     = '';
         $this->CertificateKeyFile       = '';
@@ -129,7 +131,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Certificate
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
 
         return $this;
@@ -140,7 +143,8 @@ class Certificate extends AbstractEntity {
      *
      * @return int
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -151,7 +155,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Certificate
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -162,7 +167,8 @@ class Certificate extends AbstractEntity {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -173,7 +179,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Certificate
      */
-    public function setCertificateFile($certificateFile) {
+    public function setCertificateFile($certificateFile)
+    {
         $this->CertificateFile = strval($certificateFile);
 
         return $this;
@@ -184,7 +191,8 @@ class Certificate extends AbstractEntity {
      *
      * @return string
      */
-    public function getCertificateFile() {
+    public function getCertificateFile()
+    {
         return $this->CertificateFile;
     }
 
@@ -195,7 +203,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Certificate
      */
-    public function setCertificateKeyFile($certificateKeyFile) {
+    public function setCertificateKeyFile($certificateKeyFile)
+    {
         $this->CertificateKeyFile = strval($certificateKeyFile);
 
         return $this;
@@ -206,7 +215,8 @@ class Certificate extends AbstractEntity {
      *
      * @return string
      */
-    public function getCertificateKeyFile() {
+    public function getCertificateKeyFile()
+    {
         return $this->CertificateKeyFile;
     }
 
@@ -217,7 +227,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Certificate
      */
-    public function setCertificateChainFile($certificateChainFile) {
+    public function setCertificateChainFile($certificateChainFile)
+    {
         $this->CertificateChainFile = strval($certificateChainFile);
 
         return $this;
@@ -228,7 +239,8 @@ class Certificate extends AbstractEntity {
      *
      * @return string
      */
-    public function getCertificateChainFile() {
+    public function getCertificateChainFile()
+    {
         return $this->CertificateChainFile;
     }
 
@@ -239,7 +251,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Certificate
      */
-    public function setCACertificateFile($cACertificateFile) {
+    public function setCACertificateFile($cACertificateFile)
+    {
         $this->CACertificateFile = strval($cACertificateFile);
 
         return $this;
@@ -250,7 +263,8 @@ class Certificate extends AbstractEntity {
      *
      * @return string
      */
-    public function getCACertificateFile() {
+    public function getCACertificateFile()
+    {
         return $this->CACertificateFile;
     }
 
@@ -259,7 +273,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Collection
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
@@ -268,7 +283,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Collection
      */
-    public function getSubdomain() {
+    public function getSubdomain()
+    {
         return $this->subdomain;
     }
 
@@ -277,7 +293,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Certificate
      */
-    public function setCACertificateFilePath($CACertificateFilePath) {
+    public function setCACertificateFilePath($CACertificateFilePath)
+    {
         $this->CACertificateFilePath = strval($CACertificateFilePath);
 
         return $this;
@@ -286,7 +303,8 @@ class Certificate extends AbstractEntity {
     /**
      * @return string
      */
-    public function getCACertificateFilePath() {
+    public function getCACertificateFilePath()
+    {
         return $this->CACertificateFilePath;
     }
 
@@ -295,7 +313,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Certificate
      */
-    public function setCertificateChainFilePath($CertificateChainFilePath) {
+    public function setCertificateChainFilePath($CertificateChainFilePath)
+    {
         $this->CertificateChainFilePath = strval($CertificateChainFilePath);
 
         return $this;
@@ -304,7 +323,8 @@ class Certificate extends AbstractEntity {
     /**
      * @return string
      */
-    public function getCertificateChainFilePath() {
+    public function getCertificateChainFilePath()
+    {
         return $this->CertificateChainFilePath;
     }
 
@@ -313,7 +333,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Certificate
      */
-    public function setCertificateFilePath($CertificateFilePath) {
+    public function setCertificateFilePath($CertificateFilePath)
+    {
         $this->CertificateFilePath = strval($CertificateFilePath);
 
         return $this;
@@ -322,7 +343,8 @@ class Certificate extends AbstractEntity {
     /**
      * @return string
      */
-    public function getCertificateFilePath() {
+    public function getCertificateFilePath()
+    {
         return $this->CertificateFilePath;
     }
 
@@ -331,7 +353,8 @@ class Certificate extends AbstractEntity {
      *
      * @return Certificate
      */
-    public function setCertificateKeyFilePath($CertificateKeyFilePath) {
+    public function setCertificateKeyFilePath($CertificateKeyFilePath)
+    {
         $this->CertificateKeyFilePath = strval($CertificateKeyFilePath);
 
         return $this;
@@ -340,7 +363,8 @@ class Certificate extends AbstractEntity {
     /**
      * @return string
      */
-    public function getCertificateKeyFilePath() {
+    public function getCertificateKeyFilePath()
+    {
         return $this->CertificateKeyFilePath;
     }
 }

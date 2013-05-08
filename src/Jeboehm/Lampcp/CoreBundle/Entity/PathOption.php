@@ -21,7 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @UniqueEntity(fields = {"path", "domain"})
  */
-class PathOption extends AbstractEntity {
+class PathOption extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -77,7 +78,8 @@ class PathOption extends AbstractEntity {
      *
      * @param Domain $domain
      */
-    public function __construct(Domain $domain) {
+    public function __construct(Domain $domain)
+    {
         $this->hasDirectoryListing = false;
         $this->error403            = '';
         $this->error404            = '';
@@ -91,7 +93,8 @@ class PathOption extends AbstractEntity {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -100,7 +103,8 @@ class PathOption extends AbstractEntity {
      *
      * @return Domain
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
@@ -111,7 +115,8 @@ class PathOption extends AbstractEntity {
      *
      * @return PathOption
      */
-    public function setPath($path) {
+    public function setPath($path)
+    {
         $this->path = strval($path);
 
         return $this;
@@ -122,7 +127,8 @@ class PathOption extends AbstractEntity {
      *
      * @return string
      */
-    public function getPath() {
+    public function getPath()
+    {
         return $this->path;
     }
 
@@ -133,7 +139,8 @@ class PathOption extends AbstractEntity {
      *
      * @return PathOption
      */
-    public function setHasDirectoryListing($hasDirectoryListing) {
+    public function setHasDirectoryListing($hasDirectoryListing)
+    {
         $this->hasDirectoryListing = $hasDirectoryListing;
 
         return $this;
@@ -144,7 +151,8 @@ class PathOption extends AbstractEntity {
      *
      * @return boolean
      */
-    public function getHasDirectoryListing() {
+    public function getHasDirectoryListing()
+    {
         return $this->hasDirectoryListing;
     }
 
@@ -155,7 +163,8 @@ class PathOption extends AbstractEntity {
      *
      * @return PathOption
      */
-    public function setError404($error404) {
+    public function setError404($error404)
+    {
         $this->error404 = strval($error404);
 
         return $this;
@@ -166,7 +175,8 @@ class PathOption extends AbstractEntity {
      *
      * @return string
      */
-    public function getError404() {
+    public function getError404()
+    {
         return $this->error404;
     }
 
@@ -177,7 +187,8 @@ class PathOption extends AbstractEntity {
      *
      * @return PathOption
      */
-    public function setError403($error403) {
+    public function setError403($error403)
+    {
         $this->error403 = strval($error403);
 
         return $this;
@@ -188,7 +199,8 @@ class PathOption extends AbstractEntity {
      *
      * @return string
      */
-    public function getError403() {
+    public function getError403()
+    {
         return $this->error403;
     }
 
@@ -199,7 +211,8 @@ class PathOption extends AbstractEntity {
      *
      * @return PathOption
      */
-    public function setError500($error500) {
+    public function setError500($error500)
+    {
         $this->error500 = strval($error500);
 
         return $this;
@@ -210,7 +223,8 @@ class PathOption extends AbstractEntity {
      *
      * @return string
      */
-    public function getError500() {
+    public function getError500()
+    {
         return $this->error500;
     }
 
@@ -219,7 +233,8 @@ class PathOption extends AbstractEntity {
      *
      * @return string
      */
-    public function getFullPath() {
+    public function getFullPath()
+    {
         $path = $this
             ->getDomain()
             ->getPath();

@@ -23,7 +23,8 @@ use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Transformer\FqdnTransformer;
  * @package Jeboehm\Lampcp\CoreBundle\Entity
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class DnsRepository extends EntityRepository {
+class DnsRepository extends EntityRepository
+{
     /**
      * Find DNS entity by FQDN.
      *
@@ -31,7 +32,8 @@ class DnsRepository extends EntityRepository {
      *
      * @return array
      */
-    public function findByFqdn($fqdn) {
+    public function findByFqdn($fqdn)
+    {
         $entities = $this->findAll();
         $arr      = array();
 

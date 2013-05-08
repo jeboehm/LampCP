@@ -21,7 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity
  */
-class IpAddress extends AbstractEntity {
+class IpAddress extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -67,7 +68,8 @@ class IpAddress extends AbstractEntity {
     /**
      * Konstruktor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->domain = new ArrayCollection();
     }
 
@@ -76,7 +78,8 @@ class IpAddress extends AbstractEntity {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -87,7 +90,8 @@ class IpAddress extends AbstractEntity {
      *
      * @return IpAddress
      */
-    public function setAlias($alias) {
+    public function setAlias($alias)
+    {
         $this->alias = strval($alias);
 
         return $this;
@@ -98,7 +102,8 @@ class IpAddress extends AbstractEntity {
      *
      * @return string
      */
-    public function getAlias() {
+    public function getAlias()
+    {
         return $this->alias;
     }
 
@@ -109,7 +114,8 @@ class IpAddress extends AbstractEntity {
      *
      * @return IpAddress
      */
-    public function setIp($ip) {
+    public function setIp($ip)
+    {
         $this->ip = $ip;
 
         return $this;
@@ -120,7 +126,8 @@ class IpAddress extends AbstractEntity {
      *
      * @return string
      */
-    public function getIp() {
+    public function getIp()
+    {
         return $this->ip;
     }
 
@@ -129,7 +136,8 @@ class IpAddress extends AbstractEntity {
      *
      * @return IpAddress
      */
-    public function setPort($port) {
+    public function setPort($port)
+    {
         $this->port = $port;
 
         return $this;
@@ -138,7 +146,8 @@ class IpAddress extends AbstractEntity {
     /**
      * @return int
      */
-    public function getPort() {
+    public function getPort()
+    {
         return $this->port;
     }
 
@@ -149,7 +158,8 @@ class IpAddress extends AbstractEntity {
      *
      * @return IpAddress
      */
-    public function setHasSsl($hasSsl) {
+    public function setHasSsl($hasSsl)
+    {
         $this->hasSsl = $hasSsl;
 
         return $this;
@@ -160,7 +170,8 @@ class IpAddress extends AbstractEntity {
      *
      * @return boolean
      */
-    public function getHasSsl() {
+    public function getHasSsl()
+    {
         return $this->hasSsl;
     }
 
@@ -169,7 +180,8 @@ class IpAddress extends AbstractEntity {
      *
      * @return bool
      */
-    public function isIpv6() {
+    public function isIpv6()
+    {
         if (filter_var($this->getIp(), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
             return false;
         }
@@ -184,7 +196,8 @@ class IpAddress extends AbstractEntity {
      *
      * @return IpAddress
      */
-    public function setDomain(Collection $domain) {
+    public function setDomain(Collection $domain)
+    {
         $this->domain = $domain;
 
         return $this;
@@ -195,7 +208,8 @@ class IpAddress extends AbstractEntity {
      *
      * @return Collection
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 }

@@ -19,7 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntityRepository")
  * @UniqueEntity(fields = {"name", "configgroup"})
  */
-class ConfigEntity extends AbstractEntity {
+class ConfigEntity extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -63,7 +64,8 @@ class ConfigEntity extends AbstractEntity {
      *
      * @return ConfigEntity
      */
-    public function setConfiggroup(ConfigGroup $configgroup) {
+    public function setConfiggroup(ConfigGroup $configgroup)
+    {
         $this->configgroup = $configgroup;
 
         return $this;
@@ -74,7 +76,8 @@ class ConfigEntity extends AbstractEntity {
      *
      * @return ConfigGroup
      */
-    public function getConfiggroup() {
+    public function getConfiggroup()
+    {
         return $this->configgroup;
     }
 
@@ -85,7 +88,8 @@ class ConfigEntity extends AbstractEntity {
      *
      * @return ConfigEntity
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
 
         return $this;
@@ -96,7 +100,8 @@ class ConfigEntity extends AbstractEntity {
      *
      * @return int
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -107,7 +112,8 @@ class ConfigEntity extends AbstractEntity {
      *
      * @return ConfigEntity
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = strtolower($name);
 
         return $this;
@@ -118,7 +124,8 @@ class ConfigEntity extends AbstractEntity {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -129,7 +136,8 @@ class ConfigEntity extends AbstractEntity {
      *
      * @return ConfigEntity
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
 
         return $this;
@@ -140,7 +148,8 @@ class ConfigEntity extends AbstractEntity {
      *
      * @return int
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
@@ -151,7 +160,8 @@ class ConfigEntity extends AbstractEntity {
      *
      * @return ConfigEntity
      */
-    public function setValue($value) {
+    public function setValue($value)
+    {
         $this->value = strval($value);
 
         return $this;
@@ -162,7 +172,8 @@ class ConfigEntity extends AbstractEntity {
      *
      * @return string
      */
-    public function getValue() {
+    public function getValue()
+    {
         return $this->value;
     }
 }

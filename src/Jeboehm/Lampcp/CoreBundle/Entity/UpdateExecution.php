@@ -18,7 +18,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class UpdateExecution {
+class UpdateExecution
+{
     /**
      * @var integer
      *
@@ -54,7 +55,8 @@ class UpdateExecution {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -65,7 +67,8 @@ class UpdateExecution {
      *
      * @return UpdateExecution
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -76,7 +79,8 @@ class UpdateExecution {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -87,7 +91,8 @@ class UpdateExecution {
      *
      * @return UpdateExecution
      */
-    public function setVersion($version) {
+    public function setVersion($version)
+    {
         $this->version = $version;
 
         return $this;
@@ -98,7 +103,8 @@ class UpdateExecution {
      *
      * @return float
      */
-    public function getVersion() {
+    public function getVersion()
+    {
         return $this->version;
     }
 
@@ -109,7 +115,8 @@ class UpdateExecution {
      *
      * @return UpdateExecution
      */
-    public function setExecutionTime($executionTime) {
+    public function setExecutionTime($executionTime)
+    {
         $this->executionTime = $executionTime;
 
         return $this;
@@ -120,7 +127,8 @@ class UpdateExecution {
      *
      * @return \DateTime
      */
-    public function getExecutionTime() {
+    public function getExecutionTime()
+    {
         return $this->executionTime;
     }
 }

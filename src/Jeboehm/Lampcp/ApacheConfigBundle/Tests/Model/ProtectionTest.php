@@ -57,4 +57,15 @@ class ProtectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($passwordEnc, $protection->getPassword());
         $this->assertNotEquals($passwordEnc, $password);
     }
+
+    /**
+     * Test path getter / setter.
+     */
+    public function testPath()
+    {
+        $protection = new Protection();
+        $protection->setPath('/var/www');
+
+        $this->assertEquals('/var/www', $protection->getPath());
+    }
 }

@@ -10,73 +10,40 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
-use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
-use Jeboehm\Lampcp\ApacheConfigBundle\Model\Protection as ProtectionConfigModel;
+use Jeboehm\Lampcp\ApacheConfigBundle\Transformer\ProtectionEntityTransformer;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Entity\Protection as ProtectionEntity;
-use Jeboehm\Lampcp\CoreBundle\Entity\ProtectionUser;
+use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
+use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
+use Symfony\Bridge\Twig\TwigEngine;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Class ProtectionBuilderService
  *
- * Builds the protections.
+ * Build the username/password files to protect http directories.
  *
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class ProtectionBuilderService extends AbstractBuilderService implements BuilderServiceInterface
+class ProtectionBuilderService
 {
-    const _twigAuthUserFile = 'JeboehmLampcpApacheConfigBundle:Apache2:AuthUserFile.conf.twig';
+    /** authuser.passwd template */
+    const template_authuser = 'JeboehmLampcpApacheConfigBundle:Apache2:authuser.passwd.twig';
+    /** @var TwigEngine */
+    private $_twigEngine;
+    /** @var CryptService */
+    private $_cryptservice;
 
     /**
-     * Get protection model array.
+     * Create auth user file for given protection.
      *
-     * @param ProtectionEntity $protection
-     *
-     * @return ProtectionConfigModel[]
+     * @param Protection $protection
      */
-    protected function _getProtectionModelArray(ProtectionEntity $protection)
+    public function createAuthUserFile(Protection $protection)
     {
-        $models = array();
-
-        foreach ($protection->getProtectionuser() as $prot) {
-            /** @var $prot ProtectionUser */
-            $mod = new ProtectionConfigModel();
-            $mod
-                ->setId($prot->getId())
-                ->setUsername($prot->getUsername())
-                ->setPassword(
-                    $this
-                        ->_getCryptService()
-                        ->decrypt($prot->getPassword())
-                );
-
-            $models[] = $mod;
-        }
-
-        return $models;
-    }
-
-    /**
-     * Generate AuthUserFile.
-     *
-     * @param ProtectionEntity $protection
-     *
-     * @throws CouldNotWriteFileException
-     */
-    protected function _generateAuthUserFile(ProtectionEntity $protection)
-    {
-        $fs               = new Filesystem();
-        $models           = $this->_getProtectionModelArray($protection);
-        $contents         = $this->_renderTemplate(
-            self::_twigAuthUserFile,
-            array(
-                 'users' => $models,
-            )
-        );
-        $pathAuthUserFile = sprintf(
+        $path = sprintf(
             '%s/conf/authuser_%s.passwd',
             $protection
                 ->getDomain()
@@ -84,82 +51,171 @@ class ProtectionBuilderService extends AbstractBuilderService implements Builder
             $protection->getId()
         );
 
-        if (!is_writable(dirname($pathAuthUserFile))) {
-            throw new CouldNotWriteFileException();
-        }
+        $content = $this->renderAuthUserFile($this->transformEntity($protection));
 
-        file_put_contents($pathAuthUserFile, $contents);
-
-        // Change rights
-        $fs->chmod($pathAuthUserFile, 0440);
-
-        // Change user & group
-        $fs->chown(
-            $pathAuthUserFile,
-            $protection
-                ->getDomain()
-                ->getUser()
-                ->getName()
-        );
-
-        $fs->chgrp(
-            $pathAuthUserFile,
-            $protection
-                ->getDomain()
-                ->getUser()
-                ->getGroupname()
-        );
+        file_put_contents($path, $content);
     }
 
     /**
-     * Build all configurations.
+     * Render auth-user file.
+     *
+     * @param array $models
+     *
+     * @return string
      */
-    public function buildAll()
+    public function renderAuthUserFile(array $models)
     {
-        foreach ($this->_getAllDomains() as $domain) {
-            foreach ($domain->getProtection() as $protection) {
-                $this->_generateAuthUserFile($protection);
-            }
-        }
+        $content = $this
+            ->getTwigEngine()
+            ->render(
+                self::template_authuser,
+                array(
+                     'users' => $models,
+                )
+            );
 
-        $this->_cleanConfDirectory();
+        return $content;
     }
 
     /**
-     * Look for obsolete AuthUserFile files.
+     * Get Twig Engine.
+     *
+     * @return TwigEngine
      */
-    protected function _cleanConfDirectory()
+    public function getTwigEngine()
     {
-        /** @var $domains Domain[] */
-        $fs      = new Filesystem();
-        $domains = $this
-            ->_getDoctrine()
-            ->getRepository('JeboehmLampcpCoreBundle:Domain')
-            ->findAll();
+        return $this->_twigEngine;
+    }
 
-        foreach ($domains as $domain) {
-            $dir   = $domain->getPath() . '/conf';
-            $files = glob($dir . '/authuser_*.passwd');
+    /**
+     * Set TwigEngine.
+     *
+     * @param TwigEngine $twigEngine
+     *
+     * @return $this
+     */
+    public function setTwigEngine(TwigEngine $twigEngine)
+    {
+        $this->_twigEngine = $twigEngine;
 
-            foreach ($files as $filepath) {
-                $idStart = strpos($filepath, 'authuser_') + strlen('authuser_');
-                $idEnd   = strpos($filepath, '.passwd');
-                $id      = intval(substr($filepath, $idStart, ($idEnd - $idStart)));
+        return $this;
+    }
 
-                $protection = $this
-                    ->_getDoctrine()
-                    ->getRepository('JeboehmLampcpCoreBundle:Protection')
-                    ->findOneBy(
-                        array(
-                             'id'     => $id,
-                             'domain' => $domain->getId(),
-                        )
-                    );
+    /**
+     * Transform protection entity.
+     *
+     * @param Protection $protection
+     *
+     * @return \Jeboehm\Lampcp\ApacheConfigBundle\Model\Protection[]
+     */
+    public function transformEntity(Protection $protection)
+    {
+        $arr = ProtectionEntityTransformer::transform($protection);
 
-                if (!$protection) {
-                    $fs->remove($filepath);
-                }
+        foreach ($arr as $model) {
+            try {
+                $password = $this
+                    ->getCryptservice()
+                    ->decrypt($model->getPassword());
+                $model->setPassword($password);
+            } catch (\Exception $e) {
             }
         }
+
+        return $arr;
+    }
+
+    /**
+     * Get Cryptservice.
+     *
+     * @return CryptService
+     */
+    public function getCryptservice()
+    {
+        return $this->_cryptservice;
+    }
+
+    /**
+     * Set Cryptservice.
+     *
+     * @param CryptService $cryptservice
+     *
+     * @return $this
+     */
+    public function setCryptservice(CryptService $cryptservice)
+    {
+        $this->_cryptservice = $cryptservice;
+
+        return $this;
+    }
+
+    /**
+     * Remove obsolete auth-user files.
+     *
+     * @param Domain $domain
+     */
+    public function removeObsoleteAuthUserFiles(Domain $domain)
+    {
+        $finder = new Finder();
+        $fs     = new Filesystem();
+        $files  = array();
+        $ids    = array();
+
+        foreach ($domain->getProtection() as $protection) {
+            /** @var Protection $protection */
+            $ids[] = $protection->getId();
+        }
+
+        $finder
+            ->in($domain->getPath() . '/conf')
+            ->name('authuser_*.passwd')
+            ->depth(0)
+            ->files();
+
+        foreach ($finder as $file) {
+            /** @var SplFileInfo $file */
+            $id = $this->getIdFromFilename($file->getFilename());
+            if ($id === null) {
+                continue;
+            }
+
+            if (!in_array($id, $ids)) {
+                // Obsolete file.
+                $files[] = $file->getPathname();
+            }
+        }
+
+        if (count($files) > 0) {
+            $fs->remove($files);
+        }
+    }
+
+    /**
+     * Extract ID from Filename.
+     *
+     * authuser_39.passwd -> 39
+     *
+     * @param string $filename
+     *
+     * @return int|null
+     */
+    public function getIdFromFilename($filename)
+    {
+        $replaced = str_replace(
+            array(
+                 'authuser_',
+                 '.passwd',
+            ),
+            '',
+            $filename
+        );
+
+        $id = intval($replaced);
+
+        if (!empty($id)) {
+            return $id;
+        }
+
+        return null;
     }
 }

@@ -23,7 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @UniqueEntity("domain")
  */
-class Domain extends AbstractEntity implements DomainInterface {
+class Domain extends AbstractEntity implements DomainInterface
+{
     /**
      * @var integer
      *
@@ -174,7 +175,8 @@ class Domain extends AbstractEntity implements DomainInterface {
     /**
      * Konstruktor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->customconfig   = '';
         $this->webroot        = 'htdocs';
         $this->redirectUrl    = '';
@@ -199,7 +201,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -210,7 +213,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setDomain($domain) {
+    public function setDomain($domain)
+    {
         $this->domain = strtolower($domain);
 
         return $this;
@@ -221,7 +225,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
@@ -232,7 +237,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setCertificate($certificate) {
+    public function setCertificate($certificate)
+    {
         $this->certificate = $certificate;
 
         if (!$certificate) {
@@ -247,7 +253,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Certificate
      */
-    public function getCertificate() {
+    public function getCertificate()
+    {
         return $this->certificate;
     }
 
@@ -258,7 +265,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setForceSsl($forceSsl) {
+    public function setForceSsl($forceSsl)
+    {
         if ($this->certificate) {
             $this->forceSsl = $forceSsl;
         } else {
@@ -273,7 +281,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return boolean
      */
-    public function getForceSsl() {
+    public function getForceSsl()
+    {
         return $this->forceSsl;
     }
 
@@ -284,7 +293,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setPath($path) {
+    public function setPath($path)
+    {
         $this->path = strval($path);
 
         return $this;
@@ -295,7 +305,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getPath() {
+    public function getPath()
+    {
         return $this->path;
     }
 
@@ -306,7 +317,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setWebroot($webroot) {
+    public function setWebroot($webroot)
+    {
         $this->webroot = strval($webroot);
 
         return $this;
@@ -317,7 +329,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getWebroot() {
+    public function getWebroot()
+    {
         return $this->webroot;
     }
 
@@ -328,7 +341,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setRedirectUrl($redirectUrl) {
+    public function setRedirectUrl($redirectUrl)
+    {
         $this->redirectUrl = strval($redirectUrl);
 
         return $this;
@@ -339,7 +353,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getRedirectUrl() {
+    public function getRedirectUrl()
+    {
         return $this->redirectUrl;
     }
 
@@ -350,7 +365,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setIsWildcard($isWildcard) {
+    public function setIsWildcard($isWildcard)
+    {
         $this->isWildcard = $isWildcard;
 
         return $this;
@@ -361,7 +377,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return boolean
      */
-    public function getIsWildcard() {
+    public function getIsWildcard()
+    {
         return $this->isWildcard;
     }
 
@@ -372,7 +389,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setParsePhp($parsePhp) {
+    public function setParsePhp($parsePhp)
+    {
         $this->parsePhp = $parsePhp;
 
         return $this;
@@ -383,7 +401,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return boolean
      */
-    public function getParsePhp() {
+    public function getParsePhp()
+    {
         return $this->parsePhp;
     }
 
@@ -394,7 +413,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setCustomconfig($customconfig) {
+    public function setCustomconfig($customconfig)
+    {
         $this->customconfig = strval($customconfig);
 
         return $this;
@@ -405,7 +425,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getCustomconfig() {
+    public function getCustomconfig()
+    {
         return $this->customconfig;
     }
 
@@ -416,7 +437,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setUser($user) {
+    public function setUser($user)
+    {
         $this->user = $user;
 
         return $this;
@@ -427,7 +449,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return User
      */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
 
@@ -436,7 +459,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getFullWebrootPath() {
+    public function getFullWebrootPath()
+    {
         return $this->path . '/' . $this->webroot;
     }
 
@@ -447,7 +471,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setIpaddress(Collection $ipaddress) {
+    public function setIpaddress(Collection $ipaddress)
+    {
         $this->ipaddress = $ipaddress;
 
         return $this;
@@ -458,7 +483,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getIpaddress() {
+    public function getIpaddress()
+    {
         return $this->ipaddress;
     }
 
@@ -467,7 +493,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getMailaccount() {
+    public function getMailaccount()
+    {
         return $this->mailaccount;
     }
 
@@ -476,7 +503,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getMailforward() {
+    public function getMailforward()
+    {
         return $this->mailforward;
     }
 
@@ -485,7 +513,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getMailaddress() {
+    public function getMailaddress()
+    {
         return $this->mailaddress;
     }
 
@@ -494,7 +523,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getMysqldatabase() {
+    public function getMysqldatabase()
+    {
         return $this->mysqldatabase;
     }
 
@@ -503,7 +533,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getPathoption() {
+    public function getPathoption()
+    {
         return $this->pathoption;
     }
 
@@ -512,7 +543,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getProtection() {
+    public function getProtection()
+    {
         return $this->protection;
     }
 
@@ -521,7 +553,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getProtectionuser() {
+    public function getProtectionuser()
+    {
         return $this->protectionuser;
     }
 
@@ -530,7 +563,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getSubdomain() {
+    public function getSubdomain()
+    {
         return $this->subdomain;
     }
 
@@ -539,7 +573,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getDns() {
+    public function getDns()
+    {
         return $this->dns;
     }
 
@@ -550,7 +585,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setChildren($children) {
+    public function setChildren($children)
+    {
         $this->children = $children;
 
         return $this;
@@ -561,7 +597,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getChildren() {
+    public function getChildren()
+    {
         return $this->children;
     }
 
@@ -572,7 +609,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setParent($parent) {
+    public function setParent($parent)
+    {
         $this->parent = $parent;
 
         return $this;
@@ -583,7 +621,8 @@ class Domain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function getParent() {
+    public function getParent()
+    {
         return $this->parent;
     }
 }

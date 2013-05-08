@@ -23,7 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @UniqueEntity("email")
  */
-class Admin extends BaseUser {
+class Admin extends BaseUser
+{
     /**
      * @var integer
      *
@@ -54,7 +55,8 @@ class Admin extends BaseUser {
      *
      * @return \DateTime
      */
-    public function getCreated() {
+    public function getCreated()
+    {
         return $this->created;
     }
 
@@ -63,7 +65,8 @@ class Admin extends BaseUser {
      *
      * @return \DateTime
      */
-    public function getUpdated() {
+    public function getUpdated()
+    {
         return $this->updated;
     }
 }

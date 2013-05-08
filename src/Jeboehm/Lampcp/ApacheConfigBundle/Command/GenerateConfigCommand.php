@@ -16,9 +16,8 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
-use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
+use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -73,6 +72,7 @@ class GenerateConfigCommand extends AbstractCommand
             $this->_buildCertificates();
             $this->_buildDirectories($domains);
             $this->_buildVhosts($domains);
+            $this->_buildProtection($domains);
 
             $this->_restartProcess();
 
@@ -193,7 +193,7 @@ class GenerateConfigCommand extends AbstractCommand
     /**
      * Use DirectoryBuilderService to build directories for domain.
      *
-     * @param array $domains
+     * @param Domain[] $domains
      */
     protected function _buildDirectories(array $domains)
     {
@@ -219,7 +219,7 @@ class GenerateConfigCommand extends AbstractCommand
     /**
      * Use VhostBuilderService to build vhosts.
      *
-     * @param array $domains
+     * @param Domain[] $domains
      */
     protected function _buildVhosts(array $domains)
     {
@@ -247,6 +247,39 @@ class GenerateConfigCommand extends AbstractCommand
         return $this
             ->getContainer()
             ->get('jeboehm_lampcp_apache_config_vhostbuilder');
+    }
+
+    /**
+     * Use ProtectionBuilderService to build protections.
+     *
+     * @param Domain[] $domains
+     */
+    protected function _buildProtection(array $domains)
+    {
+        foreach ($domains as $domain) {
+            $this
+                ->_getProtectionBuilderService()
+                ->removeObsoleteAuthUserFiles($domain);
+
+            foreach ($domain->getProtection() as $protection) {
+                /** @var Protection $protection */
+                $this
+                    ->_getProtectionBuilderService()
+                    ->createAuthUserFile($protection);
+            }
+        }
+    }
+
+    /**
+     * Get protection builder service.
+     *
+     * @return ProtectionBuilderService
+     */
+    protected function _getProtectionBuilderService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_apache_config_protectionbuilder');
     }
 
     /**
@@ -278,17 +311,5 @@ class GenerateConfigCommand extends AbstractCommand
         }
 
         return true;
-    }
-
-    /**
-     * Get protection builder service.
-     *
-     * @return ProtectionBuilderService
-     */
-    protected function _getProtectionBuilderService()
-    {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_apache_config_protectionbuilder');
     }
 }

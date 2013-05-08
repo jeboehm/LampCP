@@ -15,13 +15,15 @@ use Doctrine\ORM\EntityRepository;
 /**
  * MysqlDatabaseRepository
  */
-class MysqlDatabaseRepository extends EntityRepository {
+class MysqlDatabaseRepository extends EntityRepository
+{
     /**
      * Get next free id
      *
      * @return int
      */
-    public function getFreeId() {
+    public function getFreeId()
+    {
         $qb = $this->createQueryBuilder('m');
         $qb->orderBy('m.id', 'desc');
 

@@ -21,7 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @UniqueEntity(fields = {"name"})
  */
-class Cron extends AbstractEntity {
+class Cron extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -50,7 +51,8 @@ class Cron extends AbstractEntity {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -61,7 +63,8 @@ class Cron extends AbstractEntity {
      *
      * @return Cron
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = strtolower($name);
 
         return $this;
@@ -72,7 +75,8 @@ class Cron extends AbstractEntity {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -83,7 +87,8 @@ class Cron extends AbstractEntity {
      *
      * @return Cron
      */
-    public function setLastrun(\DateTime $lastrun) {
+    public function setLastrun(\DateTime $lastrun)
+    {
         $this->lastrun = $lastrun;
 
         return $this;
@@ -94,7 +99,8 @@ class Cron extends AbstractEntity {
      *
      * @return \DateTime
      */
-    public function getLastrun() {
+    public function getLastrun()
+    {
         return $this->lastrun;
     }
 }
