@@ -80,7 +80,8 @@ class ProtectionEntityTransformerTest extends \PHPUnit_Framework_TestCase
             /** @var ProtectionUser $user */
             $suche = array_search($user->getUsername(), $this->_collectUsernames($new));
 
-            $this->assertInternalType('integer', $suche);        }
+            $this->assertInternalType('integer', $suche);
+        }
     }
 
     /**
