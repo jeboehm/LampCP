@@ -57,6 +57,38 @@ class VhostBuilderService
     }
 
     /**
+     * Collect vhost models.
+     */
+    public function collectVhostModels()
+    {
+        /*
+         * Add domains.
+         */
+        foreach ($this->getDomains() as $domain) {
+            $domain = DomainAliasTransformer::transformAliasDomain($domain);
+            $vhosts = DomainTransformer::transformDomain($domain);
+
+            foreach ($vhosts as $vhost) {
+                $this->addVhost($vhost);
+            }
+        }
+
+        /*
+         * Add subdomains.
+         */
+        foreach ($this->getSubdomains() as $subdomain) {
+            $subdomain = DomainAliasTransformer::transformAliasSubdomain($subdomain);
+            $vhosts    = DomainTransformer::transformDomain($subdomain->getDomain(), $subdomain);
+
+            foreach ($vhosts as $vhost) {
+                $this->addVhost($vhost);
+            }
+        }
+
+        $this->sortVhosts();
+    }
+
+    /**
      * Get domains.
      *
      * @return Domain[]
@@ -81,6 +113,20 @@ class VhostBuilderService
     }
 
     /**
+     * Add vhost.
+     *
+     * @param Vhost $vhost
+     *
+     * @return $this
+     */
+    public function addVhost(Vhost $vhost)
+    {
+        $this->_vhosts[] = $vhost;
+
+        return $this;
+    }
+
+    /**
      * Get subdomains.
      *
      * @return Subdomain[]
@@ -100,52 +146,6 @@ class VhostBuilderService
     public function setSubdomains(array $subdomains)
     {
         $this->_subdomains = $subdomains;
-
-        return $this;
-    }
-
-    /**
-     * Collect vhost models.
-     */
-    public function collectVhostModels()
-    {
-        /*
-         * Add domains.
-         */
-        foreach ($this->_domains as $domain) {
-            $domain = DomainAliasTransformer::transformAliasDomain($domain);
-            $vhosts = DomainTransformer::transformDomain($domain);
-
-            foreach ($vhosts as $vhost) {
-                $this->addVhost($vhost);
-            }
-        }
-
-        /*
-         * Add subdomains.
-         */
-        foreach ($this->_subdomains as $subdomain) {
-            $subdomain = DomainAliasTransformer::transformAliasSubdomain($subdomain);
-            $vhosts    = DomainTransformer::transformDomain($subdomain->getDomain(), $subdomain);
-
-            foreach ($vhosts as $vhost) {
-                $this->addVhost($vhost);
-            }
-        }
-
-        $this->sortVhosts();
-    }
-
-    /**
-     * Add vhost.
-     *
-     * @param Vhost $vhost
-     *
-     * @return $this
-     */
-    public function addVhost(Vhost $vhost)
-    {
-        $this->_vhosts[] = $vhost;
 
         return $this;
     }
@@ -227,6 +227,17 @@ class VhostBuilderService
      */
     public function buildConfiguration()
     {
+        $content = $this->renderConfiguration();
+        $this->saveConfiguration($content);
+    }
+
+    /**
+     * Render configuration.
+     *
+     * @return string
+     */
+    public function renderConfiguration()
+    {
         $parameters = array(
             'vhosts' => $this->getVhosts(),
             'ips'    => $this->getIpAddresses(),
@@ -236,7 +247,7 @@ class VhostBuilderService
             ->getTwigEngine()
             ->render(self::vhostConfigTemplate, $parameters);
 
-        $this->_saveVhostConfig($content);
+        return $content;
     }
 
     /**
@@ -291,7 +302,7 @@ class VhostBuilderService
      * @throws CouldNotWriteFileException
      * @return bool
      */
-    protected function _saveVhostConfig($content)
+    public function saveConfiguration($content)
     {
         $fs       = new Filesystem();
         $filepath = sprintf('%s/%s', $this->getConfigdir(), self::vhostConfigFilename);

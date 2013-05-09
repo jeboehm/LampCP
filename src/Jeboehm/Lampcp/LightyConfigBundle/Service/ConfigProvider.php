@@ -21,11 +21,13 @@ use Jeboehm\Lampcp\ConfigBundle\Service\AbstractConfigProvider;
  * @package Jeboehm\Lampcp\LightyConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class ConfigProvider extends AbstractConfigProvider {
+class ConfigProvider extends AbstractConfigProvider
+{
     /**
      * Create configuration fields
      */
-    public function init() {
+    public function init()
+    {
         $group = $this->_createGroup('lighttpd');
         $this
             ->_createEntity('enabled', ConfigTypes::TYPE_BOOL, $group, true)

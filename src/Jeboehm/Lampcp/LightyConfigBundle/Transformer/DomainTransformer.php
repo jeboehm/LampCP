@@ -8,19 +8,17 @@
  *
  */
 
-namespace Jeboehm\Lampcp\ApacheConfigBundle\Transformer;
+namespace Jeboehm\Lampcp\LightyConfigBundle\Transformer;
 
-use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
 use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
+use Jeboehm\Lampcp\LightyConfigBundle\Model\Vhost;
 
 /**
  * Class DomainTransformer
  *
- * Transform Domain to Vhost.
- *
- * @package Jeboehm\Lampcp\ApacheConfigBundle\Transformer
+ * @package Jeboehm\Lampcp\LightyConfigBundle\Transformer
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class DomainTransformer

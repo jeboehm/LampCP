@@ -22,13 +22,15 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
  * @package Jeboehm\Lampcp\LightyConfigBundle\Model
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class Vhost extends ParentVhost {
+class Vhost extends ParentVhost
+{
     /**
      * Returns true, if the vhost is bound to all ips (*, 0.0.0.0)
      *
      * @return bool
      */
-    public function getBoundToAllIps() {
+    public function getBoundToAllIps()
+    {
         if ($this
             ->getIpaddress()
             ->getIp() === '*'
@@ -44,7 +46,8 @@ class Vhost extends ParentVhost {
      *
      * @return Protection[]
      */
-    protected function _getProtection() {
+    protected function _getProtection()
+    {
         return $this->domain->getProtection();
     }
 
@@ -53,7 +56,8 @@ class Vhost extends ParentVhost {
      *
      * @return PathOption[]
      */
-    protected function _getPathOption() {
+    protected function _getPathOption()
+    {
         return $this->domain->getPathoption();
     }
 
@@ -62,7 +66,8 @@ class Vhost extends ParentVhost {
      *
      * @return array
      */
-    public function getDirectoryOptions() {
+    public function getDirectoryOptions()
+    {
         $options = parent::getDirectoryOptions();
 
         foreach ($options as $key => $value) {
@@ -85,7 +90,8 @@ class Vhost extends ParentVhost {
      *
      * @return string
      */
-    public function getServerNameRegex() {
+    public function getServerNameRegex()
+    {
         $servername = $this->getServerName();
         $servername = str_replace('.', '\\.', $servername);
         $servername = sprintf('^(www\.)?%s$', $servername);

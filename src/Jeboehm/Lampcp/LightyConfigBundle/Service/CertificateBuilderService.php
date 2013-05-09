@@ -10,7 +10,6 @@
 
 namespace Jeboehm\Lampcp\LightyConfigBundle\Service;
 
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService as ParentCertificateBuilderService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
 use Symfony\Component\Filesystem\Filesystem;
@@ -23,95 +22,35 @@ use Symfony\Component\Filesystem\Filesystem;
  * @package Jeboehm\Lampcp\LightyConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class CertificateBuilderService extends ParentCertificateBuilderService implements BuilderServiceInterface {
+class CertificateBuilderService extends ParentCertificateBuilderService
+{
     /**
-     * Save certificate.
+     * Save certificates.
+     * For Lighttpd, merge some files into others.
      *
-     * @param Certificate $cert
+     * @param Certificate $certificate
      */
-    protected function _saveCertificate(Certificate $cert) {
-        $target   = $this->getStorageDir();
-        $fs       = new Filesystem();
-        $filename = $target . '/' . $cert->getId();
+    public function saveCertificate(Certificate $certificate)
+    {
+        $fs = new Filesystem();
+        parent::saveCertificate($certificate);
 
-        foreach ($this->_extensions as $ext) {
-            $fullfilename = $filename . $ext;
+        /**
+         * Merge Key into Cert-File,
+         * and merge Chain into CA-Cert file.
+         */
 
-            switch ($ext) {
-                case self::_EXTENSION_CERTIFICATE:
-                    $method = 'CertificateFile';
-                    break;
+        $keyfile      = $certificate->getCertificateKeyFile();
+        $chainfile    = $certificate->getCertificateChainFile();
+        $cafilepath   = $certificate->getCACertificateFilePath();
+        $certfilepath = $certificate->getCertificateFilePath();
 
-                case self::_EXTENSION_PRIVATEKEY:
-                    $method = 'CertificateKeyFile';
-                    break;
+        if (!empty($keyfile) && $fs->exists($certfilepath)) {
+            file_put_contents($certfilepath, PHP_EOL . $keyfile, FILE_APPEND);
+        }
 
-                case self::_EXTENSION_CACERTIFICATE:
-                    $method = 'CACertificateFile';
-                    break;
-
-                case self::_EXTENSION_CACHAIN:
-                    $method = 'CertificateChainFile';
-                    break;
-            }
-
-            $mGet     = 'get' . $method;
-            $mSetPath = 'set' . $method . 'Path';
-
-            if ($cert->$mGet()) {
-                $this
-                    ->_getLogger()
-                    ->info('(LightyConfigBundle) Generating Cert.: ' . $fullfilename);
-
-                if ($ext === self::_EXTENSION_PRIVATEKEY) {
-                    $content = $this
-                        ->_getCryptService()
-                        ->decrypt($cert->$mGet());
-                } else {
-                    $content = $cert->$mGet();
-                }
-
-                /**
-                 * Write CertificateKeyFile into CertificateFile
-                 * Write CertificateChainFile into CACertificateFile
-                 */
-                if ($ext === self::_EXTENSION_PRIVATEKEY) {
-                    $fullfilename = $filename . self::_EXTENSION_CERTIFICATE;
-
-                    if ($fs->exists($fullfilename)) {
-                        $crt = file_get_contents($fullfilename);
-                        $crt .= PHP_EOL;
-                    } else {
-                        $crt = '';
-                    }
-
-                    file_put_contents($fullfilename, $crt . $content);
-                } elseif ($ext === self::_EXTENSION_CACHAIN) {
-                    $fullfilename = $filename . self::_EXTENSION_CACERTIFICATE;
-
-                    if ($fs->exists($fullfilename)) {
-                        $crt = file_get_contents($fullfilename);
-                        $crt .= PHP_EOL;
-                    } else {
-                        $crt = '';
-                    }
-
-                    file_put_contents($fullfilename, $crt . $content);
-                } else {
-                    file_put_contents($fullfilename, $content);
-                    $cert->$mSetPath($fullfilename);
-                }
-            } else {
-                if ($fs->exists($fullfilename)) {
-                    $this
-                        ->_getLogger()
-                        ->info('(LightyConfigBundle) Deleting Cert.: ' . $fullfilename);
-
-                    $fs->remove($fullfilename);
-                }
-
-                $cert->$mSetPath('');
-            }
+        if (!empty($chainfile) && $fs->exists($cafilepath)) {
+            file_put_contents($cafilepath, PHP_EOL . $chainfile, FILE_APPEND);
         }
     }
 }
