@@ -2,6 +2,21 @@
     "name": "jeboehm/lampcp",
     "description": "The linux apache mysql php control panel",
     "license": "GPL-2.0+",
+    "homepage": "http://lampcp.de/",
+    "type": "project",
+    "keywords": [ "management", "control", "panel", "apache2", "lighttpd", "php5", "mysql" ],
+    "authors": [
+        {
+            "name": "J. Boehm",
+            "email": "j.boehm@ressourcenkonflikt.de",
+            "homepage": "http://www.ressourcenkonflikt.de/",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "wiki": "https://github.com/jeboehm/LampCP/wiki",
+        "tickets": "https://github.com/jeboehm/LampCP/issues"
+    },
     "autoload": {
         "psr-0": {
             "": "src/"
@@ -60,17 +75,5 @@
                 }
             }
         }
-    ],
-    "authors": [
-        {
-            "name": "J. Boehm",
-            "email": "j.boehm@ressourcenkonflikt.de",
-            "homepage": "http://www.ressourcenkonflikt.de/",
-            "role": "Developer"
-        }
-    ],
-    "support": {
-        "wiki": "https://github.com/jeboehm/LampCP/wiki",
-        "tickets": "https://github.com/jeboehm/LampCP/issues"
-    }
+    ]
 }
