@@ -1,8 +1,11 @@
 {
     "name": "jeboehm/lampcp",
-    "description": "The overwhelming control panel",
+    "description": "The linux apache mysql php control panel",
+    "license": "GPL-2.0+",
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-0": {
+            "": "src/"
+        }
     },
     "require": {
         "php": ">=5.3.3",
@@ -37,7 +40,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
     },
-    "minimum-stability": "alpha",
+    "minimum-stability": "stable",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
@@ -57,5 +60,17 @@
                 }
             }
         }
-    ]
+    ],
+    "authors": [
+        {
+            "name": "J. Boehm",
+            "email": "j.boehm@ressourcenkonflikt.de",
+            "homepage": "http://www.ressourcenkonflikt.de/",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "wiki": "https://github.com/jeboehm/LampCP/wiki",
+        "tickets": "https://github.com/jeboehm/LampCP/issues"
+    }
 }

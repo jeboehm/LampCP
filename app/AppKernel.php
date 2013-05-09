@@ -21,7 +21,7 @@ class AppKernel extends Kernel {
 			new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
 			new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 			new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-			new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle(),
+            new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
 			new FOS\UserBundle\FOSUserBundle(),
 			new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 			new Jboehm\Bundle\PasswdBundle\JboehmPasswdBundle(),
