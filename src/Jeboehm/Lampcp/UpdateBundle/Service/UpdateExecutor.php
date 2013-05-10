@@ -29,19 +29,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @package Jeboehm\Lampcp\UpdateBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class UpdateExecutor {
+class UpdateExecutor
+{
     /** @var EntityManager */
     protected $_em;
-
     /** @var Logger */
     protected $_logger;
-
     /** @var ConfigService */
     protected $_configservice;
-
     /** @var ContainerInterface */
     protected $_container;
-
     /** @var array */
     protected $_provider;
 
@@ -53,7 +50,8 @@ class UpdateExecutor {
      * @param ConfigService      $cs
      * @param ContainerInterface $container
      */
-    public function __construct(EntityManager $em, Logger $log, ConfigService $cs, ContainerInterface $container) {
+    public function __construct(EntityManager $em, Logger $log, ConfigService $cs, ContainerInterface $container)
+    {
         $this->_em            = $em;
         $this->_logger        = $log;
         $this->_configservice = $cs;
@@ -66,67 +64,41 @@ class UpdateExecutor {
      *
      * @param AbstractUpdateProvider $provider
      */
-    public function addProvider(AbstractUpdateProvider $provider) {
+    public function addProvider(AbstractUpdateProvider $provider)
+    {
         $this->_provider[] = $provider;
     }
 
     /**
-     * Get UpdateExecution Repository.
-     *
-     * @return \Doctrine\ORM\EntityRepository
+     * Execute all outstanding updates.
      */
-    protected function _getRepository() {
-        return $this->_em->getRepository('JeboehmLampcpCoreBundle:UpdateExecution');
-    }
-
-    /**
-     * Checks, if the given provider name and version is already executed.
-     *
-     * @param string $name
-     * @param string $version
-     *
-     * @return bool
-     */
-    protected function _checkAlreadyExecuted($name, $version) {
-        $result = $this
-            ->_getRepository()
-            ->findOneBy(array(
-                             'name'    => $name,
-                             'version' => $version,
-                        ));
-
-        if ($result) {
-            return true;
+    public function executeUpdates()
+    {
+        try {
+            $providers = $this->_getOutstandingUpdateProviders();
+        } catch (DBALException $e) {
+            $providers = array();
+        } catch (\PDOException $e) {
+            $providers = array();
         }
 
-        return false;
-    }
+        foreach ($providers as $provider) {
+            $this->_prepareProvider($provider);
 
-    /**
-     * Get filename of update provider.
-     *
-     * @param AbstractUpdateProvider $provider
-     *
-     * @return string
-     */
-    protected function _getFilenameOfProvider(AbstractUpdateProvider $provider) {
-        $reflection = new \ReflectionClass(get_class($provider));
+            $this->_logger->info(sprintf('Found update: %s, Ver.: %s', $provider->getName(), $provider->getVersion()));
 
-        return $reflection->getFileName();
-    }
+            if ($provider->executeUpdate()) {
+                $this->_logger->info(
+                    sprintf('Update successful: %s, Ver.: %s', $provider->getName(), $provider->getVersion())
+                );
+            } else {
+                $this->_logger->info(
+                    sprintf('Update failed: %s, Ver.: %s', $provider->getName(), $provider->getVersion())
+                );
+            }
 
-    /**
-     * Check, if the given file is newer than the installation
-     *
-     * @param string $filename
-     *
-     * @return bool
-     */
-    protected function _checkFileNewerThanInstallation($filename) {
-        $mtime = filemtime($filename);
-        $itime = $this->_configservice->getParameter('core.installdate');
-
-        return $mtime > $itime;
+            $this->_saveExecution($provider);
+        }
     }
 
     /**
@@ -134,7 +106,8 @@ class UpdateExecutor {
      *
      * @return AbstractUpdateProvider[]
      */
-    protected function _getOutstandingUpdateProviders() {
+    protected function _getOutstandingUpdateProviders()
+    {
         $queue = array();
 
         foreach ($this->_provider as $provider) {
@@ -162,9 +135,75 @@ class UpdateExecutor {
     }
 
     /**
+     * Checks, if the given provider name and version is already executed.
+     *
+     * @param string $name
+     * @param string $version
+     *
+     * @return bool
+     */
+    protected function _checkAlreadyExecuted($name, $version)
+    {
+        $result = $this
+            ->_getRepository()
+            ->findOneBy(
+                array(
+                     'name'    => $name,
+                     'version' => $version,
+                )
+            );
+
+        if ($result) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get UpdateExecution Repository.
+     *
+     * @return \Doctrine\ORM\EntityRepository
+     */
+    protected function _getRepository()
+    {
+        return $this->_em->getRepository('JeboehmLampcpCoreBundle:UpdateExecution');
+    }
+
+    /**
+     * Get filename of update provider.
+     *
+     * @param AbstractUpdateProvider $provider
+     *
+     * @return string
+     */
+    protected function _getFilenameOfProvider(AbstractUpdateProvider $provider)
+    {
+        $reflection = new \ReflectionClass(get_class($provider));
+
+        return $reflection->getFileName();
+    }
+
+    /**
+     * Check, if the given file is newer than the installation
+     *
+     * @param string $filename
+     *
+     * @return bool
+     */
+    protected function _checkFileNewerThanInstallation($filename)
+    {
+        $mtime = filemtime($filename);
+        $itime = $this->_configservice->getParameter('core.installdate');
+
+        return $mtime > $itime;
+    }
+
+    /**
      * Prepares an update provider
      */
-    protected function _prepareProvider(AbstractUpdateProvider $provider) {
+    protected function _prepareProvider(AbstractUpdateProvider $provider)
+    {
         $provider
             ->setContainer($this->_container)
             ->setDoctrine($this->_em)
@@ -176,7 +215,8 @@ class UpdateExecutor {
      *
      * @param AbstractUpdateProvider $provider
      */
-    protected function _saveExecution(AbstractUpdateProvider $provider) {
+    protected function _saveExecution(AbstractUpdateProvider $provider)
+    {
         $exec = new UpdateExecution();
         $exec
             ->setName($provider->getName())
@@ -185,30 +225,5 @@ class UpdateExecutor {
 
         $this->_em->persist($exec);
         $this->_em->flush();
-    }
-
-    /**
-     * Execute all outstanding updates.
-     */
-    public function executeUpdates() {
-        try {
-            $providers = $this->_getOutstandingUpdateProviders();
-        } catch (DBALException $e) {
-            $providers = array();
-        }
-
-        foreach ($providers as $provider) {
-            $this->_prepareProvider($provider);
-
-            $this->_logger->info(sprintf('Found update: %s, Ver.: %s', $provider->getName(), $provider->getVersion()));
-
-            if ($provider->executeUpdate()) {
-                $this->_logger->info(sprintf('Update successful: %s, Ver.: %s', $provider->getName(), $provider->getVersion()));
-            } else {
-                $this->_logger->info(sprintf('Update failed: %s, Ver.: %s', $provider->getName(), $provider->getVersion()));
-            }
-
-            $this->_saveExecution($provider);
-        }
     }
 }
