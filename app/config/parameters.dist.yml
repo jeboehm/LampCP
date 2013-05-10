@@ -16,10 +16,5 @@ parameters:
     database_user:     root
     database_password: ~
 
-    mailer_transport:  smtp
-    mailer_host:       localhost
-    mailer_user:       ~
-    mailer_password:   ~
-
     locale:            de
     crypt:             LampCP-please-change-this
