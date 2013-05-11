@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<!--
+
+LampCP
+https://github.com/jeboehm/LampCP
+
+Licensed under the GPL Version 2 license
+http://www.gnu.org/licenses/gpl-2.0.txt
+
+-->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="jeboehm_lampcp_setup.model.annotation.form.class">Jeboehm\Lampcp\SetupBundle\Model\Annotation\Form</parameter>
+        <parameter key="jeboehm_lampcp_setup.formgeneratorservice.class">Jeboehm\Lampcp\SetupBundle\Service\FormGeneratorService</parameter>
+    </parameters>
+
+    <services>
+        <service id="jeboehm_lampcp_setup.formgeneratorservice" class="%jeboehm_lampcp_setup.formgeneratorservice.class%" scope="prototype">
+            <call method="setReader">
+                <argument type="service" id="annotation_reader"/>
+            </call>
+            <call method="setAnnotationClass">
+                <argument type="string">%jeboehm_lampcp_setup.model.annotation.form.class%</argument>
+            </call>
+        </service>
+    </services>
+</container>
