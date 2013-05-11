@@ -52,7 +52,7 @@ class FormGeneratorService
             $type    = $annotation->getType();
             $message = $annotation->getMessage() . ' >';
 
-            $data[$name] = $this
+            $form->{$name} = $this
                 ->getDialog()
                 ->{$type}(
                     $this->getOutput(),
