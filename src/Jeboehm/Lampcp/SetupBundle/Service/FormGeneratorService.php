@@ -179,7 +179,7 @@ class FormGeneratorService
      *
      * @return $this
      */
-    public function setOutput($output)
+    public function setOutput(OutputInterface $output)
     {
         $this->_output = $output;
 
