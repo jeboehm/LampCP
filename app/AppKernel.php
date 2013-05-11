@@ -48,6 +48,7 @@ class AppKernel extends Kernel
             new Jeboehm\Lampcp\AuthBundle\JeboehmLampcpAuthBundle(),
             new Jeboehm\Lampcp\ZoneGeneratorBundle\JeboehmLampcpZoneGeneratorBundle(),
             new Jeboehm\Lampcp\PhpFpmBundle\JeboehmLampcpPhpFpmBundle(),
+            new Jeboehm\Lampcp\SetupBundle\JeboehmLampcpSetupBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
