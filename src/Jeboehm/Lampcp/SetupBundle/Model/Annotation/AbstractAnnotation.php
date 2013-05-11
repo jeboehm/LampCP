@@ -10,6 +10,8 @@
 
 namespace Jeboehm\Lampcp\SetupBundle\Model\Annotation;
 
+use Jeboehm\Lampcp\SetupBundle\Model\Exception\ForbiddenAnnotationNameException;
+
 /**
  * Class AbstractAnnotation
  *
@@ -46,10 +48,15 @@ abstract class AbstractAnnotation
      *
      * @param string $key
      *
+     * @throws ForbiddenAnnotationNameException
      * @return string
      */
     private function getSetterMethodName($key)
     {
+        if (strtolower($key) === 'name') {
+            throw new ForbiddenAnnotationNameException();
+        }
+
         return 'set' . ucfirst(strtolower($key));
     }
 
@@ -68,7 +75,7 @@ abstract class AbstractAnnotation
      *
      * @param string $name
      */
-    protected function setName($name)
+    public function setName($name)
     {
         $this->_name = $name;
     }

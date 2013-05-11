@@ -53,6 +53,10 @@ class AnnotationConverter
             $annotation = $this->_reader->getPropertyAnnotation($property, $this->_annotation);
 
             if ($annotation !== null) {
+                if (method_exists($annotation, 'setName')) {
+                    $annotation->setName($property->getName());
+                }
+
                 $data[] = $annotation;
             }
         }
