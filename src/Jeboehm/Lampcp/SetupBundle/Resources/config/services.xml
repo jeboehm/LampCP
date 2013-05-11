@@ -30,8 +30,6 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             </call>
         </service>
 
-        <service id="jeboehm_lampcp_setup.model.validator.database" class="%jeboehm_lampcp_setup.model.validator.database.class%">
-
-        </service>
+        <service id="jeboehm_lampcp_setup.model.validator.database" class="%jeboehm_lampcp_setup.model.validator.database.class%"/>
     </services>
 </container>
