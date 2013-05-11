@@ -50,7 +50,7 @@ class FormGeneratorService
             /** @var Form $annotation */
             $name    = $annotation->getName();
             $type    = $annotation->getType();
-            $message = $annotation->getMessage() . ' >';
+            $message = $annotation->getMessage() . ' > ';
 
             $form->{$name} = $this
                 ->getDialog()
