@@ -16,6 +16,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
     <parameters>
         <parameter key="jeboehm_lampcp_setup.model.annotation.form.class">Jeboehm\Lampcp\SetupBundle\Model\Annotation\Form</parameter>
+        <parameter key="jeboehm_lampcp_setup.model.validator.database.class">Jeboehm\Lampcp\SetupBundle\Model\Validator\DatabaseValidator</parameter>
         <parameter key="jeboehm_lampcp_setup.formgeneratorservice.class">Jeboehm\Lampcp\SetupBundle\Service\FormGeneratorService</parameter>
     </parameters>
 
@@ -27,6 +28,10 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             <call method="setAnnotationClass">
                 <argument type="string">%jeboehm_lampcp_setup.model.annotation.form.class%</argument>
             </call>
+        </service>
+
+        <service id="jeboehm_lampcp_setup.model.validator.database" class="%jeboehm_lampcp_setup.model.validator.database.class%">
+
         </service>
     </services>
 </container>
