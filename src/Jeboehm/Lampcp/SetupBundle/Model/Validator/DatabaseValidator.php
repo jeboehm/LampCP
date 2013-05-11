@@ -29,7 +29,7 @@ class DatabaseValidator extends AbstractValidator
      *
      * @return ValidationResult
      */
-    public static function validate(Database $config)
+    public function validate(Database $config)
     {
         $result        = new ValidationResult();
         $configuration = new Configuration();
