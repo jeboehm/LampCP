@@ -21,19 +21,19 @@ use Jeboehm\Lampcp\SetupBundle\Model\Annotation\Form;
 class Database extends AbstractForm
 {
     /**
-     * @Form(name="hostname", message="Hostname", type="ask")
+     * @Form(message="Hostname", type="ask")
      */
     public $hostname;
     /**
-     * @Form(name="username", message="Username", type="ask")
+     * @Form(message="Username", type="ask")
      */
     public $username;
     /**
-     * @Form(name="password", message="Password", type="askHiddenResponse")
+     * @Form(message="Password", type="askHiddenResponse")
      */
     public $password;
     /**
-     * @Form(name="database", message="Database", type="ask")
+     * @Form(message="Database", type="ask")
      */
     public $database;
 }
