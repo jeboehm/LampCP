@@ -23,7 +23,7 @@ class Crypto extends AbstractForm
     /**
      * @Form(message="Framework secret key (random alphanum)", type="ask")
      */
-    public $secret;
+    public $framework_secret;
     /**
      * @Form(message="Password to encrypt account passwords", type="ask")
      */

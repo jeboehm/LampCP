@@ -23,5 +23,5 @@ class Misc extends AbstractForm
     /**
      * @Form(message="Frontend language (de, en)", type="ask")
      */
-    public $language;
+    public $locale;
 }

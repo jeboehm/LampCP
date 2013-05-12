@@ -33,8 +33,8 @@ class MiscValidator extends AbstractValidator
         $result   = new ValidationResult();
         $result->setSuccessful(true);
 
-        if (!in_array($misc->language, array('de', 'en'))) {
-            $messages[] = sprintf('Invalid language "%s"!', $misc->language);
+        if (!in_array($misc->locale, array('de', 'en'))) {
+            $messages[] = sprintf('Invalid language "%s"!', $misc->locale);
             $result->setSuccessful(false);
         }
 

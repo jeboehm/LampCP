@@ -23,17 +23,17 @@ class Database extends AbstractForm
     /**
      * @Form(message="Hostname", type="ask")
      */
-    public $hostname;
+    public $database_host;
     /**
      * @Form(message="Username", type="ask")
      */
-    public $username;
+    public $database_user;
     /**
      * @Form(message="Password", type="askHiddenResponse")
      */
-    public $password;
+    public $database_password;
     /**
      * @Form(message="Database", type="ask")
      */
-    public $database;
+    public $database_name;
 }

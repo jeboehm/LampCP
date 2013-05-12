@@ -34,19 +34,19 @@ class DatabaseValidator extends AbstractValidator
         $result        = new ValidationResult();
         $configuration = new Configuration();
         $params        = array(
-            'dbname'   => $config->database,
-            'user'     => $config->username,
-            'password' => $config->password,
-            'host'     => $config->hostname,
+            'dbname'   => $config->database_name,
+            'user'     => $config->database_user,
+            'password' => $config->database_password,
+            'host'     => $config->database_host,
             'driver'   => 'pdo_mysql',
         );
 
         try {
-            if (empty($config->database)) {
+            if (empty($config->database_name)) {
                 throw new \Exception('Database must not be empty!');
             }
 
-            if (empty($config->hostname)) {
+            if (empty($config->database_host)) {
                 throw new \Exception('Hostname must not be empty!');
             }
 

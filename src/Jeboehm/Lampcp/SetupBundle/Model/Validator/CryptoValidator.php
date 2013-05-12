@@ -38,7 +38,7 @@ class CryptoValidator extends AbstractValidator
             $messages[] = 'Encryption password must not be empty.';
         }
 
-        if (empty($crypto->secret)) {
+        if (empty($crypto->framework_secret)) {
             $result->setSuccessful(false);
             $messages[] = 'Framework secret key must not be empty.';
         }
