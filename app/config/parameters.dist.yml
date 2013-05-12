@@ -17,4 +17,5 @@ parameters:
     database_password: ~
 
     locale:            de
+    framework_secret:  LampCP-please-change-this
     crypt:             LampCP-please-change-this
