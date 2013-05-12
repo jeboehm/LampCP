@@ -20,7 +20,7 @@ class ValidationResult
 {
     /** @var bool */
     private $_successful;
-    /** @var string */
+    /** @var string|array */
     private $_message;
 
     /**
@@ -45,7 +45,7 @@ class ValidationResult
     /**
      * Set Message
      *
-     * @param string $message
+     * @param string|array $message
      *
      * @return $this
      */
