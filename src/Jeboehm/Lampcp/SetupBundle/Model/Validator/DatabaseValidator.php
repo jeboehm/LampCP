@@ -42,6 +42,14 @@ class DatabaseValidator extends AbstractValidator
         );
 
         try {
+            if (empty($config->database)) {
+                throw new \Exception('Database must not be empty!');
+            }
+
+            if (empty($config->hostname)) {
+                throw new \Exception('Hostname must not be empty!');
+            }
+
             $connection = DriverManager::getConnection($params, $configuration);
             $connection->connect();
 
