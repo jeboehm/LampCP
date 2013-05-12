@@ -19,6 +19,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <parameter key="jeboehm_lampcp_setup.model.validator.database.class">Jeboehm\Lampcp\SetupBundle\Model\Validator\DatabaseValidator</parameter>
         <parameter key="jeboehm_lampcp_setup.model.validator.vhost.class">Jeboehm\Lampcp\SetupBundle\Model\Validator\VhostValidator</parameter>
         <parameter key="jeboehm_lampcp_setup.model.validator.crypto.class">Jeboehm\Lampcp\SetupBundle\Model\Validator\CryptoValidator</parameter>
+        <parameter key="jeboehm_lampcp_setup.model.validator.misc.class">Jeboehm\Lampcp\SetupBundle\Model\Validator\MiscValidator</parameter>
         <parameter key="jeboehm_lampcp_setup.formgeneratorservice.class">Jeboehm\Lampcp\SetupBundle\Service\FormGeneratorService</parameter>
         <parameter key="jeboehm_lampcp_setup.preflightcheckservice.class">Jeboehm\Lampcp\SetupBundle\Service\PreFlightCheckService</parameter>
     </parameters>
@@ -35,6 +36,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
         <service id="jeboehm_lampcp_setup.model.validator.database" class="%jeboehm_lampcp_setup.model.validator.database.class%"/>
         <service id="jeboehm_lampcp_setup.model.validator.crypto" class="%jeboehm_lampcp_setup.model.validator.crypto.class%"/>
+        <service id="jeboehm_lampcp_setup.model.validator.misc" class="%jeboehm_lampcp_setup.model.validator.misc.class%"/>
 
         <service id="jeboehm_lampcp_setup.model.validator.vhost" class="%jeboehm_lampcp_setup.model.validator.vhost.class%">
             <call method="setEm">
