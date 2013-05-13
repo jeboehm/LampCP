@@ -31,26 +31,22 @@ class IpAddress extends AbstractEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="Domain", mappedBy="ipaddress")
      */
     private $domain;
-
     /**
      * @var string
      * @ORM\Column(name="alias", type="string", length=30)
      */
     private $alias;
-
     /**
      * @var string
      * @Assert\Ip(version="all")
      * @ORM\Column(name="ip", type="string", length=255)
      */
     private $ip;
-
     /**
      * @var int
      * @Assert\Min(1)
@@ -58,7 +54,6 @@ class IpAddress extends AbstractEntity
      * @ORM\Column(name="port", type="integer")
      */
     private $port;
-
     /**
      * @var bool
      * @ORM\Column(name="hasSsl", type="boolean")
@@ -71,6 +66,8 @@ class IpAddress extends AbstractEntity
     public function __construct()
     {
         $this->domain = new ArrayCollection();
+        $this->port   = 80;
+        $this->hasSsl = false;
     }
 
     /**
@@ -81,6 +78,16 @@ class IpAddress extends AbstractEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get alias
+     *
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->alias;
     }
 
     /**
@@ -98,37 +105,11 @@ class IpAddress extends AbstractEntity
     }
 
     /**
-     * Get alias
-     *
-     * @return string
+     * @return int
      */
-    public function getAlias()
+    public function getPort()
     {
-        return $this->alias;
-    }
-
-    /**
-     * Set ip
-     *
-     * @param string $ip
-     *
-     * @return IpAddress
-     */
-    public function setIp($ip)
-    {
-        $this->ip = $ip;
-
-        return $this;
-    }
-
-    /**
-     * Get ip
-     *
-     * @return string
-     */
-    public function getIp()
-    {
-        return $this->ip;
+        return $this->port;
     }
 
     /**
@@ -144,11 +125,13 @@ class IpAddress extends AbstractEntity
     }
 
     /**
-     * @return int
+     * Get hasSsl
+     *
+     * @return boolean
      */
-    public function getPort()
+    public function getHasSsl()
     {
-        return $this->port;
+        return $this->hasSsl;
     }
 
     /**
@@ -166,16 +149,6 @@ class IpAddress extends AbstractEntity
     }
 
     /**
-     * Get hasSsl
-     *
-     * @return boolean
-     */
-    public function getHasSsl()
-    {
-        return $this->hasSsl;
-    }
-
-    /**
      * Return true, if this is ipv6
      *
      * @return bool
@@ -190,15 +163,25 @@ class IpAddress extends AbstractEntity
     }
 
     /**
-     * Set domain
+     * Get ip
      *
-     * @param Collection $domain
+     * @return string
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    /**
+     * Set ip
+     *
+     * @param string $ip
      *
      * @return IpAddress
      */
-    public function setDomain(Collection $domain)
+    public function setIp($ip)
     {
-        $this->domain = $domain;
+        $this->ip = $ip;
 
         return $this;
     }
@@ -211,5 +194,19 @@ class IpAddress extends AbstractEntity
     public function getDomain()
     {
         return $this->domain;
+    }
+
+    /**
+     * Set domain
+     *
+     * @param Collection $domain
+     *
+     * @return IpAddress
+     */
+    public function setDomain(Collection $domain)
+    {
+        $this->domain = $domain;
+
+        return $this;
     }
 }
