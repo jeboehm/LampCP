@@ -10,13 +10,13 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Bridge\Monolog\Logger;
-use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
+use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
 use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
+use Symfony\Bridge\Monolog\Logger;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Class AbstractController

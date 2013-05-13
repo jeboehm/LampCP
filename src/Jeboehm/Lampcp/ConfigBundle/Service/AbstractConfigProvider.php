@@ -12,8 +12,8 @@ namespace Jeboehm\Lampcp\ConfigBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Jeboehm\Lampcp\ConfigBundle\Exception\NoGroupProvidedException;
-use Jeboehm\Lampcp\CoreBundle\Entity\ConfigGroup;
 use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntity;
+use Jeboehm\Lampcp\CoreBundle\Entity\ConfigGroup;
 
 /**
  * Class AbstractConfigProvider

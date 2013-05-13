@@ -10,11 +10,11 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Form\Transformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
 use Jeboehm\Lampcp\CoreBundle\Form\Model\DnsResourceModel;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
-use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AbstractResourceRecord;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\DnsResourceRecordTypes;
+use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AbstractResourceRecord;
+use Symfony\Component\Form\DataTransformerInterface;
 
 /**
  * Class ZoneCollectionTransformer

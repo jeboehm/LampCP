@@ -10,9 +10,9 @@
 
 namespace Jeboehm\Lampcp\UpdateBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Jeboehm\Lampcp\UpdateBundle\DependencyInjection\UpdateProviderCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * Class JeboehmLampcpUpdateBundle

@@ -10,14 +10,16 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
-use Jeboehm\Lampcp\ApacheConfigBundle\Exception\GlobalPhpIniNotFoundException;
-use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
-use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
 use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
+use Jeboehm\Lampcp\ApacheConfigBundle\Exception\EmptyConfigPathException;
+use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost;
+use Jeboehm\Lampcp\ApacheConfigBundle\Transformer\DomainAliasTransformer;
+use Jeboehm\Lampcp\ApacheConfigBundle\Transformer\DomainTransformer;
+use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
+use Jeboehm\Lampcp\PhpFpmBundle\Service\ConfigBuilderService as PhpFpmConfigBuilder;
+use Symfony\Bridge\Twig\TwigEngine;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class VhostBuilderService
@@ -27,105 +29,269 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class VhostBuilderService extends AbstractBuilderService implements BuilderServiceInterface {
-    const _twigVhost       = 'JeboehmLampcpApacheConfigBundle:Apache2:vhost.conf.twig';
-    const _twigFcgiStarter = 'JeboehmLampcpApacheConfigBundle:PHP:php-fcgi-starter.sh.twig';
-    const _twigPhpIni      = 'JeboehmLampcpApacheConfigBundle:PHP:php.ini.twig';
-    const _domainFileName  = '20_vhost.conf';
+class VhostBuilderService
+{
+    const vhostConfigTemplate = 'JeboehmLampcpApacheConfigBundle:Apache2:vhost.conf.twig';
+    const vhostConfigFilename = '20_vhost.conf';
+    /** @var PhpFpmConfigBuilder */
+    private $_phpFpmConfigBuilder;
+    /** @var Domain[] */
+    private $_domains;
+    /** @var Subdomain[] */
+    private $_subdomains;
+    /** @var Vhost[] */
+    private $_vhosts;
+    /** @var string */
+    private $_configdir;
+    /** @var TwigEngine */
+    private $_twigEngine;
 
     /**
-     * Render php.ini.
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->_domains    = array();
+        $this->_subdomains = array();
+        $this->_vhosts     = array();
+    }
+
+    /**
+     * Collect vhost models.
+     */
+    public function collectVhostModels()
+    {
+        /*
+         * Add domains.
+         */
+        foreach ($this->getDomains() as $domain) {
+            $domain = DomainAliasTransformer::transformAliasDomain($domain);
+            $vhosts = DomainTransformer::transformDomain($domain);
+
+            foreach ($vhosts as $vhost) {
+                $this->addVhost($vhost);
+            }
+        }
+
+        /*
+         * Add subdomains.
+         */
+        foreach ($this->getSubdomains() as $subdomain) {
+            $subdomain = DomainAliasTransformer::transformAliasSubdomain($subdomain);
+            $vhosts    = DomainTransformer::transformDomain($subdomain->getDomain(), $subdomain);
+
+            foreach ($vhosts as $vhost) {
+                $this->addVhost($vhost);
+            }
+        }
+
+        $this->sortVhosts();
+    }
+
+    /**
+     * Get domains.
      *
-     * @param Domain $domain
+     * @return Domain[]
+     */
+    public function getDomains()
+    {
+        return $this->_domains;
+    }
+
+    /**
+     * Set domains.
      *
-     * @throws GlobalPhpIniNotFoundException
+     * @param array $domains
+     *
+     * @return $this
+     */
+    public function setDomains(array $domains)
+    {
+        $this->_domains = $domains;
+
+        return $this;
+    }
+
+    /**
+     * Add vhost.
+     *
+     * @param Vhost $vhost
+     *
+     * @return $this
+     */
+    public function addVhost(Vhost $vhost)
+    {
+        $this->_vhosts[] = $vhost;
+
+        return $this;
+    }
+
+    /**
+     * Get subdomains.
+     *
+     * @return Subdomain[]
+     */
+    public function getSubdomains()
+    {
+        return $this->_subdomains;
+    }
+
+    /**
+     * Set subdomains.
+     *
+     * @param array $subdomains
+     *
+     * @return $this
+     */
+    public function setSubdomains(array $subdomains)
+    {
+        $this->_subdomains = $subdomains;
+
+        return $this;
+    }
+
+    /**
+     * Order vhosts.
+     * Non-wildcard vhosts at first.
+     *
+     * @return array
+     */
+    public function sortVhosts()
+    {
+        $this->setVhosts(array_merge($this->_getNonWildcardVhosts(), $this->_getWildcardVhosts()));
+    }
+
+    /**
+     * Get all non wildcard vhosts.
+     *
+     * @return array
+     */
+    protected function _getNonWildcardVhosts()
+    {
+        $nonWildcard = array();
+
+        foreach ($this->getVhosts() as $vhost) {
+            if (!$vhost->getIsWildcard()) {
+                $nonWildcard[] = $vhost;
+            }
+        }
+
+        return $nonWildcard;
+    }
+
+    /**
+     * Get vhosts.
+     *
+     * @return Vhost[]
+     */
+    public function getVhosts()
+    {
+        return $this->_vhosts;
+    }
+
+    /**
+     * Set vhosts.
+     *
+     * @param array $vhosts
+     *
+     * @return $this
+     */
+    public function setVhosts(array $vhosts)
+    {
+        $this->_vhosts = $vhosts;
+
+        return $this;
+    }
+
+    /**
+     * Get all wildcard vhosts.
+     *
+     * @return array
+     */
+    protected function _getWildcardVhosts()
+    {
+        $wildcard = array();
+
+        foreach ($this->getVhosts() as $vhost) {
+            if ($vhost->getIsWildcard()) {
+                $wildcard[] = $vhost;
+            }
+        }
+
+        return $wildcard;
+    }
+
+    /**
+     * Builds the configuration with the given
+     * vhosts.
+     */
+    public function buildConfiguration()
+    {
+        $content = $this->renderConfiguration();
+        $this->saveConfiguration($content);
+    }
+
+    /**
+     * Render configuration.
+     *
      * @return string
      */
-    protected function _renderPhpIni(Domain $domain) {
-        $phpIniPath   = $this
-            ->_getConfigService()
-            ->getParameter('apache.pathphpini');
-        $globalConfig = null;
+    public function renderConfiguration()
+    {
+        $parameters = array(
+            'vhosts' => $this->getVhosts(),
+            'ips'    => $this->getIpAddresses(),
+        );
 
-        if (is_readable($phpIniPath)) {
-            $globalConfig = file_get_contents($phpIniPath);
-        }
+        $content = $this
+            ->getTwigEngine()
+            ->render(self::vhostConfigTemplate, $parameters);
 
-        if (empty($globalConfig)) {
-            throw new GlobalPhpIniNotFoundException();
-        }
-
-        return $this->_renderTemplate(self::_twigPhpIni, array(
-                                                              'domain' => $domain,
-                                                              'global' => $globalConfig,
-                                                         ));
+        return $content;
     }
 
     /**
-     * Generate and save FCGI Starter Script.
+     * Get the ip addresses of all vhosts.
      *
-     * @param Domain $domain
-     *
-     * @throws CouldNotWriteFileException
-     * @return void
+     * @return array
      */
-    protected function _generateFcgiStarterForDomain(Domain $domain) {
-        $fs       = new Filesystem();
-        $filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
+    public function getIpAddresses()
+    {
+        $ips = array();
 
-        if (!is_writable(dirname($filename))) {
-            throw new CouldNotWriteFileException();
+        foreach ($this->getVhosts() as $vhost) {
+            $ip = $vhost->getIpaddress();
+
+            if (!in_array($ip, $ips)) {
+                $ips[] = $ip;
+            }
         }
 
-        if (!$fs->exists($filename)) {
-            $content = $this->_renderTemplate(self::_twigFcgiStarter, array(
-                                                                           'domain' => $domain,
-                                                                      ));
-
-            file_put_contents($filename, $content);
-        }
-
-        // Change rights
-        $fs->chmod($filename, 0755);
-
-        // Change user & group
-        $fs->chown($filename, $domain
-            ->getUser()
-            ->getName());
-        $fs->chgrp($filename, $domain
-            ->getUser()
-            ->getGroupname());
+        return $ips;
     }
 
     /**
-     * Generate and save php.ini.
+     * Get TwigEngine.
      *
-     * @param Domain $domain
-     *
-     * @throws CouldNotWriteFileException
+     * @return TwigEngine
      */
-    protected function _generatePhpIniForDomain(Domain $domain) {
-        $fs       = new Filesystem();
-        $filename = $domain->getPath() . '/conf/php.ini';
+    public function getTwigEngine()
+    {
+        return $this->_twigEngine;
+    }
 
-        if (!is_writable(dirname($filename))) {
-            throw new CouldNotWriteFileException();
-        }
+    /**
+     * Set TwigEngine.
+     *
+     * @param TwigEngine $twigEngine
+     *
+     * @return VhostBuilderService
+     */
+    public function setTwigEngine($twigEngine)
+    {
+        $this->_twigEngine = $twigEngine;
 
-        if (!$fs->exists($filename)) {
-            file_put_contents($filename, $this->_renderPhpIni($domain));
-        }
-
-        // Change rights
-        $fs->chmod($filename, 0440);
-
-        // Change user & group
-        $fs->chown($filename, $domain
-            ->getUser()
-            ->getName());
-        $fs->chgrp($filename, $domain
-            ->getUser()
-            ->getGroupname());
+        return $this;
     }
 
     /**
@@ -134,211 +300,111 @@ class VhostBuilderService extends AbstractBuilderService implements BuilderServi
      * @param string $content
      *
      * @throws CouldNotWriteFileException
-     * @return void
+     * @return bool
      */
-    protected function _saveVhostConfig($content) {
-        $target = $this
-            ->_getConfigService()
-            ->getParameter('apache.pathapache2conf') . '/' . self::_domainFileName;
+    public function saveConfiguration($content)
+    {
+        $fs       = new Filesystem();
+        $filepath = sprintf('%s/%s', $this->getConfigdir(), self::vhostConfigFilename);
+        $content  = str_replace('  ', '', $content);
+        $content  = str_replace(PHP_EOL . PHP_EOL, PHP_EOL, $content);
 
-        $content = str_replace('  ', '', $content);
-        $content = str_replace(PHP_EOL . PHP_EOL, PHP_EOL, $content);
-
-        if (!is_writable(dirname($target))) {
-            throw new CouldNotWriteFileException();
+        if (!$fs->exists($filepath)) {
+            $fs->touch($filepath);
         }
 
-        file_put_contents($target, $content);
+        file_put_contents($filepath, $content);
+
+        return true;
     }
 
     /**
-     * Get all IPs
+     * Get config directory.
      *
-     * @return IpAddress[]
+     * @throws EmptyConfigPathException
+     * @return string
      */
-    protected function _getAllIpAddresses() {
-        /** @var $ips IpAddress[] */
-        $ips = $this
-            ->_getDoctrine()
-            ->getRepository('JeboehmLampcpCoreBundle:IpAddress')
-            ->findAll();
-
-        return $ips;
-    }
-
-    /**
-     * Get Vhost Models.
-     *
-     * @return Vhost[]
-     */
-    protected function _getVhostModels() {
-        /** @var $models Vhost[] */
-        $models = array();
-
-        foreach ($this->_getAllDomains() as $domain) {
-            /**
-             * Get alias
-             */
-            if ($domain->getParent() !== null) {
-                $domain = $this->_getAliasDomain($domain);
-            }
-
-            if ($domain
-                ->getIpaddress()
-                ->count() > 0
-            ) {
-                foreach ($domain->getIpaddress() as $ipaddress) {
-                    /** @var $ipaddress IpAddress */
-                    $vhost = $this->_getVhost();
-                    $vhost
-                        ->setDomain($domain)
-                        ->setIpaddress($ipaddress);
-
-                    if ($vhost->getSSLEnabled() || !$ipaddress->getHasSsl()) {
-                        $models[] = $vhost;
-                    }
-                }
-            } else {
-                $vhost = $this->_getVhost();
-                $vhost->setDomain($domain);
-                $models[] = $vhost;
-            }
-
-            $this->_generatePhpIniForDomain($domain);
-            $this->_generateFcgiStarterForDomain($domain);
+    public function getConfigdir()
+    {
+        if (empty($this->_configdir)) {
+            throw new EmptyConfigPathException();
         }
 
-        foreach ($this->_getAllSubdomains() as $subdomain) {
-            /**
-             * Get alias
-             */
-            if ($subdomain->getParent() !== null) {
-                $subdomain = $this->_getAliasSubdomain($subdomain);
-            }
+        return $this->_configdir;
+    }
 
-            if ($subdomain
-                ->getDomain()
-                ->getIpaddress()
-                ->count() > 0
-            ) {
-                foreach ($subdomain
-                             ->getDomain()
-                             ->getIpaddress() as $ipaddress) {
-                    /** @var $ipaddress IpAddress */
-                    $vhost = $this->_getVhost();
-                    $vhost
-                        ->setDomain($subdomain->getDomain())
-                        ->setSubdomain($subdomain)
-                        ->setIpaddress($ipaddress);
+    /**
+     * Set config directory.
+     *
+     * @param string $configdir
+     *
+     * @throws EmptyConfigPathException
+     * @return VhostBuilderService
+     */
+    public function setConfigdir($configdir)
+    {
+        $fs = new Filesystem();
 
-                    if ($vhost->getSSLEnabled() || !$ipaddress->getHasSsl()) {
-                        $models[] = $vhost;
-                    }
-                }
-            } else {
-                $vhost = $this->_getVhost();
-                $vhost
-                    ->setDomain($subdomain->getDomain())
-                    ->setSubdomain($subdomain);
-                $models[] = $vhost;
-            }
+        if (!$fs->exists($configdir)) {
+            throw new EmptyConfigPathException();
         }
 
-        $models = $this->_orderVhosts($models);
+        $this->_configdir = $configdir;
 
-        return $models;
+        return $this;
     }
 
     /**
-     * Build all configurations.
+     * Sets the PHP-Socket to all vhosts,
+     * which are PHP-enabled.
      */
-    public function buildAll() {
-        $content = $this->_renderTemplate(self::_twigVhost, array(
-                                                                 'vhosts' => $this->_getVhostModels(),
-                                                                 'ips'    => $this->_getAllIpAddresses(),
-                                                            ));
-
-        $this->_saveVhostConfig($content);
-    }
-
-    /**
-     * Order vhost models by wildcard.
-     *
-     * @param array $vhosts
-     *
-     * @return array
-     */
-    protected function _orderVhosts(array $vhosts) {
-        $nonWc = array();
-        $wc    = array();
-
-        foreach ($vhosts as $vhost) {
-            /** @var $vhost Vhost */
-            if ($vhost->getIsWildcard()) {
-                $wc[] = $vhost;
-            } else {
-                $nonWc[] = $vhost;
+    public function setPhpSocketToVhosts()
+    {
+        foreach ($this->getVhosts() as $vhost) {
+            if ($vhost->getPHPEnabled()) {
+                $vhost->setPhpFpmSocket($this->getPhpSocket($vhost->getDomain()));
             }
         }
-
-        return array_merge($nonWc, $wc);
     }
 
     /**
-     * Get Vhost Model.
-     *
-     * @return Vhost
-     */
-    protected function _getVhost() {
-        return new Vhost();
-    }
-
-    /**
-     * Get parent domain and set some properties from alias-domain.
+     * Get PHP-FPM Socket.
      *
      * @param Domain $domain
      *
-     * @return Domain
+     * @return string
      */
-    protected function _getAliasDomain(Domain $domain) {
-        $parent = clone $domain->getParent();
-        $parent
-            ->setDomain($domain->getDomain())
-            ->setIpaddress($domain->getIpaddress())
-            ->setCertificate($domain->getCertificate());
+    public function getPhpSocket(Domain $domain)
+    {
+        $socket = $this
+            ->getPhpFpmConfigBuilder()
+            ->getPoolCreator($domain->getUser())
+            ->getSocketPath();
 
-        return $parent;
+        return $socket;
     }
 
     /**
-     * Get parent subdomain and set some properties from alias-subdomain.
+     * Get PHP-FPM ConfigBuilder.
      *
-     * @param Subdomain $subdomain
-     *
-     * @return Subdomain
+     * @return PhpFpmConfigBuilder
      */
-    protected function _getAliasSubdomain(Subdomain $subdomain) {
-        $domain = clone $subdomain
-            ->getParent()
-            ->getDomain();
+    public function getPhpFpmConfigBuilder()
+    {
+        return $this->_phpFpmConfigBuilder;
+    }
 
-        $domain
-            ->setDomain($subdomain
-                ->getDomain()
-                ->getDomain())
-            ->setIpaddress($subdomain
-                ->getDomain()
-                ->getIpaddress())
-            ->setCertificate($subdomain
-                ->getDomain()
-                ->getCertificate());
+    /**
+     * Set PHP-FPM ConfigBuilder.
+     *
+     * @param PhpFpmConfigBuilder $cb
+     *
+     * @return $this
+     */
+    public function setPhpFpmConfigBuilder(PhpFpmConfigBuilder $cb)
+    {
+        $this->_phpFpmConfigBuilder = $cb;
 
-        $parent = clone $subdomain->getParent();
-        $parent
-            ->setDomain($domain)
-            ->setSubdomain($subdomain->getSubdomain())
-            ->setCertificate($subdomain->getCertificate());
-
-        return $parent;
+        return $this;
     }
 }

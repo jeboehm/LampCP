@@ -18,7 +18,8 @@ namespace Jeboehm\Lampcp\ApacheConfigBundle\Model;
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Model
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class Protection {
+class Protection
+{
     /** @var integer */
     private $id;
 
@@ -28,14 +29,18 @@ class Protection {
     /** @var string */
     private $password;
 
+    /** @var string */
+    private $path;
+
     /**
      * Set id.
      *
      * @param int $id
      *
-     * @return Protection
+     * @return $this
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
 
         return $this;
@@ -46,7 +51,8 @@ class Protection {
      *
      * @return int
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -55,9 +61,10 @@ class Protection {
      *
      * @param string $username
      *
-     * @return Protection
+     * @return $this
      */
-    public function setUsername($username) {
+    public function setUsername($username)
+    {
         $this->username = $username;
 
         return $this;
@@ -68,7 +75,8 @@ class Protection {
      *
      * @return string
      */
-    public function getUsername() {
+    public function getUsername()
+    {
         return $this->username;
     }
 
@@ -77,9 +85,10 @@ class Protection {
      *
      * @param string $password
      *
-     * @return Protection
+     * @return $this
      */
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password = $password;
 
         return $this;
@@ -90,7 +99,32 @@ class Protection {
      *
      * @return string
      */
-    public function getPassword() {
+    public function getPassword()
+    {
         return crypt($this->password, base64_encode($this->password));
+    }
+
+    /**
+     * Set Path.
+     *
+     * @param string $path
+     *
+     * @return $this
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get Path.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 }

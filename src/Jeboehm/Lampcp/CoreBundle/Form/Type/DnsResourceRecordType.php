@@ -10,10 +10,10 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\DnsResourceRecordTypes;
+use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Class DnsResourceRecordType

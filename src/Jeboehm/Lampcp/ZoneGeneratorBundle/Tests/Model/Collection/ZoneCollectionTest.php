@@ -10,12 +10,12 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Tests\Model\Collection;
 
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\A;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AAAA;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\NS;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 /**
  * Class ZoneCollectionTest
@@ -78,16 +78,13 @@ class ZoneCollectionTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * Test add non ResourceRecord object.
+     *
+     * @expectedException \Symfony\Component\Form\Exception\UnexpectedTypeException
      */
     public function testAddOther() {
         $zc = new ZoneCollection();
 
-        try {
-            $zc->add(new \stdClass());
-        } catch (UnexpectedTypeException $e) {
-        }
-
-        $this->assertInstanceOf('Symfony\Component\Form\Exception\UnexpectedTypeException', $e);
+        $zc->add(new \stdClass());
     }
 
     /**

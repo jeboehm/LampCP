@@ -10,11 +10,11 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Subdomain
@@ -23,7 +23,8 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Entity
  * @UniqueEntity(fields = {"subdomain", "domain"})
  */
-class Subdomain extends AbstractEntity implements DomainInterface {
+class Subdomain extends AbstractEntity implements DomainInterface
+{
     /**
      * @var integer
      *
@@ -108,7 +109,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -117,7 +119,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @param Domain $domain
      */
-    public function __construct(Domain $domain) {
+    public function __construct(Domain $domain)
+    {
         $this->domain       = $domain;
         $this->path         = 'htdocs';
         $this->redirectUrl  = '';
@@ -133,7 +136,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
@@ -144,7 +148,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Subdomain
      */
-    public function setDomain(Domain $domain) {
+    public function setDomain(Domain $domain)
+    {
         $this->domain = $domain;
 
         return $this;
@@ -157,7 +162,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Subdomain
      */
-    public function setSubdomain($subdomain) {
+    public function setSubdomain($subdomain)
+    {
         $this->subdomain = strtolower($subdomain);
 
         return $this;
@@ -168,7 +174,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getSubdomain() {
+    public function getSubdomain()
+    {
         return $this->subdomain;
     }
 
@@ -179,7 +186,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Subdomain
      */
-    public function setCertificate($certificate) {
+    public function setCertificate($certificate)
+    {
         $this->certificate = $certificate;
 
         if (!$certificate) {
@@ -194,7 +202,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Certificate
      */
-    public function getCertificate() {
+    public function getCertificate()
+    {
         return $this->certificate;
     }
 
@@ -205,7 +214,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Subdomain
      */
-    public function setForceSsl($forceSsl) {
+    public function setForceSsl($forceSsl)
+    {
         if ($this->certificate) {
             $this->forceSsl = $forceSsl;
         } else {
@@ -220,7 +230,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return boolean
      */
-    public function getForceSsl() {
+    public function getForceSsl()
+    {
         return $this->forceSsl;
     }
 
@@ -231,7 +242,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Subdomain
      */
-    public function setPath($path) {
+    public function setPath($path)
+    {
         $this->path = strval($path);
 
         return $this;
@@ -242,7 +254,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getPath() {
+    public function getPath()
+    {
         return $this->path;
     }
 
@@ -253,7 +266,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Subdomain
      */
-    public function setRedirectUrl($redirectUrl) {
+    public function setRedirectUrl($redirectUrl)
+    {
         $this->redirectUrl = strval($redirectUrl);
 
         return $this;
@@ -264,7 +278,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getRedirectUrl() {
+    public function getRedirectUrl()
+    {
         return $this->redirectUrl;
     }
 
@@ -273,7 +288,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getFullDomain() {
+    public function getFullDomain()
+    {
         return $this->getSubdomain() . '.' . $this
             ->getDomain()
             ->getDomain();
@@ -284,7 +300,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getFullPath() {
+    public function getFullPath()
+    {
         $path = $this
             ->getDomain()
             ->getPath();
@@ -303,7 +320,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Domain
      */
-    public function setIsWildcard($isWildcard) {
+    public function setIsWildcard($isWildcard)
+    {
         $this->isWildcard = $isWildcard;
 
         return $this;
@@ -314,7 +332,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return boolean
      */
-    public function getIsWildcard() {
+    public function getIsWildcard()
+    {
         return $this->isWildcard;
     }
 
@@ -325,7 +344,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Subdomain
      */
-    public function setParsePhp($parsePhp) {
+    public function setParsePhp($parsePhp)
+    {
         $this->parsePhp = $parsePhp;
 
         return $this;
@@ -336,7 +356,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return boolean
      */
-    public function getParsePhp() {
+    public function getParsePhp()
+    {
         return $this->parsePhp;
     }
 
@@ -347,7 +368,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Subdomain
      */
-    public function setCustomconfig($customconfig) {
+    public function setCustomconfig($customconfig)
+    {
         $this->customconfig = strval($customconfig);
 
         return $this;
@@ -358,7 +380,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return string
      */
-    public function getCustomconfig() {
+    public function getCustomconfig()
+    {
         return $this->customconfig;
     }
 
@@ -369,7 +392,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Subdomain
      */
-    public function setChildren($children) {
+    public function setChildren($children)
+    {
         $this->children = $children;
 
         return $this;
@@ -380,7 +404,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Collection
      */
-    public function getChildren() {
+    public function getChildren()
+    {
         return $this->children;
     }
 
@@ -391,7 +416,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Subdomain
      */
-    public function setParent($parent) {
+    public function setParent($parent)
+    {
         $this->parent = $parent;
 
         return $this;
@@ -402,7 +428,8 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return Subdomain
      */
-    public function getParent() {
+    public function getParent()
+    {
         return $this->parent;
     }
 
@@ -411,7 +438,10 @@ class Subdomain extends AbstractEntity implements DomainInterface {
      *
      * @return User
      */
-    public function getUser() {
-        return $this->getDomain()->getUser();
+    public function getUser()
+    {
+        return $this
+            ->getDomain()
+            ->getUser();
     }
 }

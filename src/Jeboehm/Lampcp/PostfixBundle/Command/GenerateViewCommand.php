@@ -11,10 +11,10 @@
 namespace Jeboehm\Lampcp\PostfixBundle\Command;
 
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class GenerateViewCommand

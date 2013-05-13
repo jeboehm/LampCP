@@ -10,9 +10,9 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
+use Jeboehm\Lampcp\CoreBundle\Form\Transformer\ZoneCollectionTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Jeboehm\Lampcp\CoreBundle\Form\Transformer\ZoneCollectionTransformer;
 
 /**
  * Class DnsType

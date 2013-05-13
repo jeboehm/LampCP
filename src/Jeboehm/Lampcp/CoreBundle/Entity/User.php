@@ -10,9 +10,9 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User
@@ -20,7 +20,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table()
  * @ORM\Entity
  */
-class User extends AbstractEntity {
+class User extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -67,7 +68,8 @@ class User extends AbstractEntity {
     /**
      * Konstruktor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->domain = new ArrayCollection();
     }
 
@@ -76,7 +78,8 @@ class User extends AbstractEntity {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -87,8 +90,9 @@ class User extends AbstractEntity {
      *
      * @return User
      */
-    public function setName($name) {
-        $this->name = $name;
+    public function setName($name)
+    {
+        $this->name = strtolower($name);
 
         return $this;
     }
@@ -98,7 +102,8 @@ class User extends AbstractEntity {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -109,7 +114,8 @@ class User extends AbstractEntity {
      *
      * @return User
      */
-    public function setUid($uid) {
+    public function setUid($uid)
+    {
         $this->uid = $uid;
 
         return $this;
@@ -120,7 +126,8 @@ class User extends AbstractEntity {
      *
      * @return integer
      */
-    public function getUid() {
+    public function getUid()
+    {
         return $this->uid;
     }
 
@@ -131,7 +138,8 @@ class User extends AbstractEntity {
      *
      * @return User
      */
-    public function setGid($gid) {
+    public function setGid($gid)
+    {
         $this->gid = $gid;
 
         return $this;
@@ -142,7 +150,8 @@ class User extends AbstractEntity {
      *
      * @return integer
      */
-    public function getGid() {
+    public function getGid()
+    {
         return $this->gid;
     }
 
@@ -151,7 +160,8 @@ class User extends AbstractEntity {
      *
      * @return User
      */
-    public function setGroupname($groupname) {
+    public function setGroupname($groupname)
+    {
         $this->groupname = $groupname;
 
         return $this;
@@ -160,14 +170,16 @@ class User extends AbstractEntity {
     /**
      * @return string
      */
-    public function getGroupname() {
+    public function getGroupname()
+    {
         return $this->groupname;
     }
 
     /**
      * @return Collection
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 }

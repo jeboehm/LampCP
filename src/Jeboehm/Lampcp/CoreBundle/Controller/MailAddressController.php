@@ -10,13 +10,13 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\MailAddress;
 use Jeboehm\Lampcp\CoreBundle\Entity\MailForward;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\MailAddressType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class MailAddressController

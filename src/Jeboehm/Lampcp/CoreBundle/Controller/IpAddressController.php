@@ -10,12 +10,12 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\IpAddressType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class IpAddressController

@@ -10,9 +10,9 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Menu;
 
+use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 
 /**
  * Class DomainMenuBuilder

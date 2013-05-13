@@ -11,8 +11,8 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ProtectionUser
@@ -21,7 +21,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity(fields = {"username", "protection"})
  */
-class ProtectionUser extends AbstractEntity {
+class ProtectionUser extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -66,7 +67,8 @@ class ProtectionUser extends AbstractEntity {
      * @param Domain     $domain
      * @param Protection $protection
      */
-    public function __construct(Domain $domain, Protection $protection) {
+    public function __construct(Domain $domain, Protection $protection)
+    {
         $this->domain     = $domain;
         $this->protection = $protection;
     }
@@ -76,7 +78,8 @@ class ProtectionUser extends AbstractEntity {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -85,7 +88,8 @@ class ProtectionUser extends AbstractEntity {
      *
      * @return Domain
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
@@ -96,7 +100,8 @@ class ProtectionUser extends AbstractEntity {
      *
      * @return ProtectionUser
      */
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password = $password;
 
         return $this;
@@ -107,7 +112,8 @@ class ProtectionUser extends AbstractEntity {
      *
      * @return string
      */
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
@@ -118,7 +124,8 @@ class ProtectionUser extends AbstractEntity {
      *
      * @return ProtectionUser
      */
-    public function setProtection(Protection $protection) {
+    public function setProtection(Protection $protection)
+    {
         $this->protection = $protection;
 
         return $this;
@@ -129,7 +136,8 @@ class ProtectionUser extends AbstractEntity {
      *
      * @return \Jeboehm\Lampcp\CoreBundle\Entity\Protection
      */
-    public function getProtection() {
+    public function getProtection()
+    {
         return $this->protection;
     }
 
@@ -140,7 +148,8 @@ class ProtectionUser extends AbstractEntity {
      *
      * @return ProtectionUser
      */
-    public function setUsername($username) {
+    public function setUsername($username)
+    {
         $this->username = $username;
 
         return $this;
@@ -151,7 +160,8 @@ class ProtectionUser extends AbstractEntity {
      *
      * @return string
      */
-    public function getUsername() {
+    public function getUsername()
+    {
         return $this->username;
     }
 }

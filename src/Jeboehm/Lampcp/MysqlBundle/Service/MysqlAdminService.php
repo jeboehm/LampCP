@@ -10,14 +10,15 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Service;
 
-use Symfony\Bridge\Monolog\Logger;
-use Jeboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
-use Jeboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel;
 use Jeboehm\Lampcp\MysqlBundle\Exception\CouldNotConnectException;
-use Jeboehm\Lampcp\MysqlBundle\Exception\UserAlreadyExistsException;
-use Jeboehm\Lampcp\MysqlBundle\Exception\UserNotExistsException;
+use Jeboehm\Lampcp\MysqlBundle\Exception\CouldNotReadDataException;
 use Jeboehm\Lampcp\MysqlBundle\Exception\DatabaseAlreadyExistsException;
 use Jeboehm\Lampcp\MysqlBundle\Exception\DatabaseNotExistsException;
+use Jeboehm\Lampcp\MysqlBundle\Exception\UserAlreadyExistsException;
+use Jeboehm\Lampcp\MysqlBundle\Exception\UserNotExistsException;
+use Jeboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel;
+use Jeboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
+use Symfony\Bridge\Monolog\Logger;
 
 /**
  * Class MysqlAdminService
@@ -84,6 +85,7 @@ class MysqlAdminService {
      *
      * @param string $prefix
      *
+     * @throws CouldNotReadDataException
      * @return MysqlUserModel[]
      */
     public function getUsers($prefix = '') {
@@ -91,6 +93,10 @@ class MysqlAdminService {
         $users  = array();
         $q      = sprintf('SELECT User, Host FROM mysql.user WHERE User LIKE "%s%%"', $prefix);
         $result = $this->_mysqli->query($q);
+
+        if (!$result) {
+            throw new CouldNotReadDataException();
+        }
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {

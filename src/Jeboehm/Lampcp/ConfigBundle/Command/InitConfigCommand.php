@@ -10,11 +10,11 @@
 
 namespace Jeboehm\Lampcp\ConfigBundle\Command;
 
+use Jeboehm\Lampcp\ConfigBundle\Service\ConfigProviderCollector;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Jeboehm\Lampcp\ConfigBundle\Service\ConfigProviderCollector;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class InitConfigCommand

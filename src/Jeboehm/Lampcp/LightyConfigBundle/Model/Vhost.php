@@ -10,9 +10,9 @@
 
 namespace Jeboehm\Lampcp\LightyConfigBundle\Model;
 
+use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost as ParentVhost;
 use Jeboehm\Lampcp\CoreBundle\Entity\PathOption;
 use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
-use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost as ParentVhost;
 
 /**
  * Class Vhost
@@ -22,15 +22,15 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Model\Vhost as ParentVhost;
  * @package Jeboehm\Lampcp\LightyConfigBundle\Model
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class Vhost extends ParentVhost {
-    const _php_fcgi_socket = '/tmp/php.socket';
-
+class Vhost extends ParentVhost
+{
     /**
      * Returns true, if the vhost is bound to all ips (*, 0.0.0.0)
      *
      * @return bool
      */
-    public function getBoundToAllIps() {
+    public function getBoundToAllIps()
+    {
         if ($this
             ->getIpaddress()
             ->getIp() === '*'
@@ -42,26 +42,12 @@ class Vhost extends ParentVhost {
     }
 
     /**
-     * Get PHP Socket path.
-     *
-     * @return string
-     */
-    public function getFcgiSocket() {
-        $socket = '';
-
-        if ($this->getPHPEnabled()) {
-            $socket = $this->domain->getPath() . self::_php_fcgi_socket;
-        }
-
-        return $socket;
-    }
-
-    /**
      * Get protections.
      *
      * @return Protection[]
      */
-    protected function _getProtection() {
+    protected function _getProtection()
+    {
         return $this->domain->getProtection();
     }
 
@@ -70,7 +56,8 @@ class Vhost extends ParentVhost {
      *
      * @return PathOption[]
      */
-    protected function _getPathOption() {
+    protected function _getPathOption()
+    {
         return $this->domain->getPathoption();
     }
 
@@ -79,7 +66,8 @@ class Vhost extends ParentVhost {
      *
      * @return array
      */
-    public function getDirectoryOptions() {
+    public function getDirectoryOptions()
+    {
         $options = parent::getDirectoryOptions();
 
         foreach ($options as $key => $value) {
@@ -102,7 +90,8 @@ class Vhost extends ParentVhost {
      *
      * @return string
      */
-    public function getServerNameRegex() {
+    public function getServerNameRegex()
+    {
         $servername = $this->getServerName();
         $servername = str_replace('.', '\\.', $servername);
         $servername = sprintf('^(www\.)?%s$', $servername);

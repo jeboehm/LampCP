@@ -18,5 +18,6 @@ namespace Jeboehm\Lampcp\ApacheConfigBundle\Exception;
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Exception
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class CouldNotWriteFileException extends \Exception {
+class CouldNotWriteFileException extends \Exception
+{
 }

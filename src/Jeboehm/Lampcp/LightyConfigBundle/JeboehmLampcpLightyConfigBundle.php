@@ -18,5 +18,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  * @package Jeboehm\Lampcp\LightyConfigBundle
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class JeboehmLampcpLightyConfigBundle extends Bundle {
+class JeboehmLampcpLightyConfigBundle extends Bundle
+{
 }

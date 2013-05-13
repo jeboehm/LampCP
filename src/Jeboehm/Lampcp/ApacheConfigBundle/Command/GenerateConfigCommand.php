@@ -10,17 +10,19 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Process\Process;
-use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
-use Jeboehm\Lampcp\CoreBundle\Service\CronService;
-use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
-use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
+use Doctrine\ORM\EntityRepository;
+use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService;
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService;
-use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService;
+use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService;
+use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
+use Jeboehm\Lampcp\CoreBundle\Service\CronService;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Class GenerateConfigCommand
@@ -30,77 +32,17 @@ use Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService;
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class GenerateConfigCommand extends AbstractCommand {
-    /**
-     * Get watched entities.
-     *
-     * @return array
-     */
-    protected function _getEntitys() {
-        $entitys = array(
-            'JeboehmLampcpCoreBundle:Domain',
-            'JeboehmLampcpCoreBundle:Subdomain',
-            'JeboehmLampcpCoreBundle:PathOption',
-            'JeboehmLampcpCoreBundle:Protection',
-            'JeboehmLampcpCoreBundle:ProtectionUser',
-            'JeboehmLampcpCoreBundle:IpAddress',
-            'JeboehmLampcpCoreBundle:Certificate',
-        );
-
-        return $entitys;
-    }
-
-    /**
-     * Get vhost builder service.
-     *
-     * @return VhostBuilderService
-     */
-    protected function _getVhostBuilderService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_apache_config_vhostbuilder');
-    }
-
-    /**
-     * Get directory builder service.
-     *
-     * @return DirectoryBuilderService
-     */
-    protected function _getDirectoryBuilderService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_apache_config_directorybuilder');
-    }
-
-    /**
-     * Get protection builder service.
-     *
-     * @return ProtectionBuilderService
-     */
-    protected function _getProtectionBuilderService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_apache_config_protectionbuilder');
-    }
-
-    /**
-     * Get certificate builder service.
-     *
-     * @return CertificateBuilderService
-     */
-    protected function _getCertificateBuilderService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_apache_config_certificatebuilder');
-    }
-
+class GenerateConfigCommand extends AbstractCommand
+{
     /**
      * Configure command.
      */
-    protected function configure() {
-        $this->setName('lampcp:apache:generateconfig');
-        $this->setDescription('Generates the apache2 configuration');
-        $this->addOption('force', 'f', InputOption::VALUE_NONE);
+    protected function configure()
+    {
+        $this
+            ->setName('lampcp:apache:generateconfig')
+            ->setDescription('Generates the Apache2 configuration.')
+            ->addOption('force', 'f', InputOption::VALUE_NONE);
     }
 
     /**
@@ -111,7 +53,8 @@ class GenerateConfigCommand extends AbstractCommand {
      *
      * @return bool
      */
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         if (!$this->_isEnabled()) {
             $output->writeln('Command not enabled');
 
@@ -125,19 +68,14 @@ class GenerateConfigCommand extends AbstractCommand {
         }
 
         if ($run) {
-            $certificate = $this->_getCertificateBuilderService();
-            $certificate->buildAll();
+            $domains = $this->_getDomains();
 
-            $directory = $this->_getDirectoryBuilderService();
-            $directory->buildAll();
+            $this->_buildCertificates();
+            $this->_buildDirectories($domains);
+            $this->_buildVhosts($domains);
+            $this->_buildProtection($domains);
 
-            $vhost = $this->_getVhostBuilderService();
-            $vhost->buildAll();
-
-            $protection = $this->_getProtectionBuilderService();
-            $protection->buildAll();
-
-            $this->_restartApache();
+            $this->_restartProcess();
 
             $this
                 ->_getCronService()
@@ -150,42 +88,210 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
+     * Get "enabled" from config service.
+     *
+     * @return string
+     */
+    protected function _isEnabled()
+    {
+        return $this
+            ->_getConfigService()
+            ->getParameter('apache.enabled');
+    }
+
+    /**
      * Checks for changed entitys that are relevant for this task.
      *
      * @return bool
      */
-    protected function _isChanged() {
-        $last = $this
+    protected function _isChanged()
+    {
+        return $this
             ->_getCronService()
-            ->getLastRun($this->getName());
+            ->checkEntitiesChanged($this->getName(), $this->_getEntities());
+    }
 
-        /**
-         * First run
+    /**
+     * Get cron service.
+     *
+     * @return CronService
+     */
+    protected function _getCronService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_core.cronservice');
+    }
+
+    /**
+     * Get watched entities.
+     *
+     * @return array
+     */
+    protected function _getEntities()
+    {
+        $entities = array(
+            'JeboehmLampcpCoreBundle:Domain',
+            'JeboehmLampcpCoreBundle:Subdomain',
+            'JeboehmLampcpCoreBundle:PathOption',
+            'JeboehmLampcpCoreBundle:Protection',
+            'JeboehmLampcpCoreBundle:ProtectionUser',
+            'JeboehmLampcpCoreBundle:IpAddress',
+            'JeboehmLampcpCoreBundle:Certificate',
+        );
+
+        return $entities;
+    }
+
+    /**
+     * Return Domains.
+     *
+     * @return Domain[]
+     */
+    protected function _getDomains()
+    {
+        /** @var EntityRepository $repository */
+        $repository = $this
+            ->_getDoctrine()
+            ->getRepository('JeboehmLampcpCoreBundle:Domain');
+
+        return $repository->findAll();
+    }
+
+    /**
+     * Use CertificateBuilderService to build certificates.
+     */
+    protected function _buildCertificates()
+    {
+        /** @var EntityRepository $repository */
+        $repository = $this
+            ->_getDoctrine()
+            ->getRepository('JeboehmLampcpCoreBundle:Certificate');
+
+        $certificates = $repository->findAll();
+
+        /*
+         * Build certificates.
          */
-        if (!$last) {
-            return true;
-        } else {
-            /**
-             * Find entities newer than $last
-             */
-            foreach ($this->_getEntitys() as $entity) {
-                $result = $this
-                    ->_getChangeTrackingService()
-                    ->findNewer($entity, $last);
+        $this
+            ->_getCertificateBuilderService()
+            ->setCertificates($certificates)
+            ->buildCertificates();
 
-                if (count($result) > 0) {
-                    return true;
-                }
+        $this
+            ->_getDoctrine()
+            ->flush();
+    }
+
+    /**
+     * Get certificate builder service.
+     *
+     * @return CertificateBuilderService
+     */
+    protected function _getCertificateBuilderService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_apache_config_certificatebuilder');
+    }
+
+    /**
+     * Use DirectoryBuilderService to build directories for domain.
+     *
+     * @param Domain[] $domains
+     */
+    protected function _buildDirectories(array $domains)
+    {
+        $directoryBuilder = $this->_getDirectoryBuilderService();
+
+        foreach ($domains as $domain) {
+            $directoryBuilder->createDirectories($domain);
+        }
+    }
+
+    /**
+     * Get directory builder service.
+     *
+     * @return DirectoryBuilderService
+     */
+    protected function _getDirectoryBuilderService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_apache_config_directorybuilder');
+    }
+
+    /**
+     * Use VhostBuilderService to build vhosts.
+     *
+     * @param Domain[] $domains
+     */
+    protected function _buildVhosts(array $domains)
+    {
+        $configdir = $this
+            ->_getConfigService()
+            ->getParameter('apache.pathapache2conf');
+
+        $vhostBuilder = $this->_getVhostBuilderService();
+        $vhostBuilder
+            ->setDomains($domains)
+            ->setConfigdir($configdir)
+            ->collectVhostModels();
+        $vhostBuilder->setPhpSocketToVhosts();
+
+        $vhostBuilder->buildConfiguration();
+    }
+
+    /**
+     * Get vhost builder service.
+     *
+     * @return VhostBuilderService
+     */
+    protected function _getVhostBuilderService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_apache_config_vhostbuilder');
+    }
+
+    /**
+     * Use ProtectionBuilderService to build protections.
+     *
+     * @param Domain[] $domains
+     */
+    protected function _buildProtection(array $domains)
+    {
+        foreach ($domains as $domain) {
+            $this
+                ->_getProtectionBuilderService()
+                ->removeObsoleteAuthUserFiles($domain);
+
+            foreach ($domain->getProtection() as $protection) {
+                /** @var Protection $protection */
+                $this
+                    ->_getProtectionBuilderService()
+                    ->createAuthUserFile($protection);
             }
         }
+    }
 
-        return false;
+    /**
+     * Get protection builder service.
+     *
+     * @return ProtectionBuilderService
+     */
+    protected function _getProtectionBuilderService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_apache_config_protectionbuilder');
     }
 
     /**
      * Restart apache2.
      */
-    protected function _restartApache() {
+    protected function _restartProcess()
+    {
         $cmd = $this
             ->_getConfigService()
             ->getParameter('apache.cmdapache2restart');
@@ -210,38 +316,5 @@ class GenerateConfigCommand extends AbstractCommand {
         }
 
         return true;
-    }
-
-    /**
-     * Get cron service.
-     *
-     * @return CronService
-     */
-    protected function _getCronService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_core.cronservice');
-    }
-
-    /**
-     * Get change tracking service.
-     *
-     * @return ChangeTrackingService
-     */
-    protected function _getChangeTrackingService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_core.changetrackingservice');
-    }
-
-    /**
-     * Get "enabled" from config service.
-     *
-     * @return string
-     */
-    protected function _isEnabled() {
-        return $this
-            ->_getConfigService()
-            ->getParameter('apache.enabled');
     }
 }

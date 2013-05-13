@@ -10,11 +10,11 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MailAddress
@@ -23,7 +23,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @UniqueEntity(fields = {"address", "domain"})
  */
-class MailAddress extends AbstractEntity {
+class MailAddress extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -65,7 +66,8 @@ class MailAddress extends AbstractEntity {
      *
      * @param Domain $domain
      */
-    public function __construct(Domain $domain) {
+    public function __construct(Domain $domain)
+    {
         $this->domain      = $domain;
         $this->mailforward = new ArrayCollection();
         $this->mailaccount = new MailAccount($domain, $this);
@@ -76,7 +78,8 @@ class MailAddress extends AbstractEntity {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -85,7 +88,8 @@ class MailAddress extends AbstractEntity {
      *
      * @return Domain
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
@@ -96,7 +100,8 @@ class MailAddress extends AbstractEntity {
      *
      * @return MailAddress
      */
-    public function setAddress($address) {
+    public function setAddress($address)
+    {
         $this->address = strtolower($address);
 
         return $this;
@@ -107,7 +112,8 @@ class MailAddress extends AbstractEntity {
      *
      * @return string
      */
-    public function getAddress() {
+    public function getAddress()
+    {
         return $this->address;
     }
 
@@ -118,7 +124,8 @@ class MailAddress extends AbstractEntity {
      *
      * @return MailAddress
      */
-    public function setMailaccount($mailaccount) {
+    public function setMailaccount($mailaccount)
+    {
         $this->mailaccount = $mailaccount;
 
         return $this;
@@ -129,7 +136,8 @@ class MailAddress extends AbstractEntity {
      *
      * @return MailAccount
      */
-    public function getMailaccount() {
+    public function getMailaccount()
+    {
         return $this->mailaccount;
     }
 
@@ -140,7 +148,8 @@ class MailAddress extends AbstractEntity {
      *
      * @return MailAddress
      */
-    public function setMailforward(Collection $mailforward) {
+    public function setMailforward(Collection $mailforward)
+    {
         if (!is_null($mailforward)) {
             foreach ($mailforward as $forward) {
                 /** @var $forward MailForward */
@@ -159,7 +168,8 @@ class MailAddress extends AbstractEntity {
      *
      * @return Collection
      */
-    public function getMailforward() {
+    public function getMailforward()
+    {
         return $this->mailforward;
     }
 
@@ -168,7 +178,8 @@ class MailAddress extends AbstractEntity {
      *
      * @return string
      */
-    public function getFullAddress() {
+    public function getFullAddress()
+    {
         return $this->address . '@' . $this->domain->getDomain();
     }
 }

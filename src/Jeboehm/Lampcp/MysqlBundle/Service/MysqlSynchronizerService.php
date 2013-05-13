@@ -11,15 +11,15 @@
 namespace Jeboehm\Lampcp\MysqlBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Bridge\Monolog\Logger;
+use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
+use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
+use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
+use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
 use Jeboehm\Lampcp\MysqlBundle\Exception\EmptyDatabasePrefixException;
 use Jeboehm\Lampcp\MysqlBundle\Model\MysqlDatabaseModel;
 use Jeboehm\Lampcp\MysqlBundle\Model\MysqlUserModel;
 use Jeboehm\Lampcp\MysqlBundle\Service\MysqlAdminService;
-use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
-use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
-use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
-use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
+use Symfony\Bridge\Monolog\Logger;
 
 /**
  * Class MysqlSynchronizerService

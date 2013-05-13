@@ -250,6 +250,12 @@ config:
         config.zonedef: Configfile for zone definitions
         cmd.reload: Restart command
 
+    phpfpm:
+        enabled: Enabled (disables CGI support)
+        pooldir: Poolconfig directory
+        socketdir: Socket directory
+        cmd.reload: Restart command
+
     title:
         apache: Apache2
         mysql: MySQL
@@ -257,3 +263,4 @@ config:
         lighttpd: Lighttpd
         password: (password)
         dns: Bind9
+        phpfpm: PHP-FPM

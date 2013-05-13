@@ -10,7 +10,8 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
-interface DomainInterface {
+interface DomainInterface
+{
     /**
      * Returns true, if this is an PHP enabled domain.
      *

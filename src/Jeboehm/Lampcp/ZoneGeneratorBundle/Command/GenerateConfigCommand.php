@@ -10,14 +10,14 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Process\Process;
-use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Service\BuilderService;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Class GenerateConfigCommand
@@ -33,7 +33,7 @@ class GenerateConfigCommand extends AbstractCommand {
      *
      * @return array
      */
-    protected function _getEntitys() {
+    protected function _getEntities() {
         $entitys = array(
             'Jeboehm\Lampcp\CoreBundle\Entity\Dns',
         );
@@ -94,31 +94,9 @@ class GenerateConfigCommand extends AbstractCommand {
      * @return bool
      */
     protected function _isChanged() {
-        $last = $this
+        return $this
             ->_getCronService()
-            ->getLastRun($this->getName());
-
-        /**
-         * First run
-         */
-        if (!$last) {
-            return true;
-        } else {
-            /**
-             * Find entities newer than $last
-             */
-            foreach ($this->_getEntitys() as $entity) {
-                $result = $this
-                    ->_getChangeTrackingService()
-                    ->findNewer($entity, $last);
-
-                if (count($result) > 0) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+            ->checkEntitiesChanged($this->getName(), $this->_getEntities());
     }
 
     /**

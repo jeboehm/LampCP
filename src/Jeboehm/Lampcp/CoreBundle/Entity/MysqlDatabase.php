@@ -11,8 +11,8 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MysqlDatabase
@@ -21,7 +21,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository")
  * @UniqueEntity(fields = {"name"})
  */
-class MysqlDatabase extends AbstractEntity {
+class MysqlDatabase extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -65,7 +66,8 @@ class MysqlDatabase extends AbstractEntity {
      *
      * @param Domain $domain
      */
-    public function __construct(Domain $domain) {
+    public function __construct(Domain $domain)
+    {
         $this->domain = $domain;
     }
 
@@ -74,7 +76,8 @@ class MysqlDatabase extends AbstractEntity {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -83,7 +86,8 @@ class MysqlDatabase extends AbstractEntity {
      *
      * @return Domain
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
@@ -94,7 +98,8 @@ class MysqlDatabase extends AbstractEntity {
      *
      * @return MysqlDatabase
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = strtolower($name);
 
         return $this;
@@ -105,7 +110,8 @@ class MysqlDatabase extends AbstractEntity {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -116,7 +122,8 @@ class MysqlDatabase extends AbstractEntity {
      *
      * @return MysqlDatabase
      */
-    public function setComment($comment) {
+    public function setComment($comment)
+    {
         $this->comment = $comment;
 
         return $this;
@@ -127,7 +134,8 @@ class MysqlDatabase extends AbstractEntity {
      *
      * @return string
      */
-    public function getComment() {
+    public function getComment()
+    {
         return $this->comment;
     }
 
@@ -138,7 +146,8 @@ class MysqlDatabase extends AbstractEntity {
      *
      * @return MysqlDatabase
      */
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password = $password;
 
         return $this;
@@ -149,7 +158,8 @@ class MysqlDatabase extends AbstractEntity {
      *
      * @return string
      */
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 }
