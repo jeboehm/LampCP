@@ -81,7 +81,7 @@ class ParametersYamlCommand extends AbstractCommand
             return;
         }
 
-        $output->writeln('<warn>Run lampcp "lampcp:setup:vhost" to create a vhost.</warn>');
+        $output->writeln('<info>Run lampcp "lampcp:setup:vhost" to create a vhost.</info>');
 
         return;
     }
