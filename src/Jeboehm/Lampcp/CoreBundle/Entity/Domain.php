@@ -33,7 +33,6 @@ class Domain extends AbstractEntity implements DomainInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      * @Assert\Regex("/^([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i")
@@ -41,131 +40,110 @@ class Domain extends AbstractEntity implements DomainInterface
      * @ORM\Column(name="domain", type="string", length=100)
      */
     private $domain;
-
     /**
      * @var Certificate
      * @ORM\ManyToOne(targetEntity="Certificate", inversedBy="domain")
      */
     private $certificate;
-
     /**
      * @var boolean
      * @ORM\Column(name="forceSsl", type="boolean")
      */
     private $forceSsl;
-
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(name="path", type="string", length=255)
      */
     private $path;
-
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(name="webroot", type="string", length=255)
      */
     private $webroot;
-
     /**
      * @var string
      * @Assert\Url()
      * @ORM\Column(name="redirectUrl", type="string", length=255)
      */
     private $redirectUrl;
-
     /**
      * @var User
      * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="User", inversedBy="domain")
      */
     private $user;
-
     /**
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="IpAddress", inversedBy="domain")
+     * @ORM\ManyToMany(targetEntity="IpAddress", inversedBy="domain", cascade={"persist"})
      */
     private $ipaddress;
-
     /**
      * @var boolean
      * @ORM\Column(name="isWildcard", type="boolean")
      */
     private $isWildcard;
-
     /**
      * @var boolean
      * @ORM\Column(name="parsePhp", type="boolean")
      */
     private $parsePhp;
-
     /**
      * @var string
      * @ORM\Column(name="customconfig", type="text")
      */
     private $customconfig;
-
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="MailAccount", mappedBy="domain", cascade={"remove"})
      */
     private $mailaccount;
-
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="MailAddress", mappedBy="domain", cascade={"remove"})
      */
     private $mailaddress;
-
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="MailForward", mappedBy="domain", cascade={"remove"})
      */
     private $mailforward;
-
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="MysqlDatabase", mappedBy="domain", cascade={"remove"})
      */
     private $mysqldatabase;
-
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="PathOption", mappedBy="domain", cascade={"remove"})
      */
     private $pathoption;
-
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Protection", mappedBy="domain", cascade={"remove"})
      */
     private $protection;
-
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="ProtectionUser", mappedBy="domain", cascade={"remove"})
      */
     private $protectionuser;
-
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Subdomain", mappedBy="domain", cascade={"remove"})
      */
     private $subdomain;
-
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Dns", mappedBy="domain", cascade={"remove"})
      */
     private $dns;
-
     /**
      * @var Domain
      * @ORM\ManyToOne(targetEntity="Domain", inversedBy="children")
      */
     private $parent;
-
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Domain", mappedBy="parent")
@@ -207,6 +185,16 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
+     * Get domain
+     *
+     * @return string
+     */
+    public function getDomain()
+    {
+        return $this->domain;
+    }
+
+    /**
      * Set domain
      *
      * @param string $domain
@@ -221,13 +209,13 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
-     * Get domain
+     * Get certificate
      *
-     * @return string
+     * @return Certificate
      */
-    public function getDomain()
+    public function getCertificate()
     {
-        return $this->domain;
+        return $this->certificate;
     }
 
     /**
@@ -249,13 +237,13 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
-     * Get certificate
+     * Get force ssl
      *
-     * @return Certificate
+     * @return boolean
      */
-    public function getCertificate()
+    public function getForceSsl()
     {
-        return $this->certificate;
+        return $this->forceSsl;
     }
 
     /**
@@ -277,13 +265,13 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
-     * Get force ssl
+     * Get path
      *
-     * @return boolean
+     * @return string
      */
-    public function getForceSsl()
+    public function getPath()
     {
-        return $this->forceSsl;
+        return $this->path;
     }
 
     /**
@@ -301,13 +289,13 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
-     * Get path
+     * Get webroot
      *
      * @return string
      */
-    public function getPath()
+    public function getWebroot()
     {
-        return $this->path;
+        return $this->webroot;
     }
 
     /**
@@ -325,13 +313,13 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
-     * Get webroot
+     * Get redirect url
      *
      * @return string
      */
-    public function getWebroot()
+    public function getRedirectUrl()
     {
-        return $this->webroot;
+        return $this->redirectUrl;
     }
 
     /**
@@ -349,13 +337,13 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
-     * Get redirect url
+     * Get is wildcard
      *
-     * @return string
+     * @return boolean
      */
-    public function getRedirectUrl()
+    public function getIsWildcard()
     {
-        return $this->redirectUrl;
+        return $this->isWildcard;
     }
 
     /**
@@ -373,13 +361,13 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
-     * Get is wildcard
+     * Get parse php
      *
      * @return boolean
      */
-    public function getIsWildcard()
+    public function getParsePhp()
     {
-        return $this->isWildcard;
+        return $this->parsePhp;
     }
 
     /**
@@ -397,13 +385,13 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
-     * Get parse php
+     * Get customconfig
      *
-     * @return boolean
+     * @return string
      */
-    public function getParsePhp()
+    public function getCustomconfig()
     {
-        return $this->parsePhp;
+        return $this->customconfig;
     }
 
     /**
@@ -421,13 +409,13 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
-     * Get customconfig
+     * Get the user who owns the domain.
      *
-     * @return string
+     * @return User
      */
-    public function getCustomconfig()
+    public function getUser()
     {
-        return $this->customconfig;
+        return $this->user;
     }
 
     /**
@@ -445,16 +433,6 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
-     * Get the user who owns the domain.
-     *
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
      * Get full webroot path
      *
      * @return string
@@ -462,6 +440,16 @@ class Domain extends AbstractEntity implements DomainInterface
     public function getFullWebrootPath()
     {
         return $this->path . '/' . $this->webroot;
+    }
+
+    /**
+     * Get IpAddresses
+     *
+     * @return Collection
+     */
+    public function getIpaddress()
+    {
+        return $this->ipaddress;
     }
 
     /**
@@ -476,16 +464,6 @@ class Domain extends AbstractEntity implements DomainInterface
         $this->ipaddress = $ipaddress;
 
         return $this;
-    }
-
-    /**
-     * Get IpAddresses
-     *
-     * @return Collection
-     */
-    public function getIpaddress()
-    {
-        return $this->ipaddress;
     }
 
     /**
@@ -579,6 +557,16 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
+     * Get children
+     *
+     * @return Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
      * Set children
      *
      * @param Collection $children
@@ -593,13 +581,13 @@ class Domain extends AbstractEntity implements DomainInterface
     }
 
     /**
-     * Get children
+     * Get parent domain
      *
-     * @return Collection
+     * @return Domain
      */
-    public function getChildren()
+    public function getParent()
     {
-        return $this->children;
+        return $this->parent;
     }
 
     /**
@@ -614,15 +602,5 @@ class Domain extends AbstractEntity implements DomainInterface
         $this->parent = $parent;
 
         return $this;
-    }
-
-    /**
-     * Get parent domain
-     *
-     * @return Domain
-     */
-    public function getParent()
-    {
-        return $this->parent;
     }
 }
