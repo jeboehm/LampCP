@@ -153,8 +153,8 @@ class VhostCommand extends AbstractCommand
 
         $domain
             ->setDomain($vhost->address)
-            ->setPath(realpath(__DIR__ . '/../../../../../'))
-            ->setWebroot('web')
+            ->setPath(realpath(__DIR__ . '/../../../../../../'))
+            ->setWebroot('htdocs/web')
             ->setUser($user)
             ->getIpaddress()
             ->add($ip);
