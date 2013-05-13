@@ -14,9 +14,12 @@ use Jeboehm\Lampcp\SetupBundle\Model\Transformer\ParametersYamlTransformer;
 use Jeboehm\Lampcp\SetupBundle\Model\Validator\ValidationResult;
 use Jeboehm\Lampcp\SetupBundle\Service\FormGeneratorService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Class AbstractCommand
@@ -28,30 +31,6 @@ abstract class AbstractCommand extends ContainerAwareCommand
 {
     /** @var OutputInterface */
     private $_output;
-
-    /**
-     * Get Output
-     *
-     * @return OutputInterface
-     */
-    public function getOutput()
-    {
-        return $this->_output;
-    }
-
-    /**
-     * Set Output
-     *
-     * @param OutputInterface $output
-     *
-     * @return $this
-     */
-    private function setOutput(OutputInterface $output)
-    {
-        $this->_output = $output;
-
-        return $this;
-    }
 
     /**
      * Get parameters.yml transformer.
@@ -88,6 +67,16 @@ abstract class AbstractCommand extends ContainerAwareCommand
     }
 
     /**
+     * Get Output
+     *
+     * @return OutputInterface
+     */
+    public function getOutput()
+    {
+        return $this->_output;
+    }
+
+    /**
      * Get dialog helper.
      *
      * @return DialogHelper
@@ -116,7 +105,9 @@ abstract class AbstractCommand extends ContainerAwareCommand
             }
 
             foreach ($messages as $message) {
-                $this->getOutput()->writeln('<error>' . $message . '</error>');
+                $this
+                    ->getOutput()
+                    ->writeln('<error>' . $message . '</error>');
             }
 
             return false;
@@ -136,5 +127,37 @@ abstract class AbstractCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->setOutput($output);
+    }
+
+    /**
+     * Set Output
+     *
+     * @param OutputInterface $output
+     *
+     * @return $this
+     */
+    private function setOutput(OutputInterface $output)
+    {
+        $this->_output = $output;
+
+        return $this;
+    }
+
+    /**
+     * Run console command.
+     *
+     * @param array $command
+     */
+    protected function runConsoleCommand(array $command)
+    {
+        /** @var Kernel $kernel */
+        $kernel = $this
+            ->getContainer()
+            ->get('kernel');
+
+        $application = new Application($kernel);
+        $application->setAutoExit(false);
+
+        $application->run(new ArrayInput($command));
     }
 }
