@@ -37,7 +37,12 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <service id="jeboehm_lampcp_setup.model.validator.database" class="%jeboehm_lampcp_setup.model.validator.database.class%"/>
         <service id="jeboehm_lampcp_setup.model.validator.crypto" class="%jeboehm_lampcp_setup.model.validator.crypto.class%"/>
         <service id="jeboehm_lampcp_setup.model.validator.misc" class="%jeboehm_lampcp_setup.model.validator.misc.class%"/>
-        <service id="jeboehm_lampcp_setup.model.validator.vhost" class="%jeboehm_lampcp_setup.model.validator.vhost.class%"/>
         <service id="jeboehm_lampcp_setup.model.transformer.parametersyamltransformer" class="%jeboehm_lampcp_setup.model.transformer.parametersyamltransformer.class%" scope="prototype"/>
+
+        <service id="jeboehm_lampcp_setup.model.validator.vhost" class="%jeboehm_lampcp_setup.model.validator.vhost.class%">
+            <call method="setEm">
+                <argument type="service" id="doctrine.orm.entity_manager"/>
+            </call>
+        </service>
     </services>
 </container>

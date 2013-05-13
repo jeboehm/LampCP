@@ -10,6 +10,9 @@
 
 namespace Jeboehm\Lampcp\SetupBundle\Model\Validator;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Jeboehm\Lampcp\CoreBundle\Entity\User;
 use Jeboehm\Lampcp\SetupBundle\Model\Form\Vhost;
 use Symfony\Component\Validator\Constraints\Ip;
 use Symfony\Component\Validator\Validation;
@@ -23,6 +26,9 @@ use Symfony\Component\Validator\Constraints\Regex;
  */
 class VhostValidator extends AbstractValidator
 {
+    /** @var EntityManager */
+    private $_em;
+
     /**
      * Validate vhost object.
      *
@@ -35,6 +41,11 @@ class VhostValidator extends AbstractValidator
         $result = new ValidationResult();
         $result->setSuccessful(true);
         $messages = array();
+
+        if (!$this->validateUser($vhost->user)) {
+            $messages[] = sprintf('User "%s" not found!', $vhost->user);
+            $result->setSuccessful(false);
+        }
 
         if (!$this->validateAddress($vhost->address)) {
             $messages[] = sprintf('Address "%s" is not valid!', $vhost->address);
@@ -51,6 +62,50 @@ class VhostValidator extends AbstractValidator
         }
 
         return $result;
+    }
+
+    /**
+     * Check, that user exists.
+     *
+     * @param string $user
+     *
+     * @return bool
+     */
+    public function validateUser($user)
+    {
+        /** @var EntityRepository $repository */
+        $repository = $this
+            ->getEm()
+            ->getRepository('JeboehmLampcpCoreBundle:User');
+
+        /** @var User $entity */
+        $entity = $repository->findOneBy(array('name' => $user));
+
+        return $entity !== null;
+    }
+
+    /**
+     * Get Em
+     *
+     * @return EntityManager
+     */
+    public function getEm()
+    {
+        return $this->_em;
+    }
+
+    /**
+     * Set Em
+     *
+     * @param EntityManager $em
+     *
+     * @return $this
+     */
+    public function setEm(EntityManager $em)
+    {
+        $this->_em = $em;
+
+        return $this;
     }
 
     /**
