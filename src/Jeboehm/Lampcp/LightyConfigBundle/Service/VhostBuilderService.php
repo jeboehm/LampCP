@@ -12,6 +12,7 @@ namespace Jeboehm\Lampcp\LightyConfigBundle\Service;
 
 use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService as ParentVhostBuilder;
 use Jeboehm\Lampcp\ApacheConfigBundle\Transformer\DomainAliasTransformer;
+use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
 use Jeboehm\Lampcp\LightyConfigBundle\Transformer\DomainTransformer;
 
 /**
@@ -64,8 +65,9 @@ class VhostBuilderService extends ParentVhostBuilder
     public function renderConfiguration()
     {
         $parameters = array(
-            'vhosts' => $this->getVhosts(),
-            'ips'    => $this->getIpAddresses(),
+            'vhosts'      => $this->getVhosts(),
+            'ips'         => $this->getIpAddresses(),
+            'defaultcert' => $this->getSingleCertificateWithDomainsAssigned(),
         );
 
         $content = $this
@@ -73,5 +75,21 @@ class VhostBuilderService extends ParentVhostBuilder
             ->render(self::vhostConfigTemplate, $parameters);
 
         return $content;
+    }
+
+    /**
+     * Get single certificate with domain / subdomain set
+     *
+     * @return Certificate
+     */
+    public function getSingleCertificateWithDomainsAssigned()
+    {
+        foreach ($this->getVhosts() as $vhost) {
+            if ($vhost->getCertificate() !== null) {
+                return $vhost->getCertificate();
+            }
+        }
+
+        return null;
     }
 }
