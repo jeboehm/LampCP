@@ -24,6 +24,30 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
 class DomainAliasTransformer
 {
     /**
+     * Get parent subdomain and set some properties
+     * from parent domain.
+     *
+     * @param Subdomain $subdomain
+     *
+     * @return Subdomain
+     */
+    public static function transformAliasSubdomain(Subdomain $subdomain)
+    {
+        if ($subdomain->getParent() !== null) {
+            $domain = self::transformAliasDomain($subdomain->getDomain());
+            $parent = clone $subdomain->getParent();
+            $parent
+                ->setDomain($domain)
+                ->setSubdomain($subdomain->getSubdomain())
+                ->setCertificate($subdomain->getCertificate());
+
+            return $parent;
+        }
+
+        return $subdomain;
+    }
+
+    /**
      * Get parent domain and set some properties
      * from alias domain.
      *
@@ -44,34 +68,5 @@ class DomainAliasTransformer
         }
 
         return $domain;
-    }
-
-    /**
-     * Get parent subdomain and set some properties
-     * from parent domain.
-     *
-     * @param Subdomain $subdomain
-     *
-     * @return Subdomain
-     */
-    public static function transformAliasSubdomain(Subdomain $subdomain)
-    {
-        if ($subdomain->getParent() !== null) {
-            $domain = self::transformAliasDomain(
-                $subdomain
-                    ->getParent()
-                    ->getDomain()
-            );
-
-            $parent = clone $subdomain->getParent();
-            $parent
-                ->setDomain($domain)
-                ->setSubdomain($subdomain->getSubdomain())
-                ->setCertificate($subdomain->getCertificate());
-
-            return $parent;
-        }
-
-        return $subdomain;
     }
 }
