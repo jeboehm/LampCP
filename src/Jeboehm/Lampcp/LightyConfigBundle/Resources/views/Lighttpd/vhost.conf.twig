@@ -51,7 +51,7 @@ server.modules += ( "mod_fastcgi", "mod_accesslog", "mod_setenv", "mod_auth", "m
             fastcgi.server = (
                 ".php" => (
                     (
-                        "socket" => "{{ vhost.Domain.Path }}/tmp/php.socket",
+                        "socket" => "{{ vhost.PhpFpmSocket }}",
                         "broken-scriptfilename" => "enable"
                     )
                 )
