@@ -163,6 +163,14 @@ class GenerateConfigCommand extends AbstractCommand
      */
     protected function _buildCertificates()
     {
+        $dir = $this
+            ->_getConfigService()
+            ->getParameter('apache.pathcertificate');
+
+        $this
+            ->_getCertificateBuilderService()
+            ->setStorageDir($dir);
+
         /** @var EntityRepository $repository */
         $repository = $this
             ->_getDoctrine()
