@@ -38,7 +38,7 @@ class GenerateConfigCommand extends AbstractCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->_isEnabled()) {
+        if (!$this->_isEnabled() && !$input->getOption('force')) {
             $output->writeln('Command not enabled.');
 
             return false;

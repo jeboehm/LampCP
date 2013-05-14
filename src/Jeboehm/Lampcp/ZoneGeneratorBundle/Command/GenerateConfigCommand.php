@@ -27,24 +27,13 @@ use Symfony\Component\Process\Process;
  * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class GenerateConfigCommand extends AbstractCommand {
-    /**
-     * Get watched entities.
-     *
-     * @return array
-     */
-    protected function _getEntities() {
-        $entitys = array(
-            'Jeboehm\Lampcp\CoreBundle\Entity\Dns',
-        );
-
-        return $entitys;
-    }
-
+class GenerateConfigCommand extends AbstractCommand
+{
     /**
      * Configure command.
      */
-    protected function configure() {
+    protected function configure()
+    {
         $this->setName('lampcp:zone:generateconfig');
         $this->setDescription('Generates the zonefiles');
         $this->addOption('force', 'f', InputOption::VALUE_NONE);
@@ -59,8 +48,9 @@ class GenerateConfigCommand extends AbstractCommand {
      * @throws \Exception
      * @return int|null|void
      */
-    protected function execute(InputInterface $input, OutputInterface $output) {
-        if (!$this->_isEnabled()) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        if (!$this->_isEnabled() && !$input->getOption('force')) {
             $output->writeln('Command not enabled.');
 
             return false;
@@ -89,14 +79,53 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
+     * Get "enabled" from config service.
+     *
+     * @return string
+     */
+    protected function _isEnabled()
+    {
+        return $this
+            ->_getConfigService()
+            ->getParameter('dns.enabled');
+    }
+
+    /**
      * Checks for changed entitys that are relevant for this task.
      *
      * @return bool
      */
-    protected function _isChanged() {
+    protected function _isChanged()
+    {
         return $this
             ->_getCronService()
             ->checkEntitiesChanged($this->getName(), $this->_getEntities());
+    }
+
+    /**
+     * Get cron service.
+     *
+     * @return CronService
+     */
+    protected function _getCronService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_core.cronservice');
+    }
+
+    /**
+     * Get watched entities.
+     *
+     * @return array
+     */
+    protected function _getEntities()
+    {
+        $entitys = array(
+            'Jeboehm\Lampcp\CoreBundle\Entity\Dns',
+        );
+
+        return $entitys;
     }
 
     /**
@@ -104,7 +133,8 @@ class GenerateConfigCommand extends AbstractCommand {
      *
      * @return BuilderService
      */
-    protected function _getBuilderService() {
+    protected function _getBuilderService()
+    {
         /** @var $service BuilderService */
         $service = $this
             ->getContainer()
@@ -114,44 +144,12 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get change tracking service.
-     *
-     * @return ChangeTrackingService
-     */
-    protected function _getChangeTrackingService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_core.changetrackingservice');
-    }
-
-    /**
-     * Get cron service.
-     *
-     * @return CronService
-     */
-    protected function _getCronService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_core.cronservice');
-    }
-
-    /**
-     * Get "enabled" from config service.
-     *
-     * @return string
-     */
-    protected function _isEnabled() {
-        return $this
-            ->_getConfigService()
-            ->getParameter('dns.enabled');
-    }
-
-    /**
      * Restart Bind.
      *
      * @return bool
      */
-    protected function _restartBind() {
+    protected function _restartBind()
+    {
         $cmd = $this
             ->_getConfigService()
             ->getParameter('dns.cmd.reload');
@@ -176,5 +174,17 @@ class GenerateConfigCommand extends AbstractCommand {
         }
 
         return true;
+    }
+
+    /**
+     * Get change tracking service.
+     *
+     * @return ChangeTrackingService
+     */
+    protected function _getChangeTrackingService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_core.changetrackingservice');
     }
 }
