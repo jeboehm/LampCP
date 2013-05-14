@@ -583,6 +583,26 @@ class Vhost
     }
 
     /**
+     * Get FastCGIExternalServer directory.
+     *
+     * @return string
+     */
+    public function getFcgiExternalServerDirectory()
+    {
+        return sprintf('%s/%s', $this->getDocumentRoot(), $this->getFcgiExternalServerDirectoryName());
+    }
+
+    /**
+     * Get FastCGIExternalServer directory name.
+     *
+     * @return string
+     */
+    public function getFcgiExternalServerDirectoryName()
+    {
+        return 'php-fpm';
+    }
+
+    /**
      * True, if this vhost got a subdomain.
      *
      * @return bool

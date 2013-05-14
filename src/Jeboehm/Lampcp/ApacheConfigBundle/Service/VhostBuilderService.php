@@ -241,6 +241,7 @@ class VhostBuilderService
         $parameters = array(
             'vhosts' => $this->getVhosts(),
             'ips'    => $this->getIpAddresses(),
+            'fcgi'   => $this->getVhostPerFastCgiExternalServerDirectory(),
         );
 
         $content = $this
@@ -268,6 +269,30 @@ class VhostBuilderService
         }
 
         return $ips;
+    }
+
+    /**
+     * Get one vhost per FastCGIExternalServer directory.
+     *
+     * @return Vhost[]
+     */
+    public function getVhostPerFastCgiExternalServerDirectory()
+    {
+        $dirs   = array();
+        $models = array();
+
+        foreach ($this->_vhosts as $vhost) {
+            if ($vhost->getPHPEnabled()) {
+                $dir = $vhost->getFcgiExternalServerDirectory();
+
+                if (!in_array($dir, $dirs)) {
+                    $dirs[]   = $dir;
+                    $models[] = $vhost;
+                }
+            }
+        }
+
+        return $models;
     }
 
     /**
