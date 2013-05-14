@@ -48,7 +48,12 @@ class VhostCommand extends AbstractCommand
 
         $this
             ->getOutput()
-            ->writeln('<info>The vhost is configured successfully.</info>');
+            ->writeln(
+                array(
+                     '<info>The vhost is configured successfully.</info>',
+                     'See https://github.com/jeboehm/LampCP/wiki/Installation for further instructions.',
+                )
+            );
     }
 
     /**
