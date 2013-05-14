@@ -37,8 +37,6 @@ class VhostBuilderService
     private $_phpFpmConfigBuilder;
     /** @var Domain[] */
     private $_domains;
-    /** @var Subdomain[] */
-    private $_subdomains;
     /** @var Vhost[] */
     private $_vhosts;
     /** @var string */
@@ -133,21 +131,16 @@ class VhostBuilderService
      */
     public function getSubdomains()
     {
-        return $this->_subdomains;
-    }
+        $subdomains = array();
 
-    /**
-     * Set subdomains.
-     *
-     * @param array $subdomains
-     *
-     * @return $this
-     */
-    public function setSubdomains(array $subdomains)
-    {
-        $this->_subdomains = $subdomains;
+        foreach ($this->getDomains() as $domain) {
+            foreach ($domain->getSubdomain() as $subdomain) {
+                /** @var Subdomain $subdomain */
+                $subdomains[] = $subdomain;
+            }
+        }
 
-        return $this;
+        return $subdomains;
     }
 
     /**
