@@ -32,7 +32,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class VhostBuilderService
 {
     const vhostConfigTemplate = 'JeboehmLampcpApacheConfigBundle:Apache2:vhost.conf.twig';
-    const vhostConfigFilename = '20_vhost.conf';
+    const vhostConfigFilename = 'lampcp.conf';
     /** @var PhpFpmConfigBuilder */
     private $_phpFpmConfigBuilder;
     /** @var Domain[] */
