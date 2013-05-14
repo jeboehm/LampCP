@@ -72,15 +72,11 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     {% endif %}
 
     {% if vhost.PHPEnabled %}
-    <IfModule mod_fastcgi.c>
-        AddHandler php5-fcgi .php
-        Action php5-fcgi /php5-fcgi
-        Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi
-        FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -socket {{vhost.PhpFpmSocket}} -pass-header Authorization
-    </IfModule>
-
-    # Apache >= 2.4
-    # ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://{{vhost.PhpFpmSocket}}{{ vhost.DocumentRoot }}
+        # PHP Support
+        FastCGIExternalServer {{ vhost.DocumentRoot }}/php-fpm -socket {{vhost.PhpFpmSocket}} -pass-header Authorization
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /php-fpm
+        # End PHP Support
     {% endif %}
 
     <Directory "/">
