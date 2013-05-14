@@ -40,17 +40,17 @@ class CertificateBuilderService extends ParentCertificateBuilderService
          * and merge Chain into CA-Cert file.
          */
 
-        $keyfile      = $certificate->getCertificateKeyFile();
-        $chainfile    = $certificate->getCertificateChainFile();
+        $keyfile      = $certificate->getCertificateKeyFilePath();
+        $chainfile    = $certificate->getCertificateChainFilePath();
         $cafilepath   = $certificate->getCACertificateFilePath();
         $certfilepath = $certificate->getCertificateFilePath();
 
         if (!empty($keyfile) && $fs->exists($certfilepath)) {
-            file_put_contents($certfilepath, PHP_EOL . $keyfile, FILE_APPEND);
+            file_put_contents($certfilepath, PHP_EOL . file_get_contents($keyfile), FILE_APPEND);
         }
 
         if (!empty($chainfile) && $fs->exists($cafilepath)) {
-            file_put_contents($cafilepath, PHP_EOL . $chainfile, FILE_APPEND);
+            file_put_contents($cafilepath, PHP_EOL . file_get_contents($chainfile), FILE_APPEND);
         }
     }
 }
