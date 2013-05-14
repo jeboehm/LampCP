@@ -26,16 +26,8 @@ use Symfony\Component\Process\Process;
  * @package Jeboehm\Lampcp\PhpFpmBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class GenerateConfigCommand extends AbstractCommand {
-    /**
-     * Configure command.
-     */
-    protected function configure() {
-        $this->setName('lampcp:phpfpm:generateconfig');
-        $this->setDescription('Generates the PHP-FPM configuration');
-        $this->addOption('force', 'f', InputOption::VALUE_NONE);
-    }
-
+class GenerateConfigCommand extends AbstractCommand
+{
     /**
      * Run build process.
      *
@@ -44,7 +36,8 @@ class GenerateConfigCommand extends AbstractCommand {
      *
      * @return bool
      */
-    public function execute(InputInterface $input, OutputInterface $output) {
+    public function execute(InputInterface $input, OutputInterface $output)
+    {
         if (!$this->_isEnabled()) {
             $output->writeln('Command not enabled.');
 
@@ -66,6 +59,8 @@ class GenerateConfigCommand extends AbstractCommand {
                 ->_getConfigBuilderService()
                 ->createPools();
 
+            $this->_restartProcess();
+
             $this
                 ->_getCronService()
                 ->updateLastRun($this->getName());
@@ -81,10 +76,60 @@ class GenerateConfigCommand extends AbstractCommand {
      *
      * @return string
      */
-    protected function _isEnabled() {
+    protected function _isEnabled()
+    {
         return $this
             ->_getConfigService()
             ->getParameter('phpfpm.enabled');
+    }
+
+    /**
+     * Test if relevant data is changed.
+     *
+     * @return bool
+     */
+    protected function _isChanged()
+    {
+        return $this
+            ->_getCronService()
+            ->checkEntitiesChanged($this->getName(), $this->_getEntities());
+    }
+
+    /**
+     * Get cron service.
+     *
+     * @return CronService
+     */
+    protected function _getCronService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_core.cronservice');
+    }
+
+    /**
+     * Get watched entities.
+     *
+     * @return array
+     */
+    protected function _getEntities()
+    {
+        return array(
+            'JeboehmLampcpCoreBundle:Domain',
+            'JeboehmLampcpCoreBundle:Subdomain',
+        );
+    }
+
+    /**
+     * Get config builder.
+     *
+     * @return ConfigBuilderService
+     */
+    protected function _getConfigBuilderService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_php_fpm.configbuilderservice');
     }
 
     /**
@@ -92,7 +137,8 @@ class GenerateConfigCommand extends AbstractCommand {
      *
      * @return bool
      */
-    protected function _restartProcess() {
+    protected function _restartProcess()
+    {
         $cmd = $this
             ->_getConfigService()
             ->getParameter('phpfpm.cmd.reload');
@@ -120,47 +166,12 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get config builder.
-     *
-     * @return ConfigBuilderService
+     * Configure command.
      */
-    protected function _getConfigBuilderService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_php_fpm.configbuilderservice');
-    }
-
-    /**
-     * Test if relevant data is changed.
-     *
-     * @return bool
-     */
-    protected function _isChanged() {
-        return $this
-            ->_getCronService()
-            ->checkEntitiesChanged($this->getName(), $this->_getEntities());
-    }
-
-    /**
-     * Get cron service.
-     *
-     * @return CronService
-     */
-    protected function _getCronService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_core.cronservice');
-    }
-
-    /**
-     * Get watched entities.
-     *
-     * @return array
-     */
-    protected function _getEntities() {
-        return array(
-            'JeboehmLampcpCoreBundle:Domain',
-            'JeboehmLampcpCoreBundle:Subdomain',
-        );
+    protected function configure()
+    {
+        $this->setName('lampcp:phpfpm:generateconfig');
+        $this->setDescription('Generates the PHP-FPM configuration');
+        $this->addOption('force', 'f', InputOption::VALUE_NONE);
     }
 }
