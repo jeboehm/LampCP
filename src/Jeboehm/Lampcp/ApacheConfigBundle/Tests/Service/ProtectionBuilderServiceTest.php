@@ -116,7 +116,7 @@ class ProtectionBuilderServiceTest extends WebTestCase
 
         foreach ($models as $model) {
             $this->assertContains($model->getUsername() . ':', $content);
-            $this->assertContains(':' . $model->getPassword(), $content);
+            $this->assertContains(':' . $model->getCryptedPassword(), $content);
         }
     }
 

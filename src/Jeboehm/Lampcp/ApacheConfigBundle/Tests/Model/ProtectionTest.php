@@ -54,7 +54,8 @@ class ProtectionTest extends \PHPUnit_Framework_TestCase
         $passwordEnc = crypt($password, base64_encode($password));
 
         $protection->setPassword($password);
-        $this->assertEquals($passwordEnc, $protection->getPassword());
+        $this->assertEquals($password, $protection->getPassword());
+        $this->assertEquals($passwordEnc, $protection->getCryptedPassword());
         $this->assertNotEquals($passwordEnc, $password);
     }
 

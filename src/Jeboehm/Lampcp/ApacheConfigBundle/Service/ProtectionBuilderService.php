@@ -10,6 +10,7 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
+use Jeboehm\Lampcp\ApacheConfigBundle\Model\Protection as ProtectionModel;
 use Jeboehm\Lampcp\ApacheConfigBundle\Transformer\ProtectionEntityTransformer;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Entity\Protection;
@@ -106,7 +107,7 @@ class ProtectionBuilderService
      *
      * @param Protection $protection
      *
-     * @return \Jeboehm\Lampcp\ApacheConfigBundle\Model\Protection[]
+     * @return ProtectionModel[]
      */
     public function transformEntity(Protection $protection)
     {

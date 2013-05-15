@@ -22,15 +22,22 @@ class Protection
 {
     /** @var integer */
     private $id;
-
     /** @var string */
     private $username;
-
     /** @var string */
     private $password;
-
     /** @var string */
     private $path;
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set id.
@@ -47,13 +54,13 @@ class Protection
     }
 
     /**
-     * Get id.
+     * Get username.
      *
-     * @return int
+     * @return string
      */
-    public function getId()
+    public function getUsername()
     {
-        return $this->id;
+        return $this->username;
     }
 
     /**
@@ -71,13 +78,13 @@ class Protection
     }
 
     /**
-     * Get username.
+     * Get password.
      *
      * @return string
      */
-    public function getUsername()
+    public function getPassword()
     {
-        return $this->username;
+        return $this->password;
     }
 
     /**
@@ -95,13 +102,23 @@ class Protection
     }
 
     /**
-     * Get password.
+     * Get crypted password.
      *
      * @return string
      */
-    public function getPassword()
+    public function getCryptedPassword()
     {
-        return crypt($this->password, base64_encode($this->password));
+        return crypt($this->getPassword(), base64_encode($this->getPassword()));
+    }
+
+    /**
+     * Get Path.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**
@@ -116,15 +133,5 @@ class Protection
         $this->path = $path;
 
         return $this;
-    }
-
-    /**
-     * Get Path.
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->path;
     }
 }
