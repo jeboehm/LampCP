@@ -20,17 +20,18 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @package Jeboehm\Lampcp\PhpFpmBundle\Tests\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class ConfigBuilderServiceTest extends WebTestCase {
+class ConfigBuilderServiceTest extends WebTestCase
+{
     /** @var string */
     protected $_expectFilename;
-
     /** @var ConfigBuilderService */
     protected $builder;
 
     /**
      * Set up.
      */
-    public function setUp() {
+    public function setUp()
+    {
         $this->_expectFilename = sys_get_temp_dir() . '/lampcp-pool-testneverexists.conf';
 
         $this->builder = $this
@@ -52,11 +53,24 @@ class ConfigBuilderServiceTest extends WebTestCase {
     }
 
     /**
+     * Checks if the pool configuration exists.
+     */
+    public function testCreatePool()
+    {
+        $this->builder->createPool($this->_getUser());
+
+        $this->assertFileExists($this->_expectFilename);
+
+        unlink($this->_expectFilename);
+    }
+
+    /**
      * Get test user.
      *
      * @return User
      */
-    protected function _getUser() {
+    protected function _getUser()
+    {
         $user = new User();
         $user
             ->setName('testneverexists')
@@ -68,20 +82,12 @@ class ConfigBuilderServiceTest extends WebTestCase {
     }
 
     /**
-     * Checks if the pool configuration exists.
-     */
-    public function testCreatePool() {
-        $this->builder->createPool($this->_getUser());
-
-        $this->assertFileExists($this->_expectFilename);
-
-        unlink($this->_expectFilename);
-    }
-
-    /**
      * Checks if the pool configuration is deleted.
+     *
+     * @group database
      */
-    public function testDeleteOldPools() {
+    public function testDeleteOldPools()
+    {
         $user = $this->_getUser();
         $user->setName('testneverexists');
 

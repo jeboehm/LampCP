@@ -148,6 +148,7 @@ class ConfigServiceTest extends WebTestCase {
      * Get non existing parameter.
      *
      * @expectedException \Jeboehm\Lampcp\ConfigBundle\Exception\ConfigEntityNotFoundException
+     * @group database
      */
     public function testGetParameterNotFound() {
         /** @var ConfigService $cs */

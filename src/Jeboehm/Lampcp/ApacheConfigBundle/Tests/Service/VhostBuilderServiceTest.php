@@ -218,6 +218,7 @@ class VhostBuilderServiceTest extends WebTestCase
      * @param VhostBuilderService $service
      *
      * @dataProvider serviceProvider
+     * @group database
      */
     public function testSetPhpSocketToVhosts(VhostBuilderService $service)
     {

@@ -21,23 +21,22 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @package Jeboehm\Lampcp\CoreBundle\Tests\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class CronServiceTest extends WebTestCase {
+class CronServiceTest extends WebTestCase
+{
     /** Name of the entity to check for. */
     const ENTITY_NAME = 'Jeboehm\Lampcp\CoreBundle\Entity\Domain';
-
     /** @var CronService */
     private $_cs;
-
     /** @var string */
     private $_name;
-
     /** @var Domain */
     private $_domain;
 
     /**
      * Set up.
      */
-    public function setUp() {
+    public function setUp()
+    {
         $this->_cs     = $this
             ->createClient()
             ->getContainer()
@@ -47,71 +46,12 @@ class CronServiceTest extends WebTestCase {
     }
 
     /**
-     * Tear down.
-     */
-    protected function tearDown() {
-        try {
-            $this->_deleteDomain($this->_domain);
-        } catch (\Exception $e) {
-            var_dump($e->getMessage());
-        }
-
-        parent::tearDown();
-    }
-
-    /**
-     * Test last run null.
-     */
-    public function testLastRunNull() {
-        $this->assertNull($this->_cs->getLastRun($this->_name));
-    }
-
-    /**
-     * Test last run modification.
-     */
-    public function testModifiyLastRun() {
-        $time = $this->_cs->updateLastRun($this->_name);
-        $this->assertEquals($time, $this->_cs->getLastRun($this->_name));
-    }
-
-    /**
-     * Check, that checkEntitesChanged returns true, when cron
-     * was never executed.
-     */
-    public function testNothingModified() {
-        $check = $this->_cs->checkEntitiesChanged(rand(0, 9999), array(self::ENTITY_NAME));
-        $this->assertTrue($check);
-    }
-
-    /**
-     * Check, that nothing is modified.
-     */
-    public function testNothingModifiedLastRunSet() {
-        $this->_cs->updateLastRun($this->_name);
-        sleep(2);
-
-        $check = $this->_cs->checkEntitiesChanged($this->_name, array(self::ENTITY_NAME));
-        $this->assertFalse($check);
-    }
-
-    /**
-     * Check modification detection.
-     */
-    public function testSomethingModified() {
-        $this->_cs->updateLastRun($this->_name);
-
-        $this->_saveDomain($this->_domain);
-
-        $check = $this->_cs->checkEntitiesChanged($this->_name, array(self::ENTITY_NAME));
-        $this->assertTrue($check);
-    }
-
-    /**
      * Get new domain.
      *
      * @return Domain
      */
-    protected function _getDomain() {
+    protected function _getDomain()
+    {
         $domain = new Domain();
         $domain
             ->setDomain($this->_name . '.de')
@@ -121,11 +61,74 @@ class CronServiceTest extends WebTestCase {
     }
 
     /**
+     * Test last run null.
+     *
+     * @group database
+     */
+    public function testLastRunNull()
+    {
+        $this->assertNull($this->_cs->getLastRun($this->_name));
+    }
+
+    /**
+     * Test last run modification.
+     *
+     * @group database
+     */
+    public function testModifiyLastRun()
+    {
+        $time = $this->_cs->updateLastRun($this->_name);
+        $this->assertEquals($time, $this->_cs->getLastRun($this->_name));
+    }
+
+    /**
+     * Check, that checkEntitesChanged returns true, when cron
+     * was never executed.
+     *
+     * @group database
+     */
+    public function testNothingModified()
+    {
+        $check = $this->_cs->checkEntitiesChanged(rand(0, 9999), array(self::ENTITY_NAME));
+        $this->assertTrue($check);
+    }
+
+    /**
+     * Check, that nothing is modified.
+     *
+     * @group database
+     */
+    public function testNothingModifiedLastRunSet()
+    {
+        $this->_cs->updateLastRun($this->_name);
+        sleep(2);
+
+        $check = $this->_cs->checkEntitiesChanged($this->_name, array(self::ENTITY_NAME));
+        $this->assertFalse($check);
+    }
+
+    /**
+     * Check modification detection.
+     *
+     * @group database
+     */
+    public function testSomethingModified()
+    {
+        $this->_cs->updateLastRun($this->_name);
+
+        $this->_saveDomain($this->_domain);
+
+        $check = $this->_cs->checkEntitiesChanged($this->_name, array(self::ENTITY_NAME));
+        $this->assertTrue($check);
+    }
+
+    /**
      * Save domain.
      *
      * @param Domain $domain
      */
-    protected function _saveDomain(Domain $domain) {
+    protected function _saveDomain(Domain $domain)
+    {
         /** @var EntityManager $em */
         $em = $this
             ->createClient()
@@ -137,11 +140,26 @@ class CronServiceTest extends WebTestCase {
     }
 
     /**
+     * Tear down.
+     */
+    protected function tearDown()
+    {
+        try {
+            $this->_deleteDomain($this->_domain);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+        }
+
+        parent::tearDown();
+    }
+
+    /**
      * Delete domain.
      *
      * @param Domain $domain
      */
-    protected function _deleteDomain(Domain $domain) {
+    protected function _deleteDomain(Domain $domain)
+    {
         /** @var EntityManager $em */
 
         if ($domain->getId() > 0) {
