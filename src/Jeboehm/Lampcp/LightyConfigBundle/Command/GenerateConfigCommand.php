@@ -27,6 +27,18 @@ use Symfony\Component\Process\Process;
 class GenerateConfigCommand extends ParentGenerateConfigCommand
 {
     /**
+     * Get "enabled" from config service.
+     *
+     * @return string
+     */
+    protected function _isEnabled()
+    {
+        return $this
+            ->_getConfigService()
+            ->getParameter('lighttpd.enabled');
+    }
+
+    /**
      * Configure command.
      */
     protected function configure()
