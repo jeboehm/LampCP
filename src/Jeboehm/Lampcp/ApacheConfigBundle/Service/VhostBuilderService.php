@@ -305,7 +305,7 @@ class VhostBuilderService
      *
      * @return VhostBuilderService
      */
-    public function setTwigEngine($twigEngine)
+    public function setTwigEngine(TwigEngine $twigEngine)
     {
         $this->_twigEngine = $twigEngine;
 
