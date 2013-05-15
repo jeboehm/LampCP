@@ -10,13 +10,8 @@
 
 namespace Jeboehm\Lampcp\LightyConfigBundle\Tests\Service;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
-use Jeboehm\Lampcp\CoreBundle\Entity\Subdomain;
-use Jeboehm\Lampcp\CoreBundle\Entity\User;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jeboehm\Lampcp\ApacheConfigBundle\Tests\Service\VhostBuilderServiceTest as ParentVhostBuilderTest;
 
 /**
  * Class VhostBuilderServiceTest
@@ -24,91 +19,35 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @package Jeboehm\Lampcp\LightyConfigBundle\Tests\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class VhostBuilderServiceTest extends WebTestCase
+class VhostBuilderServiceTest extends ParentVhostBuilderTest
 {
-    /** @var VhostBuilderService */
-    private $_service;
+    /**
+     * Test getSingleCertificateWithDomainsAssigned().
+     *
+     * @dataProvider serviceProvider
+     */
+    public function testGetSingleCertificateWithDomainsAssigned(VhostBuilderService $service)
+    {
+        $service->collectVhostModels();
+        $cert = $service->getSingleCertificateWithDomainsAssigned();
+        $this->assertInstanceOf('\Jeboehm\Lampcp\CoreBundle\Entity\Certificate', $cert);
+
+        $this->assertNull($this->getVhostBuilderService()->getSingleCertificateWithDomainsAssigned());
+    }
 
     /**
-     * Set up.
+     * Get vhost builder service.
+     *
+     * @return VhostBuilderService
      */
-    public function setUp()
+    protected function getVhostBuilderService()
     {
         /** @var VhostBuilderService $service */
-        $this->_service = $this
+        $service = $this
             ->createClient()
             ->getContainer()
             ->get('jeboehm_lampcp_lighty_config_vhostbuilder');
 
-        $ip = new IpAddress();
-        $ip
-            ->setAlias('test')
-            ->setIp('127.0.0.1')
-            ->setPort(80);
-
-        $user = new User();
-        $user
-            ->setName('test')
-            ->setGroupname('test')
-            ->setUid(1000)
-            ->setGid(1000);
-
-        $domain = new Domain();
-        $domain
-            ->setDomain('test.de')
-            ->setPath(sys_get_temp_dir() . '/test.de')
-            ->setUser($user)
-            ->setIpaddress(new ArrayCollection(array($ip)));
-
-        $subdomain = new Subdomain($domain);
-        $subdomain->setSubdomain('test');
-
-        $this
-            ->getService()
-            ->setDomains(array($domain))
-            ->setSubdomains(array($subdomain))
-            ->setConfigdir(sys_get_temp_dir());
-    }
-
-    /**
-     * Get service.
-     *
-     * @return VhostBuilderService
-     */
-    protected function getService()
-    {
-        return $this->_service;
-    }
-
-    /**
-     * Test collectVhostModels().
-     */
-    public function testCollectVhostModels()
-    {
-        $this
-            ->getService()
-            ->collectVhostModels();
-
-        $vhosts = $this
-            ->getService()
-            ->getVhosts();
-
-        $this->assertCount(2, $vhosts);
-    }
-
-    /**
-     * Test renderConfiguration().
-     */
-    public function testRenderConfiguration()
-    {
-        $this
-            ->getService()
-            ->collectVhostModels();
-
-        $config = $this
-            ->getService()
-            ->renderConfiguration();
-
-        $this->assertStringEndsWith('}', trim($config));
+        return $service;
     }
 }
