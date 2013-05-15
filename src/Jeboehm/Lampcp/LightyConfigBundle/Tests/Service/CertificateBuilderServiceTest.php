@@ -117,11 +117,13 @@ class CertificateBuilderServiceTest extends WebTestCase
     {
         $this->_builder->saveCertificate($certificate);
 
-        $keyfile   = $certificate->getCertificateKeyFile();
+        $keyfile = $certificate->getCertificateKeyFile();
         $chainfile = $certificate->getCertificateChainFile();
 
         if (!empty($keyfile)) {
-            $expect = $certificate->getCertificateFile() . PHP_EOL . $certificate->getCertificateKeyFile();
+            $expect = $certificate->getCertificateFile() . PHP_EOL . file_get_contents(
+                $certificate->getCertificateKeyFilePath()
+            );
             $this->assertEquals($expect, file_get_contents($certificate->getCertificateFilePath()));
         }
 
