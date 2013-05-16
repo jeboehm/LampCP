@@ -222,7 +222,6 @@ config:
         enabled: Enabled
         pathwww: Webfolder
         pathapache2conf: Configdirectory
-        pathphpini: PHP5 default configuration
         cmdapache2restart: Restart command
         pathcertificate: Folder for certificates
 

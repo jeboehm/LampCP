@@ -222,7 +222,6 @@ config:
         enabled: Aktiviert
         pathwww: Webseitenverzeichnis
         pathapache2conf: Konfigurationsverzeichnis
-        pathphpini: PHP5 Standardkonfiguration
         cmdapache2restart: Neustartbefehl
         pathcertificate: Verzeichnis für Zertifikate
 

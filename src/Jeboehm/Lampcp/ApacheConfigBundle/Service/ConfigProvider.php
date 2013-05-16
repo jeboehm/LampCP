@@ -33,7 +33,6 @@ class ConfigProvider extends AbstractConfigProvider
             ->_createEntity('enabled', ConfigTypes::TYPE_BOOL, $group, true)
             ->_createEntity('pathwww', ConfigTypes::TYPE_STRING, $group, '/var/www')
             ->_createEntity('pathapache2conf', ConfigTypes::TYPE_STRING, $group, '/etc/apache2/sites-enabled')
-            ->_createEntity('pathphpini', ConfigTypes::TYPE_STRING, $group, '/etc/php5/cgi/php.ini')
             ->_createEntity('cmdapache2restart', ConfigTypes::TYPE_STRING, $group, 'service apache2 restart')
             ->_createEntity('pathcertificate', ConfigTypes::TYPE_STRING, $group, '/etc/ssl/lampcp');
     }
