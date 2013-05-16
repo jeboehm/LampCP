@@ -31,83 +31,45 @@ use Symfony\Component\Finder\SplFileInfo;
  * @package Jeboehm\Lampcp\PhpFpmBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class ConfigBuilderService {
+class ConfigBuilderService
+{
     /** Filename extension for pool configs. */
     const _FILEEXT_POOL = '.conf';
-
     /** @var TwigEngine */
     private $_twig;
-
     /** @var ConfigService */
     private $_configservice;
-
     /** @var EntityManager */
     private $_em;
 
     /**
-     * Set Configservice.
-     *
-     * @param ConfigService $configservice
-     *
-     * @return ConfigBuilderService
+     * Create pool configuration for all users.
      */
-    public function setConfigservice($configservice) {
-        $this->_configservice = $configservice;
-
-        return $this;
+    public function createPools()
+    {
+        foreach ($this->_getRelevantUsers() as $user) {
+            $this->createPool($user);
+        }
     }
 
     /**
-     * Get Configservice.
+     * Returns a list of relevant users.
+     * The list contains only users which have
+     * PHP-enabled domains assigned.
      *
-     * @return ConfigService
+     * @return User[]
      */
-    public function getConfigservice() {
-        return $this->_configservice;
-    }
+    protected function _getRelevantUsers()
+    {
+        $users = new ArrayCollection();
 
-    /**
-     * Set Entity Manager.
-     *
-     * @param EntityManager $em
-     *
-     * @return ConfigBuilderService
-     */
-    public function setEm($em) {
-        $this->_em = $em;
+        foreach ($this->_getPhpEnabledDomainsAndSubdomains() as $obj) {
+            if (!$users->contains($obj->getUser())) {
+                $users->add($obj->getUser());
+            }
+        }
 
-        return $this;
-    }
-
-    /**
-     * Get Entity Manager.
-     *
-     * @return EntityManager
-     */
-    public function getEm() {
-        return $this->_em;
-    }
-
-    /**
-     * Set Twig.
-     *
-     * @param TwigEngine $twig
-     *
-     * @return ConfigBuilderService
-     */
-    public function setTwig($twig) {
-        $this->_twig = $twig;
-
-        return $this;
-    }
-
-    /**
-     * Get Twig.
-     *
-     * @return TwigEngine
-     */
-    public function getTwig() {
-        return $this->_twig;
+        return $users;
     }
 
     /**
@@ -116,7 +78,8 @@ class ConfigBuilderService {
      *
      * @return DomainInterface[]
      */
-    protected function _getPhpEnabledDomainsAndSubdomains() {
+    protected function _getPhpEnabledDomainsAndSubdomains()
+    {
         $repositoryDomain    = $this
             ->getEm()
             ->getRepository('JeboehmLampcpCoreBundle:Domain');
@@ -132,82 +95,27 @@ class ConfigBuilderService {
     }
 
     /**
-     * Returns a list of relevant users.
-     * The list contains only users which have
-     * PHP-enabled domains assigned.
+     * Get Entity Manager.
      *
-     * @return User[]
+     * @return EntityManager
      */
-    protected function _getRelevantUsers() {
-        $users = new ArrayCollection();
-
-        foreach ($this->_getPhpEnabledDomainsAndSubdomains() as $obj) {
-            if (!$users->contains($obj->getUser())) {
-                $users->add($obj->getUser());
-            }
-        }
-
-        return $users;
+    public function getEm()
+    {
+        return $this->_em;
     }
 
     /**
-     * Find user by configuration filename.
+     * Set Entity Manager.
      *
-     * @param string $filename
+     * @param EntityManager $em
      *
-     * @return User
-     * @throws NotMyConfigurationException
+     * @return ConfigBuilderService
      */
-    protected function _getUserByFilename($filename) {
-        // When prefix is missing, throw an exception.
-        if (stripos($filename, PoolCreator::POOL_PREFIX) === false) {
-            throw new NotMyConfigurationException();
-        }
+    public function setEm(EntityManager $em)
+    {
+        $this->_em = $em;
 
-        $search  = array(
-            PoolCreator::POOL_PREFIX,
-            PoolCreator::POOL_SUFFIX,
-            self::_FILEEXT_POOL,
-        );
-        $replace = array(
-            '',
-        );
-
-        $username = str_ireplace($search, $replace, $filename);
-
-        // Try to find an user entity.
-        $repository = $this
-            ->getEm()
-            ->getRepository('JeboehmLampcpCoreBundle:User');
-        $user       = $repository->findOneBy(array('name' => $username));
-
-        return $user;
-    }
-
-    /**
-     * Get filename for pool configuration.
-     *
-     * @param string $poolname
-     *
-     * @return string
-     */
-    protected function _getFilename($poolname) {
-        return strtolower($poolname) . self::_FILEEXT_POOL;
-    }
-
-    /**
-     * Get new pool creator.
-     *
-     * @param User $user
-     *
-     * @return PoolCreator
-     */
-    public function getPoolCreator(User $user) {
-        $creator = new PoolCreator($this->getTwig(), $this
-            ->getConfigservice()
-            ->getParameter('phpfpm.socketdir'), $user);
-
-        return $creator;
+        return $this;
     }
 
     /**
@@ -218,7 +126,8 @@ class ConfigBuilderService {
      * @return bool
      * @throws DirectoryNotFoundException
      */
-    public function createPool(User $user) {
+    public function createPool(User $user)
+    {
         $creator   = $this->getPoolCreator($user);
         $filename  = $this->_getFilename($creator->getPoolName());
         $directory = $this->_getPoolDirectory();
@@ -241,29 +150,98 @@ class ConfigBuilderService {
     }
 
     /**
+     * Get new pool creator.
+     *
+     * @param User $user
+     *
+     * @return PoolCreator
+     */
+    public function getPoolCreator(User $user)
+    {
+        $creator = new PoolCreator($this->getTwig(), $this
+            ->getConfigservice()
+            ->getParameter('phpfpm.socketdir'), $user);
+
+        return $creator;
+    }
+
+    /**
+     * Get Twig.
+     *
+     * @return TwigEngine
+     */
+    public function getTwig()
+    {
+        return $this->_twig;
+    }
+
+    /**
+     * Set Twig.
+     *
+     * @param TwigEngine $twig
+     *
+     * @return ConfigBuilderService
+     */
+    public function setTwig(TwigEngine $twig)
+    {
+        $this->_twig = $twig;
+
+        return $this;
+    }
+
+    /**
+     * Get Configservice.
+     *
+     * @return ConfigService
+     */
+    public function getConfigservice()
+    {
+        return $this->_configservice;
+    }
+
+    /**
+     * Set Configservice.
+     *
+     * @param ConfigService $configservice
+     *
+     * @return ConfigBuilderService
+     */
+    public function setConfigservice(ConfigService $configservice)
+    {
+        $this->_configservice = $configservice;
+
+        return $this;
+    }
+
+    /**
+     * Get filename for pool configuration.
+     *
+     * @param string $poolname
+     *
+     * @return string
+     */
+    protected function _getFilename($poolname)
+    {
+        return strtolower($poolname) . self::_FILEEXT_POOL;
+    }
+
+    /**
      * Get the pool directory.
      *
      * @return string
      */
-    protected function _getPoolDirectory() {
+    protected function _getPoolDirectory()
+    {
         return $this
             ->getConfigservice()
             ->getParameter('phpfpm.pooldir');
     }
 
     /**
-     * Create pool configuration for all users.
-     */
-    public function createPools() {
-        foreach ($this->_getRelevantUsers() as $user) {
-            $this->createPool($user);
-        }
-    }
-
-    /**
      * Delete old pool configurations.
      */
-    public function deleteOldPools() {
+    public function deleteOldPools()
+    {
         $fs     = new Filesystem();
         $unlink = array();
 
@@ -288,7 +266,8 @@ class ConfigBuilderService {
      *
      * @return Finder
      */
-    protected function _findConfigFiles() {
+    protected function _findConfigFiles()
+    {
         $finder = new Finder();
         $finder
             ->in($this->_getPoolDirectory())
@@ -297,5 +276,40 @@ class ConfigBuilderService {
             ->files();
 
         return $finder;
+    }
+
+    /**
+     * Find user by configuration filename.
+     *
+     * @param string $filename
+     *
+     * @return User
+     * @throws NotMyConfigurationException
+     */
+    protected function _getUserByFilename($filename)
+    {
+        // When prefix is missing, throw an exception.
+        if (stripos($filename, PoolCreator::POOL_PREFIX) === false) {
+            throw new NotMyConfigurationException();
+        }
+
+        $search  = array(
+            PoolCreator::POOL_PREFIX,
+            PoolCreator::POOL_SUFFIX,
+            self::_FILEEXT_POOL,
+        );
+        $replace = array(
+            '',
+        );
+
+        $username = str_ireplace($search, $replace, $filename);
+
+        // Try to find an user entity.
+        $repository = $this
+            ->getEm()
+            ->getRepository('JeboehmLampcpCoreBundle:User');
+        $user       = $repository->findOneBy(array('name' => $username));
+
+        return $user;
     }
 }

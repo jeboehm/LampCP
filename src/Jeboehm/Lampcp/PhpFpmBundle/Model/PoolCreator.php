@@ -22,7 +22,8 @@ use Symfony\Bridge\Twig\TwigEngine;
  * @package Jeboehm\Lampcp\PhpFpmBundle\Model
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class PoolCreator {
+class PoolCreator
+{
     /** Location of the configuration template. */
     const CFG_POOL_TEMPLATE = 'JeboehmLampcpPhpFpmBundle:pool:pool.conf.twig';
 
@@ -54,7 +55,8 @@ class PoolCreator {
      * @param string     $socketpath
      * @param User       $user
      */
-    public function __construct(TwigEngine $twig, $socketpath, User $user) {
+    public function __construct(TwigEngine $twig, $socketpath, User $user)
+    {
         $this->_twig       = $twig;
         $this->_socketpath = $socketpath;
         $this->_user       = $user;
@@ -66,7 +68,8 @@ class PoolCreator {
      * @return string
      * @throws DirectoryNotFoundException
      */
-    public function getSocketPath() {
+    public function getSocketPath()
+    {
         if (!is_dir($this->_socketpath)) {
             throw new DirectoryNotFoundException($this->_socketpath);
         }
@@ -82,7 +85,8 @@ class PoolCreator {
      *
      * @return string
      */
-    public function getPoolName() {
+    public function getPoolName()
+    {
         $name = self::POOL_PREFIX . $this->_user->getName() . self::POOL_SUFFIX;
 
         return $name;
@@ -93,7 +97,8 @@ class PoolCreator {
      *
      * @return string
      */
-    public function getPoolConfiguration() {
+    public function getPoolConfiguration()
+    {
         $vars = array(
             'poolname' => $this->getPoolName(),
             'user'     => $this->_user->getName(),
