@@ -6,14 +6,19 @@ Browse the code on [github](https://github.com/jeboehm/LampCP).
 Requirements
 ------------
 
-* You will need [git](http://git-scm.com/download) to get the code
-* Check [Symfony2 requirements](http://symfony.com/doc/current/reference/requirements.html)
+* You will need [composer](http://getcomposer.org/) to get the project
 * Debian Wheezy, Ubuntu >= 12.04 LTS
 
 Installation
 ------------
 
 Check the [wiki](https://github.com/jeboehm/LampCP/wiki) for more information.
+
+Tests
+-----
+LampCP loves Travis CI.
+
+[![Build Status](https://travis-ci.org/jeboehm/LampCP.png?branch=master)](https://travis-ci.org/jeboehm/LampCP)
 
 
 Reporting an issue
