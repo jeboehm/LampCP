@@ -21,6 +21,12 @@ security:
             id: fos_user.user_provider.username
 
     firewalls:
+        dyndns:
+            pattern: ^/nic
+            anonymous: ~
+            http_basic:
+                realm: DynDNS Update
+
         main:
             pattern: ^/
             form_login:
@@ -33,5 +39,7 @@ security:
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/config/admin/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/config/admin/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/config/system/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/nic, role: ROLE_DYNDNS }
         - { path: ^/, role: ROLE_ADMIN }

@@ -16,7 +16,8 @@ use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
 /**
  * ConfigEntityRepository
  */
-class ConfigEntityRepository extends EntityRepository {
+class ConfigEntityRepository extends EntityRepository
+{
     /**
      * Get Entity by name and group
      *
@@ -25,7 +26,8 @@ class ConfigEntityRepository extends EntityRepository {
      *
      * @return ConfigEntity
      */
-    public function findOneByNameAndGroup($name, $group) {
+    public function findOneByNameAndGroup($name, $group)
+    {
         $qb = $this->createQueryBuilder('e');
         $qb
             ->leftJoin('e.configgroup', 'g')
@@ -44,11 +46,16 @@ class ConfigEntityRepository extends EntityRepository {
      *
      * @return ConfigEntity[]
      */
-    public function findAllOrdered() {
+    public function findAllOrdered()
+    {
         $qb = $this->createQueryBuilder('c');
         $qb
             ->leftJoin('c.configgroup', 'g')
-            ->where($qb->expr()->notIn('c.type', array(ConfigTypes::TYPE_HIDDEN)))
+            ->where(
+                $qb
+                    ->expr()
+                    ->notIn('c.type', array(ConfigTypes::TYPE_HIDDEN))
+            )
             ->orderBy('g.name', 'asc')
             ->addOrderBy('c.id', 'asc');
 

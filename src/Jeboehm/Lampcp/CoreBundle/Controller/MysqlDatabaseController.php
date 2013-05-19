@@ -10,16 +10,19 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
 use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
 use Jeboehm\Lampcp\CoreBundle\Form\Type\MysqlDatabaseType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * MysqlDatabase controller.
+ * Class MysqlDatabaseController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/mysqldatabase")
  */

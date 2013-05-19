@@ -10,9 +10,10 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
+use Jeboehm\Lampcp\ApacheConfigBundle\Exception\EmptyCertificatePathException;
 use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
+use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class CertificateBuilderService
@@ -22,68 +23,165 @@ use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class CertificateBuilderService extends AbstractBuilderService implements BuilderServiceInterface {
-    const _EXTENSION_CERTIFICATE   = '.crt';
-    const _EXTENSION_PRIVATEKEY    = '.key';
-    const _EXTENSION_CACERTIFICATE = '.cacrt';
-    const _EXTENSION_CACHAIN       = '.chain';
+class CertificateBuilderService
+{
+    /** Certificate */
+    const _EXTENSION_CERTIFICATE = '.crt';
 
-    protected $_extensions = array(
-        self::_EXTENSION_CERTIFICATE,
-        self::_EXTENSION_PRIVATEKEY,
-        self::_EXTENSION_CACERTIFICATE,
-        self::_EXTENSION_CACHAIN
-    );
+    /** Private key */
+    const _EXTENSION_PRIVATEKEY = '.key';
+
+    /** CA Certificate */
+    const _EXTENSION_CACERTIFICATE = '.cacrt';
+
+    /** CA Chain */
+    const _EXTENSION_CACHAIN = '.chain';
+
+    /** @var string */
+    private $_storageDir;
+
+    /** @var CryptService */
+    private $_cryptService;
+
+    /** @var Certificate[] */
+    private $_certificates;
 
     /**
-     * Get certificate repository
-     *
-     * @return \Doctrine\ORM\EntityRepository
+     * Constructor.
      */
-    protected function _getRepository() {
-        return $this
-            ->_getDoctrine()
-            ->getRepository('JeboehmLampcpCoreBundle:Certificate');
+    public function __construct()
+    {
+        $this->_certificates = array();
     }
 
     /**
-     * Get certificate storage directory
+     * Set certificates.
      *
-     * @return string
-     * @throws \Exception
+     * @param array $certificates
+     *
+     * @return $this
      */
-    protected function _getStorageDir() {
-        $fs  = new Filesystem();
-        $dir = $this
-            ->_getConfigService()
-            ->getParameter('apache.pathcertificate');
+    public function setCertificates(array $certificates)
+    {
+        $this->_certificates = $certificates;
 
-        if (empty($dir)) {
-            $msg = '(ApacheConfigBundle) Certificate Path config variable is empty!';
-            $this
-                ->_getLogger()
-                ->err($msg);
-            throw new \Exception($msg);
+        return $this;
+    }
+
+    /**
+     * Get certificates.
+     *
+     * @return Certificate[]
+     */
+    public function getCertificates()
+    {
+        return $this->_certificates;
+    }
+
+    /**
+     * Get certificate by id.
+     *
+     * @param int $id
+     *
+     * @return Certificate|null
+     */
+    public function getCertificateById($id)
+    {
+        foreach ($this->getCertificates() as $certificate) {
+            if ($certificate->getId() === $id) {
+                return $certificate;
+            }
         }
+
+        return null;
+    }
+
+    /**
+     * Set CryptService.
+     *
+     * @param CryptService $cryptService
+     *
+     * @return CertificateBuilderService
+     */
+    public function setCryptService(CryptService $cryptService)
+    {
+        $this->_cryptService = $cryptService;
+
+        return $this;
+    }
+
+    /**
+     * Get CryptService.
+     *
+     * @return CryptService
+     */
+    public function getCryptService()
+    {
+        return $this->_cryptService;
+    }
+
+    /**
+     * Get storage directory.
+     *
+     * @throws EmptyCertificatePathException
+     * @return string
+     */
+    public function getStorageDir()
+    {
+        if (empty($this->_storageDir)) {
+            throw new EmptyCertificatePathException();
+        }
+
+        return $this->_storageDir;
+    }
+
+    /**
+     * Set storage directory.
+     *
+     * @param string $dir
+     *
+     * @return $this
+     */
+    public function setStorageDir($dir)
+    {
+        $fs = new Filesystem();
 
         if (!$fs->exists($dir)) {
             $fs->mkdir($dir, 0750);
         }
 
-        return $dir;
+        $this->_storageDir = $dir;
+
+        return $this;
     }
 
     /**
-     * Save certificate
+     * Get certificate file extensions.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Certificate $cert
+     * @return array
      */
-    protected function _saveCertificate(Certificate $cert) {
-        $target   = $this->_getStorageDir();
-        $fs       = new Filesystem();
-        $filename = $target . '/' . $cert->getId();
+    protected function _getExtensions()
+    {
+        return array(
+            self::_EXTENSION_CERTIFICATE,
+            self::_EXTENSION_PRIVATEKEY,
+            self::_EXTENSION_CACERTIFICATE,
+            self::_EXTENSION_CACHAIN
+        );
+    }
 
-        foreach ($this->_extensions as $ext) {
+    /**
+     * Save certificate.
+     *
+     * @param Certificate $certificate
+     */
+    public function saveCertificate(Certificate $certificate)
+    {
+        $fs       = new Filesystem();
+        $filename = $this->getStorageDir() . '/' . $certificate->getId();
+        $method   = '';
+
+        foreach ($this->_getExtensions() as $ext) {
             $fullfilename = $filename . $ext;
 
             switch ($ext) {
@@ -104,55 +202,56 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
                     break;
             }
 
-            $mGet     = 'get' . $method;
+            /** @var string $mGet Method for getting certificate variable. */
+            $mGet = 'get' . $method;
+
+            /** @var string $mSetPath Method for setting certificate variable. */
             $mSetPath = 'set' . $method . 'Path';
 
-            if ($cert->$mGet()) {
-                $this
-                    ->_getLogger()
-                    ->info('(ApacheConfigBundle) Generating Cert.: ' . $fullfilename);
+            $content = $certificate->{$mGet}();
 
-                if ($ext === self::_EXTENSION_PRIVATEKEY) {
+            if ($content) {
+                // Data has to be decrypted.
+                if ($ext === self::_EXTENSION_PRIVATEKEY && $this->getCryptService()) {
                     $content = $this
-                        ->_getCryptService()
-                        ->decrypt($cert->$mGet());
-                } else {
-                    $content = $cert->$mGet();
+                        ->getCryptService()
+                        ->decrypt($content);
                 }
 
                 file_put_contents($fullfilename, $content);
 
                 if ($ext === self::_EXTENSION_PRIVATEKEY) {
+                    // Private keys should be more secured.
                     $fs->chmod($fullfilename, 0600);
                 } else {
                     $fs->chmod($fullfilename, 0644);
                 }
 
-                $cert->$mSetPath($fullfilename);
+                $certificate->{$mSetPath}($fullfilename);
             } else {
+                // Remove empty certificate files.
                 if ($fs->exists($fullfilename)) {
-                    $this
-                        ->_getLogger()
-                        ->info('(ApacheConfigBundle) Deleting Cert.: ' . $fullfilename);
-
                     $fs->remove($fullfilename);
                 }
 
-                $cert->$mSetPath('');
+                // Set their path to empty.
+                $certificate->{$mSetPath}('');
             }
         }
     }
 
     /**
-     * Remove certificate from storage dir
+     * Remove certificate from storage dir.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Certificate $cert
+     * @param Certificate $certificate
      */
-    protected function _deleteCertificate(Certificate $cert) {
+    public function deleteCertificate(Certificate $certificate)
+    {
         $fs       = new Filesystem();
-        $filename = $this->_getStorageDir() . '/' . $cert->getId();
+        $filename = $this->getStorageDir() . '/' . $certificate->getId();
+        $method   = '';
 
-        foreach ($this->_extensions as $ext) {
+        foreach ($this->_getExtensions() as $ext) {
             $fullfilename = $filename . $ext;
 
             switch ($ext) {
@@ -176,23 +275,20 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
             $mSetPath = 'set' . $method . 'Path';
 
             if ($fs->exists($fullfilename)) {
-                $this
-                    ->_getLogger()
-                    ->info('(ApacheConfigBundle) Deleting Cert.: ' . $fullfilename);
-
                 $fs->remove($fullfilename);
-                $cert->$mSetPath('');
+                $certificate->{$mSetPath}('');
             }
         }
     }
 
     /**
-     * Clean up certificate directory
+     * Remove unused certificate files.
      */
-    protected function _removeUnusedCertificates() {
-        $dir   = $this->_getStorageDir();
+    public function removeUnusedCertificateFiles()
+    {
+        $dir   = $this->getStorageDir();
         $fs    = new Filesystem();
-        $files = glob(sprintf('%s/*{%s}', $dir, join(',', $this->_extensions)), GLOB_BRACE);
+        $files = glob(sprintf('%s/*{%s}', $dir, join(',', $this->_getExtensions())), GLOB_BRACE);
 
         foreach ($files as $path) {
             $filename                 = basename($path);
@@ -202,43 +298,30 @@ class CertificateBuilderService extends AbstractBuilderService implements Builde
                 continue;
             }
 
-            /** @var $certificate Certificate */
-            $certificate = $this
-                ->_getRepository()
-                ->findBy(array(
-                              'id' => intval($filenameWithoutExtension),
-                         ));
+            $id          = intval($filenameWithoutExtension);
+            $certificate = $this->getCertificateById($id);
 
-            if ($certificate) {
-                continue;
-            } else {
-                $this
-                    ->_getLogger()
-                    ->info('(ApacheConfigBundle) Removing unused certfile: ' . $filename);
+            // Remove file from filesystem, when its certificate is not found.
+            if (!$certificate) {
                 $fs->remove($path);
             }
         }
     }
 
     /**
-     * Build certificates
+     * Build all certificates.
+     * Removes the unused, saves the used ones.
      */
-    public function buildAll() {
-        foreach ($this
-                     ->_getRepository()
-                     ->findAll() as $certificate) {
-            /** @var $certificate Certificate */
-            if (count($certificate->getDomain()) === 0 && count($certificate->getSubdomain()) === 0
-            ) {
-                $this->_deleteCertificate($certificate);
+    public function buildCertificates()
+    {
+        foreach ($this->getCertificates() as $certificate) {
+            $uses = count($certificate->getDomain()) + count($certificate->getSubdomain());
+
+            if ($uses < 1) {
+                $this->deleteCertificate($certificate);
             } else {
-                $this->_saveCertificate($certificate);
+                $this->saveCertificate($certificate);
             }
         }
-
-        $this
-            ->_getDoctrine()
-            ->flush();
-        $this->_removeUnusedCertificates();
     }
 }

@@ -10,6 +10,8 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Service;
 
+use Jeboehm\Lampcp\CoreBundle\Exception\WrongEncryptionKeyException;
+
 /**
  * Class CryptService
  *
@@ -20,13 +22,14 @@ namespace Jeboehm\Lampcp\CoreBundle\Service;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class CryptService {
+    /** String to check for invalid decrypted data. */
     const _CHECK_PATTERN = '##decryptme##';
 
     /** @var string */
     private $_key;
 
     /**
-     * Konstruktor
+     * Constructor.
      *
      * @param string $key
      */
@@ -35,7 +38,7 @@ class CryptService {
     }
 
     /**
-     * Encrypt data
+     * Encrypt data.
      *
      * @param string $data
      *
@@ -51,11 +54,11 @@ class CryptService {
     }
 
     /**
-     * Decrypt data
+     * Decrypt data.
      *
      * @param string $data
      *
-     * @throws \Exception
+     * @throws WrongEncryptionKeyException
      * @return string
      */
     public function decrypt($data) {
@@ -64,7 +67,7 @@ class CryptService {
         $decrypted = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $this->_getKey(), trim($decoded), MCRYPT_MODE_ECB, $iv));
 
         if (substr_count($decrypted, self::_CHECK_PATTERN) !== 2) {
-            throw new \Exception('Wrong encryption key used!');
+            throw new WrongEncryptionKeyException();
         } else {
             $decrypted = str_replace(self::_CHECK_PATTERN, '', $decrypted);
         }
@@ -73,18 +76,7 @@ class CryptService {
     }
 
     /**
-     * Check for installed extension
-     *
-     * @throws \Exception
-     */
-    protected function _doSanityChecks() {
-        if (!function_exists('mcrypt_encrypt')) {
-            throw new \Exception('Please install the mcrypt extension!');
-        }
-    }
-
-    /**
-     * Get encryption key
+     * Get encryption key.
      *
      * @return string
      */

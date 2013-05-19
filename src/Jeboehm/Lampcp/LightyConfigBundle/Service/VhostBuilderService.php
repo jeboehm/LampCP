@@ -10,138 +10,86 @@
 
 namespace Jeboehm\Lampcp\LightyConfigBundle\Service;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Entity\IpAddress;
-use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService as ParentVhostBuilderService;
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
-use Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException;
-use Jeboehm\Lampcp\LightyConfigBundle\Model\Vhost;
+use Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService as ParentVhostBuilder;
+use Jeboehm\Lampcp\ApacheConfigBundle\Transformer\DomainAliasTransformer;
 use Jeboehm\Lampcp\CoreBundle\Entity\Certificate;
+use Jeboehm\Lampcp\LightyConfigBundle\Transformer\DomainTransformer;
 
 /**
  * Class VhostBuilderService
  *
- * Builds the Lighttpd configuration
- *
  * @package Jeboehm\Lampcp\LightyConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class VhostBuilderService extends ParentVhostBuilderService implements BuilderServiceInterface {
-    const _twigVhost       = 'JeboehmLampcpLightyConfigBundle:Lighttpd:vhost.conf.twig';
-    const _twigFcgiStarter = 'JeboehmLampcpLightyConfigBundle:PHP:php-fcgi-starter.sh.twig';
+class VhostBuilderService extends ParentVhostBuilder
+{
+    const vhostConfigTemplate = 'JeboehmLampcpLightyConfigBundle:Lighttpd:vhost.conf.twig';
 
     /**
-     * Save vhost config
-     *
-     * @param string $content
-     *
-     * @throws \Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
-     * @return void
+     * Collect vhost models.
      */
-    protected function _saveVhostConfig($content) {
-        $target = $this
-            ->_getConfigService()
-            ->getParameter('lighttpd.pathlighttpdconf') . '/' . self::_domainFileName;
+    public function collectVhostModels()
+    {
+        /*
+         * Add domains.
+         */
+        foreach ($this->getDomains() as $domain) {
+            $domain = DomainAliasTransformer::transformAliasDomain($domain);
+            $vhosts = DomainTransformer::transformDomain($domain);
 
-        $content = str_replace('  ', '', $content);
-        $content = str_replace(PHP_EOL . PHP_EOL, PHP_EOL, $content);
-
-        if (!is_writable(dirname($target))) {
-            throw new CouldNotWriteFileException();
+            foreach ($vhosts as $vhost) {
+                $this->addVhost($vhost);
+            }
         }
 
-        $this
-            ->_getLogger()
-            ->info('(LightyConfigBundle) Creating new config: ' . $target);
-        file_put_contents($target, $content);
+        /*
+         * Add subdomains.
+         */
+        foreach ($this->getSubdomains() as $subdomain) {
+            $subdomain = DomainAliasTransformer::transformAliasSubdomain($subdomain);
+            $vhosts    = DomainTransformer::transformDomain($subdomain->getDomain(), $subdomain);
+
+            foreach ($vhosts as $vhost) {
+                $this->addVhost($vhost);
+            }
+        }
+
+        $this->sortVhosts();
     }
 
     /**
-     * Generate and save FCGI Starter Script
+     * Render configuration.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
-     *
-     * @throws \Jeboehm\Lampcp\ApacheConfigBundle\Exception\CouldNotWriteFileException
-     * @return void
+     * @return string
      */
-    protected function _generateFcgiStarterForDomain(Domain $domain) {
-        $fs       = new Filesystem();
-        $filename = $domain->getPath() . '/php-fcgi/php-fcgi-starter.sh';
+    public function renderConfiguration()
+    {
+        $parameters = array(
+            'vhosts'      => $this->getVhosts(),
+            'ips'         => $this->getIpAddresses(),
+            'defaultcert' => $this->getSingleCertificateWithDomainsAssigned(),
+        );
 
-        if (!is_writable(dirname($filename))) {
-            throw new CouldNotWriteFileException();
-        }
+        $content = $this
+            ->getTwigEngine()
+            ->render(self::vhostConfigTemplate, $parameters);
 
-        if (!$fs->exists($filename)) {
-            $content = $this->_renderTemplate(self::_twigFcgiStarter, array(
-                                                                           'domain' => $domain,
-                                                                      ));
-
-            $this
-                ->_getLogger()
-                ->info('(LightyConfigBundle) Generating FCGI-Starter: ' . $filename);
-            file_put_contents($filename, $content);
-        }
-
-        // Change rights
-        $fs->chmod($filename, 0755);
-
-        // Change user & group
-        $fs->chown($filename, $domain
-            ->getUser()
-            ->getName());
-        $fs->chgrp($filename, $domain
-            ->getUser()
-            ->getGroupname());
-    }
-
-    /**
-     * Build all configurations
-     */
-    public function buildAll() {
-        $content = $this->_renderTemplate(self::_twigVhost, array(
-                                                                 'defaultcert' => $this->_getSingleCertificateWithDomainsAssigned(),
-                                                                 'vhosts'      => $this->_getVhostModels(),
-                                                                 'ips'         => $this->_getAllIpAddresses(),
-                                                            ));
-
-        $this->_saveVhostConfig($content);
+        return $content;
     }
 
     /**
      * Get single certificate with domain / subdomain set
      *
-     * @return \Jeboehm\Lampcp\CoreBundle\Entity\Certificate|null
+     * @return Certificate
      */
-    protected function _getSingleCertificateWithDomainsAssigned() {
-        /** @var $certs Certificate[] */
-        $certs = $this
-            ->_getDoctrine()
-            ->getRepository('JeboehmLampcpCoreBundle:Certificate')
-            ->findAll();
-
-        foreach ($certs as $certificate) {
-            /** @var $certificate Certificate */
-            if ($certificate
-                ->getDomain()
-                ->count() > 0 || $certificate
-                ->getSubdomain()
-                ->count() > 0
-            ) {
-                return $certificate;
+    public function getSingleCertificateWithDomainsAssigned()
+    {
+        foreach ($this->getVhosts() as $vhost) {
+            if ($vhost->getCertificate() !== null) {
+                return $vhost->getCertificate();
             }
         }
 
         return null;
-    }
-
-    /**
-     * Get new Vhost model
-     *
-     * @return \Jeboehm\Lampcp\LightyConfigBundle\Model\Vhost
-     */
-    protected function _getVhost() {
-        return new Vhost();
     }
 }

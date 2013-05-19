@@ -25,6 +25,13 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
 {% endif %}
 {% endfor %}
 
+# FastCGIExternalServer directories
+{% for vhost in fcgi %}
+    FastCGIExternalServer {{ vhost.FcgiExternalServerDirectory }} -socket {{vhost.PhpFpmSocket}} -pass-header Authorization
+{% endfor %}
+# End FastCGIExternalServer directories
+
+# Vhosts
 {% for vhost in vhosts %}
 <VirtualHost {{ vhost.VhostAddress }}>
     ServerAdmin none@example.com
@@ -39,11 +46,6 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     {% for alias in vhost.ServerAlias %}
     ServerAlias {{ alias }}
     {% endfor %}
-
-    {% if vhost.PHPEnabled %}
-    SuexecUserGroup {{ vhost.SuexecUserGroup }}
-    AddHandler fcgid-script .php
-    {% endif %}
 
     {% if vhost.SSLEnabled %}
     SSLEngine On
@@ -76,6 +78,13 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     ## End Force SSL
     {% endif %}
 
+    {% if vhost.PHPEnabled %}
+        # PHP Support
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /php-fpm
+        # End PHP Support
+    {% endif %}
+
     <Directory "/">
         Options FollowSymLinks
         AllowOverride None
@@ -88,10 +97,6 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
         AllowOverride FileInfo Indexes Limit AuthConfig
         Order Allow,Deny
         Allow From All
-
-        {% if vhost.PHPEnabled %}
-        FCGIWrapper {{ vhost.FcgiWrapper }}
-        {% endif %}
 
         {% if vhost.PathOptionForDocumentRoot is not null %}
         {{ macros.pathoption(vhost.PathOptionForDocumentRoot) }}
@@ -123,3 +128,4 @@ NameVirtualHost {{ ip.ip }}:{{ ip.port }}
     ## End Custom
 </VirtualHost>
 {% endfor %}
+# End Vhosts

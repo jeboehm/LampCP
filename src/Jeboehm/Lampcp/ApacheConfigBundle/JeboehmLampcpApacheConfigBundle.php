@@ -18,5 +18,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  * @package Jeboehm\Lampcp\ApacheConfigBundle
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class JeboehmLampcpApacheConfigBundle extends Bundle {
+class JeboehmLampcpApacheConfigBundle extends Bundle
+{
 }

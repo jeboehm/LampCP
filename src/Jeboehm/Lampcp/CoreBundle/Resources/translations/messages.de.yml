@@ -39,6 +39,7 @@ edit:
         protectionuser: Zugang bearbeiten
         subdomain: Subdomain bearbeiten
         dns: DNS Zone bearbeiten
+        dnssoa: SOA Record bearbeiten
         systemconfig: Systemkonfiguration bearbeiten
         ipaddress: IP-Adressen bearbeiten
         certificate: Zertifikate bearbeiten
@@ -191,6 +192,15 @@ jeboehm.lampcp.corebundle:
             type: Typ
             rdata: RDATA
 
+    dnssoatype:
+        primary: Primary
+        mail: E-Mail
+        serial: Serial
+        refresh: Refresh
+        retry: Retry
+        expire: Expire
+        minimum: Minimum
+
     admintype:
         username: Benutzername
         email: E-Mailadresse
@@ -212,15 +222,16 @@ config:
         enabled: Aktiviert
         pathwww: Webseitenverzeichnis
         pathapache2conf: Konfigurationsverzeichnis
-        pathphpini: PHP5 Standardkonfiguration
         cmdapache2restart: Neustartbefehl
         pathcertificate: Verzeichnis für Zertifikate
 
     mysql:
         enabled: Aktiviert
-        rootuser: MySQL Administrator
-        rootpassword: MySQL Administratorpasswort
-        dbprefix: MySQL Datenbankprefix
+        rootuser: Administrator
+        rootpassword: Administratorpasswort
+        dbprefix: Datenbankprefix
+        host: Host
+        port: Port
 
     unix:
         passwdfile: Unix Benutzerdatei
@@ -238,6 +249,12 @@ config:
         config.zonedef: Konfigurationsdatei für Zonendefinitionen
         cmd.reload: Neustartbefehl
 
+    phpfpm:
+        enabled: Aktiviert (CGI Unterstützung deaktivieren)
+        pooldir: Konfigurationsverzeichnis für Pools
+        socketdir: Verzeichnis für Sockets
+        cmd.reload: Neustartbefehl
+
     title:
         apache: Apache2
         mysql: MySQL
@@ -245,3 +262,4 @@ config:
         lighttpd: Lighttpd
         password: (Passwort)
         dns: Bind9
+        phpfpm: PHP-FPM

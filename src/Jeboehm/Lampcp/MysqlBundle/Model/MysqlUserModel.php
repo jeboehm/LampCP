@@ -13,7 +13,7 @@ namespace Jeboehm\Lampcp\MysqlBundle\Model;
 /**
  * Class MysqlUserModel
  *
- * Holds a MySQL user
+ * Holds a MySQL user.
  *
  * @package Jeboehm\Lampcp\MysqlBundle\Model
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
@@ -29,13 +29,15 @@ class MysqlUserModel {
     private $host;
 
     /**
-     * Konstruktor
+     * Constructor.
      */
     public function __construct() {
         $this->host = 'localhost';
     }
 
     /**
+     * Set host.
+     *
      * @param string $host
      *
      * @return MysqlUserModel
@@ -47,6 +49,8 @@ class MysqlUserModel {
     }
 
     /**
+     * Get host.
+     *
      * @return string
      */
     public function getHost() {
@@ -54,6 +58,8 @@ class MysqlUserModel {
     }
 
     /**
+     * Set password.
+     *
      * @param string $password
      *
      * @return MysqlUserModel
@@ -65,6 +71,8 @@ class MysqlUserModel {
     }
 
     /**
+     * Get password.
+     *
      * @return string
      */
     public function getPassword() {
@@ -72,6 +80,8 @@ class MysqlUserModel {
     }
 
     /**
+     * Set username.
+     *
      * @param string $username
      *
      * @return MysqlUserModel
@@ -83,6 +93,8 @@ class MysqlUserModel {
     }
 
     /**
+     * Get username.
+     *
      * @return string
      */
     public function getUsername() {

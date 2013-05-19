@@ -10,15 +10,16 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Adds some generic fields to an entity
  *
  * @ORM\MappedSuperclass
  */
-abstract class AbstractEntity {
+abstract class AbstractEntity
+{
     /**
      * @var \DateTime $created
      *
@@ -40,7 +41,8 @@ abstract class AbstractEntity {
      *
      * @return \DateTime
      */
-    public function getCreated() {
+    public function getCreated()
+    {
         return $this->created;
     }
 
@@ -49,7 +51,8 @@ abstract class AbstractEntity {
      *
      * @return \DateTime
      */
-    public function getUpdated() {
+    public function getUpdated()
+    {
         return $this->updated;
     }
 }

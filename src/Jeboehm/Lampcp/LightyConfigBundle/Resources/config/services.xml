@@ -11,26 +11,22 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 -->
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
         <parameter key="jeboehm_lampcp_lighty_config.directorybuilderservice.class">Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService</parameter>
-        <parameter key="jeboehm_lampcp_lighty_config.protectionbuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService</parameter>
         <parameter key="jeboehm_lampcp_lighty_config.vhostbuilderservice.class">Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService</parameter>
         <parameter key="jeboehm_lampcp_lighty_config.certificatebuilderservice.class">Jeboehm\Lampcp\LightyConfigBundle\Service\CertificateBuilderService</parameter>
-        <parameter key="jeboehm_lampcp_lighty_config.fcgistarterservice.class">Jeboehm\Lampcp\LightyConfigBundle\Service\FcgiStarterService</parameter>
     </parameters>
 
     <services>
-        <service id="jeboehm_lampcp_lighty_config_vhostbuilder" class="%jeboehm_lampcp_lighty_config.vhostbuilderservice.class%" parent="jeboehm_lampcp_apache_config_vhostbuilder" />
-        <service id="jeboehm_lampcp_lighty_config_directorybuilder" class="%jeboehm_lampcp_lighty_config.directorybuilderservice.class%" parent="jeboehm_lampcp_apache_config_directorybuilder" />
-        <service id="jeboehm_lampcp_lighty_config_protectionbuilder" class="%jeboehm_lampcp_lighty_config.protectionbuilderservice.class%" parent="jeboehm_lampcp_apache_config_protectionbuilder" />
-        <service id="jeboehm_lampcp_lighty_config_certificatebuilder" class="%jeboehm_lampcp_lighty_config.certificatebuilderservice.class%" parent="jeboehm_lampcp_apache_config_certificatebuilder" />
-        <service id="jeboehm_lampcp_lighty_config_fcgistarterservice" class="%jeboehm_lampcp_lighty_config.fcgistarterservice.class%" parent="jeboehm_lampcp_apache_config_certificatebuilder" />
+        <service id="jeboehm_lampcp_lighty_config_directorybuilder" class="%jeboehm_lampcp_lighty_config.directorybuilderservice.class%" parent="jeboehm_lampcp_apache_config_directorybuilder"/>
+        <service id="jeboehm_lampcp_lighty_config_vhostbuilder" class="%jeboehm_lampcp_lighty_config.vhostbuilderservice.class%" parent="jeboehm_lampcp_apache_config_vhostbuilder"/>
+        <service id="jeboehm_lampcp_lighty_config_certificatebuilder" class="%jeboehm_lampcp_lighty_config.certificatebuilderservice.class%" parent="jeboehm_lampcp_apache_config_certificatebuilder"/>
 
         <service id="jeboehm_lampcp_lighty_config_configprovider" class="Jeboehm\Lampcp\LightyConfigBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
-            <tag name="config.provider" />
+            <tag name="config.provider"/>
         </service>
     </services>
 </container>

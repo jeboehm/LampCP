@@ -8,12 +8,12 @@ Requirements
 
 * You will need [git](http://git-scm.com/download) to get the code
 * Check [Symfony2 requirements](http://symfony.com/doc/current/reference/requirements.html)
-* LampCP supports Debian Squeeze, Debian Wheezy and Ubuntu > 12.04
+* Debian Wheezy, Ubuntu >= 12.04 LTS
 
 Installation
 ------------
 
-Check the [wiki](https://github.com/jeboehm/LampCP/wiki/_pages) for more information.
+Check the [wiki](https://github.com/jeboehm/LampCP/wiki) for more information.
 
 
 Reporting an issue

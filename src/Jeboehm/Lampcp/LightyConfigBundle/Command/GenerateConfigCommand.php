@@ -10,138 +10,132 @@
 
 namespace Jeboehm\Lampcp\LightyConfigBundle\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Jeboehm\Lampcp\ApacheConfigBundle\Command\GenerateConfigCommand as ParentConfigCommand;
-use Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService;
-use Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService;
+use Jeboehm\Lampcp\ApacheConfigBundle\Command\GenerateConfigCommand as ParentGenerateConfigCommand;
+use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\CertificateBuilderService;
-use Jeboehm\Lampcp\LightyConfigBundle\Service\FcgiStarterService;
-use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
+use Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService;
+use Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Process\Process;
 
 /**
  * Class GenerateConfigCommand
  *
- * Generate configuration for Lighttpd.
- *
  * @package Jeboehm\Lampcp\LightyConfigBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class GenerateConfigCommand extends ParentConfigCommand {
+class GenerateConfigCommand extends ParentGenerateConfigCommand
+{
     /**
-     * @return VhostBuilderService
+     * Get "enabled" from config service.
+     *
+     * @return string
      */
-    protected function _getVhostBuilderService() {
+    protected function _isEnabled()
+    {
         return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_lighty_config_vhostbuilder');
+            ->_getConfigService()
+            ->getParameter('lighttpd.enabled');
     }
 
     /**
-     * @return DirectoryBuilderService
+     * Configure command.
      */
-    protected function _getDirectoryBuilderService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_lighty_config_directorybuilder');
+    protected function configure()
+    {
+        $this
+            ->setName('lampcp:lighty:generateconfig')
+            ->setDescription('Generates the Lighttpd configuration.')
+            ->addOption('force', 'f', InputOption::VALUE_NONE);
     }
 
     /**
-     * @return ProtectionBuilderService
-     */
-    protected function _getProtectionBuilderService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_lighty_config_protectionbuilder');
-    }
-
-    /**
+     * Get certificate builder service.
+     *
      * @return CertificateBuilderService
      */
-    protected function _getCertificateBuilderService() {
+    protected function _getCertificateBuilderService()
+    {
         return $this
             ->getContainer()
             ->get('jeboehm_lampcp_lighty_config_certificatebuilder');
     }
 
     /**
-     * @return FcgiStarterService
+     * Get directory builder service.
+     *
+     * @return DirectoryBuilderService
      */
-    protected function _getFcgiStarterService() {
+    protected function _getDirectoryBuilderService()
+    {
         return $this
             ->getContainer()
-            ->get('jeboehm_lampcp_lighty_config_fcgistarterservice');
+            ->get('jeboehm_lampcp_lighty_config_directorybuilder');
     }
 
     /**
-     * Configure command
+     * Restart Lighttpd.
+     *
+     * @return bool
      */
-    protected function configure() {
-        $this->setName('lampcp:lighty:generateconfig');
-        $this->setDescription('Generates the lighttpd configuration');
-        $this->addOption('force', 'f', InputOption::VALUE_NONE);
-    }
-
-    /**
-     * Restart apache2
-     */
-    protected function _restartApache() {
-        $exec = new ExecUtility();
-        $cmd  = $this
+    protected function _restartProcess()
+    {
+        $cmd = $this
             ->_getConfigService()
             ->getParameter('lighttpd.cmdlighttpdrestart');
 
-        if (!empty($cmd)) {
+        if (empty($cmd)) {
+            return false;
+        }
+
+        $proc = new Process($cmd);
+        $proc->run();
+
+        if ($proc->getExitCode() > 0) {
             $this
                 ->_getLogger()
-                ->info('(LightyConfigBundle) Restarting Lighttpd...');
+                ->error('Could not restart Lighttpd.');
 
-            if (strpos($cmd, ' ') !== false) {
-                $cmdSplit = explode(' ', $cmd);
-                $exec->exec(array_shift($cmdSplit), $cmdSplit);
-            } else {
-                $exec->exec($cmd);
-            }
-
-            if ($exec->getCode() > 0) {
-                $this
-                    ->_getLogger()
-                    ->err($exec->getOutput());
-            }
+            return false;
+        } else {
+            $this
+                ->_getLogger()
+                ->info('Restarted Lighttpd.');
         }
+
+        return true;
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * Use VhostBuilderService to build vhosts.
      *
-     * @return int|null|void
+     * @param Domain[] $domains
      */
-    public function execute(InputInterface $input, OutputInterface $output) {
-        if (!$this->_isEnabled()) {
-            $this
-                ->_getLogger()
-                ->err('(LightyConfigBundle) Command not enabled!');
-
-            return;
-        }
-
-        parent::execute($input, $output);
-
-        $this
-            ->_getFcgiStarterService()
-            ->buildAll();
-    }
-
-    /**
-     * Get "enabled" from config service
-     *
-     * @return string
-     */
-    protected function _isEnabled() {
-        return $this
+    protected function _buildVhosts(array $domains)
+    {
+        $configdir = $this
             ->_getConfigService()
-            ->getParameter('lighttpd.enabled');
+            ->getParameter('lighttpd.pathlighttpdconf');
+
+        $vhostBuilder = $this->_getVhostBuilderService();
+        $vhostBuilder
+            ->setDomains($domains)
+            ->setConfigdir($configdir)
+            ->collectVhostModels();
+        $vhostBuilder->setPhpSocketToVhosts();
+
+        $vhostBuilder->buildConfiguration();
+    }
+
+    /**
+     * Get vhost builder service.
+     *
+     * @return VhostBuilderService
+     */
+    protected function _getVhostBuilderService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_lighty_config_vhostbuilder');
     }
 }

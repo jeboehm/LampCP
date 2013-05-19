@@ -10,30 +10,35 @@
 
 namespace Jeboehm\Lampcp\ApacheConfigBundle\Service;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Jeboehm\Lampcp\ApacheConfigBundle\IBuilder\BuilderServiceInterface;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class DirectoryBuilderService
  *
- * Creates default directorys in the filesystem.
+ * Creates default directories in the filesystem.
  *
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class DirectoryBuilderService extends AbstractBuilderService implements BuilderServiceInterface {
+class DirectoryBuilderService
+{
+    /** Use this as the root user. */
     const _root = 'root';
-    const _dirs = 'conf,htdocs,logs,php-fcgi,tmp';
+
+    /** These are the default directories. */
+    const _dirs = 'conf,htdocs,logs,tmp';
 
     /**
-     * Get default directorys
+     * Get default directories.
      *
      * @param string $basepath
      *
      * @return array
      */
-    protected function _getDefaultDirs($basepath) {
+    protected function _getDefaultDirs($basepath)
+    {
         $directoryname = explode(',', self::_dirs);
         $fullpath      = array();
 
@@ -45,34 +50,54 @@ class DirectoryBuilderService extends AbstractBuilderService implements BuilderS
     }
 
     /**
-     * Create default directorys
+     * Create default directories for domain.
      *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
+     * @param Domain $domain
      */
-    protected function _createDirectorysForDomain(Domain $domain) {
-        $fs = new Filesystem();
+    public function createDirectories(Domain $domain)
+    {
+        $fs   = new Filesystem();
+        $dirs = array_merge(array($domain->getPath()), $this->_getDefaultDirs($domain->getPath()));
 
-        $fs->mkdir(array_merge(array($domain->getPath()), $this->_getDefaultDirs($domain->getPath())), 0750);
+        $fs->mkdir($dirs, 0750);
+        $fs->chmod($dirs, 0750);
 
-        $fs->chmod(array_merge(array($domain->getPath()), $this->_getDefaultDirs($domain->getPath())), 0750);
-
-        $fs->chown($domain->getPath(), self::_root); // Domain Root
-        $fs->chgrp($domain->getPath(), $domain
-            ->getUser()
-            ->getGroupname(), true); // Domain Root + Child
-
-        // Child directorys
-        $fs->chown($this->_getDefaultDirs($domain->getPath()), $domain
-            ->getUser()
-            ->getName(), true);
+        $this->_changeDirectoryOwner($domain);
     }
 
     /**
-     * Create directory structure for all domains
+     * Change directory owners.
+     *
+     * @param Domain $domain
+     *
+     * @return bool
      */
-    public function buildAll() {
-        foreach ($this->_getAllDomains() as $domain) {
-            $this->_createDirectorysForDomain($domain);
+    protected function _changeDirectoryOwner(Domain $domain)
+    {
+        $fs = new Filesystem();
+
+        try {
+            $fs->chown($domain->getPath(), self::_root); // Domain Root
+            $fs->chgrp(
+                $domain->getPath(),
+                $domain
+                    ->getUser()
+                    ->getGroupname(),
+                true
+            ); // Domain Root + Child
+
+            // Child directories
+            $fs->chown(
+                $this->_getDefaultDirs($domain->getPath()),
+                $domain
+                    ->getUser()
+                    ->getName(),
+                true
+            );
+        } catch (IOException $e) {
+            return false;
         }
+
+        return true;
     }
 }

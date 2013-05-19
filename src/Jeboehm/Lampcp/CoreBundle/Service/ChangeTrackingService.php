@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Class ChangeTrackingService
- * 
+ *
  * This class checks given repositories for changes
  * that are never than a given \DateTime
  *
@@ -74,6 +74,8 @@ class ChangeTrackingService {
      * @return \Doctrine\ORM\EntityRepository
      */
     protected function _getRepository($repository) {
-        return $this->_em->getRepository($repository);
+        return $this
+            ->_getEntityManager()
+            ->getRepository($repository);
     }
 }

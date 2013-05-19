@@ -30,12 +30,18 @@
             {% for record in edit_form.zone_collection %}
                 <div class="control-group">
                     <div class="controls">
-                        {{ form_widget(record, {'form_type': 'inline'}) }}
+                        {{ form_row(record.name, {'form_type': 'inline'}) }}
+                        {{ form_row(record.ttl, {'form_type': 'inline'}) }}
+                        {{ form_row(record.type, {'form_type': 'inline'}) }}
+                        {{ form_row(record.rdata, {'form_type': 'inline'}) }}
+                        {{ form_row(record.position, {'form_type': 'inline'}) }}
+
+                        <div class="btn-group dnsactions"></div>
                     </div>
                 </div>
             {% endfor %}
 
-            <div class="control-group">
+            <div class="control-group dnsformcontrol">
                 <div class="controls" id="addbutton">
                     <a href="#" class="btn dnsrecord-add">{{ "button.add"|trans() }}</a>
                 </div>
@@ -43,6 +49,14 @@
         </div>
 
         {{ form_rest(edit_form) }}
+
         {{ macros.formbuttongrp(path('config_dns'), path('config_dns_delete', { 'entity': entity.id })) }}
+
+        <div class="control-group">
+            <div class="controls">
+                <a class="btn btn-info"
+                   href="{{ path('config_dns_edit_soa', {'entity' : entity.id}) }}">{{ "edit.page.dnssoa"|trans() }}</a>
+            </div>
+        </div>
     </form>
 {% endblock %}

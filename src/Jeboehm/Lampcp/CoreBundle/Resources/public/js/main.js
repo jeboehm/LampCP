@@ -8,25 +8,25 @@
  */
 
 $(document).ready(function () {
-	// Domainselector
-	$('#jeboehm_lampcp_corebundle_domainselectortype_domain').bind({
-																	   change:function () {
-																		   $(this.form).submit();
-																	   }
-																   });
+    // Domainselector
+    $('#jeboehm_lampcp_corebundle_domainselectortype_domain').bind({
+        change: function () {
+            $(this.form).submit();
+        }
+    });
 
-	$('.btn').on({
-					 click:function (e) {
-						 if($(this).attr('prototype-confirm')) {
-							 if(!confirm($(this).attr('prototype-confirm'))) {
-								 return false;
-							 }
-						 }
+    $('.btn').on({
+        click: function (e) {
+            if ($(this).attr('prototype-confirm')) {
+                if (!confirm($(this).attr('prototype-confirm'))) {
+                    return false;
+                }
+            }
 
-						 if($(this).attr('prototype-target')) {
-							 e.preventDefault();
-							 location.href = $(this).attr('prototype-target');
-						 }
-					 }
-				 });
+            if ($(this).attr('prototype-target')) {
+                e.preventDefault();
+                location.href = $(this).attr('prototype-target');
+            }
+        }
+    });
 });

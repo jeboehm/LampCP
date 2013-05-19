@@ -18,67 +18,120 @@ namespace Jeboehm\Lampcp\ApacheConfigBundle\Model;
  * @package Jeboehm\Lampcp\ApacheConfigBundle\Model
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class Protection {
+class Protection
+{
     /** @var integer */
     private $id;
-
     /** @var string */
     private $username;
-
     /** @var string */
     private $password;
+    /** @var string */
+    private $path;
 
     /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set id.
+     *
      * @param int $id
      *
-     * @return Protection
+     * @return $this
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
 
         return $this;
     }
 
     /**
-     * @return int
+     * Get username.
+     *
+     * @return string
      */
-    public function getId() {
-        return $this->id;
+    public function getUsername()
+    {
+        return $this->username;
     }
 
     /**
+     * Set username.
+     *
      * @param string $username
      *
-     * @return Protection
+     * @return $this
      */
-    public function setUsername($username) {
+    public function setUsername($username)
+    {
         $this->username = $username;
 
         return $this;
     }
 
     /**
+     * Get password.
+     *
      * @return string
      */
-    public function getUsername() {
-        return $this->username;
+    public function getPassword()
+    {
+        return $this->password;
     }
 
     /**
+     * Set password.
+     *
      * @param string $password
      *
-     * @return Protection
+     * @return $this
      */
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password = $password;
 
         return $this;
     }
 
     /**
+     * Get crypted password.
+     *
      * @return string
      */
-    public function getPassword() {
-        return crypt($this->password, base64_encode($this->password));
+    public function getCryptedPassword()
+    {
+        return crypt($this->getPassword(), base64_encode($this->getPassword()));
+    }
+
+    /**
+     * Get Path.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Set Path.
+     *
+     * @param string $path
+     *
+     * @return $this
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
     }
 }

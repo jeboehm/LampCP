@@ -12,7 +12,6 @@ namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Jeboehm\Lampcp\CoreBundle\Utilities\FilesizeUtility;
 
 /**
  * MailAccount
@@ -20,7 +19,8 @@ use Jeboehm\Lampcp\CoreBundle\Utilities\FilesizeUtility;
  * @ORM\Table()
  * @ORM\Entity
  */
-class MailAccount extends AbstractEntity {
+class MailAccount extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -53,14 +53,15 @@ class MailAccount extends AbstractEntity {
     /**
      * @var string
      * @ORM\Column(name="password", type="string", length=255)
-     * @Assert\MinLength(6)
+     * @Assert\Length(min="6")
      */
     private $password;
 
     /**
      * Konstruktor
      */
-    public function __construct(Domain $domain, MailAddress $address) {
+    public function __construct(Domain $domain, MailAddress $address)
+    {
         $this->domain      = $domain;
         $this->mailaddress = $address;
         $this->password    = '';
@@ -72,7 +73,8 @@ class MailAccount extends AbstractEntity {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -81,7 +83,8 @@ class MailAccount extends AbstractEntity {
      *
      * @return Domain
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
@@ -92,7 +95,8 @@ class MailAccount extends AbstractEntity {
      *
      * @return MailAccount
      */
-    public function setEnabled($enabled) {
+    public function setEnabled($enabled)
+    {
         $this->enabled = $enabled;
 
         return $this;
@@ -103,7 +107,8 @@ class MailAccount extends AbstractEntity {
      *
      * @return boolean
      */
-    public function getEnabled() {
+    public function getEnabled()
+    {
         return $this->enabled;
     }
 
@@ -114,7 +119,8 @@ class MailAccount extends AbstractEntity {
      *
      * @return MailAccount
      */
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         if (!empty($password)) {
             $this->password = md5(strval($password));
         }
@@ -127,7 +133,8 @@ class MailAccount extends AbstractEntity {
      *
      * @return string
      */
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
@@ -136,7 +143,8 @@ class MailAccount extends AbstractEntity {
      *
      * @return MailAddress
      */
-    public function getMailaddress() {
+    public function getMailaddress()
+    {
         return $this->mailaddress;
     }
 }

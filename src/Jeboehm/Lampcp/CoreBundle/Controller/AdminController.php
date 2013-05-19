@@ -11,16 +11,19 @@
 namespace Jeboehm\Lampcp\CoreBundle\Controller;
 
 use FOS\UserBundle\Model\UserManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Jeboehm\Lampcp\CoreBundle\Form\Type\AdminType;
-use Jeboehm\Lampcp\CoreBundle\Form\Model\AdminRoles;
 use Jeboehm\Lampcp\CoreBundle\Entity\Admin;
+use Jeboehm\Lampcp\CoreBundle\Form\Model\AdminRoles;
+use Jeboehm\Lampcp\CoreBundle\Form\Type\AdminType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Admin controller.
+ * Class AdminController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  *
  * @Route("/config/admin")
  */

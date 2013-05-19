@@ -10,13 +10,13 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Form\Type;
 
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
 use Jeboehm\Lampcp\CoreBundle\Form\Model\ConfigEntity;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Class ConfigEntityType

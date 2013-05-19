@@ -10,12 +10,12 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Transformer;
 
-use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
-use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AbstractResourceRecord;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\NSNotFound;
-use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\TemplateNotFound;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\NoResourceRecords;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\NoSoaRecord;
+use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\TemplateNotFound;
+use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
+use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AbstractResourceRecord;
 
 /**
  * Class ZonefileTransformer
@@ -92,7 +92,7 @@ class ZonefileTransformer {
             $content[] = $template;
         }
 
-        return join(PHP_EOL, $content);
+        return join('', $content);
     }
 
     /**

@@ -11,11 +11,11 @@
 namespace Jeboehm\Lampcp\ConfigBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
-use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntityRepository;
-use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntity;
 use Jeboehm\Lampcp\ConfigBundle\Exception\ConfigEntityNotFoundException;
 use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
+use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntity;
+use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntityRepository;
+use Jeboehm\Lampcp\CoreBundle\Service\CryptService;
 
 /**
  * Class ConfigService
@@ -26,34 +26,69 @@ use Jeboehm\Lampcp\ConfigBundle\Model\ConfigTypes;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class ConfigService {
-    /** @var \Doctrine\ORM\EntityManager */
+    /** @var EntityManager */
     private $_em;
 
-    /** @var \Jeboehm\Lampcp\CoreBundle\Service\CryptService */
+    /** @var CryptService */
     private $_cs;
 
     /**
-     * Konstruktor
+     * Set Crypt Service.
      *
-     * @param \Doctrine\ORM\EntityManager                     $em
-     * @param \Jeboehm\Lampcp\CoreBundle\Service\CryptService $cs
+     * @param CryptService $cs
+     *
+     * @return ConfigService
      */
-    public function __construct(EntityManager $em, CryptService $cs) {
-        $this->_em = $em;
+    public function setCs(CryptService $cs) {
         $this->_cs = $cs;
+
+        return $this;
     }
 
     /**
-     * Get config entity repository
+     * Get Crypt Service.
+     *
+     * @return CryptService
+     */
+    public function getCs() {
+        return $this->_cs;
+    }
+
+    /**
+     * Set Entity Manager.
+     *
+     * @param EntityManager $em
+     *
+     * @return ConfigService
+     */
+    public function setEm(EntityManager $em) {
+        $this->_em = $em;
+
+        return $this;
+    }
+
+    /**
+     * Get Entity Manager.
+     *
+     * @return EntityManager
+     */
+    public function getEm() {
+        return $this->_em;
+    }
+
+    /**
+     * Get config entity repository.
      *
      * @return ConfigEntityRepository
      */
     protected function _getConfigEntityRepository() {
-        return $this->_em->getRepository('JeboehmLampcpCoreBundle:ConfigEntity');
+        return $this
+            ->getEm()
+            ->getRepository('JeboehmLampcpCoreBundle:ConfigEntity');
     }
 
     /**
-     * Get entity
+     * Get entity.
      *
      * @param string $name
      *
@@ -62,9 +97,14 @@ class ConfigService {
      */
     protected function _getEntity($name) {
         $nameArr = explode('.', $name, 2);
-        $group   = $nameArr[0];
-        $conf    = $nameArr[1];
-        $entity  = $this
+
+        if (count($nameArr) !== 2) {
+            throw new ConfigEntityNotFoundException();
+        }
+
+        $group  = $nameArr[0];
+        $conf   = $nameArr[1];
+        $entity = $this
             ->_getConfigEntityRepository()
             ->findOneByNameAndGroup($conf, $group);
 
@@ -76,7 +116,7 @@ class ConfigService {
     }
 
     /**
-     * Get config parameter
+     * Get config parameter.
      *
      * @param string $name
      *
@@ -91,7 +131,9 @@ class ConfigService {
             switch ($entity->getType()) {
                 case ConfigTypes::TYPE_PASSWORD:
                     try {
-                        $retval = $this->_cs->decrypt($entval);
+                        $retval = $this
+                            ->getCs()
+                            ->decrypt($entval);
                     } catch (\Exception $e) {
                         $retval = '';
                     }
@@ -106,7 +148,7 @@ class ConfigService {
     }
 
     /**
-     * Set config parameter
+     * Set config parameter.
      *
      * @param string $name
      * @param string $value
@@ -118,7 +160,9 @@ class ConfigService {
         switch ($entity->getType()) {
             case ConfigTypes::TYPE_PASSWORD:
                 if (!empty($value)) {
-                    $newval = $this->_cs->encrypt($value);
+                    $newval = $this
+                        ->getCs()
+                        ->encrypt($value);
                 }
                 break;
 
@@ -132,8 +176,12 @@ class ConfigService {
 
         if ($newval != $entity->getValue()) {
             $entity->setValue($newval);
-            $this->_em->persist($entity);
-            $this->_em->flush();
+            $this
+                ->getEm()
+                ->persist($entity);
+            $this
+                ->getEm()
+                ->flush();
         }
     }
 }

@@ -31,6 +31,8 @@
                            href="{{ path('config_dns_show', { 'entity': entity.id }) }}">{{ "button.show"|trans() }}</a>
                         <a class="btn btn-warning btn-mini"
                            href="{{ path('config_dns_edit', { 'entity': entity.id }) }}">{{ "button.edit"|trans() }}</a>
+                        <a class="btn btn-mini"
+                           href="{{ path('config_dns_edit_soa', { 'entity': entity.id }) }}">{{ "edit.page.dnssoa"|trans() }}</a>
                     </div>
                 </td>
             </tr>

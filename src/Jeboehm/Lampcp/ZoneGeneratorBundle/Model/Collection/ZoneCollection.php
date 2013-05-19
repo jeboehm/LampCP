@@ -11,9 +11,9 @@
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AbstractResourceRecord;
+use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\SOA;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 /**
  * Class ZoneCollection
@@ -40,6 +40,7 @@ class ZoneCollection extends ArrayCollection {
             $this->_soa = $value;
         } elseif ($value instanceof AbstractResourceRecord) {
             parent::add($value);
+            $this->_sortKeys();
         } else {
             throw new UnexpectedTypeException($value, 'Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ResourceRecord\AbstractResourceRecord');
         }
@@ -79,5 +80,13 @@ class ZoneCollection extends ArrayCollection {
         }
 
         return $arr;
+    }
+
+    /**
+     * Sort the array keys.
+     */
+    protected function _sortKeys() {
+        $values = $this->getValues();
+        parent::__construct($values);
     }
 }

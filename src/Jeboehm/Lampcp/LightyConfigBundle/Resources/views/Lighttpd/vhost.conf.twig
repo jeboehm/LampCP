@@ -51,7 +51,7 @@ server.modules += ( "mod_fastcgi", "mod_accesslog", "mod_setenv", "mod_auth", "m
             fastcgi.server = (
                 ".php" => (
                     (
-                        "socket" => "{{ vhost.Domain.Path }}/tmp/php.socket",
+                        "socket" => "{{ vhost.PhpFpmSocket }}",
                         "broken-scriptfilename" => "enable"
                     )
                 )
@@ -69,9 +69,7 @@ server.modules += ( "mod_fastcgi", "mod_accesslog", "mod_setenv", "mod_auth", "m
                     ssl.pemfile = "{{ vhost.Certificate.CertificateFilePath }}"
                 {% endif %}
 
-                {% if vhost.Certificate.CertificateChainFilePath != "" %}
-                    ssl.ca-file = "{{ vhost.Certificate.CertificateChainFilePath }}"
-                {% elseif vhost.Certificate.CACertificateFilePath != "" %}
+                {% if vhost.Certificate.CACertificateFilePath != "" %}
                     ssl.ca-file = "{{ vhost.Certificate.CACertificateFilePath }}"
                 {% endif %}
             {% endif %}

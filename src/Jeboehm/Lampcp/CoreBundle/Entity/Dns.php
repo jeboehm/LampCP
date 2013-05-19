@@ -11,18 +11,19 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Collection\ZoneCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Dns
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Jeboehm\Lampcp\CoreBundle\Entity\DnsRepository")
  * @UniqueEntity(fields = {"subdomain", "domain"})
  */
-class Dns extends AbstractEntity {
+class Dns extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -33,7 +34,7 @@ class Dns extends AbstractEntity {
     private $id;
 
     /**
-     * @var string
+     * @var Domain
      * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Domain", inversedBy="dns")
      */
@@ -56,7 +57,8 @@ class Dns extends AbstractEntity {
      *
      * @param Domain $domain
      */
-    public function __construct(Domain $domain) {
+    public function __construct(Domain $domain)
+    {
         $this->domain         = $domain;
         $this->subdomain      = '';
         $this->zonecollection = new ZoneCollection();
@@ -67,16 +69,18 @@ class Dns extends AbstractEntity {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * Get domain
      *
-     * @return string
+     * @return Domain
      */
-    public function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
@@ -87,7 +91,8 @@ class Dns extends AbstractEntity {
      *
      * @return Dns
      */
-    public function setSubdomain($subdomain) {
+    public function setSubdomain($subdomain)
+    {
         $this->subdomain = strval($subdomain);
 
         return $this;
@@ -98,7 +103,8 @@ class Dns extends AbstractEntity {
      *
      * @return string
      */
-    public function getSubdomain() {
+    public function getSubdomain()
+    {
         return $this->subdomain;
     }
 
@@ -109,7 +115,8 @@ class Dns extends AbstractEntity {
      *
      * @return Dns
      */
-    public function setZonecollection(ZoneCollection $zonecollection) {
+    public function setZonecollection(ZoneCollection $zonecollection)
+    {
         $this->zonecollection = $zonecollection;
 
         return $this;
@@ -120,7 +127,8 @@ class Dns extends AbstractEntity {
      *
      * @return ZoneCollection
      */
-    public function getZonecollection() {
+    public function getZonecollection()
+    {
         return $this->zonecollection;
     }
 
@@ -129,7 +137,8 @@ class Dns extends AbstractEntity {
      *
      * @return string
      */
-    public function getOrigin() {
+    public function getOrigin()
+    {
         if (!empty($this->subdomain)) {
             return $this->subdomain . '.' . $this->domain->getDomain();
         } else {

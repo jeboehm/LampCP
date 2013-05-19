@@ -70,4 +70,11 @@
     </table>
 
     {{ macros.showbuttongrp(path("config_dns"), path("config_dns_edit", { 'entity' : entity.id }), path("config_dns_delete", { 'entity' : entity.id })) }}
+
+    <div class="control-group">
+        <div class="controls">
+            <a class="btn btn-info"
+               href="{{ path('config_dns_edit_soa', {'entity' : entity.id}) }}">{{ "edit.page.dnssoa"|trans() }}</a>
+        </div>
+    </div>
 {% endblock %}

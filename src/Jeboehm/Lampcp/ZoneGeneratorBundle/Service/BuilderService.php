@@ -12,12 +12,13 @@ namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Monolog\Logger;
-use Symfony\Component\Filesystem\Filesystem;
 use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jeboehm\Lampcp\CoreBundle\Entity\Dns;
-use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Transformer\ZonefileTransformer;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\DirectoryNotFound;
+use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\Transformer\ZonefileTransformer;
+use Jeboehm\Lampcp\ZoneGeneratorBundle\Model\ZoneDefinition;
+use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class BuilderService
@@ -28,21 +29,21 @@ use Jeboehm\Lampcp\ZoneGeneratorBundle\Exception\DirectoryNotFound;
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class BuilderService {
-    /** @var \Doctrine\ORM\EntityManager */
+    /** @var EntityManager */
     protected $_em;
 
-    /** @var \Symfony\Bridge\Monolog\Logger */
+    /** @var Logger */
     protected $_logger;
 
-    /** @var \Jeboehm\Lampcp\ConfigBundle\Service\ConfigService */
+    /** @var ConfigService */
     protected $_config;
 
     /**
      * Konstruktor
      *
-     * @param \Doctrine\ORM\EntityManager                        $em
-     * @param \Symfony\Bridge\Monolog\Logger                     $logger
-     * @param \Jeboehm\Lampcp\ConfigBundle\Service\ConfigService $config
+     * @param EntityManager $em
+     * @param Logger        $logger
+     * @param ConfigService $config
      */
     public function __construct(EntityManager $em, Logger $logger, ConfigService $config) {
         $this->_em     = $em;
@@ -83,35 +84,6 @@ class BuilderService {
     }
 
     /**
-     * Get zone files definition
-     *
-     * @param string $name
-     * @param string $dbPath
-     *
-     * @return string
-     */
-    protected function _getZoneDefinition($name, $dbPath) {
-        $text = <<< EOT
-zone "%name%" IN {
-    type master;
-    file "%path%";
-};
-
-
-EOT;
-
-        $text = str_replace(array(
-                                 '%name%',
-                                 '%path%',
-                            ), array(
-                                    $name,
-                                    $dbPath,
-                               ), $text);
-
-        return $text;
-    }
-
-    /**
      * Get Dns Entities
      *
      * @return Dns[]
@@ -133,7 +105,7 @@ EOT;
     protected function _checkZoneDefinition(Dns $zone) {
         $dbPath     = sprintf('%s/%s.%s', $this->_getZoneDirectory(), $zone->getOrigin(), 'db');
         $config     = file_get_contents($this->_getZoneDefinitionPath());
-        $definition = $this->_getZoneDefinition($zone->getOrigin(), $dbPath);
+        $definition = ZoneDefinition::create($zone->getOrigin(), $dbPath);
 
         if (strpos($config, $definition) !== false) {
             return true;
@@ -152,7 +124,7 @@ EOT;
 
         foreach ($dns as $entity) {
             $pathZoneDb       = sprintf('%s/%s.%s', $this->_getZoneDirectory(), $entity->getOrigin(), 'db');
-            $zoneDefinition[] = $this->_getZoneDefinition($entity->getOrigin(), $pathZoneDb);
+            $zoneDefinition[] = ZoneDefinition::create($entity->getOrigin(), $pathZoneDb);
             $transformer      = new ZonefileTransformer($entity->getZonecollection());
 
             file_put_contents($pathZoneDb, $transformer->transform());

@@ -11,16 +11,17 @@
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Jeboehm\Lampcp\CoreBundle\Entity\AbstractEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table()
  * @ORM\Entity
  * @UniqueEntity("name")
  */
-class ConfigGroup extends AbstractEntity {
+class ConfigGroup extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -48,7 +49,8 @@ class ConfigGroup extends AbstractEntity {
      *
      * @return ConfigEntity[]
      */
-    public function getConfigentity() {
+    public function getConfigentity()
+    {
         return $this->configentity;
     }
 
@@ -59,7 +61,8 @@ class ConfigGroup extends AbstractEntity {
      *
      * @return ConfigGroup
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
 
         return $this;
@@ -70,7 +73,8 @@ class ConfigGroup extends AbstractEntity {
      *
      * @return int
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -81,7 +85,8 @@ class ConfigGroup extends AbstractEntity {
      *
      * @return ConfigGroup
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = strtolower($name);
 
         return $this;
@@ -92,7 +97,8 @@ class ConfigGroup extends AbstractEntity {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 }

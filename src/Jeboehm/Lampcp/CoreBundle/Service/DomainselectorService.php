@@ -10,10 +10,10 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Service;
 
-use Symfony\Component\HttpFoundation\Session\Session;
-use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Class DomainselectorService

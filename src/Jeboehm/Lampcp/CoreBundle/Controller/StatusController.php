@@ -13,12 +13,15 @@ namespace Jeboehm\Lampcp\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Status controller.
+ * Class StatusController
+ *
+ * @package Jeboehm\Lampcp\CoreBundle\Controller
+ * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
 class StatusController extends AbstractController {
     /**

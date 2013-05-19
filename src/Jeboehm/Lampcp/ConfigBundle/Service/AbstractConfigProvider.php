@@ -11,13 +11,14 @@
 namespace Jeboehm\Lampcp\ConfigBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Jeboehm\Lampcp\CoreBundle\Entity\ConfigGroup;
+use Jeboehm\Lampcp\ConfigBundle\Exception\NoGroupProvidedException;
 use Jeboehm\Lampcp\CoreBundle\Entity\ConfigEntity;
+use Jeboehm\Lampcp\CoreBundle\Entity\ConfigGroup;
 
 /**
  * Class AbstractConfigProvider
  *
- * Provides useful methods for configuration providers
+ * Provides useful methods for configuration providers.
  *
  * @package Jeboehm\Lampcp\ConfigBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
@@ -33,7 +34,7 @@ abstract class AbstractConfigProvider {
     private $_lastGroup;
 
     /**
-     * Konstruktor
+     * Constructor.
      *
      * @param EntityManager $em
      * @param ConfigService $config
@@ -44,7 +45,7 @@ abstract class AbstractConfigProvider {
     }
 
     /**
-     * Get config service
+     * Get config service.
      *
      * @return ConfigService
      */
@@ -53,23 +54,23 @@ abstract class AbstractConfigProvider {
     }
 
     /**
-     * Get doctrine
+     * Get doctrine.
      *
-     * @return \Doctrine\ORM\EntityManager
+     * @return EntityManager
      */
     protected function _getDoctrine() {
         return $this->_em;
     }
 
     /**
-     * Initialize config entities
+     * Initialize config entities.
      *
      * @return void
      */
     abstract public function init();
 
     /**
-     * Create group
+     * Create group.
      *
      * @param string $name
      *
@@ -101,19 +102,19 @@ abstract class AbstractConfigProvider {
     }
 
     /**
-     * Create entity
+     * Create entity.
      *
      * @param string      $name
      * @param integer     $type
      * @param ConfigGroup $group
      * @param string      $default
      *
-     * @throws \Exception
+     * @throws NoGroupProvidedException
      * @return AbstractConfigProvider
      */
     protected function _createEntity($name, $type, ConfigGroup $group = null, $default = '') {
         if (!$group && !$this->_lastGroup) {
-            throw new \Exception('No group provided!');
+            throw new NoGroupProvidedException();
         }
 
         $name   = strtolower($name);

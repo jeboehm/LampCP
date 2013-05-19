@@ -10,11 +10,11 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Protection
@@ -23,7 +23,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @UniqueEntity(fields = {"path", "domain"})
  */
-class Protection extends AbstractEntity {
+class Protection extends AbstractEntity
+{
     /**
      * @var integer
      *
@@ -64,7 +65,8 @@ class Protection extends AbstractEntity {
      *
      * @param Domain $domain
      */
-    public function __construct(Domain $domain) {
+    public function __construct(Domain $domain)
+    {
         $this->domain         = $domain;
         $this->protectionuser = new ArrayCollection();
     }
@@ -74,39 +76,32 @@ class Protection extends AbstractEntity {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
-     * Get domain
+     * Set id
      *
-     * @return Domain
+     * @param integer $id
+     *
+     * @return $this
      */
-    public function getDomain() {
-        return $this->domain;
-    }
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     *
-     * @return Protection
-     */
-    public function setPath($path) {
-        $this->path = strval($path);
-
+    public function setId($id)
+    {
+        $this->id = $id;
         return $this;
     }
 
     /**
-     * Get path
+     * Get realm
      *
      * @return string
      */
-    public function getPath() {
-        return $this->path;
+    public function getRealm()
+    {
+        return $this->realm;
     }
 
     /**
@@ -116,19 +111,11 @@ class Protection extends AbstractEntity {
      *
      * @return Protection
      */
-    public function setRealm($realm) {
+    public function setRealm($realm)
+    {
         $this->realm = $realm;
 
         return $this;
-    }
-
-    /**
-     * Get realm
-     *
-     * @return string
-     */
-    public function getRealm() {
-        return $this->realm;
     }
 
     /**
@@ -136,8 +123,22 @@ class Protection extends AbstractEntity {
      *
      * @return Collection
      */
-    public function getProtectionuser() {
+    public function getProtectionuser()
+    {
         return $this->protectionuser;
+    }
+
+    /**
+     * Set ProtectionUser
+     *
+     * @param Collection $protectionuser
+     *
+     * @return $this
+     */
+    public function setProtectionuser(Collection $protectionuser)
+    {
+        $this->protectionuser = $protectionuser;
+        return $this;
     }
 
     /**
@@ -145,7 +146,8 @@ class Protection extends AbstractEntity {
      *
      * @return string
      */
-    public function getFullPath() {
+    public function getFullPath()
+    {
         $path = $this
             ->getDomain()
             ->getPath();
@@ -155,5 +157,39 @@ class Protection extends AbstractEntity {
         }
 
         return $path;
+    }
+
+    /**
+     * Get domain
+     *
+     * @return Domain
+     */
+    public function getDomain()
+    {
+        return $this->domain;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     *
+     * @return Protection
+     */
+    public function setPath($path)
+    {
+        $this->path = strval($path);
+
+        return $this;
     }
 }

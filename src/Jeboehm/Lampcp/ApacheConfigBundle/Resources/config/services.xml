@@ -15,29 +15,41 @@ http://www.gnu.org/licenses/gpl-2.0.txt
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="jeboehm_lampcp_apache_config.abstractbuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\AbstractBuilderService</parameter>
         <parameter key="jeboehm_lampcp_apache_config.vhostbuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\VhostBuilderService</parameter>
         <parameter key="jeboehm_lampcp_apache_config.directorybuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService</parameter>
-        <parameter key="jeboehm_lampcp_apache_config.protectionbuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService</parameter>
         <parameter key="jeboehm_lampcp_apache_config.certificatebuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService</parameter>
+        <parameter key="jeboehm_lampcp_apache_config.protectionbuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService</parameter>
     </parameters>
 
     <services>
-        <service id="jeboehm_lampcp_apache_config_abstractbuilder" abstract="true">
-            <argument type="service" id="templating" />
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="config" />
-            <argument type="service" id="logger" />
-            <argument type="service" id="jeboehm_lampcp_core.cryptservice" />
+        <service id="jeboehm_lampcp_apache_config_directorybuilder" class="%jeboehm_lampcp_apache_config.directorybuilderservice.class%"/>
+
+        <service id="jeboehm_lampcp_apache_config_certificatebuilder" class="%jeboehm_lampcp_apache_config.certificatebuilderservice.class%">
+            <call method="setCryptService">
+                <argument type="service" id="jeboehm_lampcp_core.cryptservice"/>
+            </call>
         </service>
 
-        <service id="jeboehm_lampcp_apache_config_vhostbuilder" class="%jeboehm_lampcp_apache_config.vhostbuilderservice.class%" parent="jeboehm_lampcp_apache_config_abstractbuilder" />
-        <service id="jeboehm_lampcp_apache_config_directorybuilder" class="%jeboehm_lampcp_apache_config.directorybuilderservice.class%" parent="jeboehm_lampcp_apache_config_abstractbuilder" />
-        <service id="jeboehm_lampcp_apache_config_protectionbuilder" class="%jeboehm_lampcp_apache_config.protectionbuilderservice.class%" parent="jeboehm_lampcp_apache_config_abstractbuilder" />
-        <service id="jeboehm_lampcp_apache_config_certificatebuilder" class="%jeboehm_lampcp_apache_config.certificatebuilderservice.class%" parent="jeboehm_lampcp_apache_config_abstractbuilder" />
+        <service id="jeboehm_lampcp_apache_config_vhostbuilder" class="%jeboehm_lampcp_apache_config.vhostbuilderservice.class%">
+            <call method="setPhpFpmConfigBuilder">
+                <argument type="service" id="jeboehm_lampcp_php_fpm.configbuilderservice"/>
+            </call>
+            <call method="setTwigEngine">
+                <argument type="service" id="templating"/>
+            </call>
+        </service>
+
+        <service id="jeboehm_lampcp_apache_config_protectionbuilder" class="%jeboehm_lampcp_apache_config.protectionbuilderservice.class%">
+            <call method="setCryptservice">
+                <argument type="service" id="jeboehm_lampcp_core.cryptservice"/>
+            </call>
+            <call method="setTwigEngine">
+                <argument type="service" id="templating"/>
+            </call>
+        </service>
 
         <service id="jeboehm_lampcp_apache_config_configprovider" class="Jeboehm\Lampcp\ApacheConfigBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
-            <tag name="config.provider" />
+            <tag name="config.provider"/>
         </service>
     </services>
 </container>

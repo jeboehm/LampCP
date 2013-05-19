@@ -10,62 +10,50 @@
 
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
-use Jeboehm\Lampcp\CoreBundle\Utilities\ExecUtility;
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Service\BuilderService;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Class GenerateConfigCommand
  *
- * Generate Bind zonefiles
+ * Generate Bind zonefiles.
  *
  * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class GenerateConfigCommand extends AbstractCommand {
+class GenerateConfigCommand extends AbstractCommand
+{
     /**
-     * Get watched entitys
-     *
-     * @return array
+     * Configure command.
      */
-    protected function _getEntitys() {
-        $entitys = array(
-            'Jeboehm\Lampcp\CoreBundle\Entity\Dns',
-        );
-
-        return $entitys;
-    }
-
-    /**
-     * Configure command
-     */
-    protected function configure() {
+    protected function configure()
+    {
         $this->setName('lampcp:zone:generateconfig');
         $this->setDescription('Generates the zonefiles');
         $this->addOption('force', 'f', InputOption::VALUE_NONE);
     }
 
     /**
-     * Execute command
+     * Execute command.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      *
      * @throws \Exception
      * @return int|null|void
      */
-    protected function execute(InputInterface $input, OutputInterface $output) {
-        if (!$this->_isEnabled()) {
-            $this
-                ->_getLogger()
-                ->err('(ZoneGeneratorBundle) Command not enabled!');
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        if (!$this->_isEnabled() && !$input->getOption('force')) {
+            $output->writeln('Command not enabled.');
 
-            return;
+            return false;
         }
 
         $run = false;
@@ -77,73 +65,76 @@ class GenerateConfigCommand extends AbstractCommand {
         if ($run) {
             $this
                 ->_getLogger()
-                ->info('(ZoneGeneratorBundle) Executing...');
+                ->info('Building dns configuration...');
 
-            if ($input->getOption('verbose')) {
-                $output->writeln('(ZoneGeneratorBundle) Executing...');
-            }
+            $builder = $this->_getBuilderService();
+            $builder->build();
 
-            try {
-                $builder = $this->_getBuilderService();
-                $builder->build();
-                $this->_restartBind();
-            } catch (\Exception $e) {
-                $this
-                    ->_getLogger()
-                    ->err('(ZoneGeneratorBundle) Error: ' . $e->getMessage());
-
-                throw $e;
-            }
+            $this->_restartBind();
 
             $this
                 ->_getCronService()
                 ->updateLastRun($this->getName());
-        } else {
-            if ($input->getOption('verbose')) {
-                $output->writeln('(ZoneGeneratorBundle) No changes detected.');
-            }
         }
     }
 
     /**
-     * Checks for changed entitys that are relevant for this task
+     * Get "enabled" from config service.
+     *
+     * @return string
+     */
+    protected function _isEnabled()
+    {
+        return $this
+            ->_getConfigService()
+            ->getParameter('dns.enabled');
+    }
+
+    /**
+     * Checks for changed entitys that are relevant for this task.
      *
      * @return bool
      */
-    protected function _isChanged() {
-        $last = $this
+    protected function _isChanged()
+    {
+        return $this
             ->_getCronService()
-            ->getLastRun($this->getName());
-
-        /**
-         * First run
-         */
-        if (!$last) {
-            return true;
-        } else {
-            /**
-             * Find entities newer than $last
-             */
-            foreach ($this->_getEntitys() as $entity) {
-                $result = $this
-                    ->_getChangeTrackingService()
-                    ->findNewer($entity, $last);
-
-                if (count($result) > 0) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+            ->checkEntitiesChanged($this->getName(), $this->_getEntities());
     }
 
     /**
-     * Get builder service
+     * Get cron service.
+     *
+     * @return CronService
+     */
+    protected function _getCronService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_core.cronservice');
+    }
+
+    /**
+     * Get watched entities.
+     *
+     * @return array
+     */
+    protected function _getEntities()
+    {
+        $entitys = array(
+            'Jeboehm\Lampcp\CoreBundle\Entity\Dns',
+        );
+
+        return $entitys;
+    }
+
+    /**
+     * Get builder service.
      *
      * @return BuilderService
      */
-    protected function _getBuilderService() {
+    protected function _getBuilderService()
+    {
         /** @var $service BuilderService */
         $service = $this
             ->getContainer()
@@ -153,64 +144,47 @@ class GenerateConfigCommand extends AbstractCommand {
     }
 
     /**
-     * Get change tracking service
+     * Restart Bind.
      *
-     * @return ChangeTrackingService
+     * @return bool
      */
-    protected function _getChangeTrackingService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_core.changetrackingservice');
-    }
-
-    /**
-     * Get cron service
-     *
-     * @return CronService
-     */
-    protected function _getCronService() {
-        return $this
-            ->getContainer()
-            ->get('jeboehm_lampcp_core.cronservice');
-    }
-
-    /**
-     * Get "enabled" from config service
-     *
-     * @return string
-     */
-    protected function _isEnabled() {
-        return $this
-            ->_getConfigService()
-            ->getParameter('dns.enabled');
-    }
-
-    /**
-     * Restart Bind
-     */
-    protected function _restartBind() {
-        $exec = new ExecUtility();
-        $cmd  = $this
+    protected function _restartBind()
+    {
+        $cmd = $this
             ->_getConfigService()
             ->getParameter('dns.cmd.reload');
 
-        if (!empty($cmd)) {
+        if (empty($cmd)) {
+            return false;
+        }
+
+        $proc = new Process($cmd);
+        $proc->run();
+
+        if ($proc->getExitCode() > 0) {
             $this
                 ->_getLogger()
-                ->info('(ZoneGeneratorBundle) Restarting Bind...');
+                ->error('Could not restart bind!');
 
-            if (strpos($cmd, ' ') !== false) {
-                $cmdSplit = explode(' ', $cmd);
-                $exec->exec(array_shift($cmdSplit), $cmdSplit);
-            } else {
-                $exec->exec($cmd);
-            }
-
-            if ($exec->getCode() > 0) {
-                $this
-                    ->_getLogger()
-                    ->err($exec->getOutput());
-            }
+            return false;
+        } else {
+            $this
+                ->_getLogger()
+                ->info('Restarted bind!');
         }
+
+        return true;
+    }
+
+    /**
+     * Get change tracking service.
+     *
+     * @return ChangeTrackingService
+     */
+    protected function _getChangeTrackingService()
+    {
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_core.changetrackingservice');
     }
 }

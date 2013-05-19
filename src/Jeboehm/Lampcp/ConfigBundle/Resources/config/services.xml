@@ -11,8 +11,8 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 -->
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
         <parameter key="jeboehm_lampcp_config.configservice.class">Jeboehm\Lampcp\ConfigBundle\Service\ConfigService</parameter>
@@ -23,17 +23,22 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
     <services>
         <service id="jeboehm_lampcp_config_configservice" class="%jeboehm_lampcp_config.configservice.class%">
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="jeboehm_lampcp_core.cryptservice" />
+            <call method="setEm">
+                <argument type="service" id="doctrine.orm.entity_manager"/>
+            </call>
+
+            <call method="setCs">
+                <argument type="service" id="jeboehm_lampcp_core.cryptservice"/>
+            </call>
         </service>
 
         <service id="jeboehm_lampcp_config_abstractconfigprovider" class="%jeboehm_lampcp_config.abstractconfigprovider.class%" abstract="true">
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="jeboehm_lampcp_config_configservice" />
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="jeboehm_lampcp_config_configservice"/>
         </service>
 
-        <service id="jeboehm_lampcp_config_configprovidercollector" class="%jeboehm_lampcp_config.configprovidercollector.class%" />
+        <service id="jeboehm_lampcp_config_configprovidercollector" class="%jeboehm_lampcp_config.configprovidercollector.class%"/>
 
-        <service id="config" alias="jeboehm_lampcp_config_configservice" />
+        <service id="config" alias="jeboehm_lampcp_config_configservice"/>
     </services>
 </container>
