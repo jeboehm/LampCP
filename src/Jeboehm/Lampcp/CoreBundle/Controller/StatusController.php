@@ -78,6 +78,13 @@ class StatusController extends AbstractController
      */
     public function setCronForceAction(Cron $cron)
     {
+        $cron->setForce(true);
+
+        $this
+            ->getDoctrine()
+            ->getManager()
+            ->flush();
+
         return $this->redirect($this->generateUrl('status'));
     }
 }
