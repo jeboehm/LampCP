@@ -59,7 +59,7 @@ class StatusController extends AbstractController
     /**
      * Saves the domain to domainselector.
      *
-     * @Route("/config/setdomain/{domain}", name="set_domain")
+     * @Route("/config/setdomain/{domain}", name="status_set_domain")
      */
     public function setDomainAction(Domain $domain)
     {

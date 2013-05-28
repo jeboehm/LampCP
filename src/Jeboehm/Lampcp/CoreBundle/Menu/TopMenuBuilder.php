@@ -48,7 +48,7 @@ class TopMenuBuilder extends ContainerAware
             $domainselector->addChild(
                 $domain->getDomain(),
                 array(
-                     'route'           => 'set_domain',
+                     'route'           => 'status_set_domain',
                      'routeParameters' => array(
                          'domain' => $domain->getId(),
                      ),
