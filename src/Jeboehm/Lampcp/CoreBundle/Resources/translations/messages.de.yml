@@ -215,6 +215,8 @@ status:
     column:
         name: Name
         lastrun: Zuletzt ausgeführt
+    button:
+        force: Ausführung erzwingen
 
 # Systemconfig
 config:

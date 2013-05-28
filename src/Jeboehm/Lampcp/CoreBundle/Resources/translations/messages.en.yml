@@ -215,6 +215,8 @@ status:
     column:
         name: Name
         lastrun: Last run
+    button:
+        force: Force execution
 
 # Systemconfig
 config:

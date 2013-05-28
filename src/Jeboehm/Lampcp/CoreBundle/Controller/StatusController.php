@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityRepository;
+use Jeboehm\Lampcp\CoreBundle\Entity\Cron;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -67,6 +68,16 @@ class StatusController extends AbstractController
         $domainselector = $this->get('jeboehm_lampcp_core.domainselector');
         $domainselector->setDomain($domain);
 
+        return $this->redirect($this->generateUrl('status'));
+    }
+
+    /**
+     * Set force to true in Cron entity.
+     *
+     * @Route("/config/forcecron/{cron}", name="status_force_cron")
+     */
+    public function setCronForceAction(Cron $cron)
+    {
         return $this->redirect($this->generateUrl('status'));
     }
 }
