@@ -24,10 +24,10 @@ use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
  * @package Jeboehm\Lampcp\CoreBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class CronService {
+class CronService
+{
     /** @var EntityManager */
     private $_em;
-
     /** @var ChangeTrackingService */
     private $_cs;
 
@@ -37,48 +37,10 @@ class CronService {
      * @param EntityManager         $em
      * @param ChangeTrackingService $cs
      */
-    public function __construct(EntityManager $em, ChangeTrackingService $cs) {
+    public function __construct(EntityManager $em, ChangeTrackingService $cs)
+    {
         $this->_em = $em;
         $this->_cs = $cs;
-    }
-
-    /**
-     * Get entity manager.
-     *
-     * @return EntityManager
-     */
-    protected function _getEntityManager() {
-        return $this->_em;
-    }
-
-    /**
-     * Get repository.
-     *
-     * @return EntityRepository
-     */
-    protected function _getRepository() {
-        return $this->_em->getRepository('JeboehmLampcpCoreBundle:Cron');
-    }
-
-    /**
-     * Get or create Cron entity for $name.
-     *
-     * @param string $name
-     * @param bool   $create
-     *
-     * @return Cron
-     */
-    protected function _getEntity($name, $create = true) {
-        $entity = $this
-            ->_getRepository()
-            ->findOneBy(array('name' => $name));
-
-        if ($entity === null && $create) {
-            $entity = new Cron();
-            $entity->setName($name);
-        }
-
-        return $entity;
     }
 
     /**
@@ -88,7 +50,8 @@ class CronService {
      *
      * @return \DateTime
      */
-    public function updateLastRun($name) {
+    public function updateLastRun($name)
+    {
         $entity = $this->_getEntity($name);
         $time   = new \DateTime();
 
@@ -105,20 +68,45 @@ class CronService {
     }
 
     /**
-     * Get last run.
+     * Get or create Cron entity for $name.
      *
      * @param string $name
+     * @param bool   $create
      *
-     * @return \DateTime|null
+     * @return Cron
      */
-    public function getLastRun($name) {
-        $entity = $this->_getEntity($name, false);
+    protected function _getEntity($name, $create = true)
+    {
+        $entity = $this
+            ->_getRepository()
+            ->findOneBy(array('name' => $name));
 
-        if (!$entity) {
-            return null;
-        } else {
-            return $entity->getLastrun();
+        if ($entity === null && $create) {
+            $entity = new Cron();
+            $entity->setName($name);
         }
+
+        return $entity;
+    }
+
+    /**
+     * Get repository.
+     *
+     * @return EntityRepository
+     */
+    protected function _getRepository()
+    {
+        return $this->_em->getRepository('JeboehmLampcpCoreBundle:Cron');
+    }
+
+    /**
+     * Get entity manager.
+     *
+     * @return EntityManager
+     */
+    protected function _getEntityManager()
+    {
+        return $this->_em;
     }
 
     /**
@@ -129,7 +117,8 @@ class CronService {
      *
      * @return bool
      */
-    public function checkEntitiesChanged($name, array $entities) {
+    public function checkEntitiesChanged($name, array $entities)
+    {
         $last = $this->getLastRun($name);
 
         if ($last === null) {
@@ -145,5 +134,23 @@ class CronService {
         }
 
         return false;
+    }
+
+    /**
+     * Get last run.
+     *
+     * @param string $name
+     *
+     * @return \DateTime|null
+     */
+    public function getLastRun($name)
+    {
+        $entity = $this->_getEntity($name, false);
+
+        if (!$entity) {
+            return null;
+        } else {
+            return $entity->getLastrun();
+        }
     }
 }

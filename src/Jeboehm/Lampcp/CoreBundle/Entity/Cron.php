@@ -31,14 +31,12 @@ class Cron extends AbstractEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=64)
      */
     private $name;
-
     /**
      * @var \DateTime
      *
@@ -57,6 +55,16 @@ class Cron extends AbstractEntity
     }
 
     /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * Set name
      *
      * @param string $name
@@ -71,13 +79,13 @@ class Cron extends AbstractEntity
     }
 
     /**
-     * Get name
+     * Get last run
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getName()
+    public function getLastrun()
     {
-        return $this->name;
+        return $this->lastrun;
     }
 
     /**
@@ -92,15 +100,5 @@ class Cron extends AbstractEntity
         $this->lastrun = $lastrun;
 
         return $this;
-    }
-
-    /**
-     * Get last run
-     *
-     * @return \DateTime
-     */
-    public function getLastrun()
-    {
-        return $this->lastrun;
     }
 }
