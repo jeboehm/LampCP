@@ -119,7 +119,7 @@ class CronService
      */
     public function checkEntitiesChanged($name, array $entities)
     {
-        $last = $this->getLastRun($name);
+        $last = $this->_getLastRun($name);
 
         if ($last === null) {
             return true;
@@ -143,7 +143,7 @@ class CronService
      *
      * @return \DateTime|null
      */
-    public function getLastRun($name)
+    protected function _getLastRun($name)
     {
         $entity = $this->_getEntity($name, false);
 
