@@ -43,6 +43,21 @@ class Cron extends AbstractEntity
      * @ORM\Column(name="lastrun", type="datetime")
      */
     private $lastrun;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="force", type="boolean")
+     */
+    private $force;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->force   = false;
+        $this->lastrun = new \DateTime();
+    }
 
     /**
      * Get id
@@ -98,6 +113,30 @@ class Cron extends AbstractEntity
     public function setLastrun(\DateTime $lastrun)
     {
         $this->lastrun = $lastrun;
+
+        return $this;
+    }
+
+    /**
+     * Get force
+     *
+     * @return boolean
+     */
+    public function getForce()
+    {
+        return $this->force;
+    }
+
+    /**
+     * Set force
+     *
+     * @param boolean $force
+     *
+     * @return $this
+     */
+    public function setForce($force)
+    {
+        $this->force = (bool)$force;
 
         return $this;
     }
