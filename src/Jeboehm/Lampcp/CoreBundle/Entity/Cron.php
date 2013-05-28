@@ -46,7 +46,7 @@ class Cron extends AbstractEntity
     /**
      * @var boolean
      *
-     * @ORM\Column(name="force", type="boolean")
+     * @ORM\Column(name="enforce", type="boolean")
      */
     private $force;
 
