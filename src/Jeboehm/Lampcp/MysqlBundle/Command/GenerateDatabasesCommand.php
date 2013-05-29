@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\MysqlBundle\Command;
 
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Jeboehm\Lampcp\CoreBundle\Command\ConfigBuilderCommandInterface;
 use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\MysqlBundle\Service\MysqlAdminService;
@@ -27,7 +28,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @package Jeboehm\Lampcp\MysqlBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class GenerateDatabasesCommand extends AbstractCommand
+class GenerateDatabasesCommand extends AbstractCommand implements ConfigBuilderCommandInterface
 {
     /** @var MysqlAdminService */
     protected $_mysqladminservice;
@@ -39,9 +40,19 @@ class GenerateDatabasesCommand extends AbstractCommand
      */
     protected function configure()
     {
-        $this->setName('lampcp:mysql:generatedatabases');
+        $this->setName(self::getCommandName());
         $this->setDescription('Generates (and deletes) MySQL Databases');
         $this->addOption('force', 'f', InputOption::VALUE_NONE);
+    }
+
+    /**
+     * Get the command's name.
+     *
+     * @return string
+     */
+    public static function getCommandName()
+    {
+        return 'lampcp:mysql:generatedatabases';
     }
 
     /**
@@ -111,7 +122,7 @@ class GenerateDatabasesCommand extends AbstractCommand
     {
         return $this
             ->_getCronService()
-            ->checkEntitiesChanged($this->getName(), $this->_getEntities());
+            ->checkEntitiesChanged($this->getName(), self::getListenEntities());
     }
 
     /**
@@ -127,17 +138,16 @@ class GenerateDatabasesCommand extends AbstractCommand
     }
 
     /**
-     * Get watched entities.
+     * A list of entities that require an execution
+     * of this command when they are changed.
      *
      * @return array
      */
-    protected function _getEntities()
+    public static function getListenEntities()
     {
-        $entitys = array(
+        return array(
             'JeboehmLampcpCoreBundle:MysqlDatabase',
         );
-
-        return $entitys;
     }
 
     /**

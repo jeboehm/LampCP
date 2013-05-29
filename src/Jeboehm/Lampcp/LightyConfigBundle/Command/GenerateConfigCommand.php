@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\LightyConfigBundle\Command;
 
 use Jeboehm\Lampcp\ApacheConfigBundle\Command\GenerateConfigCommand as ParentGenerateConfigCommand;
+use Jeboehm\Lampcp\CoreBundle\Command\ConfigBuilderCommandInterface;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\CertificateBuilderService;
 use Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService;
@@ -24,7 +25,7 @@ use Symfony\Component\Process\Process;
  * @package Jeboehm\Lampcp\LightyConfigBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class GenerateConfigCommand extends ParentGenerateConfigCommand
+class GenerateConfigCommand extends ParentGenerateConfigCommand implements ConfigBuilderCommandInterface
 {
     /**
      * Get "enabled" from config service.
@@ -44,9 +45,19 @@ class GenerateConfigCommand extends ParentGenerateConfigCommand
     protected function configure()
     {
         $this
-            ->setName('lampcp:lighty:generateconfig')
+            ->setName(self::getCommandName())
             ->setDescription('Generates the Lighttpd configuration.')
             ->addOption('force', 'f', InputOption::VALUE_NONE);
+    }
+
+    /**
+     * Get the command's name.
+     *
+     * @return string
+     */
+    public static function getCommandName()
+    {
+        return 'lampcp:lighty:generateconfig';
     }
 
     /**
