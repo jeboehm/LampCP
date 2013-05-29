@@ -18,6 +18,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <parameter key="jeboehm_lampcp_lighty_config.directorybuilderservice.class">Jeboehm\Lampcp\LightyConfigBundle\Service\DirectoryBuilderService</parameter>
         <parameter key="jeboehm_lampcp_lighty_config.vhostbuilderservice.class">Jeboehm\Lampcp\LightyConfigBundle\Service\VhostBuilderService</parameter>
         <parameter key="jeboehm_lampcp_lighty_config.certificatebuilderservice.class">Jeboehm\Lampcp\LightyConfigBundle\Service\CertificateBuilderService</parameter>
+        <parameter key="jeboehm_lampcp_lighty_config.generateconfigcommand.class">Jeboehm\Lampcp\LightyConfigBundle\Command\GenerateConfigCommand</parameter>
     </parameters>
 
     <services>
@@ -27,6 +28,10 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
         <service id="jeboehm_lampcp_lighty_config_configprovider" class="Jeboehm\Lampcp\LightyConfigBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
             <tag name="config.provider"/>
+        </service>
+
+        <service id="jeboehm_lampcp_lighty_config.generateconfigcommand" class="%jeboehm_lampcp_lighty_config.generateconfigcommand.class%">
+            <tag name="config.builder"/>
         </service>
     </services>
 </container>
