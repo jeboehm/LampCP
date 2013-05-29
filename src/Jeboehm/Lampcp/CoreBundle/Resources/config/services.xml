@@ -22,7 +22,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <parameter key="jeboehm_lampcp_core.cronservice.class">Jeboehm\Lampcp\CoreBundle\Service\CronService</parameter>
         <parameter key="jeboehm_lampcp_core.configbuildercommandcollector.class">Jeboehm\Lampcp\CoreBundle\Service\ConfigBuilderCommandCollector</parameter>
         <parameter key="jeboehm_lampcp_core.entityremovelistener.class">Jeboehm\Lampcp\CoreBundle\Listener\EntityRemoveListener</parameter>
-
+        <parameter key="jeboehm_lampcp_core.buildernotifierservice.class">Jeboehm\Lampcp\CoreBundle\Service\BuilderNotifierService</parameter>
         <parameter key="jeboehm_lampcp_core.promoteallsuperadmin.update.class">Jeboehm\Lampcp\CoreBundle\Update\RoleUpdate\PromoteAllSuperAdmin</parameter>
     </parameters>
 
@@ -59,6 +59,15 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             <tag name="doctrine.event_listener" event="postRemove"/>
             <argument type="service" id="service_container"/>
         </service>
+
+        <service id="jeboehm_lampcp_core.buildernotifierservice" class="%jeboehm_lampcp_core.buildernotifierservice.class%">
+            <call method="setEntityManager">
+                <argument type="service" id="doctrine.orm.entity_manager"/>
+            </call>
+
+            <call method="setBuilderCollector">
+                <argument type="service" id="jeboehm_lampcp_core.configbuildercommandcollector"/>
+            </call>
         </service>
     </services>
 </container>
