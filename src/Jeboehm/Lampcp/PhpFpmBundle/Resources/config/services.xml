@@ -16,6 +16,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
     <parameters>
         <parameter key="jeboehm_lampcp_php_fpm.configbuilderservice.class">Jeboehm\Lampcp\PhpFpmBundle\Service\ConfigBuilderService</parameter>
+        <parameter key="jeboehm_lampcp_php_fpm.generateconfigcommand.class">Jeboehm\Lampcp\PhpFpmBundle\Command\GenerateConfigCommand</parameter>
     </parameters>
 
     <services>
@@ -37,6 +38,10 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             <call method="setEm">
                 <argument type="service" id="doctrine.orm.entity_manager"/>
             </call>
+        </service>
+
+        <service id="jeboehm_lampcp_php_fpm.generateconfigcommand" class="%jeboehm_lampcp_php_fpm.generateconfigcommand.class%">
+            <tag name="config.builder"/>
         </service>
     </services>
 </container>

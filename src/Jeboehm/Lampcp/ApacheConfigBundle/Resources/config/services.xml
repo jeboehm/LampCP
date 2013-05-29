@@ -19,6 +19,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <parameter key="jeboehm_lampcp_apache_config.directorybuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\DirectoryBuilderService</parameter>
         <parameter key="jeboehm_lampcp_apache_config.certificatebuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\CertificateBuilderService</parameter>
         <parameter key="jeboehm_lampcp_apache_config.protectionbuilderservice.class">Jeboehm\Lampcp\ApacheConfigBundle\Service\ProtectionBuilderService</parameter>
+        <parameter key="jeboehm_lampcp_apache_config.generateconfigcommand.class">Jeboehm\Lampcp\ApacheConfigBundle\Command\GenerateConfigCommand</parameter>
     </parameters>
 
     <services>
@@ -50,6 +51,10 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
         <service id="jeboehm_lampcp_apache_config_configprovider" class="Jeboehm\Lampcp\ApacheConfigBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
             <tag name="config.provider"/>
+        </service>
+
+        <service id="jeboehm_lampcp_apache_config.generateconfigcommand" class="%jeboehm_lampcp_apache_config.generateconfigcommand.class%">
+            <tag name="config.builder"/>
         </service>
     </services>
 </container>

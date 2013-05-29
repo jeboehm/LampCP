@@ -17,6 +17,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
     <parameters>
         <parameter key="jeboehm_lampcp_mysql.mysqladminservice.class">Jeboehm\Lampcp\MysqlBundle\Service\MysqlAdminService</parameter>
         <parameter key="jeboehm_lampcp_mysql.mysqlsynchronizerservice.class">Jeboehm\Lampcp\MysqlBundle\Service\MysqlSynchronizerService</parameter>
+        <parameter key="jeboehm_lampcp_mysql.generatedatabasescommand.class">Jeboehm\Lampcp\MysqlBundle\Command\GenerateDatabasesCommand</parameter>
     </parameters>
 
     <services>
@@ -34,6 +35,10 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
         <service id="jeboehm_lampcp_mysql.configprovider" class="Jeboehm\Lampcp\MysqlBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
             <tag name="config.provider"/>
+        </service>
+
+        <service id="jeboehm_lampcp_mysql.generatedatabasescommand" class="%jeboehm_lampcp_mysql.generatedatabasescommand.class%">
+            <tag name="config.builder"/>
         </service>
     </services>
 </container>
