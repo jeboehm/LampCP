@@ -20,6 +20,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <parameter key="jeboehm_lampcp_core.cryptservice.class">Jeboehm\Lampcp\CoreBundle\Service\CryptService</parameter>
         <parameter key="jeboehm_lampcp_core.changetrackingservice.class">Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService</parameter>
         <parameter key="jeboehm_lampcp_core.cronservice.class">Jeboehm\Lampcp\CoreBundle\Service\CronService</parameter>
+        <parameter key="jeboehm_lampcp_core.configbuildercommandcollector.class">Jeboehm\Lampcp\CoreBundle\Service\ConfigBuilderCommandCollector</parameter>
 
         <parameter key="jeboehm_lampcp_core.promoteallsuperadmin.update.class">Jeboehm\Lampcp\CoreBundle\Update\RoleUpdate\PromoteAllSuperAdmin</parameter>
     </parameters>
@@ -50,5 +51,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
         <service id="jeboehm_lampcp_core.promoteallsuperadmin.update" class="%jeboehm_lampcp_core.promoteallsuperadmin.update.class%">
             <tag name="update.provider"/>
         </service>
+
+        <service id="jeboehm_lampcp_core.configbuildercommandcollector" class="%jeboehm_lampcp_core.configbuildercommandcollector.class%"/>
     </services>
 </container>
