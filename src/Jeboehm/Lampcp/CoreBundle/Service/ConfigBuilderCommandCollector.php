@@ -50,7 +50,7 @@ class ConfigBuilderCommandCollector
     /**
      * Get all config builders.
      *
-     * @return array
+     * @return ConfigBuilderCommandInterface[]
      */
     public function getBuilders()
     {
