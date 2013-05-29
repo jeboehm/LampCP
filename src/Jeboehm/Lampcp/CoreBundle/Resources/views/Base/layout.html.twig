@@ -10,9 +10,9 @@
 {% extends '::base.html.twig' %}
 {% import "JeboehmLampcpCoreBundle:Base:macros.html.twig" as macros %}
 
-{% block title %}
+{% block headtitle %}
     {% spaceless %}
-        {{ "title.head"|trans() }}
+        {{ block('title') }} - {{ "title.head"|trans() }}
     {% endspaceless %}
 {% endblock %}
 
@@ -57,7 +57,6 @@
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span2">
-
                 <div class="sidebar-nav">
                     {{ knp_menu_render('JeboehmLampcpCoreBundle:GeneralMenuBuilder:getMenu',
                     {'nav_type': 'stacked_pills'}) }}
@@ -83,6 +82,10 @@
                                 </div>
                             {% endfor %}
                         {% endfor %}
+
+                        <div class="page-header">
+                            <h1>{{ block('title') }}</h1>
+                        </div>
 
                         {% block content %}
                         {% endblock %}
