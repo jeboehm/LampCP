@@ -119,6 +119,10 @@ class CronService
      */
     public function checkEntitiesChanged($name, array $entities)
     {
+        if ($this->_getAndResetCronForce($name)) {
+            return true;
+        }
+
         $last = $this->_getLastRun($name);
 
         if ($last === null) {
@@ -134,6 +138,35 @@ class CronService
         }
 
         return false;
+    }
+
+    /**
+     * Get force state of a cronjob.
+     * If force is set to true, reset it and return true.
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    protected function _getAndResetCronForce($name)
+    {
+        $entity = $this->_getEntity($name, false);
+
+        if (!$entity) {
+            return false;
+        } else {
+            if ($entity->getForce()) {
+                $entity->setForce(false);
+
+                $this
+                    ->_getEntityManager()
+                    ->flush();
+
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     /**
