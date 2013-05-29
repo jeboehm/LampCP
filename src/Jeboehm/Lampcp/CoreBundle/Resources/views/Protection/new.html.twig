@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "create.page.protection"|trans() }}</h1>
-
     <form action="{{ path('config_protection_create') }}" class="form-horizontal"
           method="post" {{ form_enctype(form) }}>
 
@@ -22,4 +20,8 @@
 
         {{ macros.formbuttongrp(path('config_protection')) }}
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "create.page.protection"|trans() }}
 {% endblock %}
