@@ -31,20 +31,33 @@ class Cron extends AbstractEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=64)
      */
     private $name;
-
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="lastrun", type="datetime")
      */
     private $lastrun;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="enforce", type="boolean")
+     */
+    private $force;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->force   = false;
+        $this->lastrun = new \DateTime();
+    }
 
     /**
      * Get id
@@ -54,6 +67,16 @@ class Cron extends AbstractEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -71,13 +94,13 @@ class Cron extends AbstractEntity
     }
 
     /**
-     * Get name
+     * Get last run
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getName()
+    public function getLastrun()
     {
-        return $this->name;
+        return $this->lastrun;
     }
 
     /**
@@ -95,12 +118,26 @@ class Cron extends AbstractEntity
     }
 
     /**
-     * Get last run
+     * Get force
      *
-     * @return \DateTime
+     * @return boolean
      */
-    public function getLastrun()
+    public function getForce()
     {
-        return $this->lastrun;
+        return $this->force;
+    }
+
+    /**
+     * Set force
+     *
+     * @param boolean $force
+     *
+     * @return $this
+     */
+    public function setForce($force)
+    {
+        $this->force = (bool)$force;
+
+        return $this;
     }
 }

@@ -13,6 +13,7 @@ namespace Jeboehm\Lampcp\CoreBundle\Menu;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 use Knp\Menu\FactoryInterface;
+use Knp\Menu\ItemInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Security\Core\SecurityContext;
 
@@ -24,16 +25,18 @@ use Symfony\Component\Security\Core\SecurityContext;
  * @package Jeboehm\Lampcp\CoreBundle\Menu
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class TopMenuBuilder extends ContainerAware {
+class TopMenuBuilder extends ContainerAware
+{
     /**
      * Build the top menu
      *
-     * @param \Knp\Menu\FactoryInterface $factory
-     * @param array                      $options
+     * @param FactoryInterface $factory
+     * @param array            $options
      *
-     * @return \Knp\Menu\ItemInterface
+     * @return ItemInterface
      */
-    public function getMenu(FactoryInterface $factory, array $options) {
+    public function getMenu(FactoryInterface $factory, array $options)
+    {
         $menu           = $factory->createItem('root');
         $domainselector = $menu->addChild($this->_getDomainselectorTitle());
 
@@ -42,53 +45,18 @@ class TopMenuBuilder extends ContainerAware {
                      ->_getDomainselectorService()
                      ->getDomains() as $domain) {
             /** @var $domain Domain */
-            $domainselector->addChild($domain->getDomain(), array(
-                                                                 'route'           => 'set_domain',
-                                                                 'routeParameters' => array(
-                                                                     'domain' => $domain->getId(),
-                                                                 ),
-                                                            ));
+            $domainselector->addChild(
+                $domain->getDomain(),
+                array(
+                     'route'           => 'status_set_domain',
+                     'routeParameters' => array(
+                         'domain' => $domain->getId(),
+                     ),
+                )
+            );
         }
 
         return $menu;
-    }
-
-    /**
-     * Get user menu
-     *
-     * @param FactoryInterface $factory
-     * @param array            $options
-     *
-     * @return \Knp\Menu\ItemInterface
-     */
-    public function getUserMenu(FactoryInterface $factory, array $options) {
-        $menu     = $factory->createItem('root');
-        $loggedIn = $menu->addChild($this->_getUsername(), array(
-                                                                'attributes' => array(
-                                                                    'loggedasbutton' => true,
-                                                                ),
-                                                           ));
-
-        $loggedIn->addChild('title.page.changepassword', array(
-                                                              'route' => 'fos_user_change_password',
-                                                         ));
-
-        $loggedIn->addChild('title.page.logout', array(
-                                                      'route' => 'fos_user_security_logout'
-                                                 ));
-
-        return $menu;
-    }
-
-    /**
-     * Get domainselector service
-     *
-     * @return DomainselectorService
-     */
-    protected function _getDomainselectorService() {
-        $service = $this->container->get('jeboehm_lampcp_core.domainselector');
-
-        return $service;
     }
 
     /**
@@ -96,7 +64,8 @@ class TopMenuBuilder extends ContainerAware {
      *
      * @return string
      */
-    private function _getDomainselectorTitle() {
+    private function _getDomainselectorTitle()
+    {
         if ($this
             ->_getDomainselectorService()
             ->getSelected() === null
@@ -113,11 +82,61 @@ class TopMenuBuilder extends ContainerAware {
     }
 
     /**
+     * Get domainselector service
+     *
+     * @return DomainselectorService
+     */
+    protected function _getDomainselectorService()
+    {
+        $service = $this->container->get('jeboehm_lampcp_core.domainselector');
+
+        return $service;
+    }
+
+    /**
+     * Get user menu
+     *
+     * @param FactoryInterface $factory
+     * @param array            $options
+     *
+     * @return ItemInterface
+     */
+    public function getUserMenu(FactoryInterface $factory, array $options)
+    {
+        $menu     = $factory->createItem('root');
+        $loggedIn = $menu->addChild(
+            $this->_getUsername(),
+            array(
+                 'attributes' => array(
+                     'loggedasbutton' => true,
+                 ),
+            )
+        );
+
+        $loggedIn->addChild(
+            'title.page.changepassword',
+            array(
+                 'route' => 'fos_user_change_password',
+            )
+        );
+
+        $loggedIn->addChild(
+            'title.page.logout',
+            array(
+                 'route' => 'fos_user_security_logout'
+            )
+        );
+
+        return $menu;
+    }
+
+    /**
      * Get username
      *
      * @return string
      */
-    private function _getUsername() {
+    private function _getUsername()
+    {
         /** @var $security SecurityContext */
         $security = $this->container->get('security.context');
         $user     = $security

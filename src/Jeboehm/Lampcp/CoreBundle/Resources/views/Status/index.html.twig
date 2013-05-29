@@ -18,6 +18,7 @@
             <th>{{ "all.column.id"|trans() }}</th>
             <th>{{ "status.column.name"|trans() }}</th>
             <th>{{ "status.column.lastrun"|trans() }}</th>
+            <th>{{ "all.column.actions"|trans() }}</th>
         </tr>
         </thead>
 
@@ -27,6 +28,12 @@
                 <td>{{ cronjob.id }}</td>
                 <td>{{ cronjob.name }}</td>
                 <td>{{ cronjob.lastrun|date("d.m.Y H:i") }}</td>
+                <td>
+                    <a class="btn btn-mini {% if cronjob.force %}disabled{% endif %}"
+                       href="{{ path('status_force_cron', {'cron': cronjob.id}) }}">
+                        {{ "status.button.force"|trans() }}
+                    </a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
