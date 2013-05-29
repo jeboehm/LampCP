@@ -16,8 +16,6 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ "create.page.dns"|trans() }}</h1>
-
     <form action="{{ path('config_dns_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_row(form.subdomain) }}
 
@@ -50,4 +48,8 @@
         {{ form_rest(form) }}
         {{ macros.formbuttongrp(path('config_dns')) }}
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "create.page.dns"|trans() }}
 {% endblock %}

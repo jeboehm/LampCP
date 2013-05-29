@@ -16,8 +16,6 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ "edit.page.dns"|trans() }}</h1>
-
     <form action="{{ path('config_dns_update', { 'entity': entity.id }) }}"
           method="post" {{ form_enctype(edit_form) }}>
         {{ form_row(edit_form.subdomain) }}
@@ -59,4 +57,8 @@
             </div>
         </div>
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "edit.page.dns"|trans() }}
 {% endblock %}
