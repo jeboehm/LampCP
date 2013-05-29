@@ -10,10 +10,8 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "create.page.mysqldatabase"|trans() }}</h1>
-
     <form action="{{ path('config_mysqldatabase_create') }}"
-          class="form-horizontal" method="post" {{ form_enctype(form) }}>
+          class="form-horizontal" method="post" autocomplete="off" {{ form_enctype(form) }}>
 
         {{ form_row(form.name, {'form_type': 'horizontal'}) }}
         {{ form_row(form.comment, {'form_type': 'horizontal'}) }}
@@ -24,4 +22,8 @@
 
         {{ macros.formbuttongrp(path('config_mysqldatabase')) }}
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "create.page.mysqldatabase"|trans() }}
 {% endblock %}
