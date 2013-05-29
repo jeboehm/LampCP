@@ -9,11 +9,6 @@
 
 {% extends "BcBootstrapBundle:Form:form_div_layout.html.twig" %}
 
-{% block widget_attributes %}
-    {{ parent() }}
-    autocomplete="off"
-{% endblock %}
-
 {% block form_label %}
     {% if label is null %}
         {% set label = id|replace({'_':'.'})|trans() %}
