@@ -10,9 +10,8 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "title.page.status"|trans() }}</h1>
+    <h3>{{ "status.title.cronjobs"|trans() }}</h3>
 
-    <h2>{{ "status.title.cronjobs"|trans() }}</h2>
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -32,4 +31,8 @@
         {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+
+{% block title %}
+    {{ "title.page.status"|trans() }}
 {% endblock %}
