@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "create.page.certificate"|trans() }}</h1>
-
     <form action="{{ path('config_certificate_create') }}" method="post"
           class="form-horizontal" {{ form_enctype(form) }}>
 
@@ -33,4 +31,8 @@
 
         {{ macros.formbuttongrp(path('config_certificate')) }}
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "create.page.certificate"|trans() }}
 {% endblock %}
