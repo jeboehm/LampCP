@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "title.page.mailaddress"|trans() }}</h1>
-
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -45,4 +43,8 @@
     <a class="btn btn-primary" href="{{ path('config_mailaddress_new') }}">
         {{ "button.create"|trans() }}
     </a>
+{% endblock %}
+
+{% block title %}
+    {{ "title.page.mailaddress"|trans() }}
 {% endblock %}

@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "title.page.pathoption"|trans() }}</h1>
-
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -49,4 +47,8 @@
     <a class="btn btn-primary" href="{{ path('config_pathoption_new') }}">
         {{ "button.create"|trans() }}
     </a>
+{% endblock %}
+
+{% block title %}
+    {{ "title.page.pathoption"|trans() }}
 {% endblock %}

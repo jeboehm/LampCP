@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "create.page.ipaddress"|trans() }}</h1>
-
     <form action="{{ path('config_ipaddress_create') }}" class="form-horizontal"
           method="post" {{ form_enctype(form) }}>
 
@@ -24,4 +22,8 @@
 
         {{ macros.formbuttongrp(path('config_ipaddress')) }}
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "create.page.ipaddress"|trans() }}
 {% endblock %}

@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "create.page.pathoption"|trans() }}</h1>
-
     <form action="{{ path('config_pathoption_create') }}" class="form-horizontal"
           method="post" {{ form_enctype(form) }}>
 
@@ -25,4 +23,8 @@
 
         {{ macros.formbuttongrp(path('config_pathoption')) }}
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "create.page.pathoption"|trans() }}
 {% endblock %}

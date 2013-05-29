@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "create.page.domain"|trans() }}</h1>
-
     <form action="{{ path('config_domain_create') }}" class="form-horizontal"
           method="post" {{ form_enctype(form) }}>
 
@@ -33,4 +31,8 @@
 
         {{ macros.formbuttongrp(path('config_domain')) }}
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "create.page.domain"|trans() }}
 {% endblock %}

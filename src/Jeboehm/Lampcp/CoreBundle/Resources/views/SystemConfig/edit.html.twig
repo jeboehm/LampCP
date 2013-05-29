@@ -10,10 +10,8 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "edit.page.systemconfig"|trans() }}</h1>
-
     <form action="{{ path('config_system_update') }}"
-          class="form-horizontal" method="post" {{ form_enctype(form) }}>
+          class="form-horizontal" method="post" autocomplete="off" {{ form_enctype(form) }}>
 
         {% for entity in form.configentities %}
             {% if loop.index0 == 0
@@ -31,4 +29,8 @@
 
         {{ macros.formbuttongrp(path('config_system')) }}
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "edit.page.systemconfig"|trans() }}
 {% endblock %}

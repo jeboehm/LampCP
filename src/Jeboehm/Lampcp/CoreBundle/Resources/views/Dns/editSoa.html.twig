@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "edit.page.dnssoa"|trans() }}</h1>
-
     <form action="{{ path('config_dns_update_soa', { 'entity': entity.id }) }}" class="form-horizontal"
           method="post" {{ form_enctype(edit_form) }}>
 
@@ -34,4 +32,8 @@
             </div>
         </div>
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "edit.page.dnssoa"|trans() }}
 {% endblock %}

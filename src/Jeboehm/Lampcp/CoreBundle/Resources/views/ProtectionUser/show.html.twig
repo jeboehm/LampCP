@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "show.page.protectionuser"|trans() }}</h1>
-
     <table class="table table-striped table-bordered">
         <tbody>
         <tr>
@@ -26,4 +24,8 @@
     </table>
 
     {{ macros.showbuttongrp(path("config_protectionuser", { 'protection' : entity.protection.id }), path("config_protectionuser_edit", { 'entity' : entity.id }), path("config_protectionuser_delete", { 'entity' : entity.id })) }}
+{% endblock %}
+
+{% block title %}
+    {{ "show.page.protectionuser"|trans() }}
 {% endblock %}

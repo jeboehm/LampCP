@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "title.page.protectionuser"|trans() }}</h1>
-
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -44,4 +42,8 @@
 
     <a class="btn"
        href="{{ path('config_protection_show', { 'entity': protection.id }) }}">{{ "show.page.protection"|trans() }}</a>
+{% endblock %}
+
+{% block title %}
+    {{ "title.page.protectionuser"|trans() }}
 {% endblock %}

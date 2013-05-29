@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "title.page.systemconfig"|trans() }}</h1>
-
     {% for entity in entities %}
         {% if loop.index0 == 0
         or entities[loop.index0 - 1].configgroup.name != entity.configgroup.name %}
@@ -44,4 +42,8 @@
     <a class="btn btn-info" href="{{ path('config_system_edit') }}">
         {{ "button.edit"|trans() }}
     </a>
+{% endblock %}
+
+{% block title %}
+    {{ "title.page.systemconfig"|trans() }}
 {% endblock %}
