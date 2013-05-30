@@ -11,7 +11,7 @@
 
 {% block content %}
     <form action="{{ path('config_protectionuser_update', { 'entity': entity.id }) }}"
-          class="form-horizontal" method="post" {{ form_enctype(edit_form) }}>
+          class="form-horizontal" method="post" autocomplete="off" {{ form_enctype(edit_form) }}>
 
         {{ form_row(edit_form.username, {'form_type': 'horizontal'}) }}
         {{ form_row(edit_form.password.first, {'form_type': 'horizontal'}) }}
