@@ -87,6 +87,25 @@ class OpensslCertificate
     }
 
     /**
+     * Check, if the certificate is still valid.
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        $now   = new \DateTime();
+        $newer = $this
+            ->getValidTo()
+            ->diff($now)->invert;
+
+        if ($newer) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Get valid to.
      *
      * @return \DateTime
