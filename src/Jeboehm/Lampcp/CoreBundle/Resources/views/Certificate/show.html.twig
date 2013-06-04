@@ -68,6 +68,14 @@
                 <pre>{{ macros.excerpt(entity.cacertificatefile, 150) }}</pre>
             </td>
         </tr>
+        <tr>
+            <th>{{ "certificate.validfrom"|trans() }}</th>
+            <td>{{ info.validFrom.format('d.m.Y H:i')|default('certificate.unknown'|trans()) }}</td>
+        </tr>
+        <tr>
+            <th>{{ "certificate.validto"|trans() }}</th>
+            <td>{{ info.validTo.format('d.m.Y H:i')|default('certificate.unknown'|trans()) }}</td>
+        </tr>
         </tbody>
     </table>
 
