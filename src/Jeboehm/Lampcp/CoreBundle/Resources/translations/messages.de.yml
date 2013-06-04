@@ -218,6 +218,11 @@ status:
     button:
         force: Ausführung erzwingen
 
+certificate:
+    validfrom: Gültig ab
+    validto: Gültig bis
+    unknown: Unbekannt
+
 # Systemconfig
 config:
     apache:

@@ -10,6 +10,7 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Controller;
 
+use Jeboehm\Lampcp\CoreBundle\Helper\Openssl;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -25,22 +26,53 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/certificate")
  */
-class CertificateController extends AbstractController {
+class CertificateController extends AbstractController
+{
     /**
      * Lists all Certificate entities.
      *
      * @Route("/", name="config_certificate")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         /** @var $entities Certificate[] */
         $entities = $this
             ->_getRepository()
             ->findBy(array(), array('name' => 'asc'));
+        $return   = array();
+
+        foreach ($entities as $entity) {
+            $info = null;
+
+            try {
+                // Get certificate info.
+                $helper = new Openssl();
+                $info   = $helper->getInfo($entity->getCertificateFile());
+            } catch (\InvalidArgumentException $e) {
+            }
+
+            $return[] = array(
+                'entity' => $entity,
+                'info'   => $info,
+            );
+        }
 
         return array(
-            'entities' => $entities,
+            'entities' => $return,
         );
+    }
+
+    /**
+     * Get repository
+     *
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    private function _getRepository()
+    {
+        return $this
+            ->getDoctrine()
+            ->getRepository('JeboehmLampcpCoreBundle:Certificate');
     }
 
     /**
@@ -49,20 +81,33 @@ class CertificateController extends AbstractController {
      * @Route("/{entity}/show", name="config_certificate_show")
      * @Template()
      */
-    public function showAction(Certificate $entity) {
+    public function showAction(Certificate $entity)
+    {
+        $info = null;
+
         try {
             $privKey = $entity->getCertificateKeyFile();
 
             if (!empty($privKey)) {
-                $entity->setCertificateKeyFile($this
-                    ->_getCryptService()
-                    ->decrypt($privKey));
+                $entity->setCertificateKeyFile(
+                    $this
+                        ->_getCryptService()
+                        ->decrypt($privKey)
+                );
             }
         } catch (\Exception $e) {
         }
 
+        try {
+            // Read certificate information.
+            $helper = new Openssl();
+            $info   = $helper->getInfo($entity->getCertificateFile());
+        } catch (\InvalidArgumentException $e) {
+        }
+
         return array(
             'entity' => $entity,
+            'info'   => $info,
         );
     }
 
@@ -72,7 +117,8 @@ class CertificateController extends AbstractController {
      * @Route("/new", name="config_certificate_new")
      * @Template()
      */
-    public function newAction() {
+    public function newAction()
+    {
         $entity = new Certificate();
         $form   = $this->createForm(new CertificateType(), $entity);
 
@@ -89,7 +135,8 @@ class CertificateController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Certificate:new.html.twig")
      */
-    public function createAction(Request $request) {
+    public function createAction(Request $request)
+    {
         $entity = new Certificate();
         $form   = $this->createForm(new CertificateType(), $entity);
         $form->bind($request);
@@ -98,9 +145,11 @@ class CertificateController extends AbstractController {
             $privKey = $entity->getCertificateKeyFile();
 
             if (!empty($privKey)) {
-                $entity->setCertificateKeyFile($this
-                    ->_getCryptService()
-                    ->encrypt($privKey));
+                $entity->setCertificateKeyFile(
+                    $this
+                        ->_getCryptService()
+                        ->encrypt($privKey)
+                );
             }
 
             $em = $this
@@ -124,14 +173,17 @@ class CertificateController extends AbstractController {
      * @Route("/{entity}/edit", name="config_certificate_edit")
      * @Template()
      */
-    public function editAction(Certificate $entity) {
+    public function editAction(Certificate $entity)
+    {
         try {
             $privKey = $entity->getCertificateKeyFile();
 
             if (!empty($privKey)) {
-                $entity->setCertificateKeyFile($this
-                    ->_getCryptService()
-                    ->decrypt($privKey));
+                $entity->setCertificateKeyFile(
+                    $this
+                        ->_getCryptService()
+                        ->decrypt($privKey)
+                );
             }
         } catch (\Exception $e) {
         }
@@ -151,7 +203,8 @@ class CertificateController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Certificate:edit.html.twig")
      */
-    public function updateAction(Request $request, Certificate $entity) {
+    public function updateAction(Request $request, Certificate $entity)
+    {
         $editForm = $this->createForm(new CertificateType(), $entity);
         $editForm->bind($request);
 
@@ -181,7 +234,8 @@ class CertificateController extends AbstractController {
      *
      * @Route("/{entity}/delete", name="config_certificate_delete")
      */
-    public function deleteAction(Certificate $entity) {
+    public function deleteAction(Certificate $entity)
+    {
         $em = $this
             ->getDoctrine()
             ->getManager();
@@ -190,16 +244,5 @@ class CertificateController extends AbstractController {
         $em->flush();
 
         return $this->redirect($this->generateUrl('config_certificate'));
-    }
-
-    /**
-     * Get repository
-     *
-     * @return \Doctrine\Common\Persistence\ObjectRepository
-     */
-    private function _getRepository() {
-        return $this
-            ->getDoctrine()
-            ->getRepository('JeboehmLampcpCoreBundle:Certificate');
     }
 }
