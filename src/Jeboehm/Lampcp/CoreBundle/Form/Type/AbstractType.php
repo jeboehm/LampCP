@@ -21,7 +21,8 @@ use Symfony\Component\Form\FormBuilderInterface;
  * @package Jeboehm\Lampcp\CoreBundle\Form\Type
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-abstract class AbstractType extends ParentClassType {
+abstract class AbstractType extends ParentClassType
+{
     /**
      * Determine, if form is in editing mode
      *
@@ -29,7 +30,8 @@ abstract class AbstractType extends ParentClassType {
      *
      * @return bool
      */
-    protected function _getIsEditMode(FormBuilderInterface $builder) {
+    protected function _getIsEditMode(FormBuilderInterface $builder)
+    {
         if (!$builder
             ->getData()
             ->getId()

@@ -21,18 +21,24 @@ use Symfony\Component\Form\FormBuilderInterface;
  * @package Jeboehm\Lampcp\CoreBundle\Form\Type
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class ConfigType extends AbstractType {
+class ConfigType extends AbstractType
+{
     /**
      * Build form
      *
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('configentities', 'collection', array(
-                                                           'type'      => new ConfigEntityType(),
-                                                           'prototype' => false,
-                                                      ));
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add(
+            'configentities',
+            'collection',
+            array(
+                 'type'      => new ConfigEntityType(),
+                 'prototype' => false,
+            )
+        );
     }
 
     /**
@@ -40,7 +46,8 @@ class ConfigType extends AbstractType {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return 'jeboehm_lampcp_configbundle_configtype';
     }
 }

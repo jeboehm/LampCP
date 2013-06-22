@@ -22,14 +22,16 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @package Jeboehm\Lampcp\CoreBundle\Form\Type
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class DnsType extends AbstractType {
+class DnsType extends AbstractType
+{
     /**
      * Build form
      *
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array                                        $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         /** @var $domain \Jeboehm\Lampcp\CoreBundle\Entity\Domain */
         $domain                    = $builder
             ->getData()
@@ -40,22 +42,32 @@ class DnsType extends AbstractType {
         $dnsResourceRecordType     = new DnsResourceRecordType();
 
         $builder
-            ->add('subdomain', null, array(
-                                          'required' => false,
-                                          'attr'     => array(
-                                              'append_input' => '.' . $domain->getDomain()
-                                          )
-                                     ))
-            ->add($builder
-                ->create('zone_collection', 'collection', array(
-                                                               'type'         => $dnsResourceRecordType,
-                                                               'allow_add'    => true,
-                                                               'allow_delete' => true,
-                                                               'options'      => array(
-                                                                   'required' => false
-                                                               )
-                                                          ))
-                ->addModelTransformer($zoneCollectionTransformer));
+            ->add(
+                'subdomain',
+                null,
+                array(
+                     'required' => false,
+                     'attr'     => array(
+                         'append_input' => '.' . $domain->getDomain()
+                     )
+                )
+            )
+            ->add(
+                $builder
+                    ->create(
+                        'zone_collection',
+                        'collection',
+                        array(
+                             'type'         => $dnsResourceRecordType,
+                             'allow_add'    => true,
+                             'allow_delete' => true,
+                             'options'      => array(
+                                 'required' => false
+                             )
+                        )
+                    )
+                    ->addModelTransformer($zoneCollectionTransformer)
+            );
     }
 
     /**
@@ -63,10 +75,13 @@ class DnsType extends AbstractType {
      *
      * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
-        $resolver->setDefaults(array(
-                                    'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\Dns'
-                               ));
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(
+            array(
+                 'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\Dns'
+            )
+        );
     }
 
     /**
@@ -74,7 +89,8 @@ class DnsType extends AbstractType {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return 'jeboehm_lampcp_corebundle_dnstype';
     }
 }

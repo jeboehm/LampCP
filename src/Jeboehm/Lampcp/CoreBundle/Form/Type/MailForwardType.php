@@ -21,20 +21,30 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @package Jeboehm\Lampcp\CoreBundle\Form\Type
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class MailForwardType extends AbstractType {
-    public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('target', null, array(
-                                           'label' => 'jeboehm.lampcp.corebundle.mailaddresstype.mailforward',
-                                      ));
+class MailForwardType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add(
+            'target',
+            null,
+            array(
+                 'label' => 'jeboehm.lampcp.corebundle.mailaddresstype.mailforward',
+            )
+        );
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
-        $resolver->setDefaults(array(
-                                    'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailForward'
-                               ));
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(
+            array(
+                 'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailForward'
+            )
+        );
     }
 
-    public function getName() {
+    public function getName()
+    {
         return 'jeboehm_lampcp_corebundle_mailforwardtype';
     }
 }

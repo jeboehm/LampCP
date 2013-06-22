@@ -21,8 +21,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @package Jeboehm\Lampcp\CoreBundle\Form\Type
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class MailAddressType extends AbstractType {
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+class MailAddressType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         /** @var $domain \Jeboehm\Lampcp\CoreBundle\Entity\Domain */
         $mailForwardType = new MailForwardType();
         $mailAccountType = new MailAccountType();
@@ -31,27 +33,39 @@ class MailAddressType extends AbstractType {
             ->getDomain();
 
         $builder
-            ->add('address', null, array(
-                                        'attr' => array(
-                                            'append_input' => '@' . $domain->getDomain()
-                                        )
-                                   ))
-            ->add('mailforward', 'collection', array(
-                                                    'type'         => $mailForwardType,
-                                                    'allow_add'    => true,
-                                                    'allow_delete' => true,
-                                                    'by_reference' => false,
-                                               ))
+            ->add(
+                'address',
+                null,
+                array(
+                     'attr' => array(
+                         'append_input' => '@' . $domain->getDomain()
+                     )
+                )
+            )
+            ->add(
+                'mailforward',
+                'collection',
+                array(
+                     'type'         => $mailForwardType,
+                     'allow_add'    => true,
+                     'allow_delete' => true,
+                     'by_reference' => false,
+                )
+            )
             ->add('mailaccount', $mailAccountType);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
-        $resolver->setDefaults(array(
-                                    'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailAddress'
-                               ));
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(
+            array(
+                 'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailAddress'
+            )
+        );
     }
 
-    public function getName() {
+    public function getName()
+    {
         return 'jeboehm_lampcp_corebundle_mailaddresstype';
     }
 }
