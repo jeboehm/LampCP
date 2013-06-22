@@ -21,25 +21,39 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @package Jeboehm\Lampcp\CoreBundle\Form\Type
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class MailAccountType extends AbstractType {
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+class MailAccountType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
-            ->add('enabled', null, array(
-                                        'required' => false,
-                                   ))
-            ->add('password', 'repeated', array(
-                                               'type'     => 'password',
-                                               'required' => false,
-                                          ));
+            ->add(
+                'enabled',
+                null,
+                array(
+                     'required' => false,
+                )
+            )
+            ->add(
+                'password',
+                'repeated',
+                array(
+                     'type'     => 'password',
+                     'required' => false,
+                )
+            );
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
-        $resolver->setDefaults(array(
-                                    'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailAccount'
-                               ));
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(
+            array(
+                 'data_class' => 'Jeboehm\Lampcp\CoreBundle\Entity\MailAccount'
+            )
+        );
     }
 
-    public function getName() {
+    public function getName()
+    {
         return 'jeboehm_lampcp_corebundle_mailaccounttype';
     }
 }
