@@ -9,8 +9,7 @@
 ##########################################
 
 imports:
-    - { resource: parameters.dist.yml }
-    - { resource: parameters.yml, ignore_errors = true }
+    - { resource: parameters.yml }
     - { resource: security.yml }
 
 framework:
@@ -24,7 +23,6 @@ framework:
     validation:          { enable_annotations: true }
     templating:          { engines: ['twig'] }
     default_locale:      "%locale%"
-    trust_proxy_headers: false
     session:             ~
 
 # Twig Configuration
