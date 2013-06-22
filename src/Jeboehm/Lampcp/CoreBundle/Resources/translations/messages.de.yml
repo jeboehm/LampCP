@@ -215,6 +215,13 @@ status:
     column:
         name: Name
         lastrun: Zuletzt ausgeführt
+    button:
+        force: Ausführung erzwingen
+
+certificate:
+    validfrom: Gültig ab
+    validto: Gültig bis
+    unknown: Unbekannt
 
 # Systemconfig
 config:

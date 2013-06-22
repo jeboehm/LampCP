@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "show.page.subdomain"|trans() }}</h1>
-
     <table class="table table-striped table-bordered">
         <tbody>
         <tr>
@@ -71,4 +69,8 @@
     </table>
 
     {{ macros.showbuttongrp(path("config_subdomain"), path("config_subdomain_edit", { 'entity' : entity.id }), path("config_subdomain_delete", { 'entity' : entity.id })) }}
+{% endblock %}
+
+{% block title %}
+    {{ "show.page.subdomain"|trans() }}
 {% endblock %}

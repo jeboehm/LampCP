@@ -10,7 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "show.page.dns"|trans() }}</h1>
     <table class="table table-striped table-bordered">
         <tbody>
         <tr>
@@ -77,4 +76,8 @@
                href="{{ path('config_dns_edit_soa', {'entity' : entity.id}) }}">{{ "edit.page.dnssoa"|trans() }}</a>
         </div>
     </div>
+{% endblock %}
+
+{% block title %}
+    {{ "show.page.dns"|trans() }}
 {% endblock %}

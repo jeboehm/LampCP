@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\CoreBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Class ChangeTrackingService
@@ -21,44 +22,41 @@ use Doctrine\ORM\EntityManager;
  * @package Jeboehm\Lampcp\CoreBundle\Service
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class ChangeTrackingService {
+class ChangeTrackingService
+{
     /** @var EntityManager */
     private $_em;
 
     /**
      * Constructor
      *
-     * @param \Doctrine\ORM\EntityManager $em
+     * @param EntityManager $em
      */
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em)
+    {
         $this->_em = $em;
     }
 
     /**
-     * Get entity manager
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    protected function _getEntityManager() {
-        return $this->_em;
-    }
-
-    /**
-     * Get entities newer than $min
+     * Get entities newer than $min.
      *
      * @param string    $repository
      * @param \DateTime $min
      *
      * @return mixed
      */
-    public function findNewer($repository, \DateTime $min) {
+    public function findNewer($repository, \DateTime $min)
+    {
         $qb = $this
             ->_getRepository($repository)
             ->createQueryBuilder('e');
+
         $qb
-            ->where($qb
-                ->expr()
-                ->gte('e.updated', '?1'))
+            ->where(
+                $qb
+                    ->expr()
+                    ->gte('e.updated', '?1')
+            )
             ->setParameter(1, $min);
 
         return $qb
@@ -71,11 +69,22 @@ class ChangeTrackingService {
      *
      * @param string $repository
      *
-     * @return \Doctrine\ORM\EntityRepository
+     * @return EntityRepository
      */
-    protected function _getRepository($repository) {
+    protected function _getRepository($repository)
+    {
         return $this
             ->_getEntityManager()
             ->getRepository($repository);
+    }
+
+    /**
+     * Get entity manager
+     *
+     * @return EntityManager
+     */
+    protected function _getEntityManager()
+    {
+        return $this->_em;
     }
 }

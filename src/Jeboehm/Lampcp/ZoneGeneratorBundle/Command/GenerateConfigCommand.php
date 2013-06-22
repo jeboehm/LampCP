@@ -11,6 +11,7 @@
 namespace Jeboehm\Lampcp\ZoneGeneratorBundle\Command;
 
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
+use Jeboehm\Lampcp\CoreBundle\Command\ConfigBuilderCommandInterface;
 use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\ZoneGeneratorBundle\Service\BuilderService;
@@ -27,16 +28,26 @@ use Symfony\Component\Process\Process;
  * @package Jeboehm\Lampcp\ZoneGeneratorBundle\Command
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class GenerateConfigCommand extends AbstractCommand
+class GenerateConfigCommand extends AbstractCommand implements ConfigBuilderCommandInterface
 {
     /**
      * Configure command.
      */
     protected function configure()
     {
-        $this->setName('lampcp:zone:generateconfig');
+        $this->setName(self::getCommandName());
         $this->setDescription('Generates the zonefiles');
         $this->addOption('force', 'f', InputOption::VALUE_NONE);
+    }
+
+    /**
+     * Get the command's name.
+     *
+     * @return string
+     */
+    public static function getCommandName()
+    {
+        return 'lampcp:zone:generateconfig';
     }
 
     /**
@@ -99,7 +110,7 @@ class GenerateConfigCommand extends AbstractCommand
     {
         return $this
             ->_getCronService()
-            ->checkEntitiesChanged($this->getName(), $this->_getEntities());
+            ->checkEntitiesChanged($this->getName(), self::getListenEntities());
     }
 
     /**
@@ -115,17 +126,16 @@ class GenerateConfigCommand extends AbstractCommand
     }
 
     /**
-     * Get watched entities.
+     * A list of entities that require an execution
+     * of this command when they are changed.
      *
      * @return array
      */
-    protected function _getEntities()
+    public static function getListenEntities()
     {
-        $entitys = array(
-            'Jeboehm\Lampcp\CoreBundle\Entity\Dns',
+        return array(
+            'JeboehmLampcpCoreBundle:Dns',
         );
-
-        return $entitys;
     }
 
     /**

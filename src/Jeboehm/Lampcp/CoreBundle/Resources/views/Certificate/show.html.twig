@@ -9,10 +9,7 @@
 
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
-
 {% block content %}
-    <h1>{{ "show.page.certificate"|trans() }}</h1>
-
     <table class="table table-striped table-bordered">
         <tbody>
         <tr>
@@ -71,8 +68,20 @@
                 <pre>{{ macros.excerpt(entity.cacertificatefile, 150) }}</pre>
             </td>
         </tr>
+        <tr>
+            <th>{{ "certificate.validfrom"|trans() }}</th>
+            <td>{{ info.validFrom.format('d.m.Y H:i')|default('certificate.unknown'|trans()) }}</td>
+        </tr>
+        <tr>
+            <th>{{ "certificate.validto"|trans() }}</th>
+            <td>{{ info.validTo.format('d.m.Y H:i')|default('certificate.unknown'|trans()) }}</td>
+        </tr>
         </tbody>
     </table>
 
     {{ macros.showbuttongrp(path("config_certificate"), path("config_certificate_edit", { 'entity' : entity.id }), path("config_certificate_delete", { 'entity' : entity.id })) }}
+{% endblock %}
+
+{% block title %}
+    {{ "show.page.certificate"|trans() }}
 {% endblock %}

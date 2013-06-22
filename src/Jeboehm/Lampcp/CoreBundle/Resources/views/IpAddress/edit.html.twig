@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "edit.page.ipaddress"|trans() }}</h1>
-
     <form action="{{ path('config_ipaddress_update', { 'entity': entity.id }) }}"
           class="form-horizontal" method="post" {{ form_enctype(edit_form) }}>
 
@@ -24,4 +22,8 @@
 
         {{ macros.formbuttongrp(path('config_ipaddress'), path('config_ipaddress_delete', { 'entity': entity.id })) }}
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "edit.page.ipaddress"|trans() }}
 {% endblock %}

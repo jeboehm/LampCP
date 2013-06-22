@@ -10,10 +10,8 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "create.page.admin"|trans() }}</h1>
-
     <form action="{{ path('config_admin_create') }}" class="form-horizontal"
-          method="post" {{ form_enctype(form) }}>
+          method="post" autocomplete="off" {{ form_enctype(form) }}>
 
         {{ form_row(form.username, {'form_type': 'horizontal'}) }}
         {{ form_row(form.email, {'form_type': 'horizontal'}) }}
@@ -25,4 +23,8 @@
 
         {{ macros.formbuttongrp(path('config_admin')) }}
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "create.page.admin"|trans() }}
 {% endblock %}

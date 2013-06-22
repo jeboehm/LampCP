@@ -10,11 +10,13 @@
 
 namespace Jeboehm\Lampcp\CoreBundle\Controller;
 
+use Doctrine\ORM\EntityRepository;
+use Jeboehm\Lampcp\CoreBundle\Entity\Cron;
+use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
+use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
-use Jeboehm\Lampcp\CoreBundle\Service\DomainselectorService;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -23,16 +25,17 @@ use Symfony\Component\HttpFoundation\Request;
  * @package Jeboehm\Lampcp\CoreBundle\Controller
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-class StatusController extends AbstractController {
+class StatusController extends AbstractController
+{
     /**
      * Shows status page.
      *
      * @Route("/", name="status")
      * @Route("/", name="default")
      * @Template()
-     * @return array
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         $cronjobs = $this
             ->_getCronRepository()
             ->findAll();
@@ -43,15 +46,24 @@ class StatusController extends AbstractController {
     }
 
     /**
-     * Saves the domain to domainselector
+     * Get cron repository.
      *
-     * @Route("/config/setdomain/{domain}", name="set_domain")
-     *
-     * @param \Jeboehm\Lampcp\CoreBundle\Entity\Domain $domain
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return EntityRepository
      */
-    public function setDomainAction(Domain $domain) {
+    protected function _getCronRepository()
+    {
+        return $this
+            ->getDoctrine()
+            ->getRepository('JeboehmLampcpCoreBundle:Cron');
+    }
+
+    /**
+     * Saves the domain to domainselector.
+     *
+     * @Route("/config/setdomain/{domain}", name="status_set_domain")
+     */
+    public function setDomainAction(Domain $domain)
+    {
         /** @var $domainselector DomainselectorService */
         $domainselector = $this->get('jeboehm_lampcp_core.domainselector');
         $domainselector->setDomain($domain);
@@ -60,13 +72,19 @@ class StatusController extends AbstractController {
     }
 
     /**
-     * Get cron repository
+     * Set force to true in Cron entity.
      *
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @Route("/config/forcecron/{cron}", name="status_force_cron")
      */
-    protected function _getCronRepository() {
-        return $this
+    public function setCronForceAction(Cron $cron)
+    {
+        $cron->setForce(true);
+
+        $this
             ->getDoctrine()
-            ->getRepository('JeboehmLampcpCoreBundle:Cron');
+            ->getManager()
+            ->flush();
+
+        return $this->redirect($this->generateUrl('status'));
     }
 }

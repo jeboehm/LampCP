@@ -16,10 +16,8 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ "create.page.mailaddress"|trans() }}</h1>
-
     <form action="{{ path('config_mailaddress_create', { 'entity': entity.id }) }}"
-          class="form-horizontal" method="post" {{ form_enctype(form) }}>
+          class="form-horizontal" method="post" autocomplete="off" {{ form_enctype(form) }}>
 
         {{ form_row(form.address, {'form_type': 'horizontal'}) }}
 
@@ -52,4 +50,8 @@
 
         {{ macros.formbuttongrp(path('config_mailaddress')) }}
     </form>
+{% endblock %}
+
+{% block title %}
+    {{ "create.page.mailaddress"|trans() }}
 {% endblock %}

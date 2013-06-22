@@ -215,6 +215,13 @@ status:
     column:
         name: Name
         lastrun: Last run
+    button:
+        force: Force execution
+
+certificate:
+    validfrom: Valid from
+    validto: Valid to
+    unknown: Unknown
 
 # Systemconfig
 config:

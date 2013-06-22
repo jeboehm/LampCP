@@ -61,27 +61,6 @@ class CronServiceTest extends WebTestCase
     }
 
     /**
-     * Test last run null.
-     *
-     * @group database
-     */
-    public function testLastRunNull()
-    {
-        $this->assertNull($this->_cs->getLastRun($this->_name));
-    }
-
-    /**
-     * Test last run modification.
-     *
-     * @group database
-     */
-    public function testModifiyLastRun()
-    {
-        $time = $this->_cs->updateLastRun($this->_name);
-        $this->assertEquals($time, $this->_cs->getLastRun($this->_name));
-    }
-
-    /**
      * Check, that checkEntitesChanged returns true, when cron
      * was never executed.
      *

@@ -10,8 +10,6 @@
 {% extends 'JeboehmLampcpCoreBundle:Base:layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ "show.page.domain"|trans() }}</h1>
-
     <table class="table table-striped table-bordered">
         <tbody>
         <tr>
@@ -123,4 +121,8 @@
     </table>
 
     {{ macros.showbuttongrp(path("config_domain"), path("config_domain_edit", { 'entity' : entity.id }), path("config_domain_delete", { 'entity' : entity.id })) }}
+{% endblock %}
+
+{% block title %}
+    {{ "show.page.domain"|trans() }}
 {% endblock %}
