@@ -49,8 +49,7 @@ class IpAddress extends AbstractEntity
     private $ip;
     /**
      * @var int
-     * @Assert\Min(1)
-     * @Assert\Max(65535)
+     * @Assert\Range(min=1, max=65535)
      * @ORM\Column(name="port", type="integer")
      */
     private $port;
