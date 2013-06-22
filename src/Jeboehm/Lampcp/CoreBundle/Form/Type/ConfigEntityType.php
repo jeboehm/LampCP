@@ -56,7 +56,10 @@ class ConfigEntityType extends AbstractType {
 
                 $form->add($builder
                     ->getFormFactory()
-                    ->createNamed('value', $type, $value, array('required' => false)));
+                    ->createNamed('value', $type, $value, array(
+                                                               'required' => false,
+                                                               'auto_initialize' => false,
+                                                          )));
             }
         });
     }
