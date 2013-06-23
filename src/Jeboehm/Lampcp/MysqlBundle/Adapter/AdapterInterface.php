@@ -86,4 +86,18 @@ interface AdapterInterface
      * @return bool
      */
     public function updateUser(User $user);
+
+    /**
+     * Get users.
+     *
+     * @return User[]
+     */
+    public function getUsers();
+
+    /**
+     * Get databases.
+     *
+     * @return Database[]
+     */
+    public function getDatabases();
 }
