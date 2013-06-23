@@ -10,9 +10,9 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Adapter;
 
+use Jeboehm\Lampcp\MysqlBundle\Model\Connection\ConnectionInterface;
 use Jeboehm\Lampcp\MysqlBundle\Model\Database;
 use Jeboehm\Lampcp\MysqlBundle\Model\User;
-use Jeboehm\Lampcp\MysqlBundle\Model\Configuration\ConfigurationInterface;
 
 /**
  * Interface AdapterInterface
@@ -25,13 +25,13 @@ use Jeboehm\Lampcp\MysqlBundle\Model\Configuration\ConfigurationInterface;
 interface AdapterInterface
 {
     /**
-     * Set configuration.
+     * Set connection.
      *
-     * @param ConfigurationInterface $config
+     * @param ConnectionInterface $connection
      *
-     * @return void
+     * @return $this
      */
-    public function setConfiguration(ConfigurationInterface $config);
+    public function setConnection(ConnectionInterface $connection);
 
     /**
      * Create database.
