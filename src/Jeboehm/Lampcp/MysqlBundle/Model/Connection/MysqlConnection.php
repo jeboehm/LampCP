@@ -40,6 +40,6 @@ class MysqlConnection implements ConnectionInterface
      */
     public function setConnection(Connection $connection)
     {
-        $this->connection;
+        $this->connection = $connection;
     }
 }
