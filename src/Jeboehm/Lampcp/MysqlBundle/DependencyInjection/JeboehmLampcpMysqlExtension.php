@@ -29,5 +29,6 @@ class JeboehmLampcpMysqlExtension extends Extension {
         $loader->load('services.xml');
         $loader->load('config.xml');
         $loader->load('connection.xml');
+        $loader->load('adapter.xml');
     }
 }
