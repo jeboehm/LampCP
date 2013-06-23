@@ -121,7 +121,25 @@ class MysqlAdapter implements AdapterInterface
      */
     public function getUsers()
     {
-        // TODO: Implement getUsers() method.
+        $usernames = array();
+        $models    = array();
+        $result    = $this->connection
+            ->getConnection()
+            ->fetchAll('SELECT User FROM mysql.user');
+
+        foreach ($result as $row) {
+            $username = $row['User'];
+
+            if (!in_array($username, $usernames) && !empty($username)) {
+                $user = new User();
+                $user->setName($username);
+
+                $models[]    = $user;
+                $usernames[] = $username;
+            }
+        }
+
+        return $models;
     }
 
     /**

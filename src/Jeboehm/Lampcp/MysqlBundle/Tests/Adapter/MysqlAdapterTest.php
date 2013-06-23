@@ -46,4 +46,14 @@ class MysqlAdapterTest extends WebTestCase
 
         $this->assertGreaterThan(0, count($databases));
     }
+
+    /**
+     * Test getUsers.
+     */
+    public function testGetUsers()
+    {
+        $users = $this->adapter->getUsers();
+
+        $this->assertGreaterThan(0, count($users));
+    }
 }
