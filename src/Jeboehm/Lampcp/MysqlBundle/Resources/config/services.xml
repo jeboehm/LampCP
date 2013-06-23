@@ -15,29 +15,17 @@ http://www.gnu.org/licenses/gpl-2.0.txt
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="jeboehm_lampcp_mysql.mysqladminservice.class">Jeboehm\Lampcp\MysqlBundle\Service\MysqlAdminService</parameter>
-        <parameter key="jeboehm_lampcp_mysql.mysqlsynchronizerservice.class">Jeboehm\Lampcp\MysqlBundle\Service\MysqlSynchronizerService</parameter>
-        <parameter key="jeboehm_lampcp_mysql.generatedatabasescommand.class">Jeboehm\Lampcp\MysqlBundle\Command\GenerateDatabasesCommand</parameter>
+        <parameter key="jeboehm_lampcp_mysql.command.generatedatabasescommand.class">Jeboehm\Lampcp\MysqlBundle\Command\GenerateDatabasesCommand</parameter>
     </parameters>
 
     <services>
-        <service id="jeboehm_lampcp_mysql.mysqladminservice" class="%jeboehm_lampcp_mysql.mysqladminservice.class%">
-            <argument type="service" id="logger"/>
-        </service>
-
-        <service id="jeboehm_lampcp_mysql.mysqlsynchronizerservice" class="%jeboehm_lampcp_mysql.mysqlsynchronizerservice.class%">
-            <argument type="service" id="doctrine.orm.entity_manager"/>
-            <argument type="service" id="logger"/>
-            <argument type="service" id="jeboehm_lampcp_mysql.mysqladminservice"/>
-            <argument type="service" id="config"/>
-            <argument type="service" id="jeboehm_lampcp_core.cryptservice"/>
-        </service>
-
-        <service id="jeboehm_lampcp_mysql.configprovider" class="Jeboehm\Lampcp\MysqlBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
+        <service id="jeboehm_lampcp_mysql.configprovider"
+                 class="Jeboehm\Lampcp\MysqlBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
             <tag name="config.provider"/>
         </service>
 
-        <service id="jeboehm_lampcp_mysql.generatedatabasescommand" class="%jeboehm_lampcp_mysql.generatedatabasescommand.class%">
+        <service id="jeboehm_lampcp_mysql.command.generatedatabasescommand"
+                 class="%jeboehm_lampcp_mysql.command.generatedatabasescommand.class%">
             <tag name="config.builder"/>
         </service>
     </services>
