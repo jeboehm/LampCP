@@ -171,7 +171,7 @@ class MysqlAdapter implements AdapterInterface
         foreach ($result as $row) {
             $username = $row['User'];
 
-            if (!in_array($username, $usernames)) {
+            if (!in_array($username, $usernames) && !empty($username)) {
                 $user = new User();
                 $user->setName($username);
 
