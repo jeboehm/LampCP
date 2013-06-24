@@ -182,9 +182,9 @@ class MysqlAdapter implements AdapterInterface
         $result    = $this->connection
             ->getConnection()
             ->fetchAll(
-                sprintf(
-                    'SELECT Db, User, Host FROM mysql.db WHERE Db = "%s"',
-                    str_replace('_', '\_', $database->getName())
+                'SELECT Db, User, Host FROM mysql.db WHERE Db = ?',
+                array(
+                     str_replace('_', '\_', $database->getName()),
                 )
             );
 
