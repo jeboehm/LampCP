@@ -10,6 +10,8 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Adapter;
 
+use Jeboehm\Lampcp\MysqlBundle\Collection\DatabaseCollection;
+use Jeboehm\Lampcp\MysqlBundle\Collection\UserCollection;
 use Jeboehm\Lampcp\MysqlBundle\Model\Connection\ConnectionInterface;
 use Jeboehm\Lampcp\MysqlBundle\Model\Database;
 use Jeboehm\Lampcp\MysqlBundle\Model\User;
@@ -90,14 +92,14 @@ interface AdapterInterface
     /**
      * Get users.
      *
-     * @return User[]
+     * @return UserCollection
      */
     public function getUsers();
 
     /**
      * Get databases.
      *
-     * @return Database[]
+     * @return DatabaseCollection
      */
     public function getDatabases();
 }
