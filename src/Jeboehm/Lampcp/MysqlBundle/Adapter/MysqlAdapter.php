@@ -10,6 +10,7 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Adapter;
 
+use Doctrine\DBAL\DBALException;
 use Jeboehm\Lampcp\MysqlBundle\Collection\DatabaseCollection;
 use Jeboehm\Lampcp\MysqlBundle\Collection\UserCollection;
 use Jeboehm\Lampcp\MysqlBundle\Model\Connection\ConnectionInterface;
@@ -53,7 +54,16 @@ class MysqlAdapter implements AdapterInterface
      */
     public function createDatabase(Database $database)
     {
-        // TODO: Implement createDatabase() method.
+        try {
+            $this->connection
+                ->getConnection()
+                ->getSchemaManager()
+                ->createDatabase($database->getName());
+        } catch (DBALException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -65,7 +75,16 @@ class MysqlAdapter implements AdapterInterface
      */
     public function deleteDatabase(Database $database)
     {
-        // TODO: Implement deleteDatabase() method.
+        try {
+            $this->connection
+                ->getConnection()
+                ->getSchemaManager()
+                ->dropDatabase($database->getName());
+        } catch (DBALException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
