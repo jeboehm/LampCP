@@ -10,6 +10,8 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Model;
 
+use Jeboehm\Lampcp\MysqlBundle\Collection\UserCollection;
+
 /**
  * Class Database
  *
@@ -22,7 +24,7 @@ class Database
 {
     /** @var string */
     private $name;
-    /** @var User[] */
+    /** @var UserCollection */
     private $users;
 
     /**
@@ -30,7 +32,7 @@ class Database
      */
     public function __construct()
     {
-        $this->users = array();
+        $this->users = new UserCollection();
     }
 
     /**
@@ -66,7 +68,7 @@ class Database
      */
     public function addUser(User $user)
     {
-        $this->users[] = $user;
+        $this->users->add($user);
 
         return $this;
     }
@@ -74,7 +76,7 @@ class Database
     /**
      * Get users.
      *
-     * @return User[]
+     * @return UserCollection
      */
     public function getUsers()
     {

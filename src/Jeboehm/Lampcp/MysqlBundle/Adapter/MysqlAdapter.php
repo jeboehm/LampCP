@@ -10,6 +10,8 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Adapter;
 
+use Jeboehm\Lampcp\MysqlBundle\Collection\DatabaseCollection;
+use Jeboehm\Lampcp\MysqlBundle\Collection\UserCollection;
 use Jeboehm\Lampcp\MysqlBundle\Model\Connection\ConnectionInterface;
 use Jeboehm\Lampcp\MysqlBundle\Model\Connection\MysqlConnection;
 use Jeboehm\Lampcp\MysqlBundle\Model\Database;
@@ -122,7 +124,7 @@ class MysqlAdapter implements AdapterInterface
     public function getUsers()
     {
         $usernames = array();
-        $models    = array();
+        $models    = new UserCollection();
         $result    = $this->connection
             ->getConnection()
             ->fetchAll('SELECT User FROM mysql.user');
@@ -134,7 +136,7 @@ class MysqlAdapter implements AdapterInterface
                 $user = new User();
                 $user->setName($username);
 
-                $models[]    = $user;
+                $models->add($user);
                 $usernames[] = $username;
             }
         }
@@ -145,11 +147,11 @@ class MysqlAdapter implements AdapterInterface
     /**
      * Get databases.
      *
-     * @return Database[]
+     * @return DatabaseCollection
      */
     public function getDatabases()
     {
-        $models = array();
+        $models = new DatabaseCollection();
         $result = $this->connection
             ->getConnection()
             ->fetchAll('SHOW DATABASES');
@@ -160,7 +162,7 @@ class MysqlAdapter implements AdapterInterface
 
             $this->addPrivilegedUsersToDatabaseModel($database);
 
-            $models[] = $database;
+            $models->add($database);
         }
 
         return $models;
