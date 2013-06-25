@@ -23,6 +23,8 @@ class User
     /** @var string */
     private $name;
     /** @var string */
+    private $host;
+    /** @var string */
     private $password;
 
     /**
@@ -69,6 +71,30 @@ class User
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get Host.
+     *
+     * @return string
+     */
+    public function getHost()
+    {
+        return $this->host;
+    }
+
+    /**
+     * Set Host.
+     *
+     * @param string $host
+     *
+     * @return $this
+     */
+    public function setHost($host)
+    {
+        $this->host = $host;
 
         return $this;
     }
