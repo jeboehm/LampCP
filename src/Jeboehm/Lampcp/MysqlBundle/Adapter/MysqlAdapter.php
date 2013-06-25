@@ -102,6 +102,146 @@ class MysqlAdapter implements AdapterInterface
     }
 
     /**
+     * Update the database permissions.
+     *
+     * @param Database $database
+     *
+     * @return bool
+     */
+    protected function updateDatabasePermission(Database $database)
+    {
+        $conn                 = $this->connection->getConnection();
+        $currentDatabase      = $this
+            ->getDatabases()
+            ->findByName($database->getName());
+        $currentUsersIterator = $currentDatabase
+            ->getUsers()
+            ->getIterator();
+        $newUsersIterator     = $database
+            ->getUsers()
+            ->getIterator();
+
+        // Revoke all permissions.
+        try {
+            foreach ($currentUsersIterator as $user) {
+                /** @var User $user */
+
+                $conn->executeQuery(
+                    'REVOKE ALL PRIVILEGES ON ?.* FROM ?@?',
+                    array(
+                         $database->getName(),
+                         $user->getName(),
+                         $user->getHost(),
+                    )
+                );
+            }
+        } catch (DBALException $e) {
+            return false;
+        }
+
+        // Add permissions.
+        try {
+            foreach ($newUsersIterator as $user) {
+                /** @var User $user */
+
+                $conn->executeQuery(
+                    sprintf(
+                        'GRANT %s ON %s.* TO ?@?',
+                        join(', ', $this->getDefaultPermissions()),
+                        $database->getName()
+                    ),
+                    array(
+                         $user->getName(),
+                         $user->getHost(),
+                    )
+                );
+            }
+        } catch (DBALException $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get databases.
+     *
+     * @return DatabaseCollection
+     */
+    public function getDatabases()
+    {
+        $models = new DatabaseCollection();
+        $result = $this->connection
+            ->getConnection()
+            ->fetchAll('SHOW DATABASES');
+
+        foreach ($result as $dbrow) {
+            $database = new Database();
+            $database->setName($dbrow['Database']);
+
+            $this->addPrivilegedUsersToDatabaseModel($database);
+
+            $models->add($database);
+        }
+
+        return $models;
+    }
+
+    /**
+     * Add users, who have access to the given database
+     * to its database model.
+     *
+     * @param Database $database
+     *
+     * @return Database
+     */
+    protected function addPrivilegedUsersToDatabaseModel(Database $database)
+    {
+        $dbname    = str_replace('_', '\_', $database->getName());
+        $usernames = array();
+        $result    = $this->connection
+            ->getConnection()
+            ->fetchAll(
+                'SELECT Db, User, Host FROM mysql.db WHERE Db = ?',
+                array($dbname)
+            );
+
+        foreach ($result as $row) {
+            $username = $row['User'];
+
+            if (!in_array($username, $usernames) && !empty($username)) {
+                $user = new User();
+                $user->setName($username);
+
+                $database->addUser($user);
+                $usernames[] = $username;
+            }
+        }
+
+        return $database;
+    }
+
+    /**
+     * Get an array of default permissions for
+     * databases.
+     *
+     * @return array
+     */
+    protected function getDefaultPermissions()
+    {
+        return array(
+            'SELECT',
+            'INSERT',
+            'UPDATE',
+            'DELETE',
+            'CREATE',
+            'DROP',
+            'ALTER',
+            'INDEX',
+        );
+    }
+
+    /**
      * Create user.
      *
      * @param User $user
@@ -207,141 +347,5 @@ class MysqlAdapter implements AdapterInterface
         }
 
         return $models;
-    }
-
-    /**
-     * Update the database permissions.
-     *
-     * @param Database $database
-     *
-     * @return bool
-     */
-    protected function updateDatabasePermission(Database $database)
-    {
-        $conn                 = $this->connection->getConnection();
-        $currentDatabase      = $this
-            ->getDatabases()
-            ->findByName($database->getName());
-        $currentUsersIterator = $currentDatabase
-            ->getUsers()
-            ->getIterator();
-        $newUsersIterator     = $database
-            ->getUsers()
-            ->getIterator();
-
-        // Revoke all permissions.
-        try {
-            foreach ($currentUsersIterator as $user) {
-                /** @var User $user */
-
-                $conn->executeQuery(
-                    'REVOKE ALL PRIVILEGES ON ?.* FROM ?@?',
-                    array(
-                         $database->getName(),
-                         $user->getName(),
-                         $user->getHost(),
-                    )
-                );
-            }
-        } catch (DBALException $e) {
-            return false;
-        }
-
-        // Add permissions.
-        try {
-            foreach ($newUsersIterator as $user) {
-                /** @var User $user */
-
-                $conn->executeQuery(
-                    sprintf('GRANT %s ON %s.* TO ?@?', join(', ', $this->getDefaultPermissions()), $database->getName()),
-                    array(
-                         $user->getName(),
-                         $user->getHost(),
-                    )
-                );
-            }
-        } catch (DBALException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Get databases.
-     *
-     * @return DatabaseCollection
-     */
-    public function getDatabases()
-    {
-        $models = new DatabaseCollection();
-        $result = $this->connection
-            ->getConnection()
-            ->fetchAll('SHOW DATABASES');
-
-        foreach ($result as $dbrow) {
-            $database = new Database();
-            $database->setName($dbrow['Database']);
-
-            $this->addPrivilegedUsersToDatabaseModel($database);
-
-            $models->add($database);
-        }
-
-        return $models;
-    }
-
-    /**
-     * Add users, who have access to the given database
-     * to its database model.
-     *
-     * @param Database $database
-     *
-     * @return Database
-     */
-    protected function addPrivilegedUsersToDatabaseModel(Database $database)
-    {
-        $dbname    = str_replace('_', '\_', $database->getName());
-        $usernames = array();
-        $result    = $this->connection
-            ->getConnection()
-            ->fetchAll(
-                'SELECT Db, User, Host FROM mysql.db WHERE Db = ?',
-                array($dbname)
-            );
-
-        foreach ($result as $row) {
-            $username = $row['User'];
-
-            if (!in_array($username, $usernames) && !empty($username)) {
-                $user = new User();
-                $user->setName($username);
-
-                $database->addUser($user);
-                $usernames[] = $username;
-            }
-        }
-
-        return $database;
-    }
-
-    /**
-     * Get an array of default permissions for
-     * databases.
-     *
-     * @return array
-     */
-    protected function getDefaultPermissions()
-    {
-        return array(
-            'SELECT',
-            'INSERT',
-            'UPDATE',
-            'DELETE',
-            'CREATE',
-            'DROP',
-            'ALTER',
-            'INDEX',
-        );
     }
 }
