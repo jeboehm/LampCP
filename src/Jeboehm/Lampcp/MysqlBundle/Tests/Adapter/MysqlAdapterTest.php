@@ -170,4 +170,49 @@ class MysqlAdapterTest extends WebTestCase
 
         $this->assertFalse($result);
     }
+
+    /**
+     * Test updateDatabase.
+     */
+    public function testUpdateDatabase()
+    {
+        $database = new Database();
+        $user1    = new User();
+        $user2    = new User();
+
+        $user1
+            ->setName('lampcp_user1')
+            ->setHost('127.0.0.1')
+            ->setPassword('test123');
+
+        $user2
+            ->setName('lampcp_user2')
+            ->setHost('8.8.8.8')
+            ->setPassword('test321');
+
+        $database
+            ->setName('lampcp_' . rand(1, 9999))
+            ->addUser($user1)
+            ->addUser($user2);
+
+        $this->adapter->createUser($user1);
+        $this->adapter->createUser($user2);
+
+        // Create
+        $result1 = $this->adapter->createDatabase($database);
+        $this->assertTrue($result1);
+
+        $database
+            ->getUsers()
+            ->removeElement($user2);
+
+        // Update
+        $result2 = $this->adapter->updateDatabase($database);
+        $this->assertTrue($result2);
+
+        // Delete
+        $this->adapter->deleteDatabase($database);
+        $this->adapter->deleteUser($user1);
+        $this->adapter->deleteUser($user2);
+    }
 }
