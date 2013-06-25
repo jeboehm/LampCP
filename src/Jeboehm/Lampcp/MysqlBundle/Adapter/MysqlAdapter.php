@@ -197,14 +197,13 @@ class MysqlAdapter implements AdapterInterface
      */
     protected function addPrivilegedUsersToDatabaseModel(Database $database)
     {
+        $dbname    = str_replace('_', '\_', $database->getName());
         $usernames = array();
         $result    = $this->connection
             ->getConnection()
             ->fetchAll(
                 'SELECT Db, User, Host FROM mysql.db WHERE Db = ?',
-                array(
-                     str_replace('_', '\_', $database->getName()),
-                )
+                array($dbname)
             );
 
         foreach ($result as $row) {
