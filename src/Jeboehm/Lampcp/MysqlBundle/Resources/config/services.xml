@@ -16,17 +16,26 @@ http://www.gnu.org/licenses/gpl-2.0.txt
 
     <parameters>
         <parameter key="jeboehm_lampcp_mysql.command.generatedatabasescommand.class">Jeboehm\Lampcp\MysqlBundle\Command\GenerateDatabasesCommand</parameter>
+        <parameter key="jeboehm_lampcp_mysql.transformer.databasemodeltransformer.class">Jeboehm\Lampcp\MysqlBundle\Transformer\DatabaseModelTransformer</parameter>
     </parameters>
 
     <services>
         <service id="jeboehm_lampcp_mysql.configprovider"
-                 class="Jeboehm\Lampcp\MysqlBundle\Service\ConfigProvider" parent="jeboehm_lampcp_config_abstractconfigprovider">
+                 class="Jeboehm\Lampcp\MysqlBundle\Service\ConfigProvider"
+                 parent="jeboehm_lampcp_config_abstractconfigprovider">
             <tag name="config.provider"/>
         </service>
 
         <service id="jeboehm_lampcp_mysql.command.generatedatabasescommand"
                  class="%jeboehm_lampcp_mysql.command.generatedatabasescommand.class%">
             <tag name="config.builder"/>
+        </service>
+
+        <service id="jeboehm_lampcp_mysql.transformer.databasemodeltransformer"
+                 class="%jeboehm_lampcp_mysql.transformer.databasemodeltransformer.class%">
+            <call method="setCryptService">
+                <argument type="service" id="jeboehm_lampcp_core.cryptservice"/>
+            </call>
         </service>
     </services>
 </container>
