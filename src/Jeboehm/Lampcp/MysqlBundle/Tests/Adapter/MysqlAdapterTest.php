@@ -93,6 +93,20 @@ class MysqlAdapterTest extends WebTestCase
     }
 
     /**
+     * Delete unknown database.
+     *
+     * @group database
+     */
+    public function testDropDatabaseUnknown()
+    {
+        $model = new Database();
+        $model->setName('dfghjkrtzui' . rand(1, 9999));
+
+        $result = $this->adapter->deleteDatabase($model);
+        $this->assertFalse($result);
+    }
+
+    /**
      * Test createUser.
      *
      * @group database
@@ -123,5 +137,20 @@ class MysqlAdapterTest extends WebTestCase
         $result = $this->adapter->deleteUser($user);
 
         $this->assertTrue($result);
+    }
+
+    /**
+     * Delete unknown user.
+     */
+    public function testDeleteUserUnknown()
+    {
+        $model = new User();
+        $model
+            ->setName('asdfghjrtzui' . rand(1, 9999))
+            ->setHost('8.8.8.8');
+
+        $result = $this->adapter->deleteUser($model);
+
+        $this->assertFalse($result);
     }
 }
