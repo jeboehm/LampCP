@@ -161,7 +161,22 @@ class MysqlAdapter implements AdapterInterface
      */
     public function updateUser(User $user)
     {
-        // TODO: Implement updateUser() method.
+        try {
+            $this->connection
+                ->getConnection()
+                ->executeQuery(
+                    'SET PASSWORD FOR ?@? = PASSWORD(?)',
+                    array(
+                         $user->getName(),
+                         $user->getHost(),
+                         $user->getPassword(),
+                    )
+                );
+        } catch (DBALException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

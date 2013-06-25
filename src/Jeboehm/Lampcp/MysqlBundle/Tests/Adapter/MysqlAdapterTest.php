@@ -127,9 +127,26 @@ class MysqlAdapterTest extends WebTestCase
     }
 
     /**
-     * Test deleteUser.
+     * Test updateUser.
      *
      * @depends testCreateUser
+     * @group database
+     */
+    public function testUpdateUser(User $user)
+    {
+        $user->setPassword('test321');
+
+        $result = $this->adapter->updateUser($user);
+
+        $this->assertTrue($result);
+
+        return $user;
+    }
+
+    /**
+     * Test deleteUser.
+     *
+     * @depends testUpdateUser
      * @group database
      */
     public function testDeleteUser(User $user)
