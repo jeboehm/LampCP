@@ -63,7 +63,7 @@ class MysqlAdapter implements AdapterInterface
             return false;
         }
 
-        return true;
+        return true && $this->updateDatabase($database);
     }
 
     /**
