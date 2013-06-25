@@ -67,41 +67,6 @@ class MysqlAdapter implements AdapterInterface
     }
 
     /**
-     * Delete database.
-     *
-     * @param Database $database
-     *
-     * @return bool
-     */
-    public function deleteDatabase(Database $database)
-    {
-        try {
-            $this->connection
-                ->getConnection()
-                ->getSchemaManager()
-                ->dropDatabase($database->getName());
-        } catch (DBALException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Update database.
-     *
-     * @param Database $database
-     *
-     * @return bool
-     */
-    public function updateDatabase(Database $database)
-    {
-        $permissions = $this->updateDatabasePermission($database);
-
-        return $permissions;
-    }
-
-    /**
      * Update the database permissions.
      *
      * @param Database $database
@@ -241,6 +206,41 @@ class MysqlAdapter implements AdapterInterface
             'ALTER',
             'INDEX',
         );
+    }
+
+    /**
+     * Delete database.
+     *
+     * @param Database $database
+     *
+     * @return bool
+     */
+    public function deleteDatabase(Database $database)
+    {
+        try {
+            $this->connection
+                ->getConnection()
+                ->getSchemaManager()
+                ->dropDatabase($database->getName());
+        } catch (DBALException $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Update database.
+     *
+     * @param Database $database
+     *
+     * @return bool
+     */
+    public function updateDatabase(Database $database)
+    {
+        $permissions = $this->updateDatabasePermission($database);
+
+        return $permissions;
     }
 
     /**
