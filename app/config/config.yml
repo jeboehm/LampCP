@@ -9,7 +9,8 @@
 ##########################################
 
 imports:
-    - { resource: parameters.yml }
+    - { resource: parameters.yml.dist }
+    - { resource: parameters.yml, ignore_errors = true }
     - { resource: security.yml }
 
 framework:
