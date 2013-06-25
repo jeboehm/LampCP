@@ -202,8 +202,11 @@ class MysqlAdapter implements AdapterInterface
         $result    = $this->connection
             ->getConnection()
             ->fetchAll(
-                'SELECT Db, User, Host FROM mysql.db WHERE Db = ?',
-                array($dbname)
+                'SELECT Db, User, Host FROM mysql.db WHERE Db = ? OR Db = ?',
+                array(
+                     $dbname,
+                     $database->getName(),
+                )
             );
 
         foreach ($result as $row) {
