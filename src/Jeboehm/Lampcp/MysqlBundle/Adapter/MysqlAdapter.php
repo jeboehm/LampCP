@@ -108,7 +108,22 @@ class MysqlAdapter implements AdapterInterface
      */
     public function createUser(User $user)
     {
-        // TODO: Implement createUser() method.
+        try {
+            $this->connection
+                ->getConnection()
+                ->executeQuery(
+                    'CREATE USER ?@? IDENTIFIED BY ?',
+                    array(
+                         $user->getName(),
+                         $user->getHost(),
+                         $user->getPassword(),
+                    )
+                );
+        } catch (DBALException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -120,7 +135,21 @@ class MysqlAdapter implements AdapterInterface
      */
     public function deleteUser(User $user)
     {
-        // TODO: Implement deleteUser() method.
+        try {
+            $this->connection
+                ->getConnection()
+                ->executeQuery(
+                    'DROP USER ?@?',
+                    array(
+                         $user->getName(),
+                         $user->getHost(),
+                    )
+                );
+        } catch (DBALException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

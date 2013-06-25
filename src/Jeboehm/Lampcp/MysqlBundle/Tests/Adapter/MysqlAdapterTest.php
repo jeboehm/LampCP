@@ -12,6 +12,7 @@ namespace Jeboehm\Lampcp\MysqlBundle\Tests\Adapter;
 
 use Jeboehm\Lampcp\MysqlBundle\Adapter\MysqlAdapter;
 use Jeboehm\Lampcp\MysqlBundle\Model\Database;
+use Jeboehm\Lampcp\MysqlBundle\Model\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -87,6 +88,39 @@ class MysqlAdapterTest extends WebTestCase
     public function testDropDatabase(Database $db)
     {
         $result = $this->adapter->deleteDatabase($db);
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Test createUser.
+     *
+     * @group database
+     */
+    public function testCreateUser()
+    {
+        $user = new User();
+        $user
+            ->setName('lampcp_' . rand(1, 9999))
+            ->setHost('127.0.0.1')
+            ->setPassword('test123');
+
+        $result = $this->adapter->createUser($user);
+
+        $this->assertTrue($result);
+
+        return $user;
+    }
+
+    /**
+     * Test deleteUser.
+     *
+     * @depends testCreateUser
+     * @group database
+     */
+    public function testDeleteUser(User $user)
+    {
+        $result = $this->adapter->deleteUser($user);
 
         $this->assertTrue($result);
     }
