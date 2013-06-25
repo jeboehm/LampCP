@@ -96,7 +96,9 @@ class MysqlAdapter implements AdapterInterface
      */
     public function updateDatabase(Database $database)
     {
-        // TODO: Implement updateDatabase() method.
+        $permissions = $this->updateDatabasePermission($database);
+
+        return $permissions;
     }
 
     /**
@@ -205,6 +207,64 @@ class MysqlAdapter implements AdapterInterface
         }
 
         return $models;
+    }
+
+    /**
+     * Update the database permissions.
+     *
+     * @param Database $database
+     *
+     * @return bool
+     */
+    protected function updateDatabasePermission(Database $database)
+    {
+        $conn                 = $this->connection->getConnection();
+        $currentDatabase      = $this
+            ->getDatabases()
+            ->findByName($database->getName());
+        $currentUsersIterator = $currentDatabase
+            ->getUsers()
+            ->getIterator();
+        $newUsersIterator     = $database
+            ->getUsers()
+            ->getIterator();
+
+        // Revoke all permissions.
+        try {
+            foreach ($currentUsersIterator as $user) {
+                /** @var User $user */
+
+                $conn->executeQuery(
+                    'REVOKE ALL PRIVILEGES ON ?.* FROM ?@?',
+                    array(
+                         $database->getName(),
+                         $user->getName(),
+                         $user->getHost(),
+                    )
+                );
+            }
+        } catch (DBALException $e) {
+            return false;
+        }
+
+        // Add permissions.
+        try {
+            foreach ($newUsersIterator as $user) {
+                /** @var User $user */
+
+                $conn->executeQuery(
+                    sprintf('GRANT %s ON %s.* TO ?@?', join(', ', $this->getDefaultPermissions()), $database->getName()),
+                    array(
+                         $user->getName(),
+                         $user->getHost(),
+                    )
+                );
+            }
+        } catch (DBALException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
