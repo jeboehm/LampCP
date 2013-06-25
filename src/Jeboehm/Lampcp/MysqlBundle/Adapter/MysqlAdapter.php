@@ -264,4 +264,24 @@ class MysqlAdapter implements AdapterInterface
 
         return $database;
     }
+
+    /**
+     * Get an array of default permissions for
+     * databases.
+     *
+     * @return array
+     */
+    protected function getDefaultPermissions()
+    {
+        return array(
+            'SELECT',
+            'INSERT',
+            'UPDATE',
+            'DELETE',
+            'CREATE',
+            'DROP',
+            'ALTER',
+            'INDEX',
+        );
+    }
 }
