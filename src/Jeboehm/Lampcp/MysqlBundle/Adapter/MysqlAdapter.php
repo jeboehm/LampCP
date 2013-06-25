@@ -127,9 +127,8 @@ class MysqlAdapter implements AdapterInterface
                 /** @var User $user */
 
                 $conn->executeQuery(
-                    'REVOKE ALL PRIVILEGES ON ?.* FROM ?@?',
+                    sprintf('REVOKE ALL PRIVILEGES ON %s.* FROM ?@?', $database->getName()),
                     array(
-                         $database->getName(),
                          $user->getName(),
                          $user->getHost(),
                     )
