@@ -158,6 +158,8 @@ class MysqlAdapterTest extends WebTestCase
 
     /**
      * Delete unknown user.
+     *
+     * @group database
      */
     public function testDeleteUserUnknown()
     {
@@ -173,6 +175,8 @@ class MysqlAdapterTest extends WebTestCase
 
     /**
      * Test updateDatabase.
+     *
+     * @group database
      */
     public function testUpdateDatabase()
     {
