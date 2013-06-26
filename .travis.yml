@@ -10,4 +10,4 @@ before_script:
   - app/console doctrine:schema:update --force
   - app/console lampcp:config:init
 
-script: phpunit -c app --exclude-group=database
+script: phpunit -c app
