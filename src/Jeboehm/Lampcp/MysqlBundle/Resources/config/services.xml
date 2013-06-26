@@ -17,6 +17,7 @@ http://www.gnu.org/licenses/gpl-2.0.txt
     <parameters>
         <parameter key="jeboehm_lampcp_mysql.command.generatedatabasescommand.class">Jeboehm\Lampcp\MysqlBundle\Command\GenerateDatabasesCommand</parameter>
         <parameter key="jeboehm_lampcp_mysql.transformer.databasemodeltransformer.class">Jeboehm\Lampcp\MysqlBundle\Transformer\DatabaseModelTransformer</parameter>
+        <parameter key="jeboehm_lampcp_mysql.service.syncservice.class">Jeboehm\Lampcp\MysqlBundle\Service\SyncService</parameter>
     </parameters>
 
     <services>
@@ -35,6 +36,25 @@ http://www.gnu.org/licenses/gpl-2.0.txt
                  class="%jeboehm_lampcp_mysql.transformer.databasemodeltransformer.class%">
             <call method="setCryptService">
                 <argument type="service" id="jeboehm_lampcp_core.cryptservice"/>
+            </call>
+        </service>
+
+        <service id="jeboehm_lampcp_mysql.service.syncservice"
+                 class="%jeboehm_lampcp_mysql.service.syncservice.class%">
+            <call method="setConfigService">
+                <argument type="service" id="config"/>
+            </call>
+
+            <call method="setAdapter">
+                <argument type="service" id="jeboehm_lampcp_mysql.adapter.mysqladapter"/>
+            </call>
+
+            <call method="setModelTransformer">
+                <argument type="service" id="jeboehm_lampcp_mysql.transformer.databasemodeltransformer"/>
+            </call>
+
+            <call method="setEntityManager">
+                <argument type="service" id="doctrine.orm.entity_manager"/>
             </call>
         </service>
     </services>
