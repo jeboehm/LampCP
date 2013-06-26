@@ -52,10 +52,6 @@ http://www.gnu.org/licenses/gpl-2.0.txt
             <call method="setModelTransformer">
                 <argument type="service" id="jeboehm_lampcp_mysql.transformer.databasemodeltransformer"/>
             </call>
-
-            <call method="setEntityManager">
-                <argument type="service" id="doctrine.orm.entity_manager"/>
-            </call>
         </service>
     </services>
 </container>

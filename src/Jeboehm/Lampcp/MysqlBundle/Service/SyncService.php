@@ -10,10 +10,8 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Service;
 
-use Doctrine\ORM\EntityManager;
 use Jeboehm\Lampcp\ConfigBundle\Service\ConfigService;
 use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
-use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
 use Jeboehm\Lampcp\MysqlBundle\Adapter\AdapterInterface;
 use Jeboehm\Lampcp\MysqlBundle\Exception\EmptyDatabasePrefixException;
 use Jeboehm\Lampcp\MysqlBundle\Model\Database;
@@ -39,10 +37,32 @@ class SyncService
     private $adapter;
     /** @var ConfigService */
     private $config_service;
-    /** @var EntityManager */
-    private $entity_manager;
     /** @var DatabaseModelTransformer */
     private $model_transformer;
+    /** @var MysqlDatabase[] */
+    private $entities;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->entities = array();
+    }
+
+    /**
+     * Add entity.
+     *
+     * @param MysqlDatabase $entity
+     *
+     * @return $this
+     */
+    public function addEntity(MysqlDatabase $entity)
+    {
+        $this->entities[] = $entity;
+
+        return $this;
+    }
 
     /**
      * Find and delete old users.
@@ -57,11 +77,9 @@ class SyncService
         foreach ($users as $user) {
             /** @var User $user */
             if (is_numeric(substr($user->getName(), -1, 1))) {
-                $entitites = $this
-                    ->getRepository()
-                    ->findByName($user->getName());
+                $entity = $this->findEntityByName($user->getName());
 
-                if (count($entitites) < 1) {
+                if (!$entity) {
                     $this
                         ->getAdapter()
                         ->deleteUser($user);
@@ -138,39 +156,21 @@ class SyncService
     }
 
     /**
-     * Get mysql database repository.
+     * Find entity by name.
      *
-     * @return MysqlDatabaseRepository
+     * @param string $name
+     *
+     * @return MysqlDatabase|null
      */
-    protected function getRepository()
+    protected function findEntityByName($name)
     {
-        return $this
-            ->getEntityManager()
-            ->getRepository('JeboehmLampcpCoreBundle:MysqlDatabase');
-    }
+        foreach ($this->entities as $entity) {
+            if ($entity->getName() === $name) {
+                return $entity;
+            }
+        }
 
-    /**
-     * Get EntityManager.
-     *
-     * @return EntityManager
-     */
-    protected function getEntityManager()
-    {
-        return $this->entity_manager;
-    }
-
-    /**
-     * Set EntityManager.
-     *
-     * @param EntityManager $entity_manager
-     *
-     * @return $this
-     */
-    public function setEntityManager(EntityManager $entity_manager)
-    {
-        $this->entity_manager = $entity_manager;
-
-        return $this;
+        return null;
     }
 
     /**
@@ -178,11 +178,7 @@ class SyncService
      */
     public function createAndUpdateUsersAndDatabases()
     {
-        $entities = $this
-            ->getRepository()
-            ->findAll();
-
-        foreach ($entities as $entity) {
+        foreach ($this->entities as $entity) {
             /** @var MysqlDatabase $entity */
 
             $database       = $this
@@ -261,11 +257,9 @@ class SyncService
         foreach ($databases as $database) {
             /** @var Database $database */
             if (is_numeric(substr($database->getName(), -1, 1))) {
-                $entitites = $this
-                    ->getRepository()
-                    ->findByName($database->getName());
+                $entity = $this->findEntityByName($database->getName());
 
-                if (count($entitites) < 1) {
+                if (!$entity) {
                     $this
                         ->getAdapter()
                         ->deleteDatabase($database);
