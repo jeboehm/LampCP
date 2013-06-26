@@ -333,21 +333,24 @@ class MysqlAdapter implements AdapterInterface
      */
     public function getUsers()
     {
-        $usernames = array();
-        $models    = new UserCollection();
-        $result    = $this->connection
+        $added  = array();
+        $models = new UserCollection();
+        $result = $this->connection
             ->getConnection()
-            ->fetchAll('SELECT User FROM mysql.user');
+            ->fetchAll('SELECT User, Host FROM mysql.user');
 
         foreach ($result as $row) {
             $username = $row['User'];
+            $host     = $row['Host'];
 
-            if (!in_array($username, $usernames) && !empty($username)) {
+            if (!in_array($username . $host, $added) && !empty($username)) {
                 $user = new User();
-                $user->setName($username);
+                $user
+                    ->setName($username)
+                    ->setHost($host);
 
                 $models->add($user);
-                $usernames[] = $username;
+                $added[] = $username . $host;
             }
         }
 
