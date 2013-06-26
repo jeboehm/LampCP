@@ -12,6 +12,7 @@ namespace Jeboehm\Lampcp\MysqlBundle\Command;
 
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
 use Jeboehm\Lampcp\CoreBundle\Command\ConfigBuilderCommandInterface;
+use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
 use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
 use Jeboehm\Lampcp\MysqlBundle\Service\SyncService;
@@ -74,6 +75,13 @@ class GenerateDatabasesCommand extends AbstractCommand implements ConfigBuilderC
 
         if ($run) {
             $sync = $this->getSyncService();
+
+            foreach ($this
+                         ->getRepository()
+                         ->findAll() as $entity) {
+                $sync->addEntity($entity);
+            }
+
             $sync->findAndDeleteOldUsers();
             $sync->findAndDeleteOldDatabases();
             $sync->createAndUpdateUsersAndDatabases();
@@ -147,6 +155,18 @@ class GenerateDatabasesCommand extends AbstractCommand implements ConfigBuilderC
         return $this
             ->getContainer()
             ->get('jeboehm_lampcp_mysql.service.syncservice');
+    }
+
+    /**
+     * Get repository.
+     *
+     * @return MysqlDatabaseRepository
+     */
+    protected function getRepository()
+    {
+        return $this
+            ->_getDoctrine()
+            ->getRepository('JeboehmLampcpCoreBundle:MysqlDatabase');
     }
 
     /**
