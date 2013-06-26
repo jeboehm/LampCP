@@ -39,4 +39,25 @@ class UserCollection extends ArrayCollection
 
         return null;
     }
+
+    /**
+     * Find users whose names begin with $start.
+     *
+     * @param string $start
+     *
+     * @return UserCollection
+     */
+    public function findByNameStartsWith($start)
+    {
+        $return = array();
+
+        foreach ($this->getIterator() as $user) {
+            /** @var User $user */
+            if (substr($user->getName(), 0, strlen($start)) === $start) {
+                $return[] = $user;
+            }
+        }
+
+        return new UserCollection($return);
+    }
 }

@@ -39,4 +39,25 @@ class DatabaseCollection extends ArrayCollection
 
         return null;
     }
+
+    /**
+     * Find database whose names begin with $start.
+     *
+     * @param string $start
+     *
+     * @return DatabaseCollection
+     */
+    public function findByNameStartsWith($start)
+    {
+        $return = array();
+
+        foreach ($this->getIterator() as $database) {
+            /** @var Database $database */
+            if (substr($database->getName(), 0, strlen($start)) === $start) {
+                $return[] = $database;
+            }
+        }
+
+        return new DatabaseCollection($return);
+    }
 }
