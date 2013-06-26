@@ -10,7 +10,6 @@
 
 namespace Jeboehm\Lampcp\MysqlBundle\Tests\Service;
 
-use Doctrine\ORM\EntityManager;
 use Jeboehm\Lampcp\CoreBundle\Entity\Domain;
 use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabase;
 use Jeboehm\Lampcp\MysqlBundle\Adapter\AdapterInterface;
@@ -29,8 +28,6 @@ class SyncServiceTest extends WebTestCase
 {
     /** @var SyncService */
     private $service;
-    /** @var EntityManager */
-    private $em;
     /** @var AdapterInterface */
     private $adapter;
 
@@ -43,9 +40,6 @@ class SyncServiceTest extends WebTestCase
         $this->service = $client
             ->getContainer()
             ->get('jeboehm_lampcp_mysql.service.syncservice');
-        $this->em      = $client
-            ->getContainer()
-            ->get('doctrine.orm.entity_manager');
         $this->adapter = $client
             ->getContainer()
             ->get('jeboehm_lampcp_mysql.adapter.mysqladapter');
@@ -58,7 +52,40 @@ class SyncServiceTest extends WebTestCase
      */
     public function testCreateDatabases()
     {
-        // TODO
+        $domain = new Domain();
+        $db1    = new MysqlDatabase($domain);
+        $db1
+            ->setName('lampcpsql98')
+            ->setComment('Test')
+            ->setPassword('test123');
+
+        $db2 = new MysqlDatabase($domain);
+        $db2
+            ->setName('lampcpsql99')
+            ->setComment('Test')
+            ->setPassword('test123');
+
+        $this->service
+            ->addEntity($db1)
+            ->addEntity($db2);
+
+        $this->assertNull($this->adapter->getDatabases()->findByName($db1->getName()));
+        $this->assertNull($this->adapter->getDatabases()->findByName($db2->getName()));
+
+        $this->service->createAndUpdateUsersAndDatabases();
+
+        $this->assertNotNull($this->adapter->getDatabases()->findByName($db1->getName()));
+        $this->assertNotNull($this->adapter->getDatabases()->findByName($db2->getName()));
+
+        $this->service->createAndUpdateUsersAndDatabases();
+
+        $this->assertNotNull($this->adapter->getDatabases()->findByName($db1->getName()));
+        $this->assertNotNull($this->adapter->getDatabases()->findByName($db2->getName()));
+
+        $this->service->findAndDeleteOldDatabases();
+
+        $this->assertNotNull($this->adapter->getDatabases()->findByName($db1->getName()));
+        $this->assertNotNull($this->adapter->getDatabases()->findByName($db2->getName()));
     }
 
     /**
