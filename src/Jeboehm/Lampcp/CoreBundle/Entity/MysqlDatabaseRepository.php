@@ -38,4 +38,20 @@ class MysqlDatabaseRepository extends EntityRepository
 
         return intval($arr[0]->getId() + 1);
     }
+
+    /**
+     * Find by name.
+     *
+     * @param string $name
+     *
+     * @return MysqlDatabase[]
+     */
+    public function findByName($name)
+    {
+        return $this->findBy(
+            array(
+                 'name' => $name,
+            )
+        );
+    }
 }
