@@ -29,6 +29,18 @@ class DatabaseModelTransformer
 {
     /** @var CryptService */
     private $crypt_service;
+    /** @var array */
+    private $hosts;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->hosts = array(
+            'localhost',
+        );
+    }
 
     /**
      * Transform MysqlDatabase entity to a model
@@ -40,16 +52,19 @@ class DatabaseModelTransformer
      */
     public function transform(MysqlDatabase $database)
     {
-        $user_model = new User();
-        $user_model
-            ->setName($database->getName())
-            ->setHost('127.0.0.1')
-            ->setPassword($this->getPassword($database));
-
         $db_model = new Database();
-        $db_model
-            ->setName($database->getName())
-            ->addUser($user_model);
+
+        foreach ($this->hosts as $host) {
+            $user_model = new User();
+            $user_model
+                ->setName($database->getName())
+                ->setHost($host)
+                ->setPassword($this->getPassword($database));
+
+            $db_model->addUser($user_model);
+        }
+
+        $db_model->setName($database->getName());
 
         return $db_model;
     }

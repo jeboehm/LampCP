@@ -93,12 +93,7 @@ class DatabaseModelTransformerTest extends WebTestCase
         $model = $this->transformer->transform($database);
 
         $this->assertInstanceOf('\Jeboehm\Lampcp\MysqlBundle\Model\Database', $model);
-        $this->assertEquals(
-            1,
-            $model
-                ->getUsers()
-                ->count()
-        );
+        $this->assertGreaterThan(0, count($model->getUsers()->count()));
 
         /** @var User $user */
         $user = $model
