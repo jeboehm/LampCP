@@ -24,6 +24,8 @@ class MysqlConnectionFactoryTest extends WebTestCase
 {
     /**
      * Test manual connection factory.
+     *
+     * @group database
      */
     public function testManualFactory()
     {
@@ -38,6 +40,8 @@ class MysqlConnectionFactoryTest extends WebTestCase
 
     /**
      * Test factory via dependency injection.
+     *
+     * @group database
      */
     public function testDiFactory()
     {
