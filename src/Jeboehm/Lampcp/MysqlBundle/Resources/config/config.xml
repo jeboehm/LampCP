@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+
+<!--
+
+LampCP
+https://github.com/jeboehm/LampCP
+
+Licensed under the GPL Version 2 license
+http://www.gnu.org/licenses/gpl-2.0.txt
+
+-->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="jeboehm_lampcp_mysql.factory.configuration.abstractconfigloader.class">Jeboehm\Lampcp\MysqlBundle\Factory\Configuration\AbstractConfigLoader</parameter>
+        <parameter key="jeboehm_lampcp_mysql.factory.configuration.mysqlconfigloader.class">Jeboehm\Lampcp\MysqlBundle\Factory\Configuration\MysqlConfigLoader</parameter>
+
+        <parameter key="jeboehm_lampcp_mysql.model.configuration.mysqlconfiguration.class">Jeboehm\Lampcp\MysqlBundle\Model\Configuration\MysqlConfiguration</parameter>
+    </parameters>
+
+    <services>
+        <service id="jeboehm_lampcp_mysql.factory.configuration.abstractconfigloader"
+                 class="%jeboehm_lampcp_mysql.factory.configuration.abstractconfigloader.class%"
+                 abstract="true">
+            <argument type="service" id="config"/>
+        </service>
+
+        <service id="jeboehm_lampcp_mysql.factory.configuration.mysqlconfigloader"
+                 class="%jeboehm_lampcp_mysql.factory.configuration.mysqlconfigloader.class%"
+                 parent="jeboehm_lampcp_mysql.factory.configuration.abstractconfigloader"/>
+
+        <service id="jeboehm_lampcp_mysql.model.configuration.mysqlconfiguration"
+                 class="%jeboehm_lampcp_mysql.model.configuration.mysqlconfiguration.class%"
+                 factory-service="jeboehm_lampcp_mysql.factory.configuration.mysqlconfigloader"
+                 factory-method="factory"/>
+    </services>
+</container>

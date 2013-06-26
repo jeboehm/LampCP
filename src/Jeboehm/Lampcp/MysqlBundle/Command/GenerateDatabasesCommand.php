@@ -12,10 +12,10 @@ namespace Jeboehm\Lampcp\MysqlBundle\Command;
 
 use Jeboehm\Lampcp\CoreBundle\Command\AbstractCommand;
 use Jeboehm\Lampcp\CoreBundle\Command\ConfigBuilderCommandInterface;
+use Jeboehm\Lampcp\CoreBundle\Entity\MysqlDatabaseRepository;
 use Jeboehm\Lampcp\CoreBundle\Service\ChangeTrackingService;
 use Jeboehm\Lampcp\CoreBundle\Service\CronService;
-use Jeboehm\Lampcp\MysqlBundle\Service\MysqlAdminService;
-use Jeboehm\Lampcp\MysqlBundle\Service\MysqlSynchronizerService;
+use Jeboehm\Lampcp\MysqlBundle\Service\SyncService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,11 +30,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class GenerateDatabasesCommand extends AbstractCommand implements ConfigBuilderCommandInterface
 {
-    /** @var MysqlAdminService */
-    protected $_mysqladminservice;
-    /** @var MysqlSynchronizerService */
-    protected $_mysqlsyncservice;
-
     /**
      * Configure command.
      */
@@ -79,17 +74,17 @@ class GenerateDatabasesCommand extends AbstractCommand implements ConfigBuilderC
         }
 
         if ($run) {
-            $this
-                ->_getMysqlSynchronizerService()
-                ->createDatabases();
+            $sync = $this->getSyncService();
 
-            $this
-                ->_getMysqlSynchronizerService()
-                ->deleteObsoleteDatabases();
+            foreach ($this
+                         ->getRepository()
+                         ->findAll() as $entity) {
+                $sync->addEntity($entity);
+            }
 
-            $this
-                ->_getMysqlSynchronizerService()
-                ->deleteObsoleteUsers();
+            $sync->findAndDeleteOldUsers();
+            $sync->findAndDeleteOldDatabases();
+            $sync->createAndUpdateUsersAndDatabases();
 
             $this
                 ->_getCronService()
@@ -151,60 +146,27 @@ class GenerateDatabasesCommand extends AbstractCommand implements ConfigBuilderC
     }
 
     /**
-     * Get mysql synchronizer service.
+     * Get sync service.
      *
-     * @return MysqlSynchronizerService
+     * @return SyncService
      */
-    protected function _getMysqlSynchronizerService()
+    protected function getSyncService()
     {
-        if (!$this->_mysqlsyncservice) {
-            $this->_getMysqlAdminService();
-            $this->_mysqlsyncservice = $this
-                ->getContainer()
-                ->get('jeboehm_lampcp_mysql.mysqlsynchronizerservice');
-        }
-
-        return $this->_mysqlsyncservice;
+        return $this
+            ->getContainer()
+            ->get('jeboehm_lampcp_mysql.service.syncservice');
     }
 
     /**
-     * Get mysql admin service.
+     * Get repository.
      *
-     * @return MysqlAdminService
+     * @return MysqlDatabaseRepository
      */
-    protected function _getMysqlAdminService()
+    protected function getRepository()
     {
-        if (!$this->_mysqladminservice) {
-            $this->_mysqladminservice = $this
-                ->getContainer()
-                ->get('jeboehm_lampcp_mysql.mysqladminservice');
-            $this->_mysqlAdminServiceConnect();
-        }
-
-        return $this->_mysqladminservice;
-    }
-
-    /**
-     * Initialize mysql admin service.
-     */
-    protected function _mysqlAdminServiceConnect()
-    {
-        $this
-            ->_getMysqlAdminService()
-            ->connect(
-                $this
-                    ->_getConfigService()
-                    ->getParameter('mysql.host'),
-                $this
-                    ->_getConfigService()
-                    ->getParameter('mysql.rootuser'),
-                $this
-                    ->_getConfigService()
-                    ->getParameter('mysql.rootpassword'),
-                $this
-                    ->_getConfigService()
-                    ->getParameter('mysql.port')
-            );
+        return $this
+            ->_getDoctrine()
+            ->getRepository('JeboehmLampcpCoreBundle:MysqlDatabase');
     }
 
     /**
