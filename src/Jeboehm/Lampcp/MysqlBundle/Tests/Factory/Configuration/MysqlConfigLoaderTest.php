@@ -24,6 +24,8 @@ class MysqlConfigLoaderTest extends WebTestCase
 {
     /**
      * Test configuration factory.
+     *
+     * @group database
      */
     public function testManualFactory()
     {
@@ -55,6 +57,8 @@ class MysqlConfigLoaderTest extends WebTestCase
 
     /**
      * Test configuration factory via dependency injection.
+     *
+     * @group database
      */
     public function testDiFactory()
     {
