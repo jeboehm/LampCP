@@ -26,14 +26,16 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/protectionuser")
  */
-class ProtectionUserController extends AbstractController {
+class ProtectionUserController extends AbstractController
+{
     /**
      * Lists all ProtectionUser entities.
      *
      * @Route("/{protection}/", name="config_protectionuser")
      * @Template()
      */
-    public function indexAction(Protection $protection) {
+    public function indexAction(Protection $protection)
+    {
         $entities = $this
             ->_getRepository()
             ->findBy(array('protection' => $protection), array('username' => 'asc'));
@@ -50,7 +52,8 @@ class ProtectionUserController extends AbstractController {
      * @Route("/{entity}/show", name="config_protectionuser_show")
      * @Template()
      */
-    public function showAction(ProtectionUser $entity) {
+    public function showAction(ProtectionUser $entity)
+    {
         return array(
             'entity' => $entity,
         );
@@ -62,7 +65,8 @@ class ProtectionUserController extends AbstractController {
      * @Route("/{protection}/new", name="config_protectionuser_new")
      * @Template()
      */
-    public function newAction(Protection $protection) {
+    public function newAction(Protection $protection)
+    {
         $entity = new ProtectionUser($this->_getSelectedDomain(), $protection);
         $form   = $this->createForm(new ProtectionUserType(), $entity);
 
@@ -80,15 +84,18 @@ class ProtectionUserController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:ProtectionUser:new.html.twig")
      */
-    public function createAction(Request $request, Protection $protection) {
+    public function createAction(Request $request, Protection $protection)
+    {
         $entity = new ProtectionUser($this->_getSelectedDomain(), $protection);
         $form   = $this->createForm(new ProtectionUserType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
-            $entity->setPassword($this
-                ->_getCryptService()
-                ->encrypt($entity->getPassword()));
+            $entity->setPassword(
+                $this
+                    ->_getCryptService()
+                    ->encrypt($entity->getPassword())
+            );
 
             $em = $this
                 ->getDoctrine()
@@ -96,7 +103,9 @@ class ProtectionUserController extends AbstractController {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('config_protectionuser_show', array('entity' => $entity->getId())));
+            return $this->redirect(
+                $this->generateUrl('config_protectionuser_show', array('entity' => $entity->getId()))
+            );
         }
 
         return array(
@@ -112,7 +121,8 @@ class ProtectionUserController extends AbstractController {
      * @Route("/{entity}/edit", name="config_protectionuser_edit")
      * @Template()
      */
-    public function editAction(ProtectionUser $entity) {
+    public function editAction(ProtectionUser $entity)
+    {
         $editForm = $this->createForm(new ProtectionUserType(), $entity);
 
         return array(
@@ -128,10 +138,11 @@ class ProtectionUserController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:ProtectionUser:edit.html.twig")
      */
-    public function updateAction(Request $request, ProtectionUser $entity) {
+    public function updateAction(Request $request, ProtectionUser $entity)
+    {
         $oldPassword = $entity->getPassword();
         $editForm    = $this->createForm(new ProtectionUserType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em = $this
@@ -141,15 +152,19 @@ class ProtectionUserController extends AbstractController {
             if (!$entity->getPassword()) {
                 $entity->setPassword($oldPassword);
             } else {
-                $entity->setPassword($this
-                    ->_getCryptService()
-                    ->encrypt($entity->getPassword()));
+                $entity->setPassword(
+                    $this
+                        ->_getCryptService()
+                        ->encrypt($entity->getPassword())
+                );
             }
 
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('config_protectionuser_edit', array('entity' => $entity->getId())));
+            return $this->redirect(
+                $this->generateUrl('config_protectionuser_edit', array('entity' => $entity->getId()))
+            );
         }
 
         return array(
@@ -163,18 +178,24 @@ class ProtectionUserController extends AbstractController {
      *
      * @Route("/{entity}/delete", name="config_protectionuser_delete")
      */
-    public function deleteAction(ProtectionUser $entity) {
+    public function deleteAction(ProtectionUser $entity)
+    {
         $em = $this
             ->getDoctrine()
             ->getManager();
         $em->remove($entity);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('config_protectionuser', array(
-                                                                                'protection' => $entity
-                                                                                    ->getProtection()
-                                                                                    ->getId()
-                                                                           )));
+        return $this->redirect(
+            $this->generateUrl(
+                'config_protectionuser',
+                array(
+                    'protection' => $entity
+                        ->getProtection()
+                        ->getId()
+                )
+            )
+        );
     }
 
     /**
@@ -182,7 +203,8 @@ class ProtectionUserController extends AbstractController {
      *
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
-    private function _getRepository() {
+    private function _getRepository()
+    {
         return $this
             ->getDoctrine()
             ->getRepository('JeboehmLampcpCoreBundle:ProtectionUser');

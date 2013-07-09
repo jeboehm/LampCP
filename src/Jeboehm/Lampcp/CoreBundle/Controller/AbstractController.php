@@ -26,7 +26,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
  * @package Jeboehm\Lampcp\CoreBundle\Controller
  * @author  Jeffrey Böhm <post@jeffrey-boehm.de>
  */
-abstract class AbstractController extends Controller {
+abstract class AbstractController extends Controller
+{
     /** @var Logger */
     private $_logger;
 
@@ -35,7 +36,8 @@ abstract class AbstractController extends Controller {
      *
      * @return ConfigService
      */
-    protected function _getConfigService() {
+    protected function _getConfigService()
+    {
         return $this->get('config');
     }
 
@@ -44,7 +46,8 @@ abstract class AbstractController extends Controller {
      *
      * @return Session
      */
-    protected function _getSession() {
+    protected function _getSession()
+    {
         return $this->get('session');
     }
 
@@ -53,7 +56,8 @@ abstract class AbstractController extends Controller {
      *
      * @param string $message
      */
-    protected function _addFlash($message) {
+    protected function _addFlash($message)
+    {
         $this
             ->_getSession()
             ->getFlashBag()
@@ -65,7 +69,8 @@ abstract class AbstractController extends Controller {
      *
      * @return Logger
      */
-    protected function _getLogger() {
+    protected function _getLogger()
+    {
         if (!$this->_logger) {
             $this->_logger = $this->get('logger');
         }
@@ -78,7 +83,8 @@ abstract class AbstractController extends Controller {
      *
      * @return \Jeboehm\Lampcp\CoreBundle\Entity\Domain|null
      */
-    protected function _getSelectedDomain() {
+    protected function _getSelectedDomain()
+    {
         /** @var $domainselector DomainselectorService */
         $domainselector = $this->get('jeboehm_lampcp_core.domainselector');
 
@@ -90,7 +96,8 @@ abstract class AbstractController extends Controller {
      *
      * @return CryptService
      */
-    protected function _getCryptService() {
+    protected function _getCryptService()
+    {
         return $this->get('jeboehm_lampcp_core.cryptservice');
     }
 }

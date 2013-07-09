@@ -25,14 +25,16 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/domain")
  */
-class DomainController extends AbstractController {
+class DomainController extends AbstractController
+{
     /**
      * Lists all Domain entities.
      *
      * @Route("/", name="config_domain")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         /** @var $entities Domain[] */
         $entities = $this
             ->_getRepository()
@@ -49,7 +51,8 @@ class DomainController extends AbstractController {
      * @Route("/{entity}/show", name="config_domain_show")
      * @Template()
      */
-    public function showAction(Domain $entity) {
+    public function showAction(Domain $entity)
+    {
         return array(
             'entity' => $entity,
         );
@@ -61,7 +64,8 @@ class DomainController extends AbstractController {
      * @Route("/new", name="config_domain_new")
      * @Template()
      */
-    public function newAction() {
+    public function newAction()
+    {
         $entity = new Domain();
         $entity->setPath('(auto)');
         $form = $this->createForm(new DomainType(), $entity);
@@ -79,10 +83,11 @@ class DomainController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Domain:new.html.twig")
      */
-    public function createAction(Request $request) {
+    public function createAction(Request $request)
+    {
         $entity = new Domain();
         $form   = $this->createForm(new DomainType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
         $entity->setPath($this->_getSystemWebPath() . '/' . $entity->getDomain());
 
         if ($form->isValid()) {
@@ -107,7 +112,8 @@ class DomainController extends AbstractController {
      * @Route("/{entity}/edit", name="config_domain_edit")
      * @Template()
      */
-    public function editAction(Domain $entity) {
+    public function editAction(Domain $entity)
+    {
         $editForm = $this->createForm(new DomainType(), $entity);
 
         return array(
@@ -123,9 +129,10 @@ class DomainController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Domain:edit.html.twig")
      */
-    public function updateAction(Request $request, Domain $entity) {
+    public function updateAction(Request $request, Domain $entity)
+    {
         $editForm = $this->createForm(new DomainType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em = $this
@@ -148,7 +155,8 @@ class DomainController extends AbstractController {
      *
      * @Route("/{entity}/delete", name="config_domain_delete")
      */
-    public function deleteAction(Domain $entity) {
+    public function deleteAction(Domain $entity)
+    {
         $em = $this
             ->getDoctrine()
             ->getManager();
@@ -163,7 +171,8 @@ class DomainController extends AbstractController {
      *
      * @return string
      */
-    private function _getSystemWebPath() {
+    private function _getSystemWebPath()
+    {
         return $this
             ->_getConfigService()
             ->getParameter('apache.pathwww');
@@ -174,7 +183,8 @@ class DomainController extends AbstractController {
      *
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
-    private function _getRepository() {
+    private function _getRepository()
+    {
         return $this
             ->getDoctrine()
             ->getRepository('JeboehmLampcpCoreBundle:Domain');

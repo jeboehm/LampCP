@@ -139,7 +139,7 @@ class CertificateController extends AbstractController
     {
         $entity = new Certificate();
         $form   = $this->createForm(new CertificateType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $privKey = $entity->getCertificateKeyFile();
@@ -206,7 +206,7 @@ class CertificateController extends AbstractController
     public function updateAction(Request $request, Certificate $entity)
     {
         $editForm = $this->createForm(new CertificateType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $privKey = $this

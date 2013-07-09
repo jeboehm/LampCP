@@ -29,13 +29,15 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/dns")
  */
-class DnsController extends AbstractController {
+class DnsController extends AbstractController
+{
     /**
      * Get a default zone for new entries
      *
      * @return ZoneCollection
      */
-    protected function _getDefaultZone() {
+    protected function _getDefaultZone()
+    {
         $nsdefault = $this
             ->_getConfigService()
             ->getParameter('dns.default.ns');
@@ -45,9 +47,11 @@ class DnsController extends AbstractController {
 
         $soa
             ->setPrimary($nsdefault)
-            ->setMail($this
-                ->getUser()
-                ->getEmail() . '.');
+            ->setMail(
+                $this
+                    ->getUser()
+                    ->getEmail() . '.'
+            );
 
         $ns->setRdata($nsdefault);
 
@@ -64,7 +68,8 @@ class DnsController extends AbstractController {
      * @Route("/", name="config_dns")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         /** @var $entities Dns[] */
         $entities = $this
             ->_getRepository()
@@ -79,7 +84,8 @@ class DnsController extends AbstractController {
      * @Route("/{entity}/show", name="config_dns_show")
      * @Template()
      */
-    public function showAction(Dns $entity) {
+    public function showAction(Dns $entity)
+    {
         return array(
             'entity' => $entity,
         );
@@ -91,7 +97,8 @@ class DnsController extends AbstractController {
      * @Route("/new", name="config_dns_new")
      * @Template()
      */
-    public function newAction() {
+    public function newAction()
+    {
         $entity = new Dns($this->_getSelectedDomain());
         $entity->setZonecollection($this->_getDefaultZone());
         $form = $this->createForm(new DnsType(), $entity);
@@ -109,12 +116,13 @@ class DnsController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Dns:new.html.twig")
      */
-    public function createAction(Request $request) {
+    public function createAction(Request $request)
+    {
         $entity = new Dns($this->_getSelectedDomain());
         $entity->setZonecollection($this->_getDefaultZone());
 
         $form = $this->createForm(new DnsType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this
@@ -138,7 +146,8 @@ class DnsController extends AbstractController {
      * @Route("/{entity}/edit", name="config_dns_edit")
      * @Template()
      */
-    public function editAction(Dns $entity) {
+    public function editAction(Dns $entity)
+    {
         $editForm = $this->createForm(new DnsType(), $entity);
 
         return array(
@@ -154,9 +163,10 @@ class DnsController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Dns:edit.html.twig")
      */
-    public function updateAction(Request $request, Dns $entity) {
+    public function updateAction(Request $request, Dns $entity)
+    {
         $editForm = $this->createForm(new DnsType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $zone = $entity->getZonecollection();
@@ -186,7 +196,8 @@ class DnsController extends AbstractController {
      *
      * @Route("/{entity}/delete", name="config_dns_delete")
      */
-    public function deleteAction(Dns $entity) {
+    public function deleteAction(Dns $entity)
+    {
         $em = $this
             ->getDoctrine()
             ->getManager();
@@ -203,10 +214,14 @@ class DnsController extends AbstractController {
      * @Route("/{entity}/editsoa", name="config_dns_edit_soa")
      * @Template()
      */
-    public function editSoaAction(Dns $entity) {
-        $editForm = $this->createForm(new DnsSoaType(), $entity
-            ->getZonecollection()
-            ->getSoa());
+    public function editSoaAction(Dns $entity)
+    {
+        $editForm = $this->createForm(
+            new DnsSoaType(),
+            $entity
+                ->getZonecollection()
+                ->getSoa()
+        );
 
         return array(
             'edit_form' => $editForm->createView(),
@@ -220,11 +235,12 @@ class DnsController extends AbstractController {
      * @Route("/{entity}/updatesoa", name="config_dns_update_soa")
      * @Template()
      */
-    public function updateSoaAction(Request $request, Dns $entity) {
+    public function updateSoaAction(Request $request, Dns $entity)
+    {
         $zone     = $entity->getZonecollection();
         $soa      = $zone->getSoa();
         $editForm = $this->createForm(new DnsSoaType(), $soa);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $soa->refreshSerial();
@@ -253,7 +269,8 @@ class DnsController extends AbstractController {
      *
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
-    protected function _getRepository() {
+    protected function _getRepository()
+    {
         return $this
             ->getDoctrine()
             ->getRepository('JeboehmLampcpCoreBundle:Dns');

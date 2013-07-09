@@ -27,14 +27,16 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/admin")
  */
-class AdminController extends AbstractController {
+class AdminController extends AbstractController
+{
     /**
      * Lists all Admin entities.
      *
      * @Route("/", name="config_admin")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         $entities = $this
             ->_getUserManager()
             ->findUsers();
@@ -45,12 +47,26 @@ class AdminController extends AbstractController {
     }
 
     /**
+     * Get user manager
+     *
+     * @return UserManagerInterface
+     */
+    private function _getUserManager()
+    {
+        /** @var $userManager UserManagerInterface */
+        $userManager = $this->container->get('fos_user.user_manager');
+
+        return $userManager;
+    }
+
+    /**
      * Finds and displays an Admin entity.
      *
      * @Route("/{entity}/show", name="config_admin_show")
      * @Template()
      */
-    public function showAction(Admin $entity) {
+    public function showAction(Admin $entity)
+    {
         return array(
             'entity'    => $entity,
             'roleTrans' => AdminRoles::$roles,
@@ -63,7 +79,8 @@ class AdminController extends AbstractController {
      * @Route("/new", name="config_admin_new")
      * @Template()
      */
-    public function newAction() {
+    public function newAction()
+    {
         $entity = $this
             ->_getUserManager()
             ->createUser();
@@ -84,13 +101,14 @@ class AdminController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Admin:new.html.twig")
      */
-    public function createAction(Request $request) {
+    public function createAction(Request $request)
+    {
         /** @var $entity Admin */
         $entity = $this
             ->_getUserManager()
             ->createUser();
         $form   = $this->createForm(new AdminType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $this
@@ -112,7 +130,8 @@ class AdminController extends AbstractController {
      * @Route("/{entity}/edit", name="config_admin_edit")
      * @Template()
      */
-    public function editAction(Admin $entity) {
+    public function editAction(Admin $entity)
+    {
         $editForm = $this->createForm(new AdminType(), $entity);
 
         return array(
@@ -128,9 +147,10 @@ class AdminController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Protection:edit.html.twig")
      */
-    public function updateAction(Request $request, Admin $entity) {
+    public function updateAction(Request $request, Admin $entity)
+    {
         $editForm = $this->createForm(new AdminType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $this
@@ -151,23 +171,12 @@ class AdminController extends AbstractController {
      *
      * @Route("/{entity}/delete", name="config_admin_delete")
      */
-    public function deleteAction(Admin $entity) {
+    public function deleteAction(Admin $entity)
+    {
         $this
             ->_getUserManager()
             ->deleteUser($entity);
 
         return $this->redirect($this->generateUrl('config_admin'));
-    }
-
-    /**
-     * Get user manager
-     *
-     * @return UserManagerInterface
-     */
-    private function _getUserManager() {
-        /** @var $userManager UserManagerInterface */
-        $userManager = $this->container->get('fos_user.user_manager');
-
-        return $userManager;
     }
 }
