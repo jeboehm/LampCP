@@ -26,14 +26,16 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/mailaddress")
  */
-class MailAddressController extends AbstractController {
+class MailAddressController extends AbstractController
+{
     /**
      * Lists all MailAddress entities.
      *
      * @Route("/", name="config_mailaddress")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         /** @var $entities MailAddress[] */
         $entities = $this
             ->_getRepository()
@@ -50,7 +52,8 @@ class MailAddressController extends AbstractController {
      * @Route("/{entity}/show", name="config_mailaddress_show")
      * @Template()
      */
-    public function showAction(MailAddress $entity) {
+    public function showAction(MailAddress $entity)
+    {
         return array(
             'entity' => $entity,
         );
@@ -62,7 +65,8 @@ class MailAddressController extends AbstractController {
      * @Route("/new", name="config_mailaddress_new")
      * @Template()
      */
-    public function newAction() {
+    public function newAction()
+    {
         $entity = new MailAddress($this->_getSelectedDomain());
         $form   = $this->createForm(new MailAddressType(), $entity);
 
@@ -79,7 +83,8 @@ class MailAddressController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:MailAddress:new.html.twig")
      */
-    public function createAction(Request $request) {
+    public function createAction(Request $request)
+    {
         $entity = new MailAddress($this->_getSelectedDomain());
         $form   = $this->createForm(new MailAddressType(), $entity);
         $form->submit($request);
@@ -106,7 +111,8 @@ class MailAddressController extends AbstractController {
      * @Route("/{entity}/edit", name="config_mailaddress_edit")
      * @Template()
      */
-    public function editAction(MailAddress $entity) {
+    public function editAction(MailAddress $entity)
+    {
         $editForm = $this->createForm(new MailAddressType(), $entity);
 
         return array(
@@ -122,7 +128,8 @@ class MailAddressController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:MailAddress:edit.html.twig")
      */
-    public function updateAction(Request $request, MailAddress $entity) {
+    public function updateAction(Request $request, MailAddress $entity)
+    {
         $oldForwards = $entity->getMailforward();
         $editForm    = $this->createForm(new MailAddressType(), $entity);
         $editForm->submit($request);
@@ -172,7 +179,8 @@ class MailAddressController extends AbstractController {
      *
      * @Route("/{entity}/delete", name="config_mailaddress_delete")
      */
-    public function deleteAction(MailAddress $entity) {
+    public function deleteAction(MailAddress $entity)
+    {
         $em = $this
             ->getDoctrine()
             ->getManager();
@@ -193,7 +201,8 @@ class MailAddressController extends AbstractController {
      *
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
-    private function _getRepository() {
+    private function _getRepository()
+    {
         return $this
             ->getDoctrine()
             ->getRepository('JeboehmLampcpCoreBundle:MailAddress');

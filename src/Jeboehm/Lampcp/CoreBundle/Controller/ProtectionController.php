@@ -25,14 +25,16 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/protection")
  */
-class ProtectionController extends AbstractController {
+class ProtectionController extends AbstractController
+{
     /**
      * Lists all Protection entities.
      *
      * @Route("/", name="config_protection")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         /** @var $entities Protection[] */
         $entities = $this
             ->_getRepository()
@@ -49,7 +51,8 @@ class ProtectionController extends AbstractController {
      * @Route("/{entity}/show", name="config_protection_show")
      * @Template()
      */
-    public function showAction(Protection $entity) {
+    public function showAction(Protection $entity)
+    {
         return array(
             'entity' => $entity,
         );
@@ -61,7 +64,8 @@ class ProtectionController extends AbstractController {
      * @Route("/new", name="config_protection_new")
      * @Template()
      */
-    public function newAction() {
+    public function newAction()
+    {
         $entity = new Protection($this->_getSelectedDomain());
         $form   = $this->createForm(new ProtectionType(), $entity);
 
@@ -78,7 +82,8 @@ class ProtectionController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Protection:new.html.twig")
      */
-    public function createAction(Request $request) {
+    public function createAction(Request $request)
+    {
         $entity = new Protection($this->_getSelectedDomain());
         $form   = $this->createForm(new ProtectionType(), $entity);
         $form->submit($request);
@@ -105,7 +110,8 @@ class ProtectionController extends AbstractController {
      * @Route("/{entity}/edit", name="config_protection_edit")
      * @Template()
      */
-    public function editAction(Protection $entity) {
+    public function editAction(Protection $entity)
+    {
         $editForm = $this->createForm(new ProtectionType(), $entity);
 
         return array(
@@ -121,7 +127,8 @@ class ProtectionController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Protection:edit.html.twig")
      */
-    public function updateAction(Request $request, Protection $entity) {
+    public function updateAction(Request $request, Protection $entity)
+    {
         $editForm = $this->createForm(new ProtectionType(), $entity);
         $editForm->submit($request);
 
@@ -146,7 +153,8 @@ class ProtectionController extends AbstractController {
      *
      * @Route("/{entity}/delete", name="config_protection_delete")
      */
-    public function deleteAction(Protection $entity) {
+    public function deleteAction(Protection $entity)
+    {
         $em = $this
             ->getDoctrine()
             ->getManager();
@@ -161,7 +169,8 @@ class ProtectionController extends AbstractController {
      *
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
-    private function _getRepository() {
+    private function _getRepository()
+    {
         return $this
             ->getDoctrine()
             ->getRepository('JeboehmLampcpCoreBundle:Protection');

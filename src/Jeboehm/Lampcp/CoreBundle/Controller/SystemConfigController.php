@@ -28,14 +28,16 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/system")
  */
-class SystemConfigController extends AbstractController {
+class SystemConfigController extends AbstractController
+{
     /**
      * Lists all Config entities.
      *
      * @Route("/", name="config_system")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         $entities = $this
             ->_getRepository()
             ->findAllOrdered();
@@ -52,14 +54,18 @@ class SystemConfigController extends AbstractController {
      * @Route("/edit", name="config_system_edit")
      * @Template()
      */
-    public function editAction() {
+    public function editAction()
+    {
         $entities = $this
             ->_getRepository()
             ->findAllOrdered();
         $entities = $this->_transformAllConfigEntities($entities);
-        $form     = $this->createForm(new ConfigType(), array(
-                                                             'configentities' => $entities,
-                                                        ));
+        $form     = $this->createForm(
+            new ConfigType(),
+            array(
+                'configentities' => $entities,
+            )
+        );
 
         return array(
             'form' => $form->createView(),
@@ -73,14 +79,18 @@ class SystemConfigController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:SystemConfig:edit.html.twig")
      */
-    public function updateAction(Request $request) {
+    public function updateAction(Request $request)
+    {
         $entities = $this
             ->_getRepository()
             ->findAllOrdered();
         $entities = $this->_transformAllConfigEntities($entities);
-        $form     = $this->createForm(new ConfigType(), array(
-                                                             'configentities' => $entities,
-                                                        ));
+        $form     = $this->createForm(
+            new ConfigType(),
+            array(
+                'configentities' => $entities,
+            )
+        );
 
         $form->submit($request);
 
@@ -105,7 +115,8 @@ class SystemConfigController extends AbstractController {
      *
      * @return ConfigEntityRepository
      */
-    private function _getRepository() {
+    private function _getRepository()
+    {
         return $this
             ->getDoctrine()
             ->getRepository('JeboehmLampcpCoreBundle:ConfigEntity');
@@ -118,7 +129,8 @@ class SystemConfigController extends AbstractController {
      *
      * @return FormEntity
      */
-    private function _transformConfigEntity(DoctrineEntity $entity) {
+    private function _transformConfigEntity(DoctrineEntity $entity)
+    {
         $form = new FormEntity();
         $form
             ->setName($entity->getName())
@@ -141,7 +153,8 @@ class SystemConfigController extends AbstractController {
      *
      * @return array
      */
-    private function _transformAllConfigEntities(array $entities) {
+    private function _transformAllConfigEntities(array $entities)
+    {
         $new = array();
 
         foreach ($entities as $entity) {

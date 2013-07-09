@@ -25,14 +25,16 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/ipaddress")
  */
-class IpAddressController extends AbstractController {
+class IpAddressController extends AbstractController
+{
     /**
      * Lists all IpAddress entities.
      *
      * @Route("/", name="config_ipaddress")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         /** @var $entities IpAddress[] */
         $entities = $this
             ->_getRepository()
@@ -49,7 +51,8 @@ class IpAddressController extends AbstractController {
      * @Route("/{entity}/show", name="config_ipaddress_show")
      * @Template()
      */
-    public function showAction(IpAddress $entity) {
+    public function showAction(IpAddress $entity)
+    {
         return array(
             'entity' => $entity,
         );
@@ -61,7 +64,8 @@ class IpAddressController extends AbstractController {
      * @Route("/new", name="config_ipaddress_new")
      * @Template()
      */
-    public function newAction() {
+    public function newAction()
+    {
         $entity = new IpAddress($this->_getSelectedDomain());
         $form   = $this->createForm(new IpAddressType(), $entity);
 
@@ -78,7 +82,8 @@ class IpAddressController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:IpAddress:new.html.twig")
      */
-    public function createAction(Request $request) {
+    public function createAction(Request $request)
+    {
         $entity = new IpAddress();
         $form   = $this->createForm(new IpAddressType(), $entity);
         $form->submit($request);
@@ -105,7 +110,8 @@ class IpAddressController extends AbstractController {
      * @Route("/{entity}/edit", name="config_ipaddress_edit")
      * @Template()
      */
-    public function editAction(IpAddress $entity) {
+    public function editAction(IpAddress $entity)
+    {
         $editForm = $this->createForm(new IpAddressType(), $entity);
 
         return array(
@@ -121,7 +127,8 @@ class IpAddressController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:IpAddress:edit.html.twig")
      */
-    public function updateAction(Request $request, IpAddress $entity) {
+    public function updateAction(Request $request, IpAddress $entity)
+    {
         $editForm = $this->createForm(new IpAddressType(), $entity);
         $editForm->submit($request);
 
@@ -146,7 +153,8 @@ class IpAddressController extends AbstractController {
      *
      * @Route("/{entity}/delete", name="config_ipaddress_delete")
      */
-    public function deleteAction(IpAddress $entity) {
+    public function deleteAction(IpAddress $entity)
+    {
         $em = $this
             ->getDoctrine()
             ->getManager();
@@ -161,7 +169,8 @@ class IpAddressController extends AbstractController {
      *
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
-    private function _getRepository() {
+    private function _getRepository()
+    {
         return $this
             ->getDoctrine()
             ->getRepository('JeboehmLampcpCoreBundle:IpAddress');

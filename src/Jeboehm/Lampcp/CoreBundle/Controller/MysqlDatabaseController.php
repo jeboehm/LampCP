@@ -26,14 +26,16 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/mysqldatabase")
  */
-class MysqlDatabaseController extends AbstractController {
+class MysqlDatabaseController extends AbstractController
+{
     /**
      * Lists all MysqlDatabase entities.
      *
      * @Route("/", name="config_mysqldatabase")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         /** @var $entities MysqlDatabase[] */
         $entities = $this
             ->_getRepository()
@@ -50,7 +52,8 @@ class MysqlDatabaseController extends AbstractController {
      * @Route("/{entity}/show", name="config_mysqldatabase_show")
      * @Template()
      */
-    public function showAction(MysqlDatabase $entity) {
+    public function showAction(MysqlDatabase $entity)
+    {
         return array(
             'entity' => $entity,
         );
@@ -62,7 +65,8 @@ class MysqlDatabaseController extends AbstractController {
      * @Route("/new", name="config_mysqldatabase_new")
      * @Template()
      */
-    public function newAction() {
+    public function newAction()
+    {
         $entity = new MysqlDatabase($this->_getSelectedDomain());
         $entity->setName($this->_getNewDatabaseName());
 
@@ -81,7 +85,8 @@ class MysqlDatabaseController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:MysqlDatabase:new.html.twig")
      */
-    public function createAction(Request $request) {
+    public function createAction(Request $request)
+    {
         $entity = new MysqlDatabase($this->_getSelectedDomain());
         $entity->setName($this->_getNewDatabaseName());
 
@@ -89,9 +94,11 @@ class MysqlDatabaseController extends AbstractController {
         $form->submit($request);
 
         if ($form->isValid()) {
-            $entity->setPassword($this
-                ->_getCryptService()
-                ->encrypt($entity->getPassword()));
+            $entity->setPassword(
+                $this
+                    ->_getCryptService()
+                    ->encrypt($entity->getPassword())
+            );
 
             $em = $this
                 ->getDoctrine()
@@ -99,7 +106,9 @@ class MysqlDatabaseController extends AbstractController {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('config_mysqldatabase_show', array('entity' => $entity->getId())));
+            return $this->redirect(
+                $this->generateUrl('config_mysqldatabase_show', array('entity' => $entity->getId()))
+            );
         }
 
         return array(
@@ -114,7 +123,8 @@ class MysqlDatabaseController extends AbstractController {
      * @Route("/{entity}/edit", name="config_mysqldatabase_edit")
      * @Template()
      */
-    public function editAction(MysqlDatabase $entity) {
+    public function editAction(MysqlDatabase $entity)
+    {
         $editForm = $this->createForm(new MysqlDatabaseType(), $entity);
 
         return array(
@@ -130,7 +140,8 @@ class MysqlDatabaseController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:MysqlDatabase:edit.html.twig")
      */
-    public function updateAction(Request $request, MysqlDatabase $entity) {
+    public function updateAction(Request $request, MysqlDatabase $entity)
+    {
         $oldPassword = $entity->getPassword();
         $editForm    = $this->createForm(new MysqlDatabaseType(), $entity);
         $editForm->submit($request);
@@ -139,9 +150,11 @@ class MysqlDatabaseController extends AbstractController {
             if (!$entity->getPassword()) {
                 $entity->setPassword($oldPassword);
             } else {
-                $entity->setPassword($this
-                    ->_getCryptService()
-                    ->encrypt($entity->getPassword()));
+                $entity->setPassword(
+                    $this
+                        ->_getCryptService()
+                        ->encrypt($entity->getPassword())
+                );
             }
 
             $em = $this
@@ -150,7 +163,9 @@ class MysqlDatabaseController extends AbstractController {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('config_mysqldatabase_edit', array('entity' => $entity->getId())));
+            return $this->redirect(
+                $this->generateUrl('config_mysqldatabase_edit', array('entity' => $entity->getId()))
+            );
         }
 
         return array(
@@ -164,7 +179,8 @@ class MysqlDatabaseController extends AbstractController {
      *
      * @Route("/{entity}/delete", name="config_mysqldatabase_delete")
      */
-    public function deleteAction(MysqlDatabase $entity) {
+    public function deleteAction(MysqlDatabase $entity)
+    {
         $em = $this
             ->getDoctrine()
             ->getManager();
@@ -179,7 +195,8 @@ class MysqlDatabaseController extends AbstractController {
      *
      * @return MysqlDatabaseRepository
      */
-    private function _getRepository() {
+    private function _getRepository()
+    {
         return $this
             ->getDoctrine()
             ->getManager()
@@ -192,7 +209,8 @@ class MysqlDatabaseController extends AbstractController {
      * @return string
      * @throws \Exception
      */
-    private function _getNewDatabaseName() {
+    private function _getNewDatabaseName()
+    {
         $prefix = $this
             ->_getConfigService()
             ->getParameter('mysql.dbprefix');
@@ -201,8 +219,10 @@ class MysqlDatabaseController extends AbstractController {
             throw new \Exception('Please set MySQL Database Prefix in configuration!');
         }
 
-        return $prefix . strval($this
-            ->_getRepository()
-            ->getFreeId());
+        return $prefix . strval(
+            $this
+                ->_getRepository()
+                ->getFreeId()
+        );
     }
 }

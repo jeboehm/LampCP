@@ -25,14 +25,16 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/subdomain")
  */
-class SubdomainController extends AbstractController {
+class SubdomainController extends AbstractController
+{
     /**
      * Lists all Subdomain entities.
      *
      * @Route("/", name="config_subdomain")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         /** @var $entities Subdomain[] */
         $entities = $this
             ->_getRepository()
@@ -49,7 +51,8 @@ class SubdomainController extends AbstractController {
      * @Route("/{entity}/show", name="config_subdomain_show")
      * @Template()
      */
-    public function showAction(Subdomain $entity) {
+    public function showAction(Subdomain $entity)
+    {
         return array(
             'entity' => $entity,
         );
@@ -61,7 +64,8 @@ class SubdomainController extends AbstractController {
      * @Route("/new", name="config_subdomain_new")
      * @Template()
      */
-    public function newAction() {
+    public function newAction()
+    {
         $entity = new Subdomain($this->_getSelectedDomain());
         $form   = $this->createForm(new SubdomainType(), $entity);
 
@@ -78,7 +82,8 @@ class SubdomainController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Subdomain:new.html.twig")
      */
-    public function createAction(Request $request) {
+    public function createAction(Request $request)
+    {
         $entity = new Subdomain($this->_getSelectedDomain());
         $form   = $this->createForm(new SubdomainType(), $entity);
         $form->submit($request);
@@ -105,7 +110,8 @@ class SubdomainController extends AbstractController {
      * @Route("/{entity}/edit", name="config_subdomain_edit")
      * @Template()
      */
-    public function editAction(Subdomain $entity) {
+    public function editAction(Subdomain $entity)
+    {
         $editForm = $this->createForm(new SubdomainType(), $entity);
 
         return array(
@@ -121,7 +127,8 @@ class SubdomainController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:Subdomain:edit.html.twig")
      */
-    public function updateAction(Request $request, Subdomain $entity) {
+    public function updateAction(Request $request, Subdomain $entity)
+    {
         $editForm = $this->createForm(new SubdomainType(), $entity);
         $editForm->submit($request);
 
@@ -146,7 +153,8 @@ class SubdomainController extends AbstractController {
      *
      * @Route("/{entity}/delete", name="config_subdomain_delete")
      */
-    public function deleteAction(Subdomain $entity) {
+    public function deleteAction(Subdomain $entity)
+    {
         $em = $this
             ->getDoctrine()
             ->getManager();
@@ -161,7 +169,8 @@ class SubdomainController extends AbstractController {
      *
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
-    private function _getRepository() {
+    private function _getRepository()
+    {
         return $this
             ->getDoctrine()
             ->getRepository('JeboehmLampcpCoreBundle:Subdomain');

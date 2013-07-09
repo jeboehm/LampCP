@@ -25,14 +25,16 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/config/pathoption")
  */
-class PathOptionController extends AbstractController {
+class PathOptionController extends AbstractController
+{
     /**
      * Lists all PathOption entities.
      *
      * @Route("/", name="config_pathoption")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         /** @var $entities PathOption[] */
         $entities = $this
             ->_getRepository()
@@ -49,7 +51,8 @@ class PathOptionController extends AbstractController {
      * @Route("/{entity}/show", name="config_pathoption_show")
      * @Template()
      */
-    public function showAction(PathOption $entity) {
+    public function showAction(PathOption $entity)
+    {
         return array(
             'entity' => $entity,
         );
@@ -61,7 +64,8 @@ class PathOptionController extends AbstractController {
      * @Route("/new", name="config_pathoption_new")
      * @Template()
      */
-    public function newAction() {
+    public function newAction()
+    {
         $entity = new PathOption($this->_getSelectedDomain());
         $form   = $this->createForm(new PathOptionType(), $entity);
 
@@ -78,7 +82,8 @@ class PathOptionController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:PathOption:new.html.twig")
      */
-    public function createAction(Request $request) {
+    public function createAction(Request $request)
+    {
         $entity = new PathOption($this->_getSelectedDomain());
         $form   = $this->createForm(new PathOptionType(), $entity);
         $form->submit($request);
@@ -105,7 +110,8 @@ class PathOptionController extends AbstractController {
      * @Route("/{entity}/edit", name="config_pathoption_edit")
      * @Template()
      */
-    public function editAction(PathOption $entity) {
+    public function editAction(PathOption $entity)
+    {
         $editForm = $this->createForm(new PathOptionType(), $entity);
 
         return array(
@@ -121,7 +127,8 @@ class PathOptionController extends AbstractController {
      * @Method("POST")
      * @Template("JeboehmLampcpCoreBundle:PathOption:edit.html.twig")
      */
-    public function updateAction(Request $request, PathOption $entity) {
+    public function updateAction(Request $request, PathOption $entity)
+    {
         $editForm = $this->createForm(new PathOptionType(), $entity);
         $editForm->submit($request);
 
@@ -146,7 +153,8 @@ class PathOptionController extends AbstractController {
      *
      * @Route("/{entity}/delete", name="config_pathoption_delete")
      */
-    public function deleteAction(PathOption $entity) {
+    public function deleteAction(PathOption $entity)
+    {
         $em = $this
             ->getDoctrine()
             ->getManager();
@@ -161,7 +169,8 @@ class PathOptionController extends AbstractController {
      *
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
-    private function _getRepository() {
+    private function _getRepository()
+    {
         return $this
             ->getDoctrine()
             ->getRepository('JeboehmLampcpCoreBundle:PathOption');
