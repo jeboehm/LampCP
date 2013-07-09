@@ -81,7 +81,7 @@ class IpAddressController extends AbstractController {
     public function createAction(Request $request) {
         $entity = new IpAddress();
         $form   = $this->createForm(new IpAddressType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this
@@ -123,7 +123,7 @@ class IpAddressController extends AbstractController {
      */
     public function updateAction(Request $request, IpAddress $entity) {
         $editForm = $this->createForm(new IpAddressType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em = $this

@@ -81,7 +81,7 @@ class PathOptionController extends AbstractController {
     public function createAction(Request $request) {
         $entity = new PathOption($this->_getSelectedDomain());
         $form   = $this->createForm(new PathOptionType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this
@@ -123,7 +123,7 @@ class PathOptionController extends AbstractController {
      */
     public function updateAction(Request $request, PathOption $entity) {
         $editForm = $this->createForm(new PathOptionType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em = $this

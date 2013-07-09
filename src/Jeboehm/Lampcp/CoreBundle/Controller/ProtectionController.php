@@ -81,7 +81,7 @@ class ProtectionController extends AbstractController {
     public function createAction(Request $request) {
         $entity = new Protection($this->_getSelectedDomain());
         $form   = $this->createForm(new ProtectionType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this
@@ -123,7 +123,7 @@ class ProtectionController extends AbstractController {
      */
     public function updateAction(Request $request, Protection $entity) {
         $editForm = $this->createForm(new ProtectionType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em = $this

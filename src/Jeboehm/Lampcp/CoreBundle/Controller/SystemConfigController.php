@@ -82,7 +82,7 @@ class SystemConfigController extends AbstractController {
                                                              'configentities' => $entities,
                                                         ));
 
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             foreach ($entities as $entity) {

@@ -81,7 +81,7 @@ class SubdomainController extends AbstractController {
     public function createAction(Request $request) {
         $entity = new Subdomain($this->_getSelectedDomain());
         $form   = $this->createForm(new SubdomainType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this
@@ -123,7 +123,7 @@ class SubdomainController extends AbstractController {
      */
     public function updateAction(Request $request, Subdomain $entity) {
         $editForm = $this->createForm(new SubdomainType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em = $this

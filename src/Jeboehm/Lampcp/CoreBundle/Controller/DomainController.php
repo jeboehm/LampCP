@@ -82,7 +82,7 @@ class DomainController extends AbstractController {
     public function createAction(Request $request) {
         $entity = new Domain();
         $form   = $this->createForm(new DomainType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
         $entity->setPath($this->_getSystemWebPath() . '/' . $entity->getDomain());
 
         if ($form->isValid()) {
@@ -125,7 +125,7 @@ class DomainController extends AbstractController {
      */
     public function updateAction(Request $request, Domain $entity) {
         $editForm = $this->createForm(new DomainType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em = $this

@@ -86,7 +86,7 @@ class MysqlDatabaseController extends AbstractController {
         $entity->setName($this->_getNewDatabaseName());
 
         $form = $this->createForm(new MysqlDatabaseType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $entity->setPassword($this
@@ -133,7 +133,7 @@ class MysqlDatabaseController extends AbstractController {
     public function updateAction(Request $request, MysqlDatabase $entity) {
         $oldPassword = $entity->getPassword();
         $editForm    = $this->createForm(new MysqlDatabaseType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             if (!$entity->getPassword()) {

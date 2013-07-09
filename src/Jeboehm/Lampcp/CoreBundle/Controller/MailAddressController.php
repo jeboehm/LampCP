@@ -82,7 +82,7 @@ class MailAddressController extends AbstractController {
     public function createAction(Request $request) {
         $entity = new MailAddress($this->_getSelectedDomain());
         $form   = $this->createForm(new MailAddressType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this
@@ -125,7 +125,7 @@ class MailAddressController extends AbstractController {
     public function updateAction(Request $request, MailAddress $entity) {
         $oldForwards = $entity->getMailforward();
         $editForm    = $this->createForm(new MailAddressType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em          = $this

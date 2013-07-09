@@ -83,7 +83,7 @@ class ProtectionUserController extends AbstractController {
     public function createAction(Request $request, Protection $protection) {
         $entity = new ProtectionUser($this->_getSelectedDomain(), $protection);
         $form   = $this->createForm(new ProtectionUserType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $entity->setPassword($this
@@ -131,7 +131,7 @@ class ProtectionUserController extends AbstractController {
     public function updateAction(Request $request, ProtectionUser $entity) {
         $oldPassword = $entity->getPassword();
         $editForm    = $this->createForm(new ProtectionUserType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em = $this

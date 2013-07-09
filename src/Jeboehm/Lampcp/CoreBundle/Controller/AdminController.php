@@ -90,7 +90,7 @@ class AdminController extends AbstractController {
             ->_getUserManager()
             ->createUser();
         $form   = $this->createForm(new AdminType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $this
@@ -130,7 +130,7 @@ class AdminController extends AbstractController {
      */
     public function updateAction(Request $request, Admin $entity) {
         $editForm = $this->createForm(new AdminType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $this

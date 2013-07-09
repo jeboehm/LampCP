@@ -114,7 +114,7 @@ class DnsController extends AbstractController {
         $entity->setZonecollection($this->_getDefaultZone());
 
         $form = $this->createForm(new DnsType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this
@@ -156,7 +156,7 @@ class DnsController extends AbstractController {
      */
     public function updateAction(Request $request, Dns $entity) {
         $editForm = $this->createForm(new DnsType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $zone = $entity->getZonecollection();
@@ -224,7 +224,7 @@ class DnsController extends AbstractController {
         $zone     = $entity->getZonecollection();
         $soa      = $zone->getSoa();
         $editForm = $this->createForm(new DnsSoaType(), $soa);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $soa->refreshSerial();
